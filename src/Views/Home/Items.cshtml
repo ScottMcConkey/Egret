@@ -1,0 +1,26 @@
+﻿@*
+    For more information on enabling MVC for empty projects, visit http://go.microsoft.com/fwlink/?LinkID=397860
+*@
+@model List<InventoryItem>
+@{
+    ViewBag.Title = "Items";
+    ViewBag.Notice = "Oh, hi. You're on the Items page";
+}
+
+<table>
+    <tr>
+        <th>Code</th>
+        <th>Description</th>
+        <th>Buy Price</th>
+        <th>Unit</th>
+    </tr>
+    @foreach (var entity in Model)
+    {
+    <tr>
+        <td>@entity.Code</td>
+        <td>@entity.Description</td>
+        <td style="text-align: right;">@string.Format("{0:C}", entity.Buyingunitprice)</td>
+        <td>@entity.Buyingunit</td>
+    </tr>
+    }
+</table>
