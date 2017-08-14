@@ -4,8 +4,15 @@
 <head>
     <meta name="viewport" content="width=device-width" />
     <link rel="stylesheet" asp-href-include="~/lib/bootstrap/dist/css/*.css" />
-    <link type="text/css" rel="stylesheet" asp-href-include="~/css/silver.css" />
-    <script type="text/javascript" asp-href-include="~/lib/jquery/dist/jquery.min.js"></script>
+    <link type="text/css" rel="stylesheet" asp-href-include="~/css/*.css" />
+    <script src="~/lib/jquery/dist/jquery.js"></script>
+    <script type="text/javascript">
+
+        $(document).ready(function () {
+            $("div#main-top").css("height", $("div.leftnav ul li").height() + 1 + "px");
+        });
+
+    </script>
 
     <title>@ViewBag.Title</title>
 </head>
@@ -26,16 +33,15 @@
         </div>
 
         <div class="main">
-            <div class="main-top">
-                @ViewBag.Notice<br/><br/>
-
+            <div id="main-top">
+                @ViewBag.Notice<br /><br />
+            </div>
+            <div id="main-bottom">
                 @RenderBody()
             </div>
         </div>
 
     </div>
-
-
 
 
 </body>

@@ -68,12 +68,18 @@ ul li {
     vertical-align: top;
 
 }
-    .main-top {
+    #main-top {
         background-color: #fff;
         min-width: 700px;
         /*height: 64px;*/
         /*min-height: 500px;*/
         border-bottom: 1px solid #fff;
+        display: block;
+        margin: 0px;
+    }
+
+    #main-bottom {
+        background-color: #000;
         display: block;
         margin: 0px;
     }
