@@ -19,15 +19,6 @@ namespace Egret_Dev.Controllers
 
         public IActionResult Items()
         {
-            List<InventoryItem> inventItems = new List<InventoryItem>();
-            using (var context = new EgretContext())
-            {
-                foreach (InventoryItem i in context.InventoryItems)
-                {
-                    inventItems.Add(i);
-                }
-            }
-            //return View(inventItems);
             return RedirectToAction("Index", "Inventory");  //View("~/Inventory");
         }
 

@@ -3,8 +3,8 @@
 *@
 @model List<InventoryItem>
 @{
-    ViewBag.Title = "Inventory";
-    ViewBag.Notice = "Oh, hi. You're on the Items page";
+    ViewBag.Title = "Inventory Search";
+    ViewBag.Notice = "Inventory Search";
 }
 
 <table>
@@ -16,11 +16,11 @@
     </tr>
     @foreach (var entity in Model)
     {
-    <tr>
-        <td>@entity.Code</td>
-        <td>@entity.Description</td>
-        <td style="text-align: right;">@string.Format("{0:C}", entity.Buyingunitprice)</td>
-        <td>@entity.Buyingunit</td>
-    </tr>
+        <tr>
+            <td>@entity.Code</td>
+            <td>@entity.Description</td>
+            <td style="text-align: right;">@string.Format("{0:C}", entity.Buyingunitprice)</td>
+            <td>@entity.Buyingunit</td>
+        </tr>
     }
 </table>

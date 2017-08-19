@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 using Microsoft.AspNetCore.Mvc;
+using Egret_Dev.EF;
 
 // For more information on enabling MVC for empty projects, visit http://go.microsoft.com/fwlink/?LinkID=397860
 
@@ -16,11 +17,19 @@ namespace Egret_Dev.Controllers
             return View();
         }
 
-        public ViewResult EditInventory()
+        public IActionResult SearchInventory()
         {
-            // Requires EditInventory View
-            return View();
+            List<InventoryItem> inventItems = new List<InventoryItem>();
+            using (var context = new EgretContext())
+            {
+                foreach (InventoryItem i in context.InventoryItems)
+                {
+                    inventItems.Add(i);
+                }
+            }
+            return View(inventItems);
         }
+
 
         public ViewResult NewInventory()
         {

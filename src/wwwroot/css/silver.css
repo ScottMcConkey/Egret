@@ -61,15 +61,30 @@ ul li {
 }
 
 
-.main {
+#main {
     margin: 0px;
     margin-left: -4px;
     display: inline-block;
     vertical-align: top;
-
+    padding-left: 5px;
+    background-color: #fff;
 }
+
+.middle {
+    margin: 0px;
+    padding: 0px;
+    color: #254a7d;
+    display: inline;
+}
+
+.middle:hover {
+    margin: 0px;
+    padding: 0px;
+    color: #368798;
+    display: inline;    
+}
+
     #main-top {
-        background-color: #fff;
         min-width: 700px;
         /*height: 64px;*/
         /*min-height: 500px;*/
@@ -79,7 +94,7 @@ ul li {
     }
 
     #main-bottom {
-        background-color: #000;
+        background-color: transparent;
         display: block;
         margin: 0px;
     }

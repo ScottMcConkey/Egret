@@ -10,6 +10,7 @@
 
         $(document).ready(function () {
             $("div#main-top").css("height", $("div.leftnav ul li").height() + 1 + "px");
+            $("div#main").css("min-height", $("div.leftnav").height() + "px");
         });
 
     </script>
@@ -22,8 +23,8 @@
     <div>
         <div class="leftnav">
             <ul>
-                <li><a asp-action="Index"><span class="glyphicon glyphicon-home"></span>Home</a></li>
-                <li><a asp-action="Items"><span class="glyphicon glyphicon-tag"></span>Items</a></li>
+                <li><a href="@Url.Action("Index","Home")"><span class="glyphicon glyphicon-home"></span>Home</a></li>
+                <li><a href="@Url.Action("Index","Inventory")"><span class="glyphicon glyphicon-tag"></span>Items</a></li>
                 <li><a asp-action="Projects"><span class="glyphicon glyphicon-folder-open"></span>Projects</a></li>
                 <li><a asp-action="Events"><span class="glyphicon glyphicon-barcode"></span>Events</a></li>
                 <li><a asp-action="Customers"><span class="glyphicon glyphicon-user"></span>Customers</a></li>
@@ -32,9 +33,9 @@
             </ul>
         </div>
 
-        <div class="main">
-            <div id="main-top">
-                @ViewBag.Notice<br /><br />
+        <div id="main">
+            <div id="main-top" class="lead">
+                @ViewBag.Notice
             </div>
             <div id="main-bottom">
                 @RenderBody()
