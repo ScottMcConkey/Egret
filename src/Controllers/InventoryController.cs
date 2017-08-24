@@ -31,7 +31,7 @@ namespace Egret_Dev.Controllers
         }
 
 
-        public ViewResult NewInventory()
+        public ViewResult NewItem()
         {
             // Requires New Inventory View
             return View();

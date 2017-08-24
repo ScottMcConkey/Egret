@@ -19,7 +19,7 @@
         <tr>
             <td>@entity.Code</td>
             <td>@entity.Description</td>
-            <td style="text-align: right;">@string.Format("{0:C}", entity.Buyingunitprice)</td>
+            <td class="text-right">@entity.Buyingunitprice.Value.ToString("c")</td>
             <td>@entity.Buyingunit</td>
         </tr>
     }

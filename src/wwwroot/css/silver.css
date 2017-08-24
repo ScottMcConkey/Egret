@@ -1,8 +1,12 @@
 ﻿body {
-    width: 1200px;
+    width: 1300px;
     margin-left: auto;
     margin-right: auto;
     background-color: #ccc;
+}
+
+#container {
+    width: 1300px;
 }
 
 ul {
@@ -68,6 +72,7 @@ ul li {
     vertical-align: top;
     padding-left: 5px;
     background-color: #fff;
+    min-width: 1000px;
 }
 
 .middle {
