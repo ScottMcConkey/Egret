@@ -107,3 +107,15 @@ ul li {
 td, th {
     padding-left: 10px;
 }
+
+table, td {
+    vertical-align: top;
+    padding-bottom: 5px;
+}
+
+th {
+    font-weight: bold;
+    background-color: #ccc;
+    padding-bottom: 10px;
+    border-right: 1px solid #fff;
+}

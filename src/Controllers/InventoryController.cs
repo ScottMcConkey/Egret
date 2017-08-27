@@ -17,7 +17,7 @@ namespace Egret_Dev.Controllers
             return View();
         }
 
-        public IActionResult SearchInventory()
+        public IActionResult Search()
         {
             List<InventoryItem> inventItems = new List<InventoryItem>();
             using (var context = new EgretContext())
@@ -30,8 +30,8 @@ namespace Egret_Dev.Controllers
             return View(inventItems);
         }
 
-
-        public ViewResult NewItem()
+        [HttpGet]
+        public ViewResult Create()
         {
             // Requires New Inventory View
             return View();
