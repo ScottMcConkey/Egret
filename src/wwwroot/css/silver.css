@@ -119,3 +119,7 @@ th {
     padding-bottom: 10px;
     border-right: 1px solid #fff;
 }
+
+.shaded {
+    background-color: #eee;
+}
