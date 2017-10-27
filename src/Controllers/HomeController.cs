@@ -22,9 +22,9 @@ namespace Egret_Dev.Controllers
             return RedirectToAction("Index", "Inventory");  //View("~/Inventory");
         }
 
-        public ViewResult Projects()
+        public IActionResult Projects()
         {
-            return View();
+            return RedirectToAction("Index", "ProjectItems");  //View();
         }
 
         public ViewResult Events()

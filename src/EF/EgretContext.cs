@@ -66,7 +66,7 @@ namespace Egret_Dev.EF
                     .HasMaxLength(20);
             });
 
-            modelBuilder.Entity<InventoryCategories>(entity =>
+            modelBuilder.Entity<InventoryCategory>(entity =>
             {
                 entity.ToTable("inventory_categories", "admin");
 
@@ -257,7 +257,7 @@ namespace Egret_Dev.EF
 
         public virtual DbSet<ConsumptionEvents> ConsumptionEvents { get; set; }
         public virtual DbSet<Customers> Customers { get; set; }
-        public virtual DbSet<InventoryCategories> InventoryCategories { get; set; }
+        public virtual DbSet<InventoryCategory> InventoryCategories { get; set; }
         public virtual DbSet<InventoryItem> InventoryItems { get; set; }
         public virtual DbSet<ProjectItem> ProjectItems { get; set; }
         public virtual DbSet<Projects> Projects { get; set; }

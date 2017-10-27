@@ -3,7 +3,7 @@ using System.Collections.Generic;
 
 namespace Egret_Dev.EF
 {
-    public partial class InventoryCategories
+    public partial class InventoryCategory
     {
         public int Id { get; set; }
         public string Name { get; set; }
