@@ -7,6 +7,8 @@ using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.Http;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Logging;
+using System.Configuration;
+using Egret_Dev.Controllers;
 
 namespace Egret_Dev
 {
@@ -16,6 +18,7 @@ namespace Egret_Dev
         // For more information on how to configure your application, visit http://go.microsoft.com/fwlink/?LinkID=398940
         public void ConfigureServices(IServiceCollection services)
         {
+
             services.AddMvc();
             services.AddEntityFrameworkNpgsql();
             
