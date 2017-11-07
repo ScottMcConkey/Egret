@@ -8,7 +8,7 @@ INSERT INTO public.inventory_items(
 	stockacct, 
 	cogacct, 
 	sellunit, 
-	--stocktakenewqty, 
+	stocktakenewqty, 
 	flags,  
 	sohcount, 
 	buyprice, 
@@ -16,7 +16,9 @@ INSERT INTO public.inventory_items(
 	qtybrksellprice, 
 	sellcurrency, 
 	buycurrency, 
-	costprice
+	costprice,
+	isconversion,
+	conversionsource
 	)
 	
 	select 
@@ -34,7 +36,7 @@ INSERT INTO public.inventory_items(
 	cast("StockAcct" as integer), --stockacct
 	cast("COGAcct" as integer), --cogacct
 	"SellUnit", --sellunit
-	--cast(trim("StockTakeNewQty") as double precision), --stocktakenewqty
+	cast(trim("StockTakeNewQty") as double precision), --stocktakenewqty
 	cast("Flags" as integer), --flags
 	cast("SOH/Count" as double precision), --sohcount
 	cast("BuyPrice" as double precision), --buyprice
@@ -42,7 +44,9 @@ INSERT INTO public.inventory_items(
 	cast("QtyBrkSellPriceA1" as double precision), --qtybrksellprice
 	"BuyPriceCurrency", --sellcurrency
 	"BuyPriceCurrency", --buycurrency
-	cast("CostPrice" as double precision) --costprice
+	cast("CostPrice" as double precision), --costprice
+	True,
+	'Money Works Gold'
 	from public.migrate_inventory;
 	
 commit;
