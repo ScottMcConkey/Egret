@@ -5,7 +5,7 @@ using System.Threading.Tasks;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.Rendering;
 using Microsoft.EntityFrameworkCore;
-using Egret_Dev.EF;
+using Egret.DataAccess;
 
 namespace Egret_Dev.Controllers
 {
