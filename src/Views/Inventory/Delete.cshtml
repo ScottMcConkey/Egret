@@ -1,0 +1,171 @@
+﻿@model Egret.DataAccess.InventoryItems
+
+@{
+    ViewData["Title"] = "Delete";
+}
+
+<h2>Delete</h2>
+
+<h3>Are you sure you want to delete this?</h3>
+<div>
+    <h4>InventoryItems</h4>
+    <hr />
+    <dl class="dl-horizontal">
+        <dt>
+            @Html.DisplayNameFor(model => model.Description)
+        </dt>
+        <dd>
+            @Html.DisplayFor(model => model.Description)
+        </dd>
+        <dt>
+            @Html.DisplayNameFor(model => model.Stockvalue)
+        </dt>
+        <dd>
+            @Html.DisplayFor(model => model.Stockvalue)
+        </dd>
+        <dt>
+            @Html.DisplayNameFor(model => model.Sellprice)
+        </dt>
+        <dd>
+            @Html.DisplayFor(model => model.Sellprice)
+        </dd>
+        <dt>
+            @Html.DisplayNameFor(model => model.Comment)
+        </dt>
+        <dd>
+            @Html.DisplayFor(model => model.Comment)
+        </dd>
+        <dt>
+            @Html.DisplayNameFor(model => model.SupplierFk)
+        </dt>
+        <dd>
+            @Html.DisplayFor(model => model.SupplierFk)
+        </dd>
+        <dt>
+            @Html.DisplayNameFor(model => model.Salesacct)
+        </dt>
+        <dd>
+            @Html.DisplayFor(model => model.Salesacct)
+        </dd>
+        <dt>
+            @Html.DisplayNameFor(model => model.Stockacct)
+        </dt>
+        <dd>
+            @Html.DisplayFor(model => model.Stockacct)
+        </dd>
+        <dt>
+            @Html.DisplayNameFor(model => model.Cogacct)
+        </dt>
+        <dd>
+            @Html.DisplayFor(model => model.Cogacct)
+        </dd>
+        <dt>
+            @Html.DisplayNameFor(model => model.Stocktakenewqty)
+        </dt>
+        <dd>
+            @Html.DisplayFor(model => model.Stocktakenewqty)
+        </dd>
+        <dt>
+            @Html.DisplayNameFor(model => model.Flags)
+        </dt>
+        <dd>
+            @Html.DisplayFor(model => model.Flags)
+        </dd>
+        <dt>
+            @Html.DisplayNameFor(model => model.Sohcount)
+        </dt>
+        <dd>
+            @Html.DisplayFor(model => model.Sohcount)
+        </dd>
+        <dt>
+            @Html.DisplayNameFor(model => model.Buyprice)
+        </dt>
+        <dd>
+            @Html.DisplayFor(model => model.Buyprice)
+        </dd>
+        <dt>
+            @Html.DisplayNameFor(model => model.Buyunit)
+        </dt>
+        <dd>
+            @Html.DisplayFor(model => model.Buyunit)
+        </dd>
+        <dt>
+            @Html.DisplayNameFor(model => model.Qtybrksellprice)
+        </dt>
+        <dd>
+            @Html.DisplayFor(model => model.Qtybrksellprice)
+        </dd>
+        <dt>
+            @Html.DisplayNameFor(model => model.Sellcurrency)
+        </dt>
+        <dd>
+            @Html.DisplayFor(model => model.Sellcurrency)
+        </dd>
+        <dt>
+            @Html.DisplayNameFor(model => model.Buycurrency)
+        </dt>
+        <dd>
+            @Html.DisplayFor(model => model.Buycurrency)
+        </dd>
+        <dt>
+            @Html.DisplayNameFor(model => model.Costprice)
+        </dt>
+        <dd>
+            @Html.DisplayFor(model => model.Costprice)
+        </dd>
+        <dt>
+            @Html.DisplayNameFor(model => model.Sellunit)
+        </dt>
+        <dd>
+            @Html.DisplayFor(model => model.Sellunit)
+        </dd>
+        <dt>
+            @Html.DisplayNameFor(model => model.Category)
+        </dt>
+        <dd>
+            @Html.DisplayFor(model => model.Category)
+        </dd>
+        <dt>
+            @Html.DisplayNameFor(model => model.Isconversion)
+        </dt>
+        <dd>
+            @Html.DisplayFor(model => model.Isconversion)
+        </dd>
+        <dt>
+            @Html.DisplayNameFor(model => model.Conversionsource)
+        </dt>
+        <dd>
+            @Html.DisplayFor(model => model.Conversionsource)
+        </dd>
+        <dt>
+            @Html.DisplayNameFor(model => model.Useraddedby)
+        </dt>
+        <dd>
+            @Html.DisplayFor(model => model.Useraddedby)
+        </dd>
+        <dt>
+            @Html.DisplayNameFor(model => model.Userlastupdatedby)
+        </dt>
+        <dd>
+            @Html.DisplayFor(model => model.Userlastupdatedby)
+        </dd>
+        <dt>
+            @Html.DisplayNameFor(model => model.Dateadded)
+        </dt>
+        <dd>
+            @Html.DisplayFor(model => model.Dateadded)
+        </dd>
+        <dt>
+            @Html.DisplayNameFor(model => model.Dateupdated)
+        </dt>
+        <dd>
+            @Html.DisplayFor(model => model.Dateupdated)
+        </dd>
+    </dl>
+    
+    <form asp-action="Delete">
+        <input type="hidden" asp-for="Code" />
+        <input type="submit" value="Delete" class="btn btn-default" /> |
+        <a asp-action="Index">Back to List</a>
+    </form>
+</div>

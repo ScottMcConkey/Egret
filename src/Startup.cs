@@ -8,9 +8,10 @@ using Microsoft.AspNetCore.Http;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Logging;
 using System.Configuration;
-using Egret_Dev.Controllers;
+using Egret.Controllers;
+using Egret.DataAccess;
 
-namespace Egret_Dev
+namespace Egret
 {
     public class Startup
     {
@@ -21,6 +22,7 @@ namespace Egret_Dev
             //var test = ConfigurationManager.ConnectionStrings["Egret"].ConnectionString;
             services.AddMvc();
             services.AddEntityFrameworkNpgsql();
+            services.AddDbContext<EgretContext>();
             
         }
 
@@ -30,6 +32,7 @@ namespace Egret_Dev
             app.UseDeveloperExceptionPage();
             app.UseStatusCodePages();
             app.UseStaticFiles();
+            loggerFactory.AddDebug();
             //app.UseMvcWithDefaultRoute();
             app.UseMvc(routes =>
             {

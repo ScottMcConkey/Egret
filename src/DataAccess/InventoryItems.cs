@@ -19,7 +19,6 @@ namespace Egret.DataAccess
         public double? Sohcount { get; set; }
         public double? Buyprice { get; set; }
         public string Buyunit { get; set; }
-        public double? Buyingprice { get; set; }
         public double? Qtybrksellprice { get; set; }
         public string Sellcurrency { get; set; }
         public string Buycurrency { get; set; }

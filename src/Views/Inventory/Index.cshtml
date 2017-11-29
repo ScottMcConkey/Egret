@@ -1,0 +1,179 @@
+﻿@model IEnumerable<Egret.DataAccess.InventoryItems>
+
+@{
+    ViewData["Title"] = "Index";
+}
+
+<h2>Index</h2>
+
+<p>
+    <a asp-action="Create">Create New</a>
+</p>
+<table class="table">
+    <thead>
+        <tr>
+                <th>
+                    @Html.DisplayNameFor(model => model.Description)
+                </th>
+                <th>
+                    @Html.DisplayNameFor(model => model.Stockvalue)
+                </th>
+                <th>
+                    @Html.DisplayNameFor(model => model.Sellprice)
+                </th>
+                <th>
+                    @Html.DisplayNameFor(model => model.Comment)
+                </th>
+                <th>
+                    @Html.DisplayNameFor(model => model.SupplierFk)
+                </th>
+                <th>
+                    @Html.DisplayNameFor(model => model.Salesacct)
+                </th>
+                <th>
+                    @Html.DisplayNameFor(model => model.Stockacct)
+                </th>
+                <th>
+                    @Html.DisplayNameFor(model => model.Cogacct)
+                </th>
+                <th>
+                    @Html.DisplayNameFor(model => model.Stocktakenewqty)
+                </th>
+                <th>
+                    @Html.DisplayNameFor(model => model.Flags)
+                </th>
+                <th>
+                    @Html.DisplayNameFor(model => model.Sohcount)
+                </th>
+                <th>
+                    @Html.DisplayNameFor(model => model.Buyprice)
+                </th>
+                <th>
+                    @Html.DisplayNameFor(model => model.Buyunit)
+                </th>
+                <th>
+                    @Html.DisplayNameFor(model => model.Qtybrksellprice)
+                </th>
+                <th>
+                    @Html.DisplayNameFor(model => model.Sellcurrency)
+                </th>
+                <th>
+                    @Html.DisplayNameFor(model => model.Buycurrency)
+                </th>
+                <th>
+                    @Html.DisplayNameFor(model => model.Costprice)
+                </th>
+                <th>
+                    @Html.DisplayNameFor(model => model.Sellunit)
+                </th>
+                <th>
+                    @Html.DisplayNameFor(model => model.Category)
+                </th>
+                <th>
+                    @Html.DisplayNameFor(model => model.Isconversion)
+                </th>
+                <th>
+                    @Html.DisplayNameFor(model => model.Conversionsource)
+                </th>
+                <th>
+                    @Html.DisplayNameFor(model => model.Useraddedby)
+                </th>
+                <th>
+                    @Html.DisplayNameFor(model => model.Userlastupdatedby)
+                </th>
+                <th>
+                    @Html.DisplayNameFor(model => model.Dateadded)
+                </th>
+                <th>
+                    @Html.DisplayNameFor(model => model.Dateupdated)
+                </th>
+            <th></th>
+        </tr>
+    </thead>
+    <tbody>
+@foreach (var item in Model) {
+        <tr>
+            <td>
+                @Html.DisplayFor(modelItem => item.Description)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.Stockvalue)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.Sellprice)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.Comment)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.SupplierFk)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.Salesacct)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.Stockacct)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.Cogacct)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.Stocktakenewqty)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.Flags)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.Sohcount)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.Buyprice)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.Buyunit)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.Qtybrksellprice)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.Sellcurrency)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.Buycurrency)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.Costprice)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.Sellunit)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.Category)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.Isconversion)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.Conversionsource)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.Useraddedby)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.Userlastupdatedby)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.Dateadded)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.Dateupdated)
+            </td>
+            <td>
+                <a asp-action="Edit" asp-route-id="@item.Code">Edit</a> |
+                <a asp-action="Details" asp-route-id="@item.Code">Details</a> |
+                <a asp-action="Delete" asp-route-id="@item.Code">Delete</a>
+            </td>
+        </tr>
+}
+    </tbody>
+</table>

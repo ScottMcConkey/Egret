@@ -1,6 +1,7 @@
 ﻿using System;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Egret.Controllers;
 
 namespace Egret.DataAccess
 {
@@ -55,8 +56,6 @@ namespace Egret.DataAccess
                 entity.Property(e => e.Code).HasColumnName("code");
 
                 entity.Property(e => e.Buycurrency).HasColumnName("buycurrency");
-
-                entity.Property(e => e.Buyingprice).HasColumnName("buyingprice");
 
                 entity.Property(e => e.Buyprice).HasColumnName("buyprice");
 

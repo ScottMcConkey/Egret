@@ -7,7 +7,7 @@ using Egret.DataAccess;
 
 // For more information on enabling MVC for empty projects, visit http://go.microsoft.com/fwlink/?LinkID=397860
 
-namespace Egret_Dev.Controllers
+namespace Egret.Controllers
 {
     public class HomeController : Controller
     {
@@ -19,12 +19,12 @@ namespace Egret_Dev.Controllers
 
         public IActionResult Items()
         {
-            return RedirectToAction("Index", "Inventory");  //View("~/Inventory");
+            return View("Items"); // RedirectToAction("Items", "Home");  //View("~/Inventory");
         }
 
         public IActionResult Projects()
         {
-            return RedirectToAction("Index", "ProjectItems");  //View();
+            return View();
         }
 
         public ViewResult Events()
