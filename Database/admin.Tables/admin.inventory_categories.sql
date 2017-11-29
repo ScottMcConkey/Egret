@@ -8,6 +8,7 @@ CREATE TABLE admin.inventory_categories
     name text COLLATE pg_catalog."default" NOT NULL,
     description text COLLATE pg_catalog."default",
     sortorder integer,
+    active boolean,
     CONSTRAINT inventory_categories_pkey PRIMARY KEY (id),
     CONSTRAINT inventory_categories_name_key UNIQUE (name)
 )

@@ -19,8 +19,6 @@ CREATE TABLE public.inventory_items
     buyprice double precision,
     buyunit text COLLATE pg_catalog."default",
     buyingprice double precision,
-    dateadded timestamp(0) without time zone,
-    dateupdated timestamp(0) without time zone,
     qtybrksellprice double precision,
     sellcurrency text COLLATE pg_catalog."default",
     buycurrency text COLLATE pg_catalog."default",
@@ -31,6 +29,8 @@ CREATE TABLE public.inventory_items
     conversionsource text COLLATE pg_catalog."default",
     useraddedby text COLLATE pg_catalog."default",
     userlastupdatedby text COLLATE pg_catalog."default",
+    dateadded timestamp without time zone,
+    dateupdated timestamp without time zone,
     CONSTRAINT inventory_items_pkey PRIMARY KEY (code)
 )
 WITH (
