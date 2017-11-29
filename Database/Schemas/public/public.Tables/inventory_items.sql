@@ -18,7 +18,6 @@ CREATE TABLE public.inventory_items
     sohcount double precision,
     buyprice double precision,
     buyunit text COLLATE pg_catalog."default",
-    buyingprice double precision,
     qtybrksellprice double precision,
     sellcurrency text COLLATE pg_catalog."default",
     buycurrency text COLLATE pg_catalog."default",
