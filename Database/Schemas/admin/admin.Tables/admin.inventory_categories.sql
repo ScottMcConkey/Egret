@@ -7,10 +7,11 @@ CREATE TABLE admin.inventory_categories
     id integer NOT NULL DEFAULT nextval('admin.inventory_categories_id_seq'::regclass),
     name text COLLATE pg_catalog."default" NOT NULL,
     description text COLLATE pg_catalog."default",
-    sortorder integer,
+    sortorder integer NOT NULL,
     active boolean,
     CONSTRAINT inventory_categories_pkey PRIMARY KEY (id),
-    CONSTRAINT inventory_categories_name_key UNIQUE (name)
+    CONSTRAINT inventory_categories_name_key UNIQUE (name),
+    CONSTRAINT inventory_categories_sort_key UNIQUE (sortorder)
 )
 WITH (
     OIDS = FALSE

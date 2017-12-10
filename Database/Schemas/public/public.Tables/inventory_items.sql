@@ -4,33 +4,53 @@
 
 CREATE TABLE public.inventory_items
 (
-    code text COLLATE pg_catalog."default" NOT NULL DEFAULT nextval('inventory_items_code_seq'::regclass),
+    code text COLLATE pg_catalog."default" NOT NULL DEFAULT nextval('master_seq'::regclass),
     description text COLLATE pg_catalog."default" NOT NULL,
-    stockvalue double precision,
-    sellprice double precision,
+    category text COLLATE pg_catalog."default",
     comment text COLLATE pg_catalog."default",
+    sellprice double precision,
+    sellcurrency text COLLATE pg_catalog."default",
+    sellunit text COLLATE pg_catalog."default",
+    buyprice double precision,
+    buycurrency text COLLATE pg_catalog."default",
+    buyunit text COLLATE pg_catalog."default",
+    stockvalue double precision,
     supplier_fk integer,
     salesacct integer,
     stockacct integer,
     cogacct integer,
+    sohcount double precision,
     stocktakenewqty double precision,
     flags integer,
-    sohcount double precision,
-    buyprice double precision,
-    buyunit text COLLATE pg_catalog."default",
     qtybrksellprice double precision,
-    sellcurrency text COLLATE pg_catalog."default",
-    buycurrency text COLLATE pg_catalog."default",
     costprice double precision,
-    sellunit text COLLATE pg_catalog."default",
-    category text COLLATE pg_catalog."default",
     isconversion boolean,
     conversionsource text COLLATE pg_catalog."default",
     useraddedby text COLLATE pg_catalog."default",
-    userlastupdatedby text COLLATE pg_catalog."default",
+    userupdatedby text COLLATE pg_catalog."default",
     dateadded timestamp without time zone,
     dateupdated timestamp without time zone,
-    CONSTRAINT inventory_items_pkey PRIMARY KEY (code)
+    CONSTRAINT inventory_items_pkey PRIMARY KEY (code),
+    CONSTRAINT inventory_items_buycurrency_fk FOREIGN KEY (buycurrency)
+        REFERENCES admin.currency_types (abbreviation) MATCH SIMPLE
+        ON UPDATE NO ACTION
+        ON DELETE NO ACTION,
+    CONSTRAINT inventory_items_buyunit_fk FOREIGN KEY (buyunit)
+        REFERENCES admin.units (abbreviation) MATCH SIMPLE
+        ON UPDATE NO ACTION
+        ON DELETE NO ACTION,
+    CONSTRAINT inventory_items_category_fk FOREIGN KEY (category)
+        REFERENCES admin.inventory_categories (name) MATCH SIMPLE
+        ON UPDATE NO ACTION
+        ON DELETE NO ACTION,
+    CONSTRAINT inventory_items_sellcurrency_fk FOREIGN KEY (sellcurrency)
+        REFERENCES admin.currency_types (abbreviation) MATCH SIMPLE
+        ON UPDATE NO ACTION
+        ON DELETE NO ACTION,
+    CONSTRAINT inventory_items_sellunit_fk FOREIGN KEY (sellunit)
+        REFERENCES admin.units (abbreviation) MATCH SIMPLE
+        ON UPDATE NO ACTION
+        ON DELETE NO ACTION
 )
 WITH (
     OIDS = FALSE
@@ -44,7 +64,7 @@ GRANT ALL ON TABLE public.inventory_items TO administrator;
 
 GRANT ALL ON TABLE public.inventory_items TO postgres;
 
-GRANT DELETE, UPDATE, SELECT, INSERT ON TABLE public.inventory_items TO sourcing_team_member;
+GRANT INSERT, SELECT, UPDATE, DELETE ON TABLE public.inventory_items TO sourcing_team_member;
 
 -- Trigger: insert_inventory_auditcolumns
 

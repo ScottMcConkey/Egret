@@ -7,9 +7,11 @@ CREATE TABLE admin.units
     id integer NOT NULL DEFAULT nextval('admin.units_id_seq'::regclass),
     name text COLLATE pg_catalog."default" NOT NULL,
     abbreviation text COLLATE pg_catalog."default" NOT NULL,
-    sortorder integer,
+    sortorder integer NOT NULL,
+    active boolean,
     CONSTRAINT units_pkey PRIMARY KEY (id),
-    CONSTRAINT units_sortorder_key UNIQUE (sortorder)
+    CONSTRAINT units_abbreviation_key UNIQUE (abbreviation),
+    CONSTRAINT units_sort_key UNIQUE (sortorder)
 )
 WITH (
     OIDS = FALSE

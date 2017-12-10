@@ -7,12 +7,12 @@ INSERT INTO public.inventory_items(
 	salesacct, 
 	stockacct, 
 	cogacct, 
-	sellunit, 
+	--sellunit, 
 	stocktakenewqty, 
 	flags,  
 	sohcount, 
 	buyprice, 
-	buyunit, 
+	--buyunit, 
 	qtybrksellprice, 
 	sellcurrency, 
 	buycurrency, 
@@ -31,7 +31,9 @@ INSERT INTO public.inventory_items(
 		'Original SellUnit: ' || coalesce("SellUnit", '') || E'\n' ||
 		'Original BuyUnit: ' || coalesce("BuyUnit", '') || E'\n' ||
 		'Original Buy Currency: ' || coalesce("BuyPriceCurrency", '') || E'\n'
-		'Original Category: ' || coalesce("Category1", ''), --comment
+		'Original Category: ' || coalesce("Category1", ''), 
+		
+		--comment
 	cast("SalesAcct" as integer), --salesacct
 	cast("StockAcct" as integer), --stockacct
 	cast("COGAcct" as integer), --cogacct
