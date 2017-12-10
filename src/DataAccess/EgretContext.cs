@@ -1,12 +1,12 @@
 ﻿using System;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Metadata;
-using Egret.Controllers;
 
 namespace Egret.DataAccess
 {
     public partial class EgretContext : DbContext
     {
+        public virtual DbSet<CurrencyTypes> CurrencyTypes { get; set; }
         public virtual DbSet<InventoryCategories> InventoryCategories { get; set; }
         public virtual DbSet<InventoryItems> InventoryItems { get; set; }
         public virtual DbSet<Units> Units { get; set; }
@@ -24,12 +24,51 @@ namespace Egret.DataAccess
         {
             modelBuilder.HasPostgresExtension("adminpack");
 
+            modelBuilder.Entity<CurrencyTypes>(entity =>
+            {
+                entity.ToTable("currency_types", "admin");
+
+                entity.HasIndex(e => e.Abbreviation)
+                    .HasName("currency_types_abbreviation_key")
+                    .IsUnique();
+
+                entity.HasIndex(e => e.Sortorder)
+                    .HasName("currency_types_sort_key")
+                    .IsUnique();
+
+                entity.Property(e => e.Id)
+                    .HasColumnName("id")
+                    .ValueGeneratedNever();
+
+                entity.Property(e => e.Abbreviation)
+                    .IsRequired()
+                    .HasColumnName("abbreviation");
+
+                entity.Property(e => e.Active).HasColumnName("active");
+
+                entity.Property(e => e.Name)
+                    .IsRequired()
+                    .HasColumnName("name");
+
+                entity.Property(e => e.Sortorder)
+                    .HasColumnName("sortorder")
+                    .HasDefaultValueSql("nextval('admin.currency_types_sortorder_seq'::regclass)");
+
+                entity.Property(e => e.Symbol)
+                    .IsRequired()
+                    .HasColumnName("symbol");
+            });
+
             modelBuilder.Entity<InventoryCategories>(entity =>
             {
                 entity.ToTable("inventory_categories", "admin");
 
                 entity.HasIndex(e => e.Name)
                     .HasName("inventory_categories_name_key")
+                    .IsUnique();
+
+                entity.HasIndex(e => e.Sortorder)
+                    .HasName("inventory_categories_sort_key")
                     .IsUnique();
 
                 entity.Property(e => e.Id)
@@ -53,7 +92,9 @@ namespace Egret.DataAccess
 
                 entity.ToTable("inventory_items");
 
-                entity.Property(e => e.Code).HasColumnName("code");
+                entity.Property(e => e.Code)
+                    .HasColumnName("code")
+                    .HasDefaultValueSql("nextval('master_seq'::regclass)");
 
                 entity.Property(e => e.Buycurrency).HasColumnName("buycurrency");
 
@@ -105,15 +146,49 @@ namespace Egret.DataAccess
 
                 entity.Property(e => e.Useraddedby).HasColumnName("useraddedby");
 
-                entity.Property(e => e.Userlastupdatedby).HasColumnName("userlastupdatedby");
+                entity.Property(e => e.Userupdatedby).HasColumnName("userupdatedby");
+
+                entity.HasOne(d => d.BuycurrencyNavigation)
+                    .WithMany(p => p.InventoryItemsBuycurrencyNavigation)
+                    .HasPrincipalKey(p => p.Abbreviation)
+                    .HasForeignKey(d => d.Buycurrency)
+                    .HasConstraintName("inventory_items_buycurrency_fk");
+
+                entity.HasOne(d => d.BuyunitNavigation)
+                    .WithMany(p => p.InventoryItemsBuyunitNavigation)
+                    .HasPrincipalKey(p => p.Abbreviation)
+                    .HasForeignKey(d => d.Buyunit)
+                    .HasConstraintName("inventory_items_buyunit_fk");
+
+                entity.HasOne(d => d.CategoryNavigation)
+                    .WithMany(p => p.InventoryItems)
+                    .HasPrincipalKey(p => p.Name)
+                    .HasForeignKey(d => d.Category)
+                    .HasConstraintName("inventory_items_category_fk");
+
+                entity.HasOne(d => d.SellcurrencyNavigation)
+                    .WithMany(p => p.InventoryItemsSellcurrencyNavigation)
+                    .HasPrincipalKey(p => p.Abbreviation)
+                    .HasForeignKey(d => d.Sellcurrency)
+                    .HasConstraintName("inventory_items_sellcurrency_fk");
+
+                entity.HasOne(d => d.SellunitNavigation)
+                    .WithMany(p => p.InventoryItemsSellunitNavigation)
+                    .HasPrincipalKey(p => p.Abbreviation)
+                    .HasForeignKey(d => d.Sellunit)
+                    .HasConstraintName("inventory_items_sellunit_fk");
             });
 
             modelBuilder.Entity<Units>(entity =>
             {
                 entity.ToTable("units", "admin");
 
+                entity.HasIndex(e => e.Abbreviation)
+                    .HasName("units_abbreviation_key")
+                    .IsUnique();
+
                 entity.HasIndex(e => e.Sortorder)
-                    .HasName("units_sortorder_key")
+                    .HasName("units_sort_key")
                     .IsUnique();
 
                 entity.Property(e => e.Id)
@@ -123,6 +198,8 @@ namespace Egret.DataAccess
                 entity.Property(e => e.Abbreviation)
                     .IsRequired()
                     .HasColumnName("abbreviation");
+
+                entity.Property(e => e.Active).HasColumnName("active");
 
                 entity.Property(e => e.Name)
                     .IsRequired()

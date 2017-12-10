@@ -17,10 +17,10 @@
             @Html.DisplayFor(model => model.Description)
         </dd>
         <dt>
-            @Html.DisplayNameFor(model => model.Stockvalue)
+            @Html.DisplayNameFor(model => model.Comment)
         </dt>
         <dd>
-            @Html.DisplayFor(model => model.Stockvalue)
+            @Html.DisplayFor(model => model.Comment)
         </dd>
         <dt>
             @Html.DisplayNameFor(model => model.Sellprice)
@@ -29,10 +29,16 @@
             @Html.DisplayFor(model => model.Sellprice)
         </dd>
         <dt>
-            @Html.DisplayNameFor(model => model.Comment)
+            @Html.DisplayNameFor(model => model.Buyprice)
         </dt>
         <dd>
-            @Html.DisplayFor(model => model.Comment)
+            @Html.DisplayFor(model => model.Buyprice)
+        </dd>
+        <dt>
+            @Html.DisplayNameFor(model => model.Stockvalue)
+        </dt>
+        <dd>
+            @Html.DisplayFor(model => model.Stockvalue)
         </dd>
         <dt>
             @Html.DisplayNameFor(model => model.SupplierFk)
@@ -59,6 +65,12 @@
             @Html.DisplayFor(model => model.Cogacct)
         </dd>
         <dt>
+            @Html.DisplayNameFor(model => model.Sohcount)
+        </dt>
+        <dd>
+            @Html.DisplayFor(model => model.Sohcount)
+        </dd>
+        <dt>
             @Html.DisplayNameFor(model => model.Stocktakenewqty)
         </dt>
         <dd>
@@ -71,58 +83,16 @@
             @Html.DisplayFor(model => model.Flags)
         </dd>
         <dt>
-            @Html.DisplayNameFor(model => model.Sohcount)
-        </dt>
-        <dd>
-            @Html.DisplayFor(model => model.Sohcount)
-        </dd>
-        <dt>
-            @Html.DisplayNameFor(model => model.Buyprice)
-        </dt>
-        <dd>
-            @Html.DisplayFor(model => model.Buyprice)
-        </dd>
-        <dt>
-            @Html.DisplayNameFor(model => model.Buyunit)
-        </dt>
-        <dd>
-            @Html.DisplayFor(model => model.Buyunit)
-        </dd>
-        <dt>
             @Html.DisplayNameFor(model => model.Qtybrksellprice)
         </dt>
         <dd>
             @Html.DisplayFor(model => model.Qtybrksellprice)
         </dd>
         <dt>
-            @Html.DisplayNameFor(model => model.Sellcurrency)
-        </dt>
-        <dd>
-            @Html.DisplayFor(model => model.Sellcurrency)
-        </dd>
-        <dt>
-            @Html.DisplayNameFor(model => model.Buycurrency)
-        </dt>
-        <dd>
-            @Html.DisplayFor(model => model.Buycurrency)
-        </dd>
-        <dt>
             @Html.DisplayNameFor(model => model.Costprice)
         </dt>
         <dd>
             @Html.DisplayFor(model => model.Costprice)
-        </dd>
-        <dt>
-            @Html.DisplayNameFor(model => model.Sellunit)
-        </dt>
-        <dd>
-            @Html.DisplayFor(model => model.Sellunit)
-        </dd>
-        <dt>
-            @Html.DisplayNameFor(model => model.Category)
-        </dt>
-        <dd>
-            @Html.DisplayFor(model => model.Category)
         </dd>
         <dt>
             @Html.DisplayNameFor(model => model.Isconversion)
@@ -143,10 +113,10 @@
             @Html.DisplayFor(model => model.Useraddedby)
         </dd>
         <dt>
-            @Html.DisplayNameFor(model => model.Userlastupdatedby)
+            @Html.DisplayNameFor(model => model.Userupdatedby)
         </dt>
         <dd>
-            @Html.DisplayFor(model => model.Userlastupdatedby)
+            @Html.DisplayFor(model => model.Userupdatedby)
         </dd>
         <dt>
             @Html.DisplayNameFor(model => model.Dateadded)
@@ -159,6 +129,36 @@
         </dt>
         <dd>
             @Html.DisplayFor(model => model.Dateupdated)
+        </dd>
+        <dt>
+            @Html.DisplayNameFor(model => model.BuycurrencyNavigation)
+        </dt>
+        <dd>
+            @Html.DisplayFor(model => model.BuycurrencyNavigation.Abbreviation)
+        </dd>
+        <dt>
+            @Html.DisplayNameFor(model => model.BuyunitNavigation)
+        </dt>
+        <dd>
+            @Html.DisplayFor(model => model.BuyunitNavigation.Abbreviation)
+        </dd>
+        <dt>
+            @Html.DisplayNameFor(model => model.CategoryNavigation)
+        </dt>
+        <dd>
+            @Html.DisplayFor(model => model.CategoryNavigation.Name)
+        </dd>
+        <dt>
+            @Html.DisplayNameFor(model => model.SellcurrencyNavigation)
+        </dt>
+        <dd>
+            @Html.DisplayFor(model => model.SellcurrencyNavigation.Abbreviation)
+        </dd>
+        <dt>
+            @Html.DisplayNameFor(model => model.SellunitNavigation)
+        </dt>
+        <dd>
+            @Html.DisplayFor(model => model.SellunitNavigation.Abbreviation)
         </dd>
     </dl>
 </div>
