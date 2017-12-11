@@ -12,82 +12,57 @@
 <table class="table">
     <thead>
         <tr>
-                <th>
-                    @Html.DisplayNameFor(model => model.Description)
-                </th>
-                <th>
-                    @Html.DisplayNameFor(model => model.Comment)
-                </th>
-                <th>
-                    @Html.DisplayNameFor(model => model.Sellprice)
-                </th>
-                <th>
-                    @Html.DisplayNameFor(model => model.Buyprice)
-                </th>
-                <th>
-                    @Html.DisplayNameFor(model => model.Stockvalue)
-                </th>
-                <th>
-                    @Html.DisplayNameFor(model => model.SupplierFk)
-                </th>
-                <th>
-                    @Html.DisplayNameFor(model => model.Salesacct)
-                </th>
-                <th>
-                    @Html.DisplayNameFor(model => model.Stockacct)
-                </th>
-                <th>
-                    @Html.DisplayNameFor(model => model.Cogacct)
-                </th>
-                <th>
-                    @Html.DisplayNameFor(model => model.Sohcount)
-                </th>
-                <th>
-                    @Html.DisplayNameFor(model => model.Stocktakenewqty)
-                </th>
-                <th>
-                    @Html.DisplayNameFor(model => model.Flags)
-                </th>
-                <th>
-                    @Html.DisplayNameFor(model => model.Qtybrksellprice)
-                </th>
-                <th>
-                    @Html.DisplayNameFor(model => model.Costprice)
-                </th>
-                <th>
-                    @Html.DisplayNameFor(model => model.Isconversion)
-                </th>
-                <th>
-                    @Html.DisplayNameFor(model => model.Conversionsource)
-                </th>
-                <th>
-                    @Html.DisplayNameFor(model => model.Useraddedby)
-                </th>
-                <th>
-                    @Html.DisplayNameFor(model => model.Userupdatedby)
-                </th>
-                <th>
-                    @Html.DisplayNameFor(model => model.Dateadded)
-                </th>
-                <th>
-                    @Html.DisplayNameFor(model => model.Dateupdated)
-                </th>
             <th>
-                @Html.DisplayNameFor(model => model.BuycurrencyNavigation)
+                @Html.DisplayNameFor(model => model.Description)
             </th>
             <th>
-                @Html.DisplayNameFor(model => model.BuyunitNavigation)
+                @Html.DisplayNameFor(model => model.Comment)
             </th>
             <th>
-                @Html.DisplayNameFor(model => model.CategoryNavigation)
+                @*@Html.DisplayNameFor(model => model.Sellprice)*@
+                Sell Price
             </th>
             <th>
-                @Html.DisplayNameFor(model => model.SellcurrencyNavigation)
+                @* @Html.DisplayNameFor(model => model.Buyprice) *@
+                Buy Price
+            </th>
+            <!--<th>
+                @*@Html.DisplayNameFor(model => model.Addedby)*@
+                Added By
             </th>
             <th>
-                @Html.DisplayNameFor(model => model.SellunitNavigation)
+                @*@Html.DisplayNameFor(model => model.Updatedby)*@
+                Updated By
             </th>
-            <th></th>
+            <th>
+                @*@Html.DisplayNameFor(model => model.Dateadded)*@
+                Date Added
+            </th>
+            <th>
+                @*@Html.DisplayNameFor(model => model.Dateupdated)*@
+                Date Updated
+            </th>
+            <th>
+                @*@Html.DisplayNameFor(model => model.BuycurrencyNavigation)*@
+                Buy Currency
+            </th>
+            <th>
+                @*@Html.DisplayNameFor(model => model.BuyunitNavigation)*@
+                Buy Unit
+            </th>
+            <th>
+                @*@Html.DisplayNameFor(model => model.CategoryNavigation)*@
+                Category
+            </th>
+            <th>
+                @*@Html.DisplayNameFor(model => model.SellcurrencyNavigation)*@
+                Sell Currency
+            </th>
+            <th>
+                @*@Html.DisplayNameFor(model => model.SellunitNavigation)*@
+                Sell Unit
+            </th>
+            <th></th>-->
         </tr>
     </thead>
     <tbody>
@@ -105,47 +80,11 @@
             <td>
                 @Html.DisplayFor(modelItem => item.Buyprice)
             </td>
-            <td>
-                @Html.DisplayFor(modelItem => item.Stockvalue)
+            <!--<td>
+                @Html.DisplayFor(modelItem => item.Addedby)
             </td>
             <td>
-                @Html.DisplayFor(modelItem => item.SupplierFk)
-            </td>
-            <td>
-                @Html.DisplayFor(modelItem => item.Salesacct)
-            </td>
-            <td>
-                @Html.DisplayFor(modelItem => item.Stockacct)
-            </td>
-            <td>
-                @Html.DisplayFor(modelItem => item.Cogacct)
-            </td>
-            <td>
-                @Html.DisplayFor(modelItem => item.Sohcount)
-            </td>
-            <td>
-                @Html.DisplayFor(modelItem => item.Stocktakenewqty)
-            </td>
-            <td>
-                @Html.DisplayFor(modelItem => item.Flags)
-            </td>
-            <td>
-                @Html.DisplayFor(modelItem => item.Qtybrksellprice)
-            </td>
-            <td>
-                @Html.DisplayFor(modelItem => item.Costprice)
-            </td>
-            <td>
-                @Html.DisplayFor(modelItem => item.Isconversion)
-            </td>
-            <td>
-                @Html.DisplayFor(modelItem => item.Conversionsource)
-            </td>
-            <td>
-                @Html.DisplayFor(modelItem => item.Useraddedby)
-            </td>
-            <td>
-                @Html.DisplayFor(modelItem => item.Userupdatedby)
+                @Html.DisplayFor(modelItem => item.Updatedby)
             </td>
             <td>
                 @Html.DisplayFor(modelItem => item.Dateadded)
@@ -172,7 +111,7 @@
                 <a asp-action="Edit" asp-route-id="@item.Code">Edit</a> |
                 <a asp-action="Details" asp-route-id="@item.Code">Details</a> |
                 <a asp-action="Delete" asp-route-id="@item.Code">Delete</a>
-            </td>
+            </td>-->
         </tr>
 }
     </tbody>

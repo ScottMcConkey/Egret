@@ -144,9 +144,9 @@ namespace Egret.DataAccess
 
                 entity.Property(e => e.SupplierFk).HasColumnName("supplier_fk");
 
-                entity.Property(e => e.Useraddedby).HasColumnName("useraddedby");
+                entity.Property(e => e.Addedby).HasColumnName("useraddedby");
 
-                entity.Property(e => e.Userupdatedby).HasColumnName("userupdatedby");
+                entity.Property(e => e.Updatedby).HasColumnName("userupdatedby");
 
                 entity.HasOne(d => d.BuycurrencyNavigation)
                     .WithMany(p => p.InventoryItemsBuycurrencyNavigation)

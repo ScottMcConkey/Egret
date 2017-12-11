@@ -27,8 +27,8 @@ namespace Egret.DataAccess
         public double? Costprice { get; set; }
         public bool? Isconversion { get; set; }
         public string Conversionsource { get; set; }
-        public string Useraddedby { get; set; }
-        public string Userupdatedby { get; set; }
+        public string Addedby { get; set; }
+        public string Updatedby { get; set; }
         public DateTime? Dateadded { get; set; }
         public DateTime? Dateupdated { get; set; }
 

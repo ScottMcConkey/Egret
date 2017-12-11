@@ -1,12 +1,17 @@
 ﻿body {
-    width: 1300px;
+    width: 1700px;
     margin-left: auto;
     margin-right: auto;
     background-color: #ccc;
 }
 
+hr {
+    margin: 0px;
+    margin-bottom: 10px;
+}
+
 #container {
-    width: 1300px;
+    width: 800px;
 }
 
 ul {
@@ -72,7 +77,7 @@ ul li {
     vertical-align: top;
     padding-left: 5px;
     background-color: #fff;
-    min-width: 1000px;
+    /*min-width: 1000px;*/
 }
 
 .middle {
