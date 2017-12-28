@@ -1,13 +1,14 @@
 ﻿@model IEnumerable<Egret.DataAccess.InventoryItems>
 
 @{
-    ViewData["Title"] = "Index";
+    ViewData["Title"] = "Inventory";
+    ViewBag.Notice = "Inventory";
 }
 
-<h2>Index</h2>
+<hr />
 
 <p>
-    <a asp-action="Create">Create New</a>
+    <a class="test" asp-action="Create">Create New</a>
 </p>
 <table class="table">
     <thead>

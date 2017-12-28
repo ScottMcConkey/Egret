@@ -1,24 +1,38 @@
 ﻿body {
-    width: 1700px;
+    width: 80%;
     margin-left: auto;
     margin-right: auto;
     background-color: #ccc;
 }
 
+.test:hover {
+    color: #000;
+    text-decoration: none;
+    margin: 0;
+    padding: 0;
+    width: inherit;
+    display: inline;
+}
+
+a {
+    text-decoration: none;
+}
+
 hr {
-    margin: 0px;
+    margin: 0;
     margin-bottom: 10px;
 }
 
 #container {
-    width: 800px;
+    width: 100% /*800px*/;
+    border: 1px solid red;
 }
 
 ul {
     text-decoration: none;
     list-style-type: none;
-    margin: 0px;
-    padding: 0px;
+    margin: 0;
+    padding: 0;
 }
 
 .titleband {
@@ -37,19 +51,19 @@ ul li {
 
 .leftnav {
     background-color: #0f0e31;
-    padding: 0px;
+    padding: 0;
+    margin: 0;
     display: inline-block;
-
 }
 
 .leftnav li {
-    margin: 0px;
-    padding: 0px;
+    margin: 0;
+    padding: 0;
 }
 
 .leftnav span {
     display: block;
-    margin: 0px;
+    margin: 0;
 }
 
 .leftnav a, a:hover {
@@ -71,27 +85,26 @@ ul li {
 
 
 #main {
-    margin: 0px;
-    margin-left: -4px;
+    margin: 0;
+    /*margin-left: -4px;*/
     display: inline-block;
     vertical-align: top;
     padding-left: 5px;
     background-color: #fff;
     /*min-width: 1000px;*/
+    width: 90%;
 }
 
 .middle {
-    margin: 0px;
-    padding: 0px;
+    padding: 0;
     color: #254a7d;
     display: inline;
 }
 
 .middle:hover {
-    margin: 0px;
-    padding: 0px;
+    padding: 0;
     color: #368798;
-    display: inline;    
+    display: inline;
 }
 
     #main-top {
@@ -100,13 +113,13 @@ ul li {
         /*min-height: 500px;*/
         border-bottom: 1px solid #fff;
         display: block;
-        margin: 0px;
+        margin: 0;
     }
 
     #main-bottom {
         background-color: transparent;
         display: block;
-        margin: 0px;
+        margin: 0;
     }
 
 td, th {
