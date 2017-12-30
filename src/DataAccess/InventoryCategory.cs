@@ -3,11 +3,11 @@ using System.Collections.Generic;
 
 namespace Egret.DataAccess
 {
-    public partial class InventoryCategories
+    public partial class InventoryCategory
     {
-        public InventoryCategories()
+        public InventoryCategory()
         {
-            InventoryItems = new HashSet<InventoryItems>();
+            InventoryItems = new HashSet<InventoryItem>();
         }
 
         public int Id { get; set; }
@@ -16,6 +16,6 @@ namespace Egret.DataAccess
         public int Sortorder { get; set; }
         public bool? Active { get; set; }
 
-        public ICollection<InventoryItems> InventoryItems { get; set; }
+        public ICollection<InventoryItem> InventoryItems { get; set; }
     }
 }

@@ -6,10 +6,10 @@ namespace Egret.DataAccess
 {
     public partial class EgretContext : DbContext
     {
-        public virtual DbSet<CurrencyTypes> CurrencyTypes { get; set; }
-        public virtual DbSet<InventoryCategories> InventoryCategories { get; set; }
-        public virtual DbSet<InventoryItems> InventoryItems { get; set; }
-        public virtual DbSet<Units> Units { get; set; }
+        public virtual DbSet<CurrencyType> CurrencyTypes { get; set; }
+        public virtual DbSet<InventoryCategory> InventoryCategories { get; set; }
+        public virtual DbSet<InventoryItem> InventoryItems { get; set; }
+        public virtual DbSet<Unit> Units { get; set; }
 
         protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
         {
@@ -24,7 +24,7 @@ namespace Egret.DataAccess
         {
             modelBuilder.HasPostgresExtension("adminpack");
 
-            modelBuilder.Entity<CurrencyTypes>(entity =>
+            modelBuilder.Entity<CurrencyType>(entity =>
             {
                 entity.ToTable("currency_types", "admin");
 
@@ -59,7 +59,7 @@ namespace Egret.DataAccess
                     .HasColumnName("symbol");
             });
 
-            modelBuilder.Entity<InventoryCategories>(entity =>
+            modelBuilder.Entity<InventoryCategory>(entity =>
             {
                 entity.ToTable("inventory_categories", "admin");
 
@@ -86,7 +86,7 @@ namespace Egret.DataAccess
                 entity.Property(e => e.Sortorder).HasColumnName("sortorder");
             });
 
-            modelBuilder.Entity<InventoryItems>(entity =>
+            modelBuilder.Entity<InventoryItem>(entity =>
             {
                 entity.HasKey(e => e.Code);
 
@@ -179,7 +179,7 @@ namespace Egret.DataAccess
                     .HasConstraintName("inventory_items_sellunit_fk");
             });
 
-            modelBuilder.Entity<Units>(entity =>
+            modelBuilder.Entity<Unit>(entity =>
             {
                 entity.ToTable("units", "admin");
 
