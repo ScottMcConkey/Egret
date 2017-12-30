@@ -43,7 +43,7 @@ namespace Egret.DataAccess
         public string Conversionsource { get; set; }
         [Display(Name = "Added By")]
         public string Addedby { get; set; }
-        [Display(Name = "Update By")]
+        [Display(Name = "Updated By")]
         public string Updatedby { get; set; }
         [Display(Name = "Added")]
         public DateTime? Dateadded { get; set; }
