@@ -25,7 +25,7 @@ hr {
 
 #container {
     width: 100% /*800px*/;
-    border: 1px solid red;
+    /*border: 1px solid red;*/
 }
 
 ul {
@@ -89,7 +89,6 @@ ul li {
     /*margin-left: -4px;*/
     display: inline-block;
     vertical-align: top;
-    padding-left: 5px;
     background-color: #fff;
     /*min-width: 1000px;*/
     width: 90%;
@@ -109,9 +108,11 @@ ul li {
 
     #main-top {
         min-width: 700px;
+        width: 100%;
+        padding-left: 10px;
         /*height: 64px;*/
         /*min-height: 500px;*/
-        border-bottom: 1px solid #fff;
+        border-bottom: 1px solid #ccc;
         display: block;
         margin: 0;
     }
@@ -119,6 +120,7 @@ ul li {
     #main-bottom {
         background-color: transparent;
         display: block;
+        padding-left: 20px;
         margin: 0;
     }
 

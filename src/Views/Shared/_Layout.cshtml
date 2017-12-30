@@ -26,7 +26,8 @@
         <div>
             <div class="leftnav">
                 <ul>
-                    <li><a href="@Url.Action("Index","Home")"><span class="glyphicon glyphicon-home"></span>Home</a></li>
+                    <!--<li><a href="@Url.Action("Index","Home")"><span class="glyphicon glyphicon-home"></span>Home</a></li>-->
+                    <li><a asp-controller="Home" asp-action="Index"><span class="glyphicon glyphicon-home"></span>Home</a></li>
                     <li><a href="@Url.Action("Index","Inventory")"><span class="glyphicon glyphicon-tag"></span>Items</a></li>
                     <li><a asp-action="Projects"><span class="glyphicon glyphicon-folder-open"></span>Projects</a></li>
                     <li><a asp-action="Events"><span class="glyphicon glyphicon-barcode"></span>Events</a></li>

@@ -21,17 +21,23 @@ namespace Egret.DataAccess
         [Display(Name = "Stock Value")]
         public double? Stockvalue { get; set; }
         [Display(Name = "Supplier")]
+        [UIHint("Text")]
         public int? SupplierFk { get; set; }
         [Display(Name = "Sales Acct")]
+        [UIHint("Text")]
         public int? Salesacct { get; set; }
         [Display(Name = "Stock Acct")]
+        [UIHint("Text")]
         public int? Stockacct { get; set; }
         [Display(Name = "COG Acct")]
+        [UIHint("Text")]
         public int? Cogacct { get; set; }
         [Display(Name = "SOH Acct")]
+        [UIHint("Text")]
         public double? Sohcount { get; set; }
         [Display(Name = "Stock Take New Qty")]
         public double? Stocktakenewqty { get; set; }
+        [UIHint("Text")]
         public int? Flags { get; set; }
         [Display(Name = "Qty Brk Sell Price")]
         public double? Qtybrksellprice { get; set; }
