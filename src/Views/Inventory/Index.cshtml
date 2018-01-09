@@ -14,106 +14,47 @@
     <thead>
         <tr>
             <th>
+                @Html.DisplayNameFor(model => model.Code)
+            </th>
+            <th>
                 @Html.DisplayNameFor(model => model.Description)
             </th>
             <th>
                 @Html.DisplayNameFor(model => model.Comment)
             </th>
             <th>
-                @*@Html.DisplayNameFor(model => model.Sellprice)*@
-                Sell Price
+                @Html.DisplayNameFor(model => model.Sellprice)
             </th>
             <th>
-                @* @Html.DisplayNameFor(model => model.Buyprice) *@
-                Buy Price
+                @Html.DisplayNameFor(model => model.Buyprice)
             </th>
-            <!--<th>
-                @*@Html.DisplayNameFor(model => model.Addedby)*@
-                Added By
-            </th>
-            <th>
-                @*@Html.DisplayNameFor(model => model.Updatedby)*@
-                Updated By
-            </th>
-            <th>
-                @*@Html.DisplayNameFor(model => model.Dateadded)*@
-                Date Added
-            </th>
-            <th>
-                @*@Html.DisplayNameFor(model => model.Dateupdated)*@
-                Date Updated
-            </th>
-            <th>
-                @*@Html.DisplayNameFor(model => model.BuycurrencyNavigation)*@
-                Buy Currency
-            </th>
-            <th>
-                @*@Html.DisplayNameFor(model => model.BuyunitNavigation)*@
-                Buy Unit
-            </th>
-            <th>
-                @*@Html.DisplayNameFor(model => model.CategoryNavigation)*@
-                Category
-            </th>
-            <th>
-                @*@Html.DisplayNameFor(model => model.SellcurrencyNavigation)*@
-                Sell Currency
-            </th>
-            <th>
-                @*@Html.DisplayNameFor(model => model.SellunitNavigation)*@
-                Sell Unit
-            </th>
-            <th></th>-->
         </tr>
     </thead>
     <tbody>
-@foreach (var item in Model) {
-        <tr>
-            <td>
-                @Html.DisplayFor(modelItem => item.Description)
-            </td>
-            <td>
-                @Html.DisplayFor(modelItem => item.Comment)
-            </td>
-            <td>
-                @Html.DisplayFor(modelItem => item.Sellprice)
-            </td>
-            <td>
-                @Html.DisplayFor(modelItem => item.Buyprice)
-            </td>
-            <!--<td>
-                @Html.DisplayFor(modelItem => item.Addedby)
-            </td>
-            <td>
-                @Html.DisplayFor(modelItem => item.Updatedby)
-            </td>
-            <td>
-                @Html.DisplayFor(modelItem => item.Dateadded)
-            </td>
-            <td>
-                @Html.DisplayFor(modelItem => item.Dateupdated)
-            </td>
-            <td>
-                @Html.DisplayFor(modelItem => item.BuycurrencyNavigation.Abbreviation)
-            </td>
-            <td>
-                @Html.DisplayFor(modelItem => item.BuyunitNavigation.Abbreviation)
-            </td>
-            <td>
-                @Html.DisplayFor(modelItem => item.CategoryNavigation.Name)
-            </td>
-            <td>
-                @Html.DisplayFor(modelItem => item.SellcurrencyNavigation.Abbreviation)
-            </td>
-            <td>
-                @Html.DisplayFor(modelItem => item.SellunitNavigation.Abbreviation)
-            </td>-->
-            <td>
-                <a asp-action="Edit" asp-route-id="@item.Code">Edit</a> |
-                <a asp-action="Details" asp-route-id="@item.Code">Details</a> |
-                <a asp-action="Delete" asp-route-id="@item.Code">Delete</a>
-            </td>
-        </tr>
-}
+    @foreach (var item in Model) {
+            <tr class="clickable-row" onclick="location.href = '@(Url.Action("Edit", new { id = item.Code }))'; location.target='_blank'">
+                <td>
+                    <a class="test" asp-action="Edit" asp-route-id="@item.Code">
+                        @Html.DisplayFor(modelItem => item.Code)
+                    </a>
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.Description)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.Comment)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.Sellprice)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.Buyprice)
+                </td>
+                <td>
+                    <a asp-action="Details" asp-route-id="@item.Code">Details</a> |
+                    <a asp-action="Delete" asp-route-id="@item.Code">Delete</a>
+                </td>
+            </tr>
+    }
     </tbody>
 </table>

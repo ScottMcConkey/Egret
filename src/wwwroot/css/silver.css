@@ -24,8 +24,7 @@ hr {
 }
 
 #container {
-    width: 100% /*800px*/;
-    /*border: 1px solid red;*/
+    width: 100%;
 }
 
 ul {
@@ -143,3 +142,21 @@ th {
 .shaded {
     background-color: #eee;
 }
+
+.clickable-row:hover {
+    background-color: #eee;
+    cursor: pointer;
+}
+
+.table {
+    display: table;
+}
+
+.table-row {
+    display: table-row;
+}
+
+.table-cell {
+    display: table-cell;
+}
+
