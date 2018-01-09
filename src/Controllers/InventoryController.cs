@@ -53,7 +53,7 @@ namespace Egret.Controllers
         {
             ViewData["Buycurrency"] = new SelectList(_context.CurrencyTypes, "Abbreviation", "Abbreviation");
             ViewData["Buyunit"] = new SelectList(_context.Units, "Abbreviation", "Abbreviation");
-            ViewData["Category"] = new SelectList(_context.InventoryCategories, "Name", "Name");
+            ViewData["Category"] = new SelectList(_context.InventoryCategories.Where(x => x.Active == true).OrderBy(x => x.Sortorder), "Name", "Name");
             ViewData["Sellcurrency"] = new SelectList(_context.CurrencyTypes, "Abbreviation", "Abbreviation");
             ViewData["Sellunit"] = new SelectList(_context.Units, "Abbreviation", "Abbreviation");
             return View();
@@ -74,7 +74,7 @@ namespace Egret.Controllers
             }
             ViewData["Buycurrency"] = new SelectList(_context.CurrencyTypes, "Abbreviation", "Abbreviation", inventoryItems.Buycurrency);
             ViewData["Buyunit"] = new SelectList(_context.Units, "Abbreviation", "Abbreviation", inventoryItems.Buyunit);
-            ViewData["Category"] = new SelectList(_context.InventoryCategories, "Name", "Name", inventoryItems.Category);
+            ViewData["Category"] = new SelectList(_context.InventoryCategories.Where(x => x.Active == true).OrderBy(x => x.Sortorder), "Name", "Name", inventoryItems.Category);
             ViewData["Sellcurrency"] = new SelectList(_context.CurrencyTypes, "Abbreviation", "Abbreviation", inventoryItems.Sellcurrency);
             ViewData["Sellunit"] = new SelectList(_context.Units, "Abbreviation", "Abbreviation", inventoryItems.Sellunit);
             return View(inventoryItems);
