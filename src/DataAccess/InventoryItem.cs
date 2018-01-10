@@ -48,12 +48,16 @@ namespace Egret.DataAccess
         [Display(Name = "Conversion Source")]
         public string Conversionsource { get; set; }
         [Display(Name = "Added By")]
+        [Editable(false)]
         public string Addedby { get; set; }
         [Display(Name = "Updated By")]
+        [Editable(false)]
         public string Updatedby { get; set; }
         [Display(Name = "Added")]
+        [Editable(false)]
         public DateTime? Dateadded { get; set; }
         [Display(Name = "Updated")]
+        [Editable(false)]
         public DateTime? Dateupdated { get; set; }
 
         public CurrencyType BuycurrencyNavigation { get; set; }

@@ -13,6 +13,20 @@
             $("div#main-top").css("height", $("div.leftnav ul li").height() + 1 + "px");
             $("div#main").css("min-height", $("div.leftnav").height() + "px");
             $("table.results tr:even").addClass("shaded");
+
+            $("li.inline-tab").on("click", function () {
+                $("li.inline-tab").removeClass("active");
+                $(this).addClass("active");
+
+                if ($(this).attr("id") == 'tab-1') {
+                    $(".tab-page").css("display", "none");
+                    $(".tab-1").css("display", "inherit");
+                }
+                else if ($(this).attr("id") == 'tab-2') {
+                    $(".tab-page").css("display", "none");
+                    $(".tab-2").css("display", "block");
+                }
+            });
         });
 
     </script>
@@ -26,9 +40,8 @@
         <div>
             <div class="leftnav">
                 <ul>
-                    <!--<li><a href="@Url.Action("Index","Home")"><span class="glyphicon glyphicon-home"></span>Home</a></li>-->
                     <li><a asp-controller="Home" asp-action="Index"><span class="glyphicon glyphicon-home"></span>Home</a></li>
-                    <li><a href="@Url.Action("Index","Inventory")"><span class="glyphicon glyphicon-tag"></span>Items</a></li>
+                    <li><a asp-controller="Inventory" asp-action="Index"><span class="glyphicon glyphicon-tag"></span>Items</a></li>
                     <li><a asp-action="Projects"><span class="glyphicon glyphicon-folder-open"></span>Projects</a></li>
                     <li><a asp-action="Events"><span class="glyphicon glyphicon-barcode"></span>Events</a></li>
                     <li><a asp-action="Customers"><span class="glyphicon glyphicon-user"></span>Customers</a></li>

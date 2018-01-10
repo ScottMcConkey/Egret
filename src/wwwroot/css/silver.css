@@ -27,7 +27,7 @@ hr {
     width: 100%;
 }
 
-ul {
+.leftnav ul {
     text-decoration: none;
     list-style-type: none;
     margin: 0;
@@ -41,7 +41,7 @@ ul {
     margin-bottom: 20px;
 }
 
-ul li {
+.leftnav li {
     text-align: center;
     border-bottom: 1px solid #368798;
     padding: 2px;
@@ -49,7 +49,6 @@ ul li {
 }
 
 .leftnav {
-    background-color: #0f0e31;
     padding: 0;
     margin: 0;
     display: inline-block;
@@ -65,7 +64,7 @@ ul li {
     margin: 0;
 }
 
-.leftnav a, a:hover {
+.leftnav a, .leftnav a:hover {
     text-decoration: none;
     color: #fff;
     width: 100%;
@@ -85,11 +84,9 @@ ul li {
 
 #main {
     margin: 0;
-    /*margin-left: -4px;*/
     display: inline-block;
     vertical-align: top;
     background-color: #fff;
-    /*min-width: 1000px;*/
     width: 90%;
 }
 
@@ -158,5 +155,18 @@ th {
 
 .table-cell {
     display: table-cell;
+}
+
+/* Manage tabs */
+.tab-page {
+    visibility: none;
+}
+
+.tab-page:first-of-type {
+    display: inherit;
+}
+
+.tab-container {
+    position: static;
 }
 
