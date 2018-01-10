@@ -175,6 +175,24 @@ namespace Egret.Controllers
             return RedirectToAction(nameof(Index));
         }
 
+        // GET: Inventory/Search
+        public async Task<IActionResult> Search()
+        {
+            var inventoryItems = _context.InventoryItems
+            .Include(i => i.BuycurrencyNavigation)
+            .Include(i => i.BuyunitNavigation)
+            .Include(i => i.CategoryNavigation)
+            .Include(i => i.SellcurrencyNavigation)
+            .Include(i => i.SellunitNavigation);
+
+            /*if (inventoryItems == null)
+            {
+                return NotFound();
+            }*/
+
+            return View(await inventoryItems.ToListAsync());
+        }
+
         private bool InventoryItemsExists(string id)
         {
             return _context.InventoryItems.Any(e => e.Code == id);
