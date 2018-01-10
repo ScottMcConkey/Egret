@@ -19,6 +19,7 @@ namespace Egret.DataAccess
         public int Sortorder { get; set; }
         public string Abbreviation { get; set; }
         public bool? Active { get; set; }
+        public bool? Defaultselection { get; set; }
 
         public ICollection<InventoryItem> InventoryItemsBuycurrencyNavigation { get; set; }
         public ICollection<InventoryItem> InventoryItemsSellcurrencyNavigation { get; set; }

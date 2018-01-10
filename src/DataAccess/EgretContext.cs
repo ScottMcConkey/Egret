@@ -46,6 +46,8 @@ namespace Egret.DataAccess
 
                 entity.Property(e => e.Active).HasColumnName("active");
 
+                entity.Property(e => e.Defaultselection).HasColumnName("defaultselection");
+
                 entity.Property(e => e.Name)
                     .IsRequired()
                     .HasColumnName("name");

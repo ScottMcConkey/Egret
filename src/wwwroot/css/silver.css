@@ -159,11 +159,11 @@ th {
 
 /* Manage tabs */
 .tab-page {
-    visibility: none;
+    display: none;
 }
 
 .tab-page:first-of-type {
-    display: inherit;
+    display: block;
 }
 
 .tab-container {
