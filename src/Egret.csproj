@@ -5,6 +5,7 @@
   </PropertyGroup>
 
   <ItemGroup>
+    <Folder Include="ViewModels\" />
     <Folder Include="Views\Suppliers\" />
     <Folder Include="wwwroot\lib\" />
   </ItemGroup>

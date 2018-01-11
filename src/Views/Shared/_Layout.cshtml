@@ -13,6 +13,7 @@
             $("div#main-top").css("height", $("div.leftnav ul li").height() + 1 + "px");
             $("div#main").css("min-height", $("div.leftnav").height() + "px");
             $("table.results tr:even").addClass("shaded");
+            $("#main-bottom").css("min-height", $(document).height() - 175 + "px");
 
             $("li.inline-tab").on("click", function () {
                 $("li.inline-tab").removeClass("active");
@@ -46,7 +47,7 @@
                     <li><a asp-action="Events"><span class="glyphicon glyphicon-barcode"></span>Events</a></li>
                     <li><a asp-action="Customers"><span class="glyphicon glyphicon-user"></span>Customers</a></li>
                     <li><a asp-action="Reports"><span class="glyphicon glyphicon-signal"></span>Reports</a></li>
-                    <li><a asp-action="Admin"><span class="glyphicon glyphicon-cog"></span>Admin</a></li>
+                    <li><a asp-controller="Admin" asp-action="Index"><span class="glyphicon glyphicon-cog"></span>Admin</a></li>
                 </ul>
             </div><div id="main">
                 <div id="main-top" class="lead">

@@ -170,3 +170,7 @@ th {
     position: static;
 }
 
+.validation-summary-errors ul {
+    padding-left: 10px;
+    list-style-type: disc;
+}

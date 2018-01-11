@@ -9,10 +9,11 @@ CREATE FUNCTION public.initialize_audit_columns()
     VOLATILE NOT LEAKPROOF 
     ROWS 0
 AS $BODY$
+
 begin
   new.useraddedby = session_user;
   new.dateadded = date_trunc('second', current_timestamp);
-  new.userlastupdatedby = session_user;
+  new.userupdatedby = session_user;
   new.dateupdated = date_trunc('second', current_timestamp);
   return new;
 end;

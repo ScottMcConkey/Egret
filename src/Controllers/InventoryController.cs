@@ -108,10 +108,7 @@ namespace Egret.Controllers
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> Edit(string id, [Bind("Code,Description,Category,Comment,Sellprice,Sellcurrency,Sellunit,Buyprice,Buycurrency,Buyunit,Stockvalue,SupplierFk,Salesacct,Stockacct,Cogacct,Sohcount,Stocktakenewqty,Flags,Qtybrksellprice,Costprice,Isconversion,Conversionsource,Useraddedby,Userupdatedby,Dateadded,Dateupdated")] InventoryItem inventoryItems)
         {
-            if (id != inventoryItems.Code)
-            {
-                return NotFound();
-            }
+            
 
             if (ModelState.IsValid)
             {
@@ -139,6 +136,7 @@ namespace Egret.Controllers
             ViewData["Sellcurrency"] = new SelectList(_context.CurrencyTypes, "Abbreviation", "Abbreviation", inventoryItems.Sellcurrency);
             ViewData["Sellunit"] = new SelectList(_context.Units, "Abbreviation", "Abbreviation", inventoryItems.Sellunit);
             return View(inventoryItems);
+            //return View("Index");
         }
 
         // GET: Inventory/Delete/5
