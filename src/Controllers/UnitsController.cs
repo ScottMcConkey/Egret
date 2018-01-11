@@ -19,10 +19,56 @@ namespace Egret.Controllers
         }
 
         // GET: Unit
-        public async Task<IActionResult> Index()
+        public async Task<IActionResult> Edit()
         {
-            var egretContext = _context.Units;
+            var egretContext = _context.Units.OrderBy(x => x.Sortorder);
             return View(await egretContext.ToListAsync());
+        }
+
+        [HttpPost]
+        [ValidateAntiForgeryToken]
+        public string Edit([Bind("Id, Name, Abbreviation, Sortorder, Active")] List<Unit> units)
+        {
+
+            if (ModelState.IsValid)
+            {
+                foreach (var i in units)
+                {
+                    try
+                    {
+                        _context.Update(i);
+
+                    }
+                    catch (DbUpdateException)
+                    {
+                        //throw;
+                    }
+                    //return "dur"; // RedirectToAction(nameof(Index));
+                }
+                //_context.SaveChanges();
+            }
+
+            string test = "";
+            foreach (var i in units)
+            {
+                test += " " + i.Abbreviation;
+                //= units[5].Abbreviation.ToString();
+            }
+
+            //try
+            //{
+            //    
+            //    
+            //}
+            //catch (Exception ex)
+            //{
+            //    //return ex.ToString();
+            //}
+            ////if (ModelState.IsValid)
+            //{
+            //    return RedirectToAction(nameof(Index));
+            //}
+            return test;// View(test);
         }
 
         // GET: Unit/Create
@@ -48,11 +94,6 @@ namespace Egret.Controllers
         //    }
         //}
 
-        // GET: Unit/Edit/5
-        public ActionResult Edit(int id)
-        {
-            return View();
-        }
 
         // POST: Unit/Edit/5
         //[HttpPost]

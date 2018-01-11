@@ -1,0 +1,62 @@
+﻿@model List<Egret.DataAccess.Unit>
+
+@{
+    ViewData["Title"] = "Edit";
+    ViewBag.Notice = "Units";
+}
+
+<br />
+
+<p>
+    <a asp-action="Create">Create New</a>
+</p>
+
+<form asp-action="Edit" method="post">
+
+    <table class="table">
+        <thead>
+            <tr>
+                <th>
+                    @Html.DisplayNameFor(model => model[0].Name)
+                </th>
+                <th>
+                    @Html.DisplayNameFor(model => model[0].Abbreviation)
+                </th>
+                <th>
+                    @Html.DisplayNameFor(model => model[0].Sortorder)
+                </th>
+                <th>
+                    @Html.DisplayNameFor(model => model[0].Active)
+                </th>
+                <th></th>
+            </tr>
+        </thead>
+        <tbody>
+            @for (int i = 0; i < Model.Count(); i++)
+            {
+            <tr>
+                <td>
+                    <input asp-for="@Model[i].Name" class="form-control" />
+                </td>
+                <td>
+                    <input asp-for="@Model[i].Abbreviation" class="form-control" />
+                </td>
+                <td>
+                    <input asp-for="@Model[i].Sortorder" class="form-control" />
+                </td>
+                <td>
+                    <input type="checkbox" asp-for="@Model[i].Active" class="form-control" />
+                </td>
+                <td>
+                    <a asp-action="Delete" asp-route-id="@Model[i].Id">Delete</a>
+                </td>
+            </tr>
+            }
+        </tbody>
+    </table>
+
+    <div class="form-group">
+        <input type="submit" value="Save" class="btn btn-default" />
+    </div>
+
+</form>
