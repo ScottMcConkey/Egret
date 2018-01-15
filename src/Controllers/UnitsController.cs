@@ -19,56 +19,43 @@ namespace Egret.Controllers
         }
 
         // GET: Unit
-        public async Task<IActionResult> Edit()
+        public IActionResult Edit()
         {
             var egretContext = _context.Units.OrderBy(x => x.Sortorder);
-            return View(await egretContext.ToListAsync());
+            return View(egretContext.ToList());
         }
 
+        // POST: Unit/Edit/5
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public string Edit([Bind("Id, Name, Abbreviation, Sortorder, Active")] List<Unit> units)
+        public IActionResult Edit(List<Unit> units)
         {
 
-            if (ModelState.IsValid)
+            for (int i = 0; i < units.Count; i++)
             {
-                foreach (var i in units)
-                {
-                    try
-                    {
-                        _context.Update(i);
-
-                    }
-                    catch (DbUpdateException)
-                    {
-                        //throw;
-                    }
-                    //return "dur"; // RedirectToAction(nameof(Index));
-                }
-                //_context.SaveChanges();
+                _context.Update(units[i]);
             }
 
-            string test = "";
-            foreach (var i in units)
-            {
-                test += " " + i.Abbreviation;
-                //= units[5].Abbreviation.ToString();
-            }
+            _context.SaveChanges();
 
-            //try
+
+            //for (int i = 0; i < units.Count; i++)
             //{
+            //    test += units[i].Id + " ";
+            //    test += units[i].Name + " ";
+            //    test += units[i].Abbreviation + " ";
+            //    test += units[i].Sortorder + " ";
+            //    test += units[i].Active + " ";
+            //
             //    
-            //    
+            //    //var ent = _context.Find<Unit>(units[i].Id);
+            //    //test += ent.ToString();
+            //
+            //    test += " \n";
+            //
             //}
-            //catch (Exception ex)
-            //{
-            //    //return ex.ToString();
-            //}
-            ////if (ModelState.IsValid)
-            //{
-            //    return RedirectToAction(nameof(Index));
-            //}
-            return test;// View(test);
+
+            return RedirectToAction(nameof(Edit));
         }
 
         // GET: Unit/Create

@@ -10,6 +10,7 @@ namespace Egret.DataAccess
         public virtual DbSet<InventoryCategory> InventoryCategories { get; set; }
         public virtual DbSet<InventoryItem> InventoryItems { get; set; }
         public virtual DbSet<Unit> Units { get; set; }
+        public virtual DbSet<Supplier> Suppliers { get; set; }
 
         protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
         {
@@ -102,7 +103,7 @@ namespace Egret.DataAccess
 
                 entity.Property(e => e.Buyprice).HasColumnName("buyprice");
 
-                entity.Property(e => e.Buyunit).HasColumnName("buyunit");
+                entity.Property(e => e.Buyunit).HasColumnName("buyunit_fk");
 
                 entity.Property(e => e.Category).HasColumnName("category");
 
@@ -134,7 +135,7 @@ namespace Egret.DataAccess
 
                 entity.Property(e => e.Sellprice).HasColumnName("sellprice");
 
-                entity.Property(e => e.Sellunit).HasColumnName("sellunit");
+                entity.Property(e => e.Sellunit).HasColumnName("sellunit_fk");
 
                 entity.Property(e => e.Sohcount).HasColumnName("sohcount");
 
@@ -144,7 +145,7 @@ namespace Egret.DataAccess
 
                 entity.Property(e => e.Stockvalue).HasColumnName("stockvalue");
 
-                entity.Property(e => e.SupplierFk).HasColumnName("supplier_fk");
+                entity.Property(e => e.Supplier).HasColumnName("supplier_fk");
 
                 entity.Property(e => e.Addedby).HasColumnName("useraddedby");
 
@@ -158,7 +159,7 @@ namespace Egret.DataAccess
 
                 entity.HasOne(d => d.BuyunitNavigation)
                     .WithMany(p => p.InventoryItemsBuyunitNavigation)
-                    .HasPrincipalKey(p => p.Abbreviation)
+                    .HasPrincipalKey(p => p.Id)
                     .HasForeignKey(d => d.Buyunit)
                     .HasConstraintName("inventory_items_buyunit_fk");
 
@@ -176,7 +177,7 @@ namespace Egret.DataAccess
 
                 entity.HasOne(d => d.SellunitNavigation)
                     .WithMany(p => p.InventoryItemsSellunitNavigation)
-                    .HasPrincipalKey(p => p.Abbreviation)
+                    .HasPrincipalKey(p => p.Id)
                     .HasForeignKey(d => d.Sellunit)
                     .HasConstraintName("inventory_items_sellunit_fk");
             });
@@ -185,29 +186,54 @@ namespace Egret.DataAccess
             {
                 entity.ToTable("units", "admin");
 
-                entity.HasIndex(e => e.Abbreviation)
-                    .HasName("units_abbreviation_key")
-                    .IsUnique();
-
                 entity.HasIndex(e => e.Sortorder)
                     .HasName("units_sort_key")
+                    .IsUnique();
+
+                entity.HasIndex(e => e.Abbreviation)
+                    .HasName("units_abbreviation_key")
                     .IsUnique();
 
                 entity.Property(e => e.Id)
                     .HasColumnName("id")
                     .HasDefaultValueSql("nextval('admin.units_id_seq'::regclass)");
 
+                entity.Property(e => e.Name)
+                    .IsRequired()
+                    .HasColumnName("name");
+
                 entity.Property(e => e.Abbreviation)
                     .IsRequired()
                     .HasColumnName("abbreviation");
 
-                entity.Property(e => e.Active).HasColumnName("active");
+                entity.Property(e => e.Sortorder)
+                    .HasColumnName("sortorder");
+
+                entity.Property(e => e.Active)
+                    .HasColumnName("active");
+
+            });
+
+            modelBuilder.Entity<Supplier>(entity =>
+            {
+                entity.ToTable("suppliers", "public");
+
+                entity.HasIndex(e => e.Id)
+                    .HasName("suppliers_pkey")
+                    .IsUnique();
+
+                entity.Property(e => e.Id)
+                    .HasColumnName("id")
+                    .ValueGeneratedNever();
+
+                entity.Property(e => e.Id).HasColumnName("id");
+
+                entity.Property(e => e.Name).HasColumnName("name");
 
                 entity.Property(e => e.Name)
                     .IsRequired()
                     .HasColumnName("name");
 
-                entity.Property(e => e.Sortorder).HasColumnName("sortorder");
             });
         }
     }

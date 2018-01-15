@@ -13,16 +13,16 @@ namespace Egret.DataAccess
         [Display(Name = "Sell Price")]
         public double? Sellprice { get; set; }
         public string Sellcurrency { get; set; }
-        public string Sellunit { get; set; }
+        public int? Sellunit { get; set; }
         [Display(Name = "Buy Price")]
         public double? Buyprice { get; set; }
         public string Buycurrency { get; set; }
-        public string Buyunit { get; set; }
+        public int? Buyunit { get; set; }
         [Display(Name = "Stock Value")]
         public double? Stockvalue { get; set; }
         [Display(Name = "Supplier")]
         [UIHint("Text")]
-        public int? SupplierFk { get; set; }
+        public int? Supplier { get; set; }
         [Display(Name = "Sales Acct")]
         [UIHint("Text")]
         public int? Salesacct { get; set; }

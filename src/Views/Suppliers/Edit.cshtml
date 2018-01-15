@@ -1,0 +1,44 @@
+﻿@model List<Supplier>
+
+@{
+    ViewData["Title"] = "View";
+    ViewBag.Notice = "Suppliers";
+}
+
+<br />
+
+<p>
+    <a asp-action="Create">Create New</a>
+</p>
+
+<br />
+
+<form asp-action="Edit" method="post">
+    <table class="table">
+        <thead>
+            <tr>
+                <th>
+                    @Html.DisplayNameFor(model => model[0].Name)
+                </th>
+            </tr>
+        </thead>
+        <tbody>
+            @for (int i = 0; i < Model.Count; i++)
+            {
+                <tr>
+                    <td>
+                        <input type="hidden" asp-for="@Model[i].Id" />
+                        <input type="text" asp-for="@Model[i].Name" />
+                    </td>
+                </tr>
+            }
+        </tbody>
+    </table>
+
+    <div class="form-group">
+        <input type="submit" value="Save" class="btn btn-default" />
+    </div>
+
+</form>
+
+
