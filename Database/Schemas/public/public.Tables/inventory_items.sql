@@ -35,12 +35,20 @@ CREATE TABLE public.inventory_items
         REFERENCES admin.currency_types (abbreviation) MATCH SIMPLE
         ON UPDATE NO ACTION
         ON DELETE NO ACTION,
+    CONSTRAINT inventory_items_buyunit_fk FOREIGN KEY (buyunit_fk)
+        REFERENCES admin.units (id) MATCH SIMPLE
+        ON UPDATE NO ACTION
+        ON DELETE NO ACTION,
     CONSTRAINT inventory_items_category_fk FOREIGN KEY (category)
         REFERENCES admin.inventory_categories (name) MATCH SIMPLE
         ON UPDATE NO ACTION
         ON DELETE NO ACTION,
     CONSTRAINT inventory_items_sellcurrency_fk FOREIGN KEY (sellcurrency)
         REFERENCES admin.currency_types (abbreviation) MATCH SIMPLE
+        ON UPDATE NO ACTION
+        ON DELETE NO ACTION,
+    CONSTRAINT inventory_items_sellunit_fk FOREIGN KEY (sellunit_fk)
+        REFERENCES admin.units (id) MATCH SIMPLE
         ON UPDATE NO ACTION
         ON DELETE NO ACTION
 )
