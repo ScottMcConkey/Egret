@@ -94,10 +94,10 @@ namespace Egret.Controllers
                 return NotFound();
             }
             ViewData["Buycurrency"] = new SelectList(_context.CurrencyTypes, "Abbreviation", "Abbreviation", inventoryItems.Buycurrency);
-            ViewData["Buyunit"] = new SelectList(_context.Units, "Id", "Abbreviation", inventoryItems.Buyunit);
+            ViewData["Buyunit"] = new SelectList(_context.Units.Where(x => x.Active == true).OrderBy(x => x.Sortorder), "Id", "Abbreviation", inventoryItems.Buyunit);
             ViewData["Category"] = new SelectList(_context.InventoryCategories.Where(x => x.Active == true).OrderBy(x => x.Sortorder), "Name", "Name", inventoryItems.Category);
             ViewData["Sellcurrency"] = new SelectList(_context.CurrencyTypes, "Id", "Abbreviation", inventoryItems.Sellcurrency);
-            ViewData["Sellunit"] = new SelectList(_context.Units, "Abbreviation", "Abbreviation", inventoryItems.Sellunit);
+            ViewData["Sellunit"] = new SelectList(_context.Units.Where(x => x.Active == true).OrderBy(x => x.Sortorder), "Abbreviation", "Abbreviation", inventoryItems.Sellunit);
             return View(inventoryItems);
         }
 

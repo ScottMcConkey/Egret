@@ -36,7 +36,9 @@ namespace Egret.Controllers
                 _context.Update(units[i]);
             }
 
+
             _context.SaveChanges();
+            
 
 
             //for (int i = 0; i < units.Count; i++)
@@ -61,65 +63,44 @@ namespace Egret.Controllers
         // GET: Unit/Create
         public ActionResult Create()
         {
+            ViewData["DefaultSortOrder"] = _context.Units.Max(x => x.Sortorder) + 1;
             return View();
         }
 
         // POST: Unit/Create
-        //[HttpPost]
-        //[ValidateAntiForgeryToken]
-        //public ActionResult Create(IFormCollection collection)
-        //{
-        //    try
-        //    {
-        //        // TODO: Add insert logic here
-        //
-        //        return RedirectToAction(nameof(Index));
-        //    }
-        //    catch
-        //    {
-        //        return View();
-        //    }
-        //}
-
-
-        // POST: Unit/Edit/5
-        //[HttpPost]
-        //[ValidateAntiForgeryToken]
-        //public ActionResult Edit(int id, IFormCollection collection)
-        //{
-        //    try
-        //    {
-        //        // TODO: Add update logic here
-        //
-        //        return RedirectToAction(nameof(Index));
-        //    }
-        //    catch
-        //    {
-        //        return View();
-        //    }
-        //}
-
-        // GET: Unit/Delete/5
-        public ActionResult Delete(int id)
+        [HttpPost]
+        [ValidateAntiForgeryToken]
+        public ActionResult Create(Unit unit)
         {
-            return View();
+            if (ModelState.IsValid)
+            {
+                try
+                {
+                    _context.Add(unit);
+                    _context.SaveChanges();
+                }
+                catch
+                {
+                    //ViewData[ExceptionResults] = Exception;
+                    return View();
+                }
+                
+            }
+
+            return RedirectToAction(nameof(Edit));
+
         }
 
-        // POST: Unit/Delete/5
-        //[HttpPost]
-        //[ValidateAntiForgeryToken]
-        //public ActionResult Delete(int id, IFormCollection collection)
-        //{
-        //    try
-        //    {
-        //        // TODO: Add delete logic here
-        //
-        //        return RedirectToAction(nameof(Index));
-        //    }
-        //    catch
-        //    {
-        //        return View();
-        //    }
-        //}
+        // GET: Unit/Delete/5
+        [ActionName("Delete")]
+        public ActionResult Delete(int id)
+        {
+            var unit = _context.Units.SingleOrDefault(m => m.Id == id);
+            _context.Units.Remove(unit);
+            _context.SaveChanges();
+            return RedirectToAction(nameof(Edit));
+        }
+
+
     }
 }

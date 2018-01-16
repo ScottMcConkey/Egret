@@ -161,7 +161,8 @@ namespace Egret.DataAccess
                     .WithMany(p => p.InventoryItemsBuyunitNavigation)
                     .HasPrincipalKey(p => p.Id)
                     .HasForeignKey(d => d.Buyunit)
-                    .HasConstraintName("inventory_items_buyunit_fk");
+                    .HasConstraintName("inventory_items_buyunit_fk")
+                    .OnDelete(DeleteBehavior.Restrict);
 
                 entity.HasOne(d => d.CategoryNavigation)
                     .WithMany(p => p.InventoryItems)
@@ -173,13 +174,15 @@ namespace Egret.DataAccess
                     .WithMany(p => p.InventoryItemsSellcurrencyNavigation)
                     .HasPrincipalKey(p => p.Abbreviation)
                     .HasForeignKey(d => d.Sellcurrency)
-                    .HasConstraintName("inventory_items_sellcurrency_fk");
+                    .HasConstraintName("inventory_items_sellcurrency_fk")
+                    .OnDelete(DeleteBehavior.Restrict);
 
                 entity.HasOne(d => d.SellunitNavigation)
                     .WithMany(p => p.InventoryItemsSellunitNavigation)
                     .HasPrincipalKey(p => p.Id)
                     .HasForeignKey(d => d.Sellunit)
-                    .HasConstraintName("inventory_items_sellunit_fk");
+                    .HasConstraintName("inventory_items_sellunit_fk")
+                    .OnDelete(DeleteBehavior.Restrict);
             });
 
             modelBuilder.Entity<Unit>(entity =>

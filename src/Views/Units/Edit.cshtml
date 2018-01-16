@@ -11,6 +11,8 @@
     <a asp-action="Create">Create New</a>
 </p>
 
+<br />
+
 <form asp-action="Edit" method="post">
 
     <table class="table">
@@ -28,7 +30,6 @@
                 <th>
                     @Html.DisplayNameFor(model => model[0].Active)
                 </th>
-                <th></th>
             </tr>
         </thead>
         <tbody>
@@ -48,6 +49,9 @@
                 </td>
                 <td>
                     <input type="checkbox" asp-for="@Model[i].Active" class="form-control" />
+                </td>
+                <td>
+                    <a asp-action="Delete" asp-route-id="@Model[i].Id" asp- style="color: red; font-size: 25px; font-weight: bold; text-decoration: none;"  title="Delete">&times;</a>
                 </td>
             </tr>
             }
