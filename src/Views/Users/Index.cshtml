@@ -1,0 +1,19 @@
+﻿@model Dictionary<string, object>
+@{
+    ViewData["Title"] = "Index";
+}
+
+<h2>Index</h2>
+
+<div class="bg-primary panel-body">
+    <h4>User Details</h4>
+</div>
+
+<table class="table table-condensed table-bordered">
+    @foreach (var kvp in Model)
+    {
+        <tr><th>@kvp.Key</th><td>@kvp.Value</td></tr>
+
+    }
+</table>
+

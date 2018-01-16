@@ -19,45 +19,39 @@ namespace Egret.Controllers
         }
 
         // GET: Unit
-        public IActionResult Edit()
+        public IActionResult Index()
         {
             var egretContext = _context.Units.OrderBy(x => x.Sortorder);
             return View(egretContext.ToList());
         }
 
-        // POST: Unit/Edit/5
+        // POST: Unit/Index/5
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public IActionResult Edit(List<Unit> units)
+        public IActionResult Index(List<Unit> units)
         {
-
-            for (int i = 0; i < units.Count; i++)
+            if (ModelState.IsValid)
             {
-                _context.Update(units[i]);
+                for (int i = 0; i < units.Count; i++)
+                {
+                    try
+                    {
+                        _context.Update(units[i]);
+                    }
+                    catch (DbUpdateConcurrencyException)
+                    {
+
+                    }
+                    
+                }
+
             }
 
 
+
             _context.SaveChanges();
-            
 
-
-            //for (int i = 0; i < units.Count; i++)
-            //{
-            //    test += units[i].Id + " ";
-            //    test += units[i].Name + " ";
-            //    test += units[i].Abbreviation + " ";
-            //    test += units[i].Sortorder + " ";
-            //    test += units[i].Active + " ";
-            //
-            //    
-            //    //var ent = _context.Find<Unit>(units[i].Id);
-            //    //test += ent.ToString();
-            //
-            //    test += " \n";
-            //
-            //}
-
-            return RedirectToAction(nameof(Edit));
+            return RedirectToAction(nameof(Index));
         }
 
         // GET: Unit/Create
@@ -87,7 +81,7 @@ namespace Egret.Controllers
                 
             }
 
-            return RedirectToAction(nameof(Edit));
+            return RedirectToAction(nameof(Index));
 
         }
 
@@ -98,7 +92,7 @@ namespace Egret.Controllers
             var unit = _context.Units.SingleOrDefault(m => m.Id == id);
             _context.Units.Remove(unit);
             _context.SaveChanges();
-            return RedirectToAction(nameof(Edit));
+            return RedirectToAction(nameof(Index));
         }
 
 

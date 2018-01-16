@@ -1,16 +1,22 @@
 ﻿using System;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.AspNetCore.Identity.EntityFrameworkCore;
+using Egret.Models;
 
 namespace Egret.DataAccess
 {
-    public partial class EgretContext : DbContext
+    public partial class EgretContext : DbContext //IdentityDbContext
     {
         public virtual DbSet<CurrencyType> CurrencyTypes { get; set; }
         public virtual DbSet<InventoryCategory> InventoryCategories { get; set; }
         public virtual DbSet<InventoryItem> InventoryItems { get; set; }
         public virtual DbSet<Unit> Units { get; set; }
         public virtual DbSet<Supplier> Suppliers { get; set; }
+        //public virtual DbSet<Role> Roles { get; set; }
+
+        public EgretContext(DbContextOptions<EgretContext> options)
+            : base(options) { }
 
         protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
         {
@@ -19,11 +25,17 @@ namespace Egret.DataAccess
                 #warning To protect potentially sensitive information in your connection string, you should move it out of source code. See http://go.microsoft.com/fwlink/?LinkId=723263 for guidance on storing connection strings.
                 optionsBuilder.UseNpgsql(@"Server=localhost;Database=Egret;User Id=postgres;Password=postgres;");
             }
+            //optionsBuilder.UseNpgsql(@"Server=localhost;Database=Egret;User Id=postgres;Password=postgres;");
         }
 
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
             modelBuilder.HasPostgresExtension("adminpack");
+
+            //modelBuilder.Entity<ApplicationRole>(entity =>
+            //{
+            //    entity.ToTable("");
+            //}
 
             modelBuilder.Entity<CurrencyType>(entity =>
             {
