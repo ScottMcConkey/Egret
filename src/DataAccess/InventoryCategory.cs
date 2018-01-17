@@ -16,7 +16,7 @@ namespace Egret.DataAccess
         public string Description { get; set; }
         [Display(Name = "Sort Order")]
         public int Sortorder { get; set; }
-        public bool? Active { get; set; }
+        public bool Active { get; set; }
 
         public ICollection<InventoryItem> InventoryItems { get; set; }
     }

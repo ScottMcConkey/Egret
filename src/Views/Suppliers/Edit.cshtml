@@ -1,17 +1,13 @@
 ﻿@model List<Supplier>
 
 @{
-    ViewData["Title"] = "View";
-    ViewBag.Notice = "Suppliers";
+    ViewData["Title"] = "Suppliers";
+    ViewData["HeaderText"] = "Suppliers";
 }
 
-<br />
-
 <p>
-    <a asp-action="Create">Create New</a>
+    <a asp-action="Create" class="page-nav-container">Create New</a>
 </p>
-
-<br />
 
 <form asp-action="Edit" method="post">
     <table class="table">

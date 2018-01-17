@@ -28,11 +28,18 @@
                     $(".tab-2").css("display", "block");
                 }
             });
+
+            $(".radio[value='False']").removeAttr("checked");
+
+            $(".radio").on("click", function () {
+                $(".radio").attr("checked", false).attr("value", false);
+                $(this).prop("checked", true).attr("value", true);
+            })
         });
 
     </script>
 
-    <title>@ViewBag.Title</title>
+    <title>@ViewData["Title"]</title>
 </head>
 <body>
     <div class="titleband">Egret</div>
@@ -51,7 +58,7 @@
                 </ul>
             </div><div id="main">
                 <div id="main-top" class="lead">
-                    @ViewBag.Notice
+                    @ViewData["HeaderText"]
                 </div>
                 <div id="main-bottom">
                     @RenderBody()

@@ -1,0 +1,66 @@
+﻿@model List<InventoryCategory>
+
+@{
+    ViewData["Title"] = "Admin - Inventory Categories";
+    ViewData["HeaderText"] = "Inventory Categories";
+}
+
+<p class="page-nav-container">
+    <a asp-action="Create">Create New</a>
+</p>
+
+<form asp-action="Index" method="post">
+
+    <table class="table">
+        <thead>
+            <tr>
+                <th>
+                    @Html.DisplayNameFor(model => model[0].Name)
+                </th>
+                <th>
+                    @Html.DisplayNameFor(model => model[0].Description)
+                </th>
+                <th>
+                    @Html.DisplayNameFor(model => model[0].Sortorder)
+                </th>
+                <th>
+                    @Html.DisplayNameFor(model => model[0].Active)
+                </th>
+            </tr>
+        </thead>
+        <tbody>
+            @for (int i = 0; i < Model.Count; i++)
+            {
+                <tr>
+
+                    <td>
+                        <input type="hidden" asp-for="@Model[i].Id" />
+                        <input asp-for="@Model[i].Name" class="form-control" />
+                    </td>
+                    <td>
+                        <input asp-for="@Model[i].Description" class="form-control" />
+                    </td>
+                    <td>
+                        <input asp-for="@Model[i].Sortorder" class="form-control" />
+                    </td>
+                    <td>
+                        <input type="checkbox" asp-for="@Model[i].Active" class="form-control" />
+                    </td>
+                    <td>
+                        <a asp-action="Delete" asp-route-id="@Model[i].Id" asp- style="color: red; font-size: 25px; font-weight: bold; text-decoration: none;" title="Delete">&times;</a>
+                    </td>
+                </tr>
+            }
+        </tbody>
+    </table>
+
+    <div class="form-group">
+        <input type="submit" value="Save" class="btn btn-default" />
+    </div>
+
+</form>
+
+<div>
+    <a asp-controller="Admin" asp-action="Index">Back to Admin</a>
+</div>
+

@@ -117,6 +117,7 @@ hr {
         background-color: transparent;
         display: block;
         padding-left: 20px;
+        padding-bottom: 20px;
         margin: 0;
     }
 
@@ -145,18 +146,6 @@ th {
     cursor: pointer;
 }
 
-.table {
-    display: table;
-}
-
-.table-row {
-    display: table-row;
-}
-
-.table-cell {
-    display: table-cell;
-}
-
 /* Manage tabs */
 .tab-page {
     display: none;
@@ -173,4 +162,17 @@ th {
 .validation-summary-errors ul {
     padding-left: 10px;
     list-style-type: disc;
+}
+
+.page-nav-container {
+    display: block;
+    margin-top: 12px;
+    margin-bottom: 12px;
+}
+
+.delete, .delete:hover {
+    color: red;
+    font-size: 25px;
+    font-weight: bold;
+    text-decoration: none;
 }

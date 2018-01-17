@@ -1,10 +1,8 @@
-﻿@model List<Unit>
-
+﻿@model List<CurrencyType>
 @{
-    ViewData["Title"] = "Admin - Units";
-    ViewData["HeaderText"] = "Units";
+    ViewData["Title"] = "Admin - Currency Types";
+    ViewData["HeaderText"] = "Currency Types";
 }
-
 
 <p class="page-nav-container">
     <a asp-action="Create">Create New</a>
@@ -19,6 +17,9 @@
                     @Html.DisplayNameFor(model => model[0].Name)
                 </th>
                 <th>
+                    @Html.DisplayNameFor(model => model[0].Symbol)
+                </th>
+                <th>
                     @Html.DisplayNameFor(model => model[0].Abbreviation)
                 </th>
                 <th>
@@ -27,16 +28,22 @@
                 <th>
                     @Html.DisplayNameFor(model => model[0].Active)
                 </th>
+                <th>
+                    @Html.DisplayNameFor(model => model[0].Defaultselection)
+                </th>
             </tr>
         </thead>
         <tbody>
             @for (int i = 0; i < Model.Count; i++)
             {
             <tr>
-                
+
                 <td>
                     <input type="hidden" asp-for="@Model[i].Id" />
                     <input asp-for="@Model[i].Name" class="form-control" />
+                </td>
+                <td>
+                    <input asp-for="@Model[i].Symbol" class="form-control" />
                 </td>
                 <td>
                     <input asp-for="@Model[i].Abbreviation" class="form-control" />
@@ -48,9 +55,13 @@
                     <input type="checkbox" asp-for="@Model[i].Active" class="form-control" />
                 </td>
                 <td>
+                    <input type="radio" asp-for="@Model[i].Defaultselection" value="@Model[i].Defaultselection" class="form-control radio" />
+                </td>
+                <td>
                     <a asp-action="Delete" asp-route-id="@Model[i].Id" class="delete" title="Delete">&times;</a>
                 </td>
             </tr>
+
             }
         </tbody>
     </table>

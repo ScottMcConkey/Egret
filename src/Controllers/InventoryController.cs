@@ -6,6 +6,7 @@ using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.Rendering;
 using Microsoft.EntityFrameworkCore;
 using Egret.DataAccess;
+using Egret.Models;
 
 namespace Egret.Controllers
 {

@@ -1,24 +1,16 @@
 ﻿
 @{
     ViewData["Title"] = "Administration";
-    ViewBag.Notice = "Administration";
+    ViewData["HeaderText"] = "Administration";
 }
 
-<br />
-
-<p>
-    <a class="test" asp-controller="CurrencyTypes" asp-action="Edit">Currency Types</a>
+<p class="page-nav-container">
+    <a asp-controller="CurrencyTypes" asp-action="Index">Currency Types</a>
 </p>
-
-<br />
-
-<p>
-    <a class="test" asp-controller="Categories" asp-action="Edit">Inventory Categories</a>
+<p class="page-nav-container">
+    <a asp-controller="InventoryCategories" asp-action="Index">Inventory Categories</a>
 </p>
-
-<br />
-
-<p>
-    <a class="test" asp-controller="Units" asp-action="Index">Units</a>
+<p class="page-nav-container">
+    <a asp-controller="Units" asp-action="Index">Units</a>
 </p>
 

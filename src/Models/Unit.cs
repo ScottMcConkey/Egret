@@ -1,8 +1,9 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
+using Egret.DataAccess;
 
-namespace Egret.DataAccess
+namespace Egret.Models
 {
     public partial class Unit
     {

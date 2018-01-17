@@ -2,49 +2,48 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
+using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
-using Microsoft.AspNetCore.Mvc.Rendering;
 using Microsoft.EntityFrameworkCore;
 using Egret.DataAccess;
 using Egret.Models;
 
 namespace Egret.Controllers
 {
-    public class UnitsController : Controller
+    public class InventoryCategoriesController : Controller
     {
         private readonly EgretContext _context;
 
-        public UnitsController(EgretContext context)
+        public InventoryCategoriesController(EgretContext context)
         {
             _context = context;
         }
 
-        // GET: Unit
+        // GET: InventoryCategories
         public IActionResult Index()
         {
-            var egretContext = _context.Units.OrderBy(x => x.Sortorder);
+            var egretContext = _context.InventoryCategories.OrderBy(x => x.Sortorder);
             return View(egretContext.ToList());
         }
 
-        // POST: Unit/Index/5
+        // POST: InventoryCategories/Index/5
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public IActionResult Index(List<Unit> units)
+        public IActionResult Index(List<InventoryCategory> inventoryCategories)
         {
             if (ModelState.IsValid)
             {
-                for (int i = 0; i < units.Count; i++)
+                for (int i = 0; i < inventoryCategories.Count; i++)
                 {
                     try
                     {
-                        _context.Update(units[i]);
+                        _context.Update(inventoryCategories[i]);
                     }
                     catch (DbUpdateConcurrencyException)
                     {
 
                     }
                 }
-
             }
 
             _context.SaveChanges();
@@ -52,47 +51,41 @@ namespace Egret.Controllers
             return RedirectToAction(nameof(Index));
         }
 
-        // GET: Unit/Create
+        // GET: InventoryCategories/Create
         public ActionResult Create()
         {
-            ViewData["DefaultSortOrder"] = _context.Units.Max(x => x.Sortorder) + 1;
+            ViewData["DefaultSortOrder"] = _context.InventoryCategories.Max(x => x.Sortorder) + 1;
             return View();
         }
 
-        // POST: Unit/Create
+        // POST: InventoryCategories/Create
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public ActionResult Create(Unit unit)
+        public ActionResult Create(InventoryCategory category)
         {
             if (ModelState.IsValid)
             {
                 try
                 {
-                    _context.Add(unit);
+                    _context.Add(category);
                     _context.SaveChanges();
                 }
                 catch
                 {
-                    //ViewData[ExceptionResults] = Exception;
                     return View();
                 }
-                
             }
-
             return RedirectToAction(nameof(Index));
-
         }
 
-        // GET: Unit/Delete/5
+        // GET: InventoryCategories/Delete/5
         [ActionName("Delete")]
         public ActionResult Delete(int id)
         {
-            var unit = _context.Units.SingleOrDefault(m => m.Id == id);
-            _context.Units.Remove(unit);
+            var category = _context.InventoryCategories.SingleOrDefault(m => m.Id == id);
+            _context.InventoryCategories.Remove(category);
             _context.SaveChanges();
             return RedirectToAction(nameof(Index));
         }
-
-
     }
 }

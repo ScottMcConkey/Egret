@@ -32,11 +32,6 @@ namespace Egret.DataAccess
         {
             modelBuilder.HasPostgresExtension("adminpack");
 
-            //modelBuilder.Entity<ApplicationRole>(entity =>
-            //{
-            //    entity.ToTable("");
-            //}
-
             modelBuilder.Entity<CurrencyType>(entity =>
             {
                 entity.ToTable("currency_types", "admin");
@@ -90,15 +85,18 @@ namespace Egret.DataAccess
                     .HasColumnName("id")
                     .HasDefaultValueSql("nextval('admin.inventory_categories_id_seq'::regclass)");
 
-                entity.Property(e => e.Active).HasColumnName("active");
+                entity.Property(e => e.Active)
+                    .HasColumnName("active");
 
-                entity.Property(e => e.Description).HasColumnName("description");
+                entity.Property(e => e.Description)
+                    .HasColumnName("description");
 
                 entity.Property(e => e.Name)
                     .IsRequired()
                     .HasColumnName("name");
 
-                entity.Property(e => e.Sortorder).HasColumnName("sortorder");
+                entity.Property(e => e.Sortorder)
+                    .HasColumnName("sortorder");
             });
 
             modelBuilder.Entity<InventoryItem>(entity =>

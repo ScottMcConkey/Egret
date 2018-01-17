@@ -8,7 +8,7 @@ using Egret.Models;
 
 namespace Egret.DataAccess
 {
-    public class UserController : Controller
+    public class UsersController : Controller
     {
         //private UserManager<User> userManager;
         //
