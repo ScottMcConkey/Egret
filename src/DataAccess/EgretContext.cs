@@ -18,16 +18,6 @@ namespace Egret.DataAccess
         public EgretContext(DbContextOptions<EgretContext> options)
             : base(options) { }
 
-        protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
-        {
-            if (!optionsBuilder.IsConfigured)
-            {
-                #warning To protect potentially sensitive information in your connection string, you should move it out of source code. See http://go.microsoft.com/fwlink/?LinkId=723263 for guidance on storing connection strings.
-                optionsBuilder.UseNpgsql(@"Server=localhost;Database=Egret;User Id=postgres;Password=postgres;");
-            }
-            //optionsBuilder.UseNpgsql(@"Server=localhost;Database=Egret;User Id=postgres;Password=postgres;");
-        }
-
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
             modelBuilder.HasPostgresExtension("adminpack");
@@ -52,9 +42,11 @@ namespace Egret.DataAccess
                     .IsRequired()
                     .HasColumnName("abbreviation");
 
-                entity.Property(e => e.Active).HasColumnName("active");
+                entity.Property(e => e.Active)
+                    .HasColumnName("active");
 
-                entity.Property(e => e.Defaultselection).HasColumnName("defaultselection");
+                entity.Property(e => e.Defaultselection)
+                    .HasColumnName("defaultselection");
 
                 entity.Property(e => e.Name)
                     .IsRequired()
@@ -165,7 +157,8 @@ namespace Egret.DataAccess
                     .WithMany(p => p.InventoryItemsBuycurrencyNavigation)
                     .HasPrincipalKey(p => p.Abbreviation)
                     .HasForeignKey(d => d.Buycurrency)
-                    .HasConstraintName("inventory_items_buycurrency_fk");
+                    .HasConstraintName("inventory_items_buycurrency_fk")
+                    .OnDelete(DeleteBehavior.Restrict);
 
                 entity.HasOne(d => d.BuyunitNavigation)
                     .WithMany(p => p.InventoryItemsBuyunitNavigation)
@@ -178,7 +171,8 @@ namespace Egret.DataAccess
                     .WithMany(p => p.InventoryItems)
                     .HasPrincipalKey(p => p.Name)
                     .HasForeignKey(d => d.Category)
-                    .HasConstraintName("inventory_items_category_fk");
+                    .HasConstraintName("inventory_items_category_fk")
+                    .OnDelete(DeleteBehavior.Restrict);
 
                 entity.HasOne(d => d.SellcurrencyNavigation)
                     .WithMany(p => p.InventoryItemsSellcurrencyNavigation)

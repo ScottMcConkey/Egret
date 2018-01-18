@@ -33,10 +33,6 @@ namespace Egret
             services.AddEntityFrameworkNpgsql();
             services.AddDbContext<EgretContext>(options =>
                 options.UseNpgsql(Configuration["ConnectionStrings:DefaultConnection"]));
-
-            //services.AddIdentity<User, Role>()
-            //    .AddEntityFrameworkStores<EgretContext>();
-
             services.AddMvc();
         }
 
@@ -46,14 +42,8 @@ namespace Egret
             app.UseStatusCodePages();
             app.UseStaticFiles();
             loggerFactory.AddDebug();
-            //app.UseIdentity();
             app.UseMvc(routes =>
             {
-                /*routes.MapRoute(
-                    name: "inventory",
-                    template: "Home/Inventory/",
-                    defaults: new { Controller = "Inventory", action = "Index" });*/
-
                 routes.MapRoute(
                     name: "default", 
                     template: "{controller}/{action}",

@@ -9,6 +9,10 @@
     <a asp-action="Create">Create New</a>
 </p>
 
+<p>
+    @ViewData["Error"]
+</p>
+
 <form asp-action="Index" method="post">
 
     <table class="table">

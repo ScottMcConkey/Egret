@@ -26,7 +26,7 @@ namespace Egret.Controllers
             return View(egretContext.ToList());
         }
 
-        // POST: Unit/Index/5
+        // POST: Unit/Index
         [HttpPost]
         [ValidateAntiForgeryToken]
         public IActionResult Index(List<Unit> units)
@@ -44,7 +44,6 @@ namespace Egret.Controllers
 
                     }
                 }
-
             }
 
             _context.SaveChanges();
@@ -55,7 +54,6 @@ namespace Egret.Controllers
         // GET: Unit/Create
         public ActionResult Create()
         {
-            ViewData["DefaultSortOrder"] = _context.Units.Max(x => x.Sortorder) + 1;
             return View();
         }
 
@@ -64,6 +62,8 @@ namespace Egret.Controllers
         [ValidateAntiForgeryToken]
         public ActionResult Create(Unit unit)
         {
+            unit.Sortorder = _context.Units.Max(x => x.Sortorder) + 1;
+
             if (ModelState.IsValid)
             {
                 try
@@ -76,11 +76,9 @@ namespace Egret.Controllers
                     //ViewData[ExceptionResults] = Exception;
                     return View();
                 }
-                
             }
 
             return RedirectToAction(nameof(Index));
-
         }
 
         // GET: Unit/Delete/5

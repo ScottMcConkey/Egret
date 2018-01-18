@@ -3,7 +3,7 @@
     ViewData["Title"] = "Inventory Category - Create";
     ViewData["HeaderText"] = "Create Inventory Category";
 }
-<hr />
+
 <div class="row">
     <div class="col-md-4">
         <form asp-action="Create">
@@ -17,8 +17,6 @@
                 <label asp-for="Description" class="control-label"></label>
                 <input asp-for="Description" class="form-control" />
                 <span asp-validation-for="Description" class="text-danger"></span>
-
-                <input type="hidden" asp-for="Sortorder" class="form-control" value="@ViewBag.DefaultSortOrder" />
             </div>
             <div class="form-group">
                 <div class="checkbox">

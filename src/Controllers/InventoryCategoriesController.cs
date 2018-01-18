@@ -54,7 +54,6 @@ namespace Egret.Controllers
         // GET: InventoryCategories/Create
         public ActionResult Create()
         {
-            ViewData["DefaultSortOrder"] = _context.InventoryCategories.Max(x => x.Sortorder) + 1;
             return View();
         }
 
@@ -63,6 +62,8 @@ namespace Egret.Controllers
         [ValidateAntiForgeryToken]
         public ActionResult Create(InventoryCategory category)
         {
+            category.Sortorder = _context.InventoryCategories.Max(x => x.Sortorder) + 1;
+
             if (ModelState.IsValid)
             {
                 try
