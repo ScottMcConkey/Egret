@@ -32,8 +32,17 @@
             $(".radio[value='False']").removeAttr("checked");
 
             $(".radio").on("click", function () {
-                $(".radio").attr("checked", false).attr("value", false);
-                $(this).prop("checked", true).attr("value", true);
+
+                if ($(this).attr("checked") == "checked")
+                {
+                    $(this).attr("checked", false).attr("value", false);
+                }
+                else 
+                {
+                    $(".radio").attr("checked", false).attr("value", false);
+                    $(this).prop("checked", true).attr("checked", true).attr("value", true);
+                }
+                
             })
         });
 

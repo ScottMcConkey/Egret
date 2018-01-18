@@ -116,8 +116,7 @@ hr {
     #main-bottom {
         background-color: transparent;
         display: block;
-        padding-left: 20px;
-        padding-bottom: 20px;
+        padding: 20px;
         margin: 0;
     }
 
