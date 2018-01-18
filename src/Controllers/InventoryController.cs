@@ -52,10 +52,21 @@ namespace Egret.Controllers
         // GET: Inventory/Create
         public IActionResult Create()
         {
-            ViewData["Buycurrency"] = new SelectList(_context.CurrencyTypes.OrderBy(x => x.Sortorder), "Abbreviation", "Abbreviation", _context.CurrencyTypes.Where(x => x.Defaultselection == true).First().Abbreviation);
+            var CurrencyDefault = _context.CurrencyTypes.Where(x => x.Defaultselection == true);
+
+            if (CurrencyDefault.Any())
+            {
+                ViewData["Buycurrency"] = new SelectList(_context.CurrencyTypes.OrderBy(x => x.Sortorder), "Abbreviation", "Abbreviation", CurrencyDefault.First().Abbreviation);
+                ViewData["Sellcurrency"] = new SelectList(_context.CurrencyTypes.OrderBy(x => x.Sortorder), "Abbreviation", "Abbreviation", CurrencyDefault.First().Abbreviation);
+            }
+            else
+            {
+                ViewData["Buycurrency"] = new SelectList(_context.CurrencyTypes.OrderBy(x => x.Sortorder), "Abbreviation", "Abbreviation");
+                ViewData["Sellcurrency"] = new SelectList(_context.CurrencyTypes.OrderBy(x => x.Sortorder), "Abbreviation", "Abbreviation");
+            }
+
             ViewData["Buyunit"] = new SelectList(_context.Units, "Abbreviation", "Abbreviation");
             ViewData["Category"] = new SelectList(_context.InventoryCategories.Where(x => x.Active == true).OrderBy(x => x.Sortorder), "Name", "Name");
-            ViewData["Sellcurrency"] = new SelectList(_context.CurrencyTypes.OrderBy(x => x.Sortorder), "Abbreviation", "Abbreviation", _context.CurrencyTypes.Where(x => x.Defaultselection == true).First().Abbreviation);
             ViewData["Sellunit"] = new SelectList(_context.Units, "Abbreviation", "Abbreviation");
             return View();
         }
