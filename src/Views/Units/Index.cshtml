@@ -29,30 +29,44 @@
                 </th>
             </tr>
         </thead>
-        <tbody>
-            @for (int i = 0; i < Model.Count; i++)
-            {
-            <tr>
+        @if (Model.Count() != 0)
+        {
+            <tbody>
+                @for (int i = 0; i < Model.Count; i++)
+                {
+                    <tr>
                 
-                <td>
-                    <input type="hidden" asp-for="@Model[i].Id" />
-                    <input asp-for="@Model[i].Name" class="form-control" />
-                </td>
-                <td>
-                    <input asp-for="@Model[i].Abbreviation" class="form-control" />
-                </td>
-                <td>
-                    <input asp-for="@Model[i].Sortorder" class="form-control" />
-                </td>
-                <td>
-                    <input type="checkbox" asp-for="@Model[i].Active" class="form-control" />
-                </td>
-                <td>
-                    <a asp-action="Delete" asp-route-id="@Model[i].Id" class="delete" title="Delete">&times;</a>
-                </td>
-            </tr>
-            }
-        </tbody>
+                        <td>
+                            <input type="hidden" asp-for="@Model[i].Id" />
+                            <input asp-for="@Model[i].Name" class="form-control" />
+                        </td>
+                        <td>
+                            <input asp-for="@Model[i].Abbreviation" class="form-control" />
+                        </td>
+                        <td>
+                            <input asp-for="@Model[i].Sortorder" class="form-control" />
+                        </td>
+                        <td>
+                            <input type="checkbox" asp-for="@Model[i].Active" class="form-control" />
+                        </td>
+                        <td>
+                            <a asp-action="Delete" asp-route-id="@Model[i].Id" class="delete" title="Delete">&times;</a>
+                        </td>
+                    </tr>
+                }
+            </tbody>
+        }
+        else
+        {
+            <tbody>
+                <tr>
+                    <td col-span="5">
+                        No Inventory
+                    </td>
+                </tr>
+            </tbody>
+
+        }
     </table>
 
     <div class="form-group">

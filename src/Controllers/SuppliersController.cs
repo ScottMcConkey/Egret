@@ -6,6 +6,7 @@ using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.Rendering;
 using Microsoft.EntityFrameworkCore;
 using Egret.DataAccess;
+using Egret.Models;
 
 namespace Egret.Controllers
 {
@@ -18,14 +19,12 @@ namespace Egret.Controllers
             _context = context;
         }
 
-        // GET: Supplier
         public IActionResult Edit()
         {
             var egretContext = _context.Suppliers.OrderBy(x => x.Name);
             return View(egretContext.ToList());
         }
 
-        // POST: Supplier/Edit/5
         [HttpPost]
         [ValidateAntiForgeryToken]
         public IActionResult Edit(List<Supplier> suppliers)

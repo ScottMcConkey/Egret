@@ -19,37 +19,13 @@ namespace Egret.Controllers
             _context = context;
         }
 
-        // GET: Inventory
-        public async Task<IActionResult> Index()
+        [HttpGet]
+        public IActionResult Index()
         {
-            var egretContext = _context.InventoryItems.Include(i => i.BuycurrencyNavigation).Include(i => i.BuyunitNavigation).Include(i => i.CategoryNavigation).Include(i => i.SellcurrencyNavigation).Include(i => i.SellunitNavigation);
-            return View(await egretContext.ToListAsync());
+            return View();
         }
 
-        // GET: Inventory/Details/5
-        public async Task<IActionResult> Details(string id)
-        {
-            if (id == null)
-            {
-                return NotFound();
-            }
-
-            var inventoryItems = await _context.InventoryItems
-                .Include(i => i.BuycurrencyNavigation)
-                .Include(i => i.BuyunitNavigation)
-                .Include(i => i.CategoryNavigation)
-                .Include(i => i.SellcurrencyNavigation)
-                .Include(i => i.SellunitNavigation)
-                .SingleOrDefaultAsync(m => m.Code == id);
-            if (inventoryItems == null)
-            {
-                return NotFound();
-            }
-
-            return View(inventoryItems);
-        }
-
-        // GET: Inventory/Create
+        [HttpGet]
         public IActionResult Create()
         {
             var CurrencyDefault = _context.CurrencyTypes.Where(x => x.Defaultselection == true);
@@ -71,9 +47,6 @@ namespace Egret.Controllers
             return View();
         }
 
-        // POST: Inventory/Create
-        // To protect from overposting attacks, please enable the specific properties you want to bind to, for 
-        // more details see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> Create([Bind("Code,Description,Category,Comment,Sellprice,Sellcurrency,Sellunit,Buyprice,Buycurrency,Buyunit,Stockvalue,SupplierFk,Salesacct,Stockacct,Cogacct,Sohcount,Stocktakenewqty,Flags,Qtybrksellprice,Costprice,Isconversion,Conversionsource,Useraddedby,Userupdatedby,Dateadded,Dateupdated")] InventoryItem inventoryItems)
@@ -92,7 +65,7 @@ namespace Egret.Controllers
             return View(inventoryItems);
         }
 
-        // GET: Inventory/Edit/5
+        [HttpGet]
         public async Task<IActionResult> Edit(string id)
         {
             if (id == null)
@@ -113,9 +86,6 @@ namespace Egret.Controllers
             return View(inventoryItems);
         }
 
-        // POST: Inventory/Edit/5
-        // To protect from overposting attacks, please enable the specific properties you want to bind to, for 
-        // more details see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> Edit(string id, [Bind("Code,Description,Category,Comment,Sellprice,Sellcurrency,Sellunit,Buyprice,Buycurrency,Buyunit,Stockvalue,SupplierFk,Salesacct,Stockacct,Cogacct,Sohcount,Stocktakenewqty,Flags,Qtybrksellprice,Costprice,Isconversion,Conversionsource,Useraddedby,Userupdatedby,Dateadded,Dateupdated")] InventoryItem inventoryItems)
@@ -147,10 +117,9 @@ namespace Egret.Controllers
             ViewData["Sellcurrency"] = new SelectList(_context.CurrencyTypes, "Abbreviation", "Abbreviation", inventoryItems.Sellcurrency);
             ViewData["Sellunit"] = new SelectList(_context.Units, "Abbreviation", "Abbreviation", inventoryItems.Sellunit);
             return View(inventoryItems);
-            //return View("Index");
         }
 
-        // GET: Inventory/Delete/5
+        [HttpGet]
         public async Task<IActionResult> Delete(string id)
         {
             if (id == null)
@@ -184,7 +153,7 @@ namespace Egret.Controllers
             return RedirectToAction(nameof(Index));
         }
 
-        // GET: Inventory/Search
+        [HttpGet]
         public async Task<IActionResult> Search()
         {
             var inventoryItems = _context.InventoryItems
@@ -200,6 +169,18 @@ namespace Egret.Controllers
             }*/
 
             return View(await inventoryItems.ToListAsync());
+        }
+
+        [HttpGet]
+        public async Task<IActionResult> SearchResults()
+        {
+            var egretContext = _context.InventoryItems
+                .Include(i => i.BuycurrencyNavigation)
+                .Include(i => i.BuyunitNavigation)
+                .Include(i => i.CategoryNavigation)
+                .Include(i => i.SellcurrencyNavigation)
+                .Include(i => i.SellunitNavigation);
+            return View(await egretContext.ToListAsync());
         }
 
         private bool InventoryItemsExists(string id)
