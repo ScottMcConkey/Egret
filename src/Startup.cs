@@ -27,8 +27,11 @@ namespace Egret
         {
             var builder = new ConfigurationBuilder()
                 .SetBasePath(env.ContentRootPath)
-                .AddJsonFile("appsettings.json")
-                .Build();
+                .AddJsonFile("appsettings.json", optional: false, reloadOnChange: true)
+                .AddJsonFile($"appsetings.{env.EnvironmentName}.json", optional: true)
+                .AddEnvironmentVariables();
+
+            Configuration = builder.Build();
         }
 
         public void ConfigureServices(IServiceCollection services)
@@ -36,7 +39,7 @@ namespace Egret
             services.AddEntityFrameworkNpgsql();
             services.AddDbContext<EgretContext>(options =>
                 //options.UseNpgsql(Configuration["ConnectionStrings:DefaultConnection"]));
-                options.UseNpgsql("Server=localhost;Port=5432;Database=Egret;User Id=postgres;Password=postgres;Integrated Security=true"));
+                options.UseNpgsql(Configuration["ConnectionStrings:DefaultConnection"]));
             services.AddMvc();
             //services.AddIdentity<User, Role>()
             //    .AddDefaultTokenProviders();
