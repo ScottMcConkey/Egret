@@ -1,20 +1,35 @@
-﻿@model Dictionary<string, object>
+﻿@model IEnumerable<User>
 @{
-    ViewData["Title"] = "Index";
-    ViewBag.Notice = "User Details";
+    ViewData["Title"] = "Users";
+    ViewData["Headertext"] = "User Details";
 }
 
-<br />
-
 <div class="bg-primary panel-body">
-    <h4>User Details</h4>
+    <h4>User Accounts</h4>
 </div>
 
 <table class="table table-condensed table-bordered">
-    @foreach (var kvp in Model)
+    <tr>
+        <th>ID</th>
+        <th>Name</th>
+        <th>Email</th>
+    </tr>
+    @if (Model == null)
     {
-        <tr><th>@kvp.Key</th><td>@kvp.Value</td></tr>
-
+        <tr><td colspan="3" class="text-center">No User Accounts</td></tr>
+    }
+    else
+    {
+        foreach (User user in Model)
+        {
+            <tr>
+                <td>@user.Id</td>
+                <td>@user.UserName</td>
+                <td>@user.Email</td>
+            </tr>
+        }
     }
 </table>
+
+<a class="btn btn-primary" asp-action="Create">Create</a>
 

@@ -17,10 +17,10 @@
                     @Html.DisplayNameFor(model => model[0].Name)
                 </th>
                 <th>
-                    @Html.DisplayNameFor(model => model[0].Symbol)
+                    @Html.DisplayNameFor(model => model[0].Abbreviation)
                 </th>
                 <th>
-                    @Html.DisplayNameFor(model => model[0].Abbreviation)
+                    @Html.DisplayNameFor(model => model[0].Symbol)
                 </th>
                 <th>
                     @Html.DisplayNameFor(model => model[0].Sortorder)
@@ -40,25 +40,25 @@
 
                 <td>
                     <input type="hidden" asp-for="@Model[i].Id" />
-                    <input asp-for="@Model[i].Name" class="form-control" />
+                    <input class="form-control" asp-for="@Model[i].Name" />
                 </td>
                 <td>
-                    <input asp-for="@Model[i].Symbol" class="form-control" />
+                    <input class="form-control" asp-for="@Model[i].Abbreviation" />
                 </td>
                 <td>
-                    <input asp-for="@Model[i].Abbreviation" class="form-control" />
+                    <input class="form-control" asp-for="@Model[i].Symbol" />
                 </td>
                 <td>
-                    <input asp-for="@Model[i].Sortorder" class="form-control" />
+                    <input class="form-control" asp-for="@Model[i].Sortorder" />
                 </td>
                 <td>
-                    <input type="checkbox" asp-for="@Model[i].Active" class="form-control" />
+                    <input class="form-control" type="checkbox" asp-for="@Model[i].Active" />
                 </td>
                 <td>
-                    <input type="radio" asp-for="@Model[i].Defaultselection" value="@Model[i].Defaultselection" class="form-control radio" />
+                    <input class="form-control radio" type="radio" asp-for="@Model[i].Defaultselection" value="@Model[i].Defaultselection" />
                 </td>
                 <td>
-                    <a asp-action="Delete" asp-route-id="@Model[i].Id" class="delete" title="Delete">&times;</a>
+                    <a class="delete" asp-action="Delete" asp-route-id="@Model[i].Id" title="Delete">&times;</a>
                 </td>
             </tr>
 

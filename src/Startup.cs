@@ -10,6 +10,7 @@ using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Identity.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
+using Microsoft.Extensions.Configuration.Json;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Logging;
 using Egret.Controllers;
@@ -20,23 +21,25 @@ namespace Egret
 {
     public class Startup
     {
-        IConfigurationRoot Configuration;
+        public IConfigurationRoot Configuration;
 
         public Startup(IHostingEnvironment env)
         {
-            Configuration = new ConfigurationBuilder()
+            var builder = new ConfigurationBuilder()
                 .SetBasePath(env.ContentRootPath)
-                .AddJsonFile("appsettings.json").Build();
+                .AddJsonFile("appsettings.json")
+                .Build();
         }
 
         public void ConfigureServices(IServiceCollection services)
         {
             services.AddEntityFrameworkNpgsql();
             services.AddDbContext<EgretContext>(options =>
-                options.UseNpgsql(Configuration["ConnectionStrings:DefaultConnection"]));
+                //options.UseNpgsql(Configuration["ConnectionStrings:DefaultConnection"]));
+                options.UseNpgsql("Server=localhost;Port=5432;Database=Egret;User Id=postgres;Password=postgres;Integrated Security=true"));
             services.AddMvc();
-            services.AddIdentity<User, Role>()
-                .AddDefaultTokenProviders();
+            //services.AddIdentity<User, Role>()
+            //    .AddDefaultTokenProviders();
         }
 
         public void Configure(IApplicationBuilder app, IHostingEnvironment env, ILoggerFactory loggerFactory)
@@ -44,6 +47,7 @@ namespace Egret
             app.UseDeveloperExceptionPage();
             app.UseStatusCodePages();
             app.UseStaticFiles();
+            //app.UseIdentity();
             loggerFactory.AddDebug();
             app.UseMvc(routes =>
             {

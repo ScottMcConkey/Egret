@@ -9,12 +9,12 @@ namespace Egret.Controllers
 {
     public class AdminController : Controller
     {
-        private readonly EgretContext _context;
-
-        public AdminController(EgretContext context)
-        {
-            _context = context;
-        }
+        //private readonly EgretContext _context;
+        //
+        //public AdminController(EgretContext context)
+        //{
+        //    _context = context;
+        //}
 
         public IActionResult Index()
         {

@@ -2,7 +2,7 @@
 using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
 
-namespace Egret.DataAccess
+namespace Egret.Models
 {
     public partial class CurrencyType
     {

@@ -5,7 +5,7 @@ using System.Linq;
 using System.Threading.Tasks;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
-using Npgsql;
+//using Npgsql;
 using Npgsql.EntityFrameworkCore;
 using Egret.DataAccess;
 using Egret.Models;
@@ -46,18 +46,18 @@ namespace Egret.Controllers
                     }
                     catch (Exception e)
                     {
-                        PostgresException innerException = e.InnerException as PostgresException;
+                        // innerException = e.InnerException as PostgresException;
 
-                        if (innerException != null && innerException.ErrorCode == -2147467259)
-                        {
-                            //return View("Test", "There's a problem");
-                            return View("Test", innerException.SqlState.ToString());
-                        }
-                        else
-                        {
-                            return View("Test", innerException.Code.ToString());
-                            //2147467259
-                        }
+                        //if (innerException != null && innerException.ErrorCode == -2147467259)
+                        //{
+                        //    //return View("Test", "There's a problem");
+                        //    return View("Test", innerException.SqlState.ToString());
+                        //}
+                        //else
+                        //{
+                        //    return View("Test", innerException.Code.ToString());
+                        //    //2147467259
+                        //}
 
                         //msg.Append(e.InnerException.ToString());
                         //msg.Append(e.InnerException.Data.ToString());
