@@ -9,9 +9,8 @@ namespace Egret.DataAccess
 {
     public partial class EgretContext : DbContext  //: IdentityDbContext<User>
     {
-        public EgretContext(DbContextOptions options) : base(options)
-        {
-        }
+        public EgretContext(DbContextOptions options) 
+            : base(options) {}
         //public EgretContext(DbContextOptions<EgretContext> options)
         //    : base(options) { }
 

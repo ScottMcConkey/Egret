@@ -87,5 +87,32 @@ namespace Egret.Controllers
         {
             return msg;
         }
+
+        public IActionResult Create()
+        {
+            return View();
+        }
+
+        [HttpPost]
+        [ValidateAntiForgeryToken]
+        public IActionResult Create(CurrencyType category)
+        {
+            category.Sortorder = _context.CurrencyTypes.Max(x => x.Sortorder) + 1;
+            category.Defaultselection = false;
+
+            if (ModelState.IsValid)
+            {
+                try
+                {
+                    _context.Add(category);
+                    _context.SaveChanges();
+                }
+                catch
+                {
+                    return View();
+                }
+            }
+            return RedirectToAction(nameof(Index));
+        }
     }
 }

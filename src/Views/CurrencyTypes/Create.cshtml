@@ -1,8 +1,7 @@
-﻿@model Unit
-
+﻿@model CurrencyType
 @{
-    ViewData["Title"] = "Unit - Create";
-    ViewData["HeaderText"] = "Create Unit";
+    ViewData["Title"] = "Currency Type - Create";
+    ViewData["HeaderText"] = "Create Currency Type";
 }
 
 <div class="row">
@@ -20,6 +19,11 @@
                 <span asp-validation-for="Abbreviation" class="text-danger"></span>
             </div>
             <div class="form-group">
+                <label asp-for="Symbol" class="control-label"></label>
+                <input asp-for="Symbol" class="form-control" />
+                <span asp-validation-for="Symbol" class="text-danger"></span>
+            </div>
+            <div class="form-group">
                 <div class="checkbox">
                     <label>
                         <input asp-for="Active" checked="checked" />@Html.DisplayNameFor(model => model.Active)
@@ -32,8 +36,6 @@
         </form>
     </div>
 </div>
-
 <div>
     <a asp-action="Index">Back to List</a>
 </div>
-
