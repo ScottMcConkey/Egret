@@ -114,5 +114,15 @@ namespace Egret.Controllers
             }
             return RedirectToAction(nameof(Index));
         }
+
+        [HttpGet]
+        public IActionResult Delete(int id)
+        {
+            var inventoryItems = _context.CurrencyTypes.SingleOrDefault(m => m.Id == id);
+            _context.CurrencyTypes.Remove(inventoryItems);
+            _context.SaveChanges();
+            return RedirectToAction(nameof(Index));
+        }
+
     }
 }

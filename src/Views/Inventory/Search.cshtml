@@ -1,0 +1,81 @@
+﻿@model InventorySearchViewModel
+@{
+    ViewData["Title"] = "Inventory - Search";
+    ViewData["HeaderText"] = "Search Inventory";
+}
+
+<div class="row">
+    <div class="col-md-4">
+
+
+        <form asp-action="Search">
+
+            @if (!Html.ViewData.ModelState.IsValid)
+    {
+        <div class="alert alert-danger">@Html.ValidationSummary()</div>
+}
+
+
+            <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+
+            <br />
+
+            <div class="form-group">
+                <label asp-for="Code" class="control-label"></label>
+                <input asp-for="Code" class="form-control" />
+                <span asp-validation-for="Code" class="text-danger"></span>
+            </div>
+
+            <div class="form-group">
+                <label asp-for="Description" class="control-label"></label>
+                <input asp-for="Description" class="form-control" />
+                <span asp-validation-for="Description" class="text-danger"></span>
+            </div>
+
+            @*<div class="form-group">
+            <label asp-for="Description" class="control-label"></label>
+            <input asp-for="Description" class="form-control" />
+            <span asp-validation-for="Description" class="text-danger"></span>
+        </div>
+
+        <div class="form-group">
+            <label asp-for="Category" class="control-label"></label>
+            <select asp-for="Category" class="form-control" asp-items="ViewBag.Category">
+                <option value=""></option>
+            </select>
+            <span asp-validation-for="Category" class="text-danger"></span>
+        </div>
+
+        <div class="form-group">
+            <label asp-for="Comment" class="control-label"></label>
+            <textarea asp-for="Comment" class="form-control" style="height: 8em;"></textarea>
+            <span asp-validation-for="Comment" class="text-danger"></span>
+        </div>
+
+
+        <div class="form-group">
+            <label asp-for="Stockvalue" class="control-label"></label>
+            <input asp-for="Stockvalue" class="form-control" />
+            <span asp-validation-for="Stockvalue" class="text-danger"></span>
+        </div>
+
+        <div class="form-group">
+            <label asp-for="Isconversion" class="control-label"></label>
+            <input type="checkbox" asp-for="Isconversion" class="form-control" />
+            <span asp-validation-for="Isconversion" class="text-danger"></span>
+        </div>*@
+            @* Will want to add search for creation and update time ranges *@
+
+            <div class="form-group">
+                <input type="submit" value="Search" class="btn btn-default" />
+            </div>
+
+        </form>
+    </div>
+</div>
+
+<div>
+    <a asp-action="Index">Back to List</a>
+</div>
+
+<br />

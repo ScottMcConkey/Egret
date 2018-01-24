@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Linq;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Metadata;
 using Microsoft.AspNetCore.Identity.EntityFrameworkCore;
@@ -21,7 +22,6 @@ namespace Egret.DataAccess
         public virtual DbSet<Supplier> Suppliers { get; set; }
         //public virtual DbSet<Role> Roles { get; set; }
         //public virtual DbSet<DbUser> DbUsers { get; set; }
-
 
 
         protected override void OnModelCreating(ModelBuilder modelBuilder)

@@ -169,7 +169,10 @@ th {
     margin-bottom: 12px;
 }
 
-.delete, .delete:hover {
+.delete, 
+.delete:hover, 
+.delete:active,
+.delete:visited{
     color: red;
     font-size: 25px;
     font-weight: bold;

@@ -1,4 +1,4 @@
-﻿@model IEnumerable<InventoryItem>
+﻿@model List<InventoryItem>
 
 @{
     ViewData["Title"] = "Inventory";
@@ -17,19 +17,19 @@
     <thead>
         <tr>
             <th>
-                @Html.DisplayNameFor(model => model.Code)
+                @Html.DisplayNameFor(model => model[0].Code)
             </th>
             <th>
-                @Html.DisplayNameFor(model => model.Description)
+                @Html.DisplayNameFor(model => model[1].Description)
             </th>
             <th>
-                @Html.DisplayNameFor(model => model.Comment)
+                @Html.DisplayNameFor(model => model[2].Comment)
             </th>
             <th>
-                @Html.DisplayNameFor(model => model.Sellprice)
+                @Html.DisplayNameFor(model => model[3].Sellprice)
             </th>
             <th>
-                @Html.DisplayNameFor(model => model.Buyprice)
+                @Html.DisplayNameFor(model => model[4].Buyprice)
             </th>
         </tr>
     </thead>
