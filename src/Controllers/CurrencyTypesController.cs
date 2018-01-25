@@ -12,29 +12,27 @@ using Egret.Models;
 
 namespace Egret.Controllers
 {
-    public class CurrencyTypesController : Controller
+    public class CurrencyTypesController : ManagedController
     {
-        private readonly EgretContext _context;
+        public string BackButtonText = "Back to Admin";
+        public string BackButtonText2 = "Back to Currency Types";
 
         public CurrencyTypesController(EgretContext context)
-        {
-            _context = context;
-        }
+            : base(context) { }
 
-        // GET: Unit
+        [HttpGet]
         public IActionResult Index()
         {
-            var egretContext = _context.CurrencyTypes.OrderBy(x => x.Sortorder);
+            ViewData["BackText"] = BackButtonText;
+
+            var egretContext = base._context.CurrencyTypes.OrderBy(x => x.Sortorder);
             return View(egretContext.ToList());
         }
 
-        // POST: Unit/Index/5
         [HttpPost]
         [ValidateAntiForgeryToken]
         public IActionResult Index(List<CurrencyType> types)
         {
-            //List<string> msg = new List<string>();
-
             if (ModelState.IsValid)
             {
                 for (int i = 0; i < types.Count; i++)
@@ -88,8 +86,11 @@ namespace Egret.Controllers
             return msg;
         }
 
+        [HttpGet]
         public IActionResult Create()
         {
+            ViewData["BackText"] = BackButtonText2;
+
             return View();
         }
 

@@ -36,32 +36,31 @@
         <tbody>
             @for (int i = 0; i < Model.Count; i++)
             {
-            <tr>
+                <tr>
 
-                <td>
-                    <input type="hidden" asp-for="@Model[i].Id" />
-                    <input class="form-control" asp-for="@Model[i].Name" />
-                </td>
-                <td>
-                    <input class="form-control" asp-for="@Model[i].Abbreviation" />
-                </td>
-                <td>
-                    <input class="form-control" asp-for="@Model[i].Symbol" />
-                </td>
-                <td>
-                    <input class="form-control" asp-for="@Model[i].Sortorder" />
-                </td>
-                <td>
-                    <input class="form-control" type="checkbox" asp-for="@Model[i].Active" />
-                </td>
-                <td>
-                    <input class="form-control radio" type="radio" asp-for="@Model[i].Defaultselection" value="@Model[i].Defaultselection" />
-                </td>
-                <td>
-                    <a class="delete" asp-action="Delete" asp-route-id="@Model[i].Id" title="Delete">&times;</a>
-                </td>
-            </tr>
-
+                    <td>
+                        <input type="hidden" asp-for="@Model[i].Id" />
+                        <input class="form-control" asp-for="@Model[i].Name" />
+                    </td>
+                    <td>
+                        <input class="form-control" asp-for="@Model[i].Abbreviation" />
+                    </td>
+                    <td>
+                        <input class="form-control" asp-for="@Model[i].Symbol" />
+                    </td>
+                    <td>
+                        <input class="form-control" asp-for="@Model[i].Sortorder" />
+                    </td>
+                    <td>
+                        <input class="form-control" type="checkbox" asp-for="@Model[i].Active" />
+                    </td>
+                    <td>
+                        <input class="form-control radio" type="radio" asp-for="@Model[i].Defaultselection" value="@Model[i].Defaultselection" />
+                    </td>
+                    <td>
+                        <a class="delete" asp-action="Delete" asp-route-id="@Model[i].Id" title="Delete">&times;</a>
+                    </td>
+                </tr>
             }
         </tbody>
     </table>
@@ -73,5 +72,5 @@
 </form>
 
 <div>
-    <a asp-controller="Admin" asp-action="Index">Back to Admin</a>
+    <a asp-controller="Admin" asp-action="Index">@ViewData["BackText"]</a>
 </div>

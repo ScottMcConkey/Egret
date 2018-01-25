@@ -11,16 +11,15 @@ using Egret.ViewModels;
 
 namespace Egret.Controllers
 {
-    public class InventoryController : Controller
+    public class InventoryController : ManagedController
     {
-        private readonly EgretContext _context;
         private IQueryable<CurrencyType> _activeCurrencyTypes;
         private IQueryable<Unit> _activeUnits;
         private IQueryable<InventoryCategory> _activeInventoryCategories;
 
-        public InventoryController(EgretContext context)
+        public InventoryController(EgretContext context) :base(context)
         {
-            _context = context;
+            var egretContext = _context.CurrencyTypes.OrderBy(x => x.Sortorder);
             _activeCurrencyTypes = _context.CurrencyTypes.Where(x => x.Active == true).OrderBy(x => x.Sortorder);
             _activeUnits = _context.Units.Where(x => x.Active == true).OrderBy(x => x.Sortorder);
             _activeInventoryCategories = _context.InventoryCategories.Where(x => x.Active == true).OrderBy(x => x.Sortorder);
@@ -149,7 +148,6 @@ namespace Egret.Controllers
             return View(inventoryItems);
         }
 
-        // POST: Inventory/Delete/5
         [HttpPost, ActionName("Delete")]
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> DeleteConfirmed(string id)

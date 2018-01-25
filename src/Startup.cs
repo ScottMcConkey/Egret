@@ -49,8 +49,14 @@ namespace Egret
             if (env.IsDevelopment())
             {
                 app.UseDeveloperExceptionPage();
+                app.UseStatusCodePages();
+                app.UseBrowserLink();
             }
-            app.UseStatusCodePages();
+            else
+            {
+                app.UseExceptionHandler("/Home/Error");
+            }
+            
             app.UseStaticFiles();
             //app.UseIdentity();
             loggerFactory.AddDebug();

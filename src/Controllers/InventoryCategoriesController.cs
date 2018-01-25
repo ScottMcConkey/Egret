@@ -10,19 +10,15 @@ using Egret.Models;
 
 namespace Egret.Controllers
 {
-    public class InventoryCategoriesController : Controller
+    public class InventoryCategoriesController : ManagedController
     {
-        private readonly EgretContext _context;
-
         public InventoryCategoriesController(EgretContext context)
-        {
-            _context = context;
-        }
+            : base(context) { }
 
         // GET: InventoryCategories
         public IActionResult Index()
         {
-            var egretContext = _context.InventoryCategories.OrderBy(x => x.Sortorder);
+            var egretContext = base._context.InventoryCategories.OrderBy(x => x.Sortorder);
             return View(egretContext.ToList());
         }
 

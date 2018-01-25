@@ -7,30 +7,33 @@ using Microsoft.AspNetCore.Mvc.Rendering;
 using Microsoft.EntityFrameworkCore;
 using Egret.DataAccess;
 using Egret.Models;
+using Egret.Code;
 
 namespace Egret.Controllers
 {
-    public class UnitsController : Controller
+    public class UnitsController : ManagedController
     {
-        private readonly EgretContext _context;
+        public string BackButtonText = "Back to Admin";
+        public string BackButtonText2 = "Back to Units";
 
-        public UnitsController(EgretContext context)
-        {
-            _context = context;
-        }
+        public UnitsController (EgretContext context)
+            :base(context) {}
 
-        // GET: Unit
+        [HttpGet]
         public IActionResult Index()
         {
-            var egretContext = _context.Units.OrderBy(x => x.Sortorder);
+            ViewData["BackText"] = BackButtonText;
+
+            var egretContext = base._context.Units.OrderBy(x => x.Sortorder);
             return View(egretContext.ToList());
         }
 
-        // POST: Unit/Index
         [HttpPost]
         [ValidateAntiForgeryToken]
         public IActionResult Index(List<Unit> units)
         {
+            ViewData["BackText"] = BackButtonText;
+
             if (ModelState.IsValid)
             {
                 for (int i = 0; i < units.Count; i++)
@@ -51,17 +54,20 @@ namespace Egret.Controllers
             return RedirectToAction(nameof(Index));
         }
 
-        // GET: Unit/Create
+        [HttpGet]
         public ActionResult Create()
         {
+            ViewData["BackText"] = BackButtonText2;
+
             return View();
         }
 
-        // POST: Unit/Create
         [HttpPost]
         [ValidateAntiForgeryToken]
         public ActionResult Create(Unit unit)
         {
+            ViewData["BackText"] = BackButtonText2;
+
             unit.Sortorder = _context.Units.Max(x => x.Sortorder) + 1;
 
             if (ModelState.IsValid)
@@ -81,7 +87,7 @@ namespace Egret.Controllers
             return RedirectToAction(nameof(Index));
         }
 
-        // GET: Unit/Delete/5
+        [HttpGet]
         [ActionName("Delete")]
         public ActionResult Delete(int id)
         {
