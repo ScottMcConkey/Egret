@@ -25,7 +25,7 @@ namespace Egret.Controllers
         {
             ViewData["BackText"] = BackButtonText;
 
-            var egretContext = base._context.CurrencyTypes.OrderBy(x => x.Sortorder);
+            var egretContext = _context.CurrencyTypes.OrderBy(x => x.Sortorder);
             return View(egretContext.ToList());
         }
 

@@ -18,7 +18,7 @@ namespace Egret.Controllers
         // GET: InventoryCategories
         public IActionResult Index()
         {
-            var egretContext = base._context.InventoryCategories.OrderBy(x => x.Sortorder);
+            var egretContext = _context.InventoryCategories.OrderBy(x => x.Sortorder);
             return View(egretContext.ToList());
         }
 

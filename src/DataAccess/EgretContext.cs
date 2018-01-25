@@ -8,9 +8,9 @@ using Egret.Models;
 
 namespace Egret.DataAccess
 {
-    public partial class EgretContext : DbContext  //: IdentityDbContext<User>
+    public partial class EgretContext : IdentityDbContext<AppUser>
     {
-        public EgretContext(DbContextOptions options) 
+        public EgretContext(DbContextOptions<EgretContext> options) 
             : base(options) {}
         //public EgretContext(DbContextOptions<EgretContext> options)
         //    : base(options) { }
@@ -28,11 +28,11 @@ namespace Egret.DataAccess
         {
             base.OnModelCreating(modelBuilder);
 
-            modelBuilder.Entity<User>()
+            modelBuilder.Entity<AppUser>()
                 .Property(u => u.Id)
                 .HasMaxLength(450);
             
-            modelBuilder.Entity<Role>()
+            modelBuilder.Entity<AppRole>()
                 .Property(u => u.Id)
                 .HasMaxLength(450);
             

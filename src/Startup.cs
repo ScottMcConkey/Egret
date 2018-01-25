@@ -40,8 +40,10 @@ namespace Egret
             services.AddDbContext<EgretContext>(options =>
                 options.UseNpgsql(Configuration["ConnectionStrings:DefaultConnection"]));
             services.AddMvc();
-            //services.AddIdentity<User, Role>()
-            //    .AddDefaultTokenProviders();
+
+            services.AddIdentity<AppUser, AppRole>()
+                //.AddDefaultTokenProviders();
+                .AddEntityFrameworkStores<EgretContext>();
         }
 
         public void Configure(IApplicationBuilder app, IHostingEnvironment env, ILoggerFactory loggerFactory)
@@ -58,7 +60,7 @@ namespace Egret
             }
             
             app.UseStaticFiles();
-            //app.UseIdentity();
+            app.UseIdentity();
             loggerFactory.AddDebug();
             app.UseMvc(routes =>
             {

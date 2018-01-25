@@ -7,7 +7,7 @@ using System.Threading.Tasks;
 
 namespace Egret.Models
 {
-    public class User : IdentityUser
+    public class AppUser : IdentityUser
     {
 
     }

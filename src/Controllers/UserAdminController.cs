@@ -10,9 +10,9 @@ namespace Egret.Controllers
 {
     public class UserAdminController : Controller
     {
-        private UserManager<User> userManager;
+        private UserManager<AppUser> userManager;
 
-        public UserAdminController(UserManager<User> usrMgr)
+        public UserAdminController(UserManager<AppUser> usrMgr)
         {
             userManager = usrMgr;
         }
