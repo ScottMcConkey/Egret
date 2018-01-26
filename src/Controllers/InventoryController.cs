@@ -13,13 +13,14 @@ namespace Egret.Controllers
 {
     public class InventoryController : ManagedController
     {
+        public readonly string BackButtonText = "Back to Inventory";
+
         private IQueryable<CurrencyType> _activeCurrencyTypes;
         private IQueryable<Unit> _activeUnits;
         private IQueryable<InventoryCategory> _activeInventoryCategories;
 
         public InventoryController(EgretContext context) :base(context)
         {
-            var egretContext = _context.CurrencyTypes.OrderBy(x => x.Sortorder);
             _activeCurrencyTypes = _context.CurrencyTypes.Where(x => x.Active == true).OrderBy(x => x.Sortorder);
             _activeUnits = _context.Units.Where(x => x.Active == true).OrderBy(x => x.Sortorder);
             _activeInventoryCategories = _context.InventoryCategories.Where(x => x.Active == true).OrderBy(x => x.Sortorder);
@@ -34,6 +35,8 @@ namespace Egret.Controllers
         [HttpGet]
         public IActionResult Create()
         {
+            ViewData["BackText"] = BackButtonText;
+
             var CurrencyDefault = _context.CurrencyTypes.Where(x => x.Defaultselection == true);
 
             if (CurrencyDefault.Any())
@@ -74,6 +77,8 @@ namespace Egret.Controllers
         [HttpGet]
         public async Task<IActionResult> Edit(string id)
         {
+            ViewData["BackText"] = BackButtonText;
+
             if (id == null)
             {
                 return NotFound();
@@ -161,6 +166,8 @@ namespace Egret.Controllers
         [HttpGet]
         public IActionResult Search()
         {
+            ViewData["BackText"] = BackButtonText;
+
             //var inventoryItems = _context.InventoryItems
             //.Include(i => i.BuycurrencyNavigation)
             //.Include(i => i.BuyunitNavigation)
@@ -200,6 +207,8 @@ namespace Egret.Controllers
         [HttpGet]
         public IActionResult SearchResults(List<InventoryItem> results)
         {
+            ViewData["BackText"] = BackButtonText;
+
             //var egretContext = _context.InventoryItems
             //    .Include(i => i.BuycurrencyNavigation)
             //    .Include(i => i.BuyunitNavigation)

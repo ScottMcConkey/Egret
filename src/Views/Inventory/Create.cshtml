@@ -29,8 +29,8 @@
                 <span asp-validation-for="Comment" class="text-danger"></span>
             </div>
 
-            <label asp-for="Sellprice" class="control-label"></label>
             <div class="form-group form-inline">
+                <label asp-for="Sellprice" class="control-label"></label>
                 <input asp-for="Sellprice" class="form-control" style="width: 30%;" />
                 <span asp-validation-for="Sellprice" class="text-danger"></span>
 
@@ -45,8 +45,8 @@
                 <span asp-validation-for="Sellunit" class="text-danger"></span>
             </div>
 
-            <label asp-for="Buyprice" class="control-label"></label>
             <div class="form-group form-inline" style="width: 100%">
+                <label asp-for="Buyprice" class="control-label"></label>
                 <input asp-for="Buyprice" class="form-control" style="width: 30%;" />
                 <select asp-for="Buycurrency" class="form-control" style="width: 25%;" asp-items="ViewBag.Buycurrency">
                     <option value=""></option>
@@ -116,6 +116,6 @@
 </div>
 
 <div>
-    <a asp-action="Index">Back to Inventory</a>
+    <a asp-action="Index">@ViewData["BackText"]</a>
 </div>
 

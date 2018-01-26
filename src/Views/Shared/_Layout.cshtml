@@ -15,22 +15,24 @@
             $("table.results tr:even").addClass("shaded");
             $("#main-bottom").css("min-height", $(document).height() - 175 + "px");
 
-            $("li.inline-tab").on("click", function () {
-                $("li.inline-tab").removeClass("active");
+
+            $(".tab-header").removeClass("active");
+            $(".tab-header:first-of-type").addClass("active");
+            $(".tab-content").css("display", "none");
+            $(".tab-content:first-of-type").css("display", "block");
+
+            $("li.tab-header").on("click", function () {
+                $("li.tab-header").removeClass("active");
                 $(this).addClass("active");
 
-                if ($(this).attr("id") == 'tab-1') {
-                    $(".tab-page").css("display", "none");
-                    $(".tab-1").css("display", "inherit");
-                }
-                else if ($(this).attr("id") == 'tab-2') {
-                    $(".tab-page").css("display", "none");
-                    $(".tab-2").css("display", "block");
-                }
+                var idx = $(".tab-header").index(this);
+
+                $(".tab-content").css("display", "none");
+                $(".tab-content").eq(idx).css("display", "block");
+
             });
 
             $(".radio[value='False']").removeAttr("checked");
-
             $(".radio").on("click", function () {
 
                 if ($(this).attr("checked") == "checked")

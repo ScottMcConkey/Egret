@@ -13,8 +13,8 @@ namespace Egret.Controllers
 {
     public class UnitsController : ManagedController
     {
-        public string BackButtonText = "Back to Admin";
-        public string BackButtonText2 = "Back to Units";
+        public readonly string BackButtonText = "Back to Admin";
+        public readonly string BackButtonText2 = "Back to Units";
 
         public UnitsController (EgretContext context)
             :base(context) {}
@@ -24,7 +24,7 @@ namespace Egret.Controllers
         {
             ViewData["BackText"] = BackButtonText;
 
-            var egretContext = base._context.Units.OrderBy(x => x.Sortorder);
+            var egretContext = _context.Units.OrderBy(x => x.Sortorder);
             return View(egretContext.ToList());
         }
 
@@ -32,8 +32,6 @@ namespace Egret.Controllers
         [ValidateAntiForgeryToken]
         public IActionResult Index(List<Unit> units)
         {
-            ViewData["BackText"] = BackButtonText;
-
             if (ModelState.IsValid)
             {
                 for (int i = 0; i < units.Count; i++)
@@ -47,9 +45,9 @@ namespace Egret.Controllers
 
                     }
                 }
-            }
 
-            _context.SaveChanges();
+                _context.SaveChanges();
+            }
 
             return RedirectToAction(nameof(Index));
         }
@@ -66,8 +64,6 @@ namespace Egret.Controllers
         [ValidateAntiForgeryToken]
         public ActionResult Create(Unit unit)
         {
-            ViewData["BackText"] = BackButtonText2;
-
             unit.Sortorder = _context.Units.Max(x => x.Sortorder) + 1;
 
             if (ModelState.IsValid)
@@ -79,11 +75,9 @@ namespace Egret.Controllers
                 }
                 catch
                 {
-                    //ViewData[ExceptionResults] = Exception;
                     return View();
                 }
             }
-
             return RedirectToAction(nameof(Index));
         }
 
