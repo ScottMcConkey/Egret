@@ -5,7 +5,7 @@
     ViewData["HeaderText"] = "Inventory";
 }
 
-<br />
+
 
 <p>
     <a class="test" asp-action="Create">Create New</a>
@@ -55,8 +55,7 @@
                     @Html.DisplayFor(modelItem => item.Buyprice)
                 </td>
                 <td>
-                    <a asp-action="Details" asp-route-id="@item.Code">Details</a> |
-                    <a asp-action="Delete" asp-route-id="@item.Code">Delete</a>
+                    <a class="delete" title="Delete" asp-action="Delete" asp-route-id="@item.Code">&times;</a>
                 </td>
             </tr>
         }

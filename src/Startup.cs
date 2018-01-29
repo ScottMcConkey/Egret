@@ -60,7 +60,8 @@ namespace Egret
             }
             
             app.UseStaticFiles();
-            app.UseIdentity();
+            //app.UseIdentity();
+            app.UseAuthentication();
             loggerFactory.AddDebug();
             app.UseMvc(routes =>
             {

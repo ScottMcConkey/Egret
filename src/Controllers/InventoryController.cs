@@ -168,14 +168,6 @@ namespace Egret.Controllers
         {
             ViewData["BackText"] = BackButtonText;
 
-            //var inventoryItems = _context.InventoryItems
-            //.Include(i => i.BuycurrencyNavigation)
-            //.Include(i => i.BuyunitNavigation)
-            //.Include(i => i.CategoryNavigation)
-            //.Include(i => i.SellcurrencyNavigation)
-            //.Include(i => i.SellunitNavigation);
-            //
-            //return View(await inventoryItems.ToListAsync());
             return View();
         }
 
@@ -183,23 +175,20 @@ namespace Egret.Controllers
         [ValidateAntiForgeryToken]
         public IActionResult Search(InventorySearchViewModel item)
         {
-            List<InventoryItem> results = new List<InventoryItem>();
+            ViewData["BackText"] = BackButtonText;
+
+            //List<InventoryItem> results = new List<InventoryItem>();
+            var results = _context.InventoryItems.AsQueryable();
 
             if (!String.IsNullOrEmpty(item.Code))
             {
-                foreach (var i in _context.InventoryItems.Where(s => s.Code.Contains(item.Code)))
-                {
-                    results.Add(i);
-                }
+                results = results.Where(x => x.Code.Contains(item.Code));
             }
             if (!String.IsNullOrEmpty(item.Description))
             {
-                foreach (var i in _context.InventoryItems.Where(s => s.Description.Contains(item.Description)))
-                {
-                    results.Add(i);
-                }
+                results = results.Where(x => x.Description.Contains(item.Description));
             }
-            return View("SearchResults", results);
+            return View("SearchResults", results.ToList());
                 //RedirectToAction(SearchResults(results));
 
         }
