@@ -68,17 +68,10 @@ namespace Egret.Controllers
 
             if (ModelState.IsValid)
             {
-                try
-                {
-                    _context.Add(unit);
-                    _context.SaveChanges();
-                }
-                catch
-                {
-                    return View();
-                }
+                _context.Add(unit);
+                _context.SaveChanges();
             }
-            return RedirectToAction(nameof(Index));
+            return View(unit);
         }
 
         [HttpGet]

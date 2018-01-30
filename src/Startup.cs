@@ -52,7 +52,7 @@ namespace Egret
             {
                 app.UseDeveloperExceptionPage();
                 app.UseStatusCodePages();
-                app.UseBrowserLink();
+                //app.UseBrowserLink();
             }
             else
             {

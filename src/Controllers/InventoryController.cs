@@ -84,50 +84,37 @@ namespace Egret.Controllers
                 return NotFound();
             }
 
-            var inventoryItems = await _context.InventoryItems.SingleOrDefaultAsync(m => m.Code == id);
-            if (inventoryItems == null)
+            var item = await _context.InventoryItems.SingleOrDefaultAsync(m => m.Code == id);
+            if (item == null)
             {
                 return NotFound();
             }
-            ViewData["Buycurrency"] = new SelectList(_activeCurrencyTypes, "Abbreviation", "Abbreviation", inventoryItems.Buycurrency);
-            ViewData["Buyunit"] = new SelectList(_activeUnits, "Id", "Abbreviation", inventoryItems.Buyunit);
-            ViewData["Category"] = new SelectList(_activeInventoryCategories, "Name", "Name", inventoryItems.Category);
-            ViewData["Sellcurrency"] = new SelectList(_activeCurrencyTypes, "Id", "Abbreviation", inventoryItems.Sellcurrency);
-            ViewData["Sellunit"] = new SelectList(_activeUnits, "Abbreviation", "Abbreviation", inventoryItems.Sellunit);
-            return View(inventoryItems);
+            ViewData["Buycurrency"] = new SelectList(_activeCurrencyTypes, "Abbreviation", "Abbreviation", item.Buycurrency);
+            ViewData["Buyunit"] = new SelectList(_activeUnits, "Id", "Abbreviation", item.Buyunit);
+            ViewData["Category"] = new SelectList(_activeInventoryCategories, "Name", "Name", item.Category);
+            ViewData["Sellcurrency"] = new SelectList(_activeCurrencyTypes, "Id", "Abbreviation", item.Sellcurrency);
+            ViewData["Sellunit"] = new SelectList(_activeUnits, "Abbreviation", "Abbreviation", item.Sellunit);
+            return View(item);
         }
 
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Edit(string id, [Bind("Code,Description,Category,Comment,Sellprice,Sellcurrency,Sellunit,Buyprice,Buycurrency,Buyunit,Stockvalue,SupplierFk,Salesacct,Stockacct,Cogacct,Sohcount,Stocktakenewqty,Flags,Qtybrksellprice,Costprice,Isconversion,Conversionsource,Useraddedby,Userupdatedby,Dateadded,Dateupdated")] InventoryItem inventoryItems)
+        public async Task<IActionResult> Edit(string id, [Bind("Code,Description,Category,Comment,Sellprice,Sellcurrency,Sellunit,Buyprice,Buycurrency,Buyunit,Stockvalue,SupplierFk,Salesacct,Stockacct,Cogacct,Sohcount,Stocktakenewqty,Flags,Qtybrksellprice,Costprice,Isconversion,Conversionsource,Useraddedby,Userupdatedby,Dateadded,Dateupdated")] InventoryItem item)
         {
+
+            ViewData["BackText"] = BackButtonText;
 
             if (ModelState.IsValid)
             {
-                try
-                {
-                    _context.Update(inventoryItems);
-                    await _context.SaveChangesAsync();
-                }
-                catch (DbUpdateConcurrencyException)
-                {
-                    if (!InventoryItemsExists(inventoryItems.Code))
-                    {
-                        return NotFound();
-                    }
-                    else
-                    {
-                        throw;
-                    }
-                }
-                return RedirectToAction(nameof(Index));
+                _context.Update(item);
+                await _context.SaveChangesAsync();
             }
-            ViewData["Buycurrency"] = new SelectList(_activeCurrencyTypes, "Abbreviation", "Abbreviation", inventoryItems.Buycurrency);
-            ViewData["Buyunit"] = new SelectList(_activeUnits, "Abbreviation", "Abbreviation", inventoryItems.Buyunit);
-            ViewData["Category"] = new SelectList(_activeInventoryCategories, "Name", "Name", inventoryItems.Category);
-            ViewData["Sellcurrency"] = new SelectList(_activeCurrencyTypes, "Abbreviation", "Abbreviation", inventoryItems.Sellcurrency);
-            ViewData["Sellunit"] = new SelectList(_activeUnits, "Abbreviation", "Abbreviation", inventoryItems.Sellunit);
-            return View(inventoryItems);
+            ViewData["Buycurrency"] = new SelectList(_activeCurrencyTypes, "Abbreviation", "Abbreviation", item.Buycurrency);
+            ViewData["Buyunit"] = new SelectList(_activeUnits, "Abbreviation", "Abbreviation", item.Buyunit);
+            ViewData["Category"] = new SelectList(_activeInventoryCategories, "Name", "Name", item.Category);
+            ViewData["Sellcurrency"] = new SelectList(_activeCurrencyTypes, "Abbreviation", "Abbreviation", item.Sellcurrency);
+            ViewData["Sellunit"] = new SelectList(_activeUnits, "Abbreviation", "Abbreviation", item.Sellunit);
+            return View(item);
         }
 
         [HttpGet]
@@ -177,7 +164,6 @@ namespace Egret.Controllers
         {
             ViewData["BackText"] = BackButtonText;
 
-            //List<InventoryItem> results = new List<InventoryItem>();
             var results = _context.InventoryItems.AsQueryable();
 
             if (!String.IsNullOrEmpty(item.Code))
@@ -188,13 +174,13 @@ namespace Egret.Controllers
             {
                 results = results.Where(x => x.Description.Contains(item.Description));
             }
-            return View("SearchResults", results.ToList());
-                //RedirectToAction(SearchResults(results));
+            return View("Results", results.ToList());
+            //return RedirectToAction(SearchResults(results.ToList()));
 
         }
 
         [HttpGet]
-        public IActionResult SearchResults(List<InventoryItem> results)
+        public IActionResult Results(List<InventoryItem> results)
         {
             ViewData["BackText"] = BackButtonText;
 
@@ -204,7 +190,7 @@ namespace Egret.Controllers
             //    .Include(i => i.CategoryNavigation)
             //    .Include(i => i.SellcurrencyNavigation)
             //    .Include(i => i.SellunitNavigation);
-            return View(results);
+            return View();
         }
 
         private bool InventoryItemsExists(string id)

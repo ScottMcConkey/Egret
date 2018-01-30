@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.ComponentModel;
 using System.ComponentModel.DataAnnotations;
 using Egret.Models;
 
@@ -45,20 +46,21 @@ namespace Egret.Models
         [Display(Name = "Cost Price")]
         public double? Costprice { get; set; }
         [Display(Name = "Is Conversion?")]
-        public bool? Isconversion { get; set; }
+        public bool Isconversion { get; set; }
         [Display(Name = "Conversion Source")]
+        [ReadOnly(true)]
         public string Conversionsource { get; set; }
         [Display(Name = "Added By")]
-        [Editable(false)]
+        [ReadOnly(true)]
         public string Addedby { get; set; }
         [Display(Name = "Updated By")]
-        [Editable(false)]
+        [ReadOnly(true)]
         public string Updatedby { get; set; }
         [Display(Name = "Added")]
-        [Editable(false)]
+        [ReadOnly(true)]
         public DateTime? Dateadded { get; set; }
         [Display(Name = "Updated")]
-        [Editable(false)]
+        [ReadOnly(true)]
         public DateTime? Dateupdated { get; set; }
 
         public CurrencyType BuycurrencyNavigation { get; set; }

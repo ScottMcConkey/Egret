@@ -16,7 +16,6 @@
             @if (!Html.ViewData.ModelState.IsValid)
             {
                 <div class="alert alert-danger">@Html.ValidationSummary()</div>
-                <div asp-validation-summary="ModelOnly" class="text-danger"></div>
             }
 
             <!-- Tab Links -->
@@ -131,9 +130,9 @@
 
             <div class="tab-content">
 
-                <div class="form-group">
+                <div class="form-group form-inline">
+                    <input asp-for="Isconversion" class="form-control" type="checkbox" />
                     <label asp-for="Isconversion" class="control-label"></label>
-                    <input asp-for="Isconversion" class="form-control" />
                     <span asp-validation-for="Isconversion" class="text-danger"></span>
                 </div>
                 <div class="form-group">
@@ -143,22 +142,22 @@
                 </div>
                 <div class="form-group">
                     <label asp-for="Addedby" class="control-label"></label>
-                    <input asp-for="Addedby" class="form-control" />
+                    <input asp-for="Addedby" class="form-control" readonly="readonly" />
                     <span asp-validation-for="Addedby" class="text-danger"></span>
                 </div>
                 <div class="form-group">
                     <label asp-for="Updatedby" class="control-label"></label>
-                    <input asp-for="Updatedby" class="form-control" />
+                    <input asp-for="Updatedby" class="form-control" readonly="readonly" />
                     <span asp-validation-for="Updatedby" class="text-danger"></span>
                 </div>
                 <div class="form-group">
                     <label asp-for="Dateadded" class="control-label"></label>
-                    <input asp-for="Dateadded" class="form-control" />
+                    <input asp-for="Dateadded" class="form-control" readonly="readonly" />
                     <span asp-validation-for="Dateadded" class="text-danger"></span>
                 </div>
                 <div class="form-group">
                     <label asp-for="Dateupdated" class="control-label"></label>
-                    <input asp-for="Dateupdated" class="form-control" />
+                    <input asp-for="Dateupdated" class="form-control" readonly="readonly" />
                     <span asp-validation-for="Dateupdated" class="text-danger"></span>
                 </div>
             </div><!-- end tab content -->

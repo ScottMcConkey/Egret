@@ -14,7 +14,9 @@ namespace Egret.Models
         }
 
         public int Id { get; set; }
+        [Required]
         public string Name { get; set; }
+        [Required]
         public string Abbreviation { get; set; }
         [Display(Name = "Sort Order")]
         public int Sortorder { get; set; }
