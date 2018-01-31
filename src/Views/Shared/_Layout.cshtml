@@ -9,9 +9,15 @@
     <script src="~/lib/jquery/dist/jquery.js"></script>
     <script type="text/javascript">
 
-        $(document).ready(function () {
-            $("div#main-top").css("height", $("div.leftnav ul li").height() + 1 + "px");
+        function SetContentHeight() {
             $("div#main").css("min-height", $("div.leftnav").height() + "px");
+        }
+
+        $(document).ready(function () {
+
+            
+            $("div#main-top").css("height", $("div.leftnav ul li").height() + 1 + "px");
+            SetContentHeight();
             $("table.results tr:even").addClass("shaded");
             $("#main-bottom").css("min-height", $(document).height() - 175 + "px");
 
@@ -19,7 +25,6 @@
             // Manage Validation Errors
             $("input.input-validation-error").closest(".form-group").addClass("has-error");
             $(".has-error").on("click", function () {
-                console.log($(this).first("input.input-validation-error"));
                 $("input.input-validation-error").val("test2");
                 $(this).removeClass("has-error");
             });
@@ -36,6 +41,8 @@
                 var idx = $(".tab-header").index(this);
                 $(".tab-content").css("display", "none");
                 $(".tab-content").eq(idx).css("display", "block");
+                SetContentHeight();
+                console.log("got here");
             });
 
             // Manage Multi-Row Radio Selects

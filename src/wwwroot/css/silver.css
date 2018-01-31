@@ -107,8 +107,6 @@ hr {
         min-width: 700px;
         width: 100%;
         padding-left: 10px;
-        /*height: 64px;*/
-        /*min-height: 500px;*/
         border-bottom: 1px solid #ccc;
         display: block;
         margin: 0;
@@ -147,17 +145,10 @@ th {
 }
 
 /* Manage tabs */
-.tab-page {
+.tab-content {
     display: none;
 }
 
-.tab-page:first-of-type {
-    display: block;
-}
-
-.tab-container {
-    position: static;
-}
 
 .validation-summary-errors ul {
     padding-left: 10px;
