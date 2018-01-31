@@ -6,7 +6,10 @@
     <link rel="stylesheet" asp-href-include="~/lib/css/reset.css" />
     <link rel="stylesheet" asp-href-include="~/lib/bootstrap/dist/css/*.css" />
     <link type="text/css" rel="stylesheet" asp-href-include="~/css/*.css" />
-    <script src="~/lib/jquery/dist/jquery.js"></script>
+    <script src="~/lib/jquery/dist/*.min.js"></script>
+    <script asp-src-include="~/lib/jquery/dist/*.min.js"></script>
+    <script asp-src-include="~/lib/jquery-validation/dist/jquery.*.min.js"></script>
+    <script asp-src-include="~/lib/jquery-validation-unobtrusive/dist/*.min.js"></script>
     <script type="text/javascript">
 
         function SetContentHeight() {
@@ -15,7 +18,7 @@
 
         $(document).ready(function () {
 
-            
+
             $("div#main-top").css("height", $("div.leftnav ul li").height() + 1 + "px");
             SetContentHeight();
             $("table.results tr:even").addClass("shaded");
@@ -42,24 +45,19 @@
                 $(".tab-content").css("display", "none");
                 $(".tab-content").eq(idx).css("display", "block");
                 SetContentHeight();
-                console.log("got here");
             });
 
             // Manage Multi-Row Radio Selects
             $(".radio[value='False']").removeAttr("checked");
             $(".radio").on("click", function () {
 
-                if ($(this).attr("checked") == "checked")
-                {
+                if ($(this).attr("checked") == "checked") {
                     $(this).attr("checked", false).attr("value", false);
-                }
-                else 
-                {
+                } else {
                     $(".radio").attr("checked", false).attr("value", false);
                     $(this).prop("checked", true).attr("checked", true).attr("value", true);
                 }
-                
-            })
+            });
         });
 
     </script>
