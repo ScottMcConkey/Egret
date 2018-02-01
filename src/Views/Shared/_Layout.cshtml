@@ -6,61 +6,10 @@
     <link rel="stylesheet" asp-href-include="~/lib/css/reset.css" />
     <link rel="stylesheet" asp-href-include="~/lib/bootstrap/dist/css/*.css" />
     <link type="text/css" rel="stylesheet" asp-href-include="~/css/*.css" />
-    <script src="~/lib/jquery/dist/*.min.js"></script>
     <script asp-src-include="~/lib/jquery/dist/*.min.js"></script>
     <script asp-src-include="~/lib/jquery-validation/dist/jquery.*.min.js"></script>
     <script asp-src-include="~/lib/jquery-validation-unobtrusive/dist/*.min.js"></script>
-    <script type="text/javascript">
-
-        function SetContentHeight() {
-            $("div#main").css("min-height", $("div.leftnav").height() + "px");
-        }
-
-        $(document).ready(function () {
-
-
-            $("div#main-top").css("height", $("div.leftnav ul li").height() + 1 + "px");
-            SetContentHeight();
-            $("table.results tr:even").addClass("shaded");
-            $("#main-bottom").css("min-height", $(document).height() - 175 + "px");
-
-
-            // Manage Validation Errors
-            $("input.input-validation-error").closest(".form-group").addClass("has-error");
-            $(".has-error").on("click", function () {
-                $("input.input-validation-error").val("test2");
-                $(this).removeClass("has-error");
-            });
-
-
-            // Manage Tabs
-            $(".tab-header").removeClass("active");
-            $(".tab-header:first").addClass("active");
-            $(".tab-content").css("display", "none");
-            $(".tab-content:first").css("display", "block");
-            $("li.tab-header").on("click", function () {
-                $("li.tab-header").removeClass("active");
-                $(this).addClass("active");
-                var idx = $(".tab-header").index(this);
-                $(".tab-content").css("display", "none");
-                $(".tab-content").eq(idx).css("display", "block");
-                SetContentHeight();
-            });
-
-            // Manage Multi-Row Radio Selects
-            $(".radio[value='False']").removeAttr("checked");
-            $(".radio").on("click", function () {
-
-                if ($(this).attr("checked") == "checked") {
-                    $(this).attr("checked", false).attr("value", false);
-                } else {
-                    $(".radio").attr("checked", false).attr("value", false);
-                    $(this).prop("checked", true).attr("checked", true).attr("value", true);
-                }
-            });
-        });
-
-    </script>
+    <script asp-src-include="~/scripts/*.js"></script>
 
     <title>@ViewData["Title"]</title>
 </head>
