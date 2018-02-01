@@ -4,7 +4,6 @@
 
 $(document).ready(function () {
 
-
     $("div#main-top").css("height", $("div.leftnav ul li").height() + 1 + "px");
     SetContentHeight();
     $("table.results tr:even").addClass("shaded");
@@ -34,15 +33,23 @@ $(document).ready(function () {
         SetContentHeight();
     });
 
+
     // Manage Multi-Row Radio Selects
     $(".radio[value='False']").removeAttr("checked");
     $(".radio").on("click", function () {
 
         if ($(this).attr("checked") == "checked") {
             $(this).attr("checked", false).attr("value", false);
-        } else {
+        }
+        else {
             $(".radio").attr("checked", false).attr("value", false);
             $(this).prop("checked", true).attr("checked", true).attr("value", true);
         }
     });
+
+    // Manage Success Messages
+    $(function () {
+        $("#success").delay(2000).fadeOut(5000);
+    });
+
 });

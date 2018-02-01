@@ -17,6 +17,13 @@
             {
                 <div class="alert alert-danger">@Html.ValidationSummary()</div>
             }
+            
+            @if (TempData["SuccessMessage"] != null)
+            {
+                <div id="success" class="alert alert-success" title="Success"><span class="glyphicon glyphicon-check"></span> @TempData["SuccessMessage"]</div>
+            }
+            
+            
 
             <!-- Tab Links -->
             <ul class="nav nav-tabs">

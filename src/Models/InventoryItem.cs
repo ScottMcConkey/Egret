@@ -6,6 +6,9 @@ using Egret.Models;
 
 namespace Egret.Models
 {
+    /// <summary>
+    /// Test
+    /// </summary>
     public partial class InventoryItem
     {
         public string Code { get; set; }
