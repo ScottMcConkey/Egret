@@ -36,17 +36,10 @@ namespace Egret.Controllers
             {
                 for (int i = 0; i < units.Count; i++)
                 {
-                    try
-                    {
-                        _context.Update(units[i]);
-                    }
-                    catch (DbUpdateConcurrencyException)
-                    {
-
-                    }
+                    _context.Update(units[i]);
                 }
-
                 _context.SaveChanges();
+                TempData["SuccessMessage"] = "Save Complete";
             }
 
             return RedirectToAction(nameof(Index));
@@ -75,7 +68,6 @@ namespace Egret.Controllers
         }
 
         [HttpGet]
-        [ActionName("Delete")]
         public ActionResult Delete(int id)
         {
             var unit = _context.Units.SingleOrDefault(m => m.Id == id);

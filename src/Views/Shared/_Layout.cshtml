@@ -33,6 +33,10 @@
                     @ViewData["HeaderText"]
                 </div>
                 <div id="main-bottom">
+                    @if (TempData["SuccessMessage"] != null)
+                    {
+                        <div id="success" class="alert alert-success"><span class="glyphicon glyphicon-check"></span> @TempData["SuccessMessage"]</div>
+                    }
                     @RenderBody()
                 </div>
             </div>

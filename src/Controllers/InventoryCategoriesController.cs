@@ -31,19 +31,11 @@ namespace Egret.Controllers
             {
                 for (int i = 0; i < inventoryCategories.Count; i++)
                 {
-                    try
-                    {
-                        _context.Update(inventoryCategories[i]);
-                    }
-                    catch (DbUpdateConcurrencyException)
-                    {
-
-                    }
+                    _context.Update(inventoryCategories[i]);
                 }
             }
-
             _context.SaveChanges();
-
+            TempData["SuccessMessage"] = "Save Complete";
             return RedirectToAction(nameof(Index));
         }
 
@@ -62,15 +54,8 @@ namespace Egret.Controllers
 
             if (ModelState.IsValid)
             {
-                try
-                {
-                    _context.Add(category);
-                    _context.SaveChanges();
-                }
-                catch
-                {
-                    return View();
-                }
+                _context.Add(category);
+                _context.SaveChanges();
             }
             return RedirectToAction(nameof(Index));
         }

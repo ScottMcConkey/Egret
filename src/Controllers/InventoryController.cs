@@ -108,7 +108,7 @@ namespace Egret.Controllers
             {
                 _context.Update(item);
                 await _context.SaveChangesAsync();
-                TempData["SuccessMessage"] = "Save Complete" ;
+                TempData["SuccessMessage"] = "Save Complete";
             }
             ViewData["Buycurrency"] = new SelectList(_activeCurrencyTypes, "Abbreviation", "Abbreviation", item.Buycurrency);
             ViewData["Buyunit"] = new SelectList(_activeUnits, "Abbreviation", "Abbreviation", item.Buyunit);
