@@ -24,6 +24,12 @@ namespace Egret.Controllers
             _activeCurrencyTypes = _context.CurrencyTypes.Where(x => x.Active == true).OrderBy(x => x.Sortorder);
             _activeUnits = _context.Units.Where(x => x.Active == true).OrderBy(x => x.Sortorder);
             _activeInventoryCategories = _context.InventoryCategories.Where(x => x.Active == true).OrderBy(x => x.Sortorder);
+            var egretContext = _context.InventoryItems
+                .Include(i => i.BuycurrencyNavigation)
+                .Include(i => i.BuyunitNavigation)
+                .Include(i => i.CategoryNavigation)
+                .Include(i => i.SellcurrencyNavigation)
+                .Include(i => i.SellunitNavigation);
         }
 
         [HttpGet]
@@ -92,7 +98,7 @@ namespace Egret.Controllers
             ViewData["Buycurrency"] = new SelectList(_activeCurrencyTypes, "Abbreviation", "Abbreviation", item.Buycurrency);
             ViewData["Buyunit"] = new SelectList(_activeUnits, "Id", "Abbreviation", item.Buyunit);
             ViewData["Category"] = new SelectList(_activeInventoryCategories, "Name", "Name", item.Category);
-            ViewData["Sellcurrency"] = new SelectList(_activeCurrencyTypes, "Id", "Abbreviation", item.Sellcurrency);
+            ViewData["Sellcurrency"] = new SelectList(_activeCurrencyTypes, "Abbreviation", "Abbreviation", item.Sellcurrency);
             ViewData["Sellunit"] = new SelectList(_activeUnits, "Abbreviation", "Abbreviation", item.Sellunit);
             return View(item);
         }
@@ -111,10 +117,11 @@ namespace Egret.Controllers
                 TempData["SuccessMessage"] = "Save Complete";
             }
             ViewData["Buycurrency"] = new SelectList(_activeCurrencyTypes, "Abbreviation", "Abbreviation", item.Buycurrency);
-            ViewData["Buyunit"] = new SelectList(_activeUnits, "Abbreviation", "Abbreviation", item.Buyunit);
+            ViewData["Buyunit"] = new SelectList(_activeUnits, "Id", "Abbreviation", item.Buyunit);
             ViewData["Category"] = new SelectList(_activeInventoryCategories, "Name", "Name", item.Category);
             ViewData["Sellcurrency"] = new SelectList(_activeCurrencyTypes, "Abbreviation", "Abbreviation", item.Sellcurrency);
             ViewData["Sellunit"] = new SelectList(_activeUnits, "Abbreviation", "Abbreviation", item.Sellunit);
+            //return RedirectToAction(nameof(Edit));
             return View(item);
         }
 
@@ -165,7 +172,13 @@ namespace Egret.Controllers
         {
             ViewData["BackText"] = BackButtonText;
 
-            var results = _context.InventoryItems.AsQueryable();
+            var results = _context.InventoryItems
+                .Include(i => i.BuycurrencyNavigation)
+                .Include(i => i.BuyunitNavigation)
+                .Include(i => i.CategoryNavigation)
+                .Include(i => i.SellcurrencyNavigation)
+                .Include(i => i.SellunitNavigation)
+                .AsQueryable();
 
             if (!String.IsNullOrEmpty(item.Code))
             {

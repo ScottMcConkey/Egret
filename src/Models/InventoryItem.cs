@@ -17,11 +17,15 @@ namespace Egret.Models
         public string Comment { get; set; }
         [Display(Name = "Sell Price")]
         public double? Sellprice { get; set; }
+        [Display(Name = "Sell Currency")]
         public string Sellcurrency { get; set; }
+        [Display(Name = "Sell Unit")]
         public int? Sellunit { get; set; }
         [Display(Name = "Buy Price")]
         public double? Buyprice { get; set; }
+        [Display(Name = "Buy Currency")]
         public string Buycurrency { get; set; }
+        [Display(Name = "Buy Unit")]
         public int? Buyunit { get; set; }
         [Display(Name = "Stock Value")]
         public double? Stockvalue { get; set; }
