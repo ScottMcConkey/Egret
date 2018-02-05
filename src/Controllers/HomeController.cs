@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Configuration;
 using System.Linq;
 using System.Threading.Tasks;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using System.IO;
 using Microsoft.Extensions.Configuration;
@@ -15,7 +16,7 @@ namespace Egret.Controllers
     public class HomeController : Controller
     {
 
-        // GET: /<controller>/
+        [Authorize]
         public IActionResult Index()
         {
             return View();

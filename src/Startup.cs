@@ -41,7 +41,13 @@ namespace Egret
                 options.UseNpgsql(Configuration["ConnectionStrings:DefaultConnection"]));
             services.AddMvc();
 
-            services.AddIdentity<AppUser, AppRole>()
+            services.AddIdentity<AppUser, IdentityRole>(opts => {
+                opts.Password.RequiredLength = 6;
+                opts.Password.RequireNonAlphanumeric = false;
+                opts.Password.RequireLowercase = false;
+                opts.Password.RequireUppercase = false;
+                opts.Password.RequireDigit = false;
+                opts.User.RequireUniqueEmail = true;})
                 //.AddDefaultTokenProviders();
                 .AddEntityFrameworkStores<EgretContext>();
         }
