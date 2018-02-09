@@ -15,6 +15,7 @@ namespace Egret.Models
         public string Name { get; set; }
         public string Description { get; set; }
         [Display(Name = "Sort Order")]
+        [Range(1, System.Int32.MaxValue, ErrorMessage="Sort Order must be a postitive integer.")]
         public int Sortorder { get; set; }
         public bool Active { get; set; }
 

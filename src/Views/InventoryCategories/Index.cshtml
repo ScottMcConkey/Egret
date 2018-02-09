@@ -5,15 +5,16 @@
     ViewData["HeaderText"] = "Inventory Categories";
 }
 
-<p class="page-nav-container">
-    <a asp-action="Create">Create New</a>
-</p>
-
-<p>
-    @ViewData["Error"]
-</p>
-
 <form asp-action="Index" method="post">
+    
+    @if (!Html.ViewData.ModelState.IsValid)
+    {
+        <div class="alert alert-danger" asp-validation-summary="All"></div>
+    }
+
+    <p class="page-nav-container">
+        <a asp-action="Create">Create New</a>
+    </p>
 
     <table class="table">
         <thead>

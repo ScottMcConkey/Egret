@@ -15,14 +15,14 @@ namespace Egret.Controllers
         public InventoryCategoriesController(EgretContext context)
             : base(context) { }
 
-        // GET: InventoryCategories
+        
+        [HttpGet]
         public IActionResult Index()
         {
             var egretContext = _context.InventoryCategories.OrderBy(x => x.Sortorder);
             return View(egretContext.ToList());
         }
 
-        // POST: InventoryCategories/Index/5
         [HttpPost]
         [ValidateAntiForgeryToken]
         public IActionResult Index(List<InventoryCategory> inventoryCategories)
@@ -33,19 +33,24 @@ namespace Egret.Controllers
                 {
                     _context.Update(inventoryCategories[i]);
                 }
+                _context.SaveChanges();
+                TempData["SuccessMessage"] = "Save Complete";
+                return RedirectToAction("Index");
             }
-            _context.SaveChanges();
-            TempData["SuccessMessage"] = "Save Complete";
-            return RedirectToAction(nameof(Index));
+            else
+            {
+                return View(inventoryCategories);
+            }
+
+            
         }
 
-        // GET: InventoryCategories/Create
+        [HttpGet]
         public ActionResult Create()
         {
             return View();
         }
 
-        // POST: InventoryCategories/Create
         [HttpPost]
         [ValidateAntiForgeryToken]
         public ActionResult Create(InventoryCategory category)
@@ -55,12 +60,13 @@ namespace Egret.Controllers
             if (ModelState.IsValid)
             {
                 _context.Add(category);
-                _context.SaveChanges();
+                
             }
-            return RedirectToAction(nameof(Index));
+            _context.SaveChanges();
+            TempData["SuccessMessage"] = "Save Complete";
+            return View();
         }
 
-        // GET: InventoryCategories/Delete/5
         [ActionName("Delete")]
         public ActionResult Delete(int id)
         {

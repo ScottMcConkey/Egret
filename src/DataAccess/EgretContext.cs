@@ -12,17 +12,12 @@ namespace Egret.DataAccess
     {
         public EgretContext(DbContextOptions<EgretContext> options) 
             : base(options) {}
-        //public EgretContext(DbContextOptions<EgretContext> options)
-        //    : base(options) { }
 
         public virtual DbSet<CurrencyType> CurrencyTypes { get; set; }
         public virtual DbSet<InventoryCategory> InventoryCategories { get; set; }
         public virtual DbSet<InventoryItem> InventoryItems { get; set; }
         public virtual DbSet<Unit> Units { get; set; }
         public virtual DbSet<Supplier> Suppliers { get; set; }
-        //public virtual DbSet<Role> Roles { get; set; }
-        //public virtual DbSet<DbUser> DbUsers { get; set; }
-
 
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
@@ -35,20 +30,6 @@ namespace Egret.DataAccess
             modelBuilder.Entity<AppRole>()
                 .Property(u => u.Id)
                 .HasMaxLength(450);
-            
-            //modelBuilder.Entity<IdentityUserLogin<string>>()
-            //.Property(l => l.LoginProvider)
-            //.HasMaxLength(450);
-            
-            //modelBuilder.Entity<IdentityUserToken<string>>()
-            //    .Property(t => t.LoginProvider)
-            //    .HasMaxLength(450);
-            
-            //modelBuilder.Entity<IdentityUserToken<string>>()
-            //    .Property(t => t.Name)
-            //    .HasMaxLength(450);
-
-
 
             modelBuilder.HasPostgresExtension("adminpack");
 
@@ -250,35 +231,6 @@ namespace Egret.DataAccess
                     .HasColumnName("active");
 
             });
-
-            // This is a test to see if I can plug into the db users
-            // instead of using identity
-
-            //modelBuilder.Entity<DbUser>(entity =>
-            //{
-            //    entity.ToTable("pg_user", "pg_catalog");
-            //
-            //    entity.Property(e => e.Name)
-            //        .HasColumnName("usename");
-            //
-            //    entity.Property(e => e.Usesysid)
-            //        .HasColumnName("usesysid");
-            //
-            //    entity.Property(e => e.Usecreatedb)
-            //        .HasColumnName("usecreateddb");
-            //
-            //    entity.Property(e => e.Userepl)
-            //        .HasColumnName("userepl");
-            //
-            //    entity.Property(e => e.Usebypassrls)
-            //        .HasColumnName("usebypassrls");
-            //
-            //    entity.Property(e => e.Valuntil)
-            //        .HasColumnName("valuntil");
-            //
-            //    entity.Property(e => e.Useconfig)
-            //        .HasColumnName("useconfig");
-            //});
 
             modelBuilder.Entity<Supplier>(entity =>
             {
