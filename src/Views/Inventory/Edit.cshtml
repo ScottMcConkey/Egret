@@ -13,11 +13,6 @@
 
         <form asp-action="Edit">
 
-            @if (!Html.ViewData.ModelState.IsValid)
-            {
-                <div class="alert alert-danger">@Html.ValidationSummary()</div>
-            }
-
             <!-- Tab Links -->
             <ul class="nav nav-tabs">
                 <li class="tab-header"><a style="outline: none;" href="#">Details</a></li>

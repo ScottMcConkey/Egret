@@ -37,6 +37,11 @@
                     {
                         <div id="success" class="alert alert-success"><span class="glyphicon glyphicon-check"></span> @TempData["SuccessMessage"]</div>
                     }
+                    @if (!Html.ViewData.ModelState.IsValid)
+                    {
+                        <div class="alert alert-danger" asp-validation-summary="All"></div>
+                    }
+
                     @RenderBody()
                 </div>
             </div>

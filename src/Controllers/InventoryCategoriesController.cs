@@ -41,8 +41,6 @@ namespace Egret.Controllers
             {
                 return View(inventoryCategories);
             }
-
-            
         }
 
         [HttpGet]

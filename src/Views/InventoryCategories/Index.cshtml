@@ -6,11 +6,6 @@
 }
 
 <form asp-action="Index" method="post">
-    
-    @if (!Html.ViewData.ModelState.IsValid)
-    {
-        <div class="alert alert-danger" asp-validation-summary="All"></div>
-    }
 
     <p class="page-nav-container">
         <a asp-action="Create">Create New</a>
