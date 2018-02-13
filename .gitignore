@@ -1,10 +1,5 @@
 *.vs
-*.sln
-global.json
 bin/
 obj/
-*.config
-*.user
 Project_Readme.html
 project.lock.json
-Backup/
