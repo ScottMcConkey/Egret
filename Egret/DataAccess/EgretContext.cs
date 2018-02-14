@@ -8,6 +8,9 @@ using Egret.Models;
 
 namespace Egret.DataAccess
 {
+    /// <summary>
+    /// This class is the DbContext used throughout the project for accessing database stores with Entity Framework.
+    /// </summary>
     public partial class EgretContext : IdentityDbContext<AppUser>
     {
         public EgretContext(DbContextOptions<EgretContext> options) 
