@@ -24,7 +24,7 @@ namespace Egret.Controllers
         {
             ViewData["BackText"] = BackButtonText;
 
-            var egretContext = _context.Units.OrderBy(x => x.Sortorder);
+            var egretContext = Context.Units.OrderBy(x => x.Sortorder);
             return View(egretContext.ToList());
         }
 
@@ -36,9 +36,9 @@ namespace Egret.Controllers
             {
                 for (int i = 0; i < units.Count; i++)
                 {
-                    _context.Update(units[i]);
+                    Context.Update(units[i]);
                 }
-                _context.SaveChanges();
+                Context.SaveChanges();
                 TempData["SuccessMessage"] = "Save Complete";
             }
 
@@ -57,12 +57,12 @@ namespace Egret.Controllers
         [ValidateAntiForgeryToken]
         public ActionResult Create(Unit unit)
         {
-            unit.Sortorder = _context.Units.Max(x => x.Sortorder) + 1;
+            unit.Sortorder = Context.Units.Max(x => x.Sortorder) + 1;
 
             if (ModelState.IsValid)
             {
-                _context.Add(unit);
-                _context.SaveChanges();
+                Context.Add(unit);
+                Context.SaveChanges();
             }
             return View(unit);
         }
@@ -70,9 +70,9 @@ namespace Egret.Controllers
         [HttpGet]
         public ActionResult Delete(int id)
         {
-            var unit = _context.Units.SingleOrDefault(m => m.Id == id);
-            _context.Units.Remove(unit);
-            _context.SaveChanges();
+            var unit = Context.Units.SingleOrDefault(m => m.Id == id);
+            Context.Units.Remove(unit);
+            Context.SaveChanges();
             return RedirectToAction(nameof(Index));
         }
 

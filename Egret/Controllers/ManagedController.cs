@@ -11,11 +11,16 @@ namespace Egret.Controllers
     [Authorize]
     public class ManagedController : Controller
     {
-        protected EgretContext _context;
+        private EgretContext _context;
 
         public ManagedController(EgretContext context)
         {
             _context = context;
+        }
+
+        protected EgretContext Context
+        {
+            get { return _context; }
         }
     }
 }

@@ -24,7 +24,7 @@ namespace Egret.Controllers
         public IActionResult Index()
         {
             ViewData["BackText"] = BackButtonText;
-            var egretContext = _context.CurrencyTypes.OrderBy(x => x.Sortorder);
+            var egretContext = Context.CurrencyTypes.OrderBy(x => x.Sortorder);
             return View(egretContext.ToList());
         }
 
@@ -36,9 +36,9 @@ namespace Egret.Controllers
             {
                 for (int i = 0; i < types.Count; i++)
                 {
-                    _context.Update(types[i]);
+                    Context.Update(types[i]);
                 }
-                _context.SaveChanges();
+                Context.SaveChanges();
                 TempData["SuccessMessage"] = "Save Complete";
             }
             return RedirectToAction(nameof(Index));
@@ -55,13 +55,13 @@ namespace Egret.Controllers
         [ValidateAntiForgeryToken]
         public IActionResult Create(CurrencyType category)
         {
-            category.Sortorder = _context.CurrencyTypes.Max(x => x.Sortorder) + 1;
+            category.Sortorder = Context.CurrencyTypes.Max(x => x.Sortorder) + 1;
             category.Defaultselection = false;
 
             if (ModelState.IsValid)
             {
-                _context.Add(category);
-                _context.SaveChanges();
+                Context.Add(category);
+                Context.SaveChanges();
             }
             return RedirectToAction(nameof(Index));
         }
@@ -69,9 +69,9 @@ namespace Egret.Controllers
         [HttpGet]
         public IActionResult Delete(int id)
         {
-            var inventoryItems = _context.CurrencyTypes.SingleOrDefault(m => m.Id == id);
-            _context.CurrencyTypes.Remove(inventoryItems);
-            _context.SaveChanges();
+            var inventoryItems = Context.CurrencyTypes.SingleOrDefault(m => m.Id == id);
+            Context.CurrencyTypes.Remove(inventoryItems);
+            Context.SaveChanges();
             return RedirectToAction(nameof(Index));
         }
 

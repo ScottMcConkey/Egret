@@ -19,7 +19,7 @@ namespace Egret.Controllers
         [HttpGet]
         public IActionResult Index()
         {
-            var egretContext = _context.InventoryCategories.OrderBy(x => x.Sortorder);
+            var egretContext = Context.InventoryCategories.OrderBy(x => x.Sortorder);
             return View(egretContext.ToList());
         }
 
@@ -31,9 +31,9 @@ namespace Egret.Controllers
             {
                 for (int i = 0; i < inventoryCategories.Count; i++)
                 {
-                    _context.Update(inventoryCategories[i]);
+                    Context.Update(inventoryCategories[i]);
                 }
-                _context.SaveChanges();
+                Context.SaveChanges();
                 TempData["SuccessMessage"] = "Save Complete";
                 return RedirectToAction("Index");
             }
@@ -53,14 +53,14 @@ namespace Egret.Controllers
         [ValidateAntiForgeryToken]
         public ActionResult Create(InventoryCategory category)
         {
-            category.Sortorder = _context.InventoryCategories.Max(x => x.Sortorder) + 1;
+            category.Sortorder = Context.InventoryCategories.Max(x => x.Sortorder) + 1;
 
             if (ModelState.IsValid)
             {
-                _context.Add(category);
+                Context.Add(category);
                 
             }
-            _context.SaveChanges();
+            Context.SaveChanges();
             TempData["SuccessMessage"] = "Save Complete";
             return View();
         }
@@ -68,9 +68,9 @@ namespace Egret.Controllers
         [ActionName("Delete")]
         public ActionResult Delete(int id)
         {
-            var category = _context.InventoryCategories.SingleOrDefault(m => m.Id == id);
-            _context.InventoryCategories.Remove(category);
-            _context.SaveChanges();
+            var category = Context.InventoryCategories.SingleOrDefault(m => m.Id == id);
+            Context.InventoryCategories.Remove(category);
+            Context.SaveChanges();
             return RedirectToAction(nameof(Index));
         }
     }
