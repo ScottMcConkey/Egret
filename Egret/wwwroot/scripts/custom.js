@@ -40,10 +40,10 @@ $(document).ready(function () {
     $(".radio").on("click", function () {
 
         if ($(this).attr("checked") == "checked") {
-            $(this).attr("checked", false).attr("value", false);
+            $(this).prop("checked", false).attr("checked", false).attr("value", false);
         }
         else {
-            $(".radio").attr("checked", false).attr("value", false);
+            $(".radio").prop("checked", false).attr("checked", false).attr("value", false);
             $(this).prop("checked", true).attr("checked", true).attr("value", true);
         }
     });

@@ -10,18 +10,17 @@ using Egret.Models;
 
 namespace Egret.Controllers
 {
-    public class SuppliersController : Controller
+    public class SuppliersController : ManagedController
     {
-        private readonly EgretContext _context;
 
         public SuppliersController(EgretContext context)
+            :base(context)
         {
-            _context = context;
         }
 
         public IActionResult Edit()
         {
-            var egretContext = _context.Suppliers.OrderBy(x => x.Name);
+            var egretContext = Context.Suppliers.OrderBy(x => x.Name);
             return View(egretContext.ToList());
         }
 
@@ -31,9 +30,9 @@ namespace Egret.Controllers
         {
             for (int i = 0; i < suppliers.Count; i++)
             {
-                _context.Update(suppliers[i]);
+                Context.Update(suppliers[i]);
             }
-            _context.SaveChanges();
+            Context.SaveChanges();
 
             return RedirectToAction(nameof(Edit));
         }

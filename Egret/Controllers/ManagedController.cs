@@ -8,15 +8,14 @@ using Egret.DataAccess;
 
 namespace Egret.Controllers
 {
+    /// <summary>
+    /// This controller is used as a base class for managing derived controllers, consistently setting up dbcontext access, and applying uniform authorization requirements.
+    /// </summary>
     [Authorize]
-    public class ManagedController : Controller
+    public abstract class ManagedController : Controller
     {
         private EgretContext _context;
 
-        /// <summary>
-        /// This controller is used as a base class for managing other controllers, consistently establishing a dbcontext, and applying uniform authorization requirements.
-        /// </summary>
-        /// <param name="context"></param>
         public ManagedController(EgretContext context)
         {
             _context = context;

@@ -19,7 +19,8 @@ namespace Egret.Controllers
         private IQueryable<Unit> ActiveUnits { get; set; }
         private IQueryable<InventoryCategory> ActiveInventoryCategories { get; set; }
 
-        public InventoryController(EgretContext context) :base(context)
+        public InventoryController(EgretContext context) 
+            :base(context)
         {
             ActiveCurrencyTypes = Context.CurrencyTypes.Where(x => x.Active == true).OrderBy(x => x.Sortorder);
             ActiveUnits = Context.Units.Where(x => x.Active == true).OrderBy(x => x.Sortorder);
