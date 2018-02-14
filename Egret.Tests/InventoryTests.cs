@@ -19,5 +19,8 @@ namespace Egret.Tests
             // Assert
             Assert.Equal("Modified Test", i.Description);
         }
+
+        // Test active dropdowns for create and edit
+        // Test default currency type
     }
 }

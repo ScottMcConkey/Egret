@@ -9,9 +9,6 @@ $(document).ready(function () {
     $("table.results tr:even").addClass("shaded");
     $("#main-bottom").css("min-height", $(document).height() - 175 + "px");
 
-    // Autofocus first form input
-    $(":input:enabled:visible:not([readonly]):first").focus();
-
     // Manage Validation Errors
     $("input.input-validation-error").closest(".form-group").addClass("has-error");
     $(".input-validation-error").on("focus", function () {
@@ -35,6 +32,8 @@ $(document).ready(function () {
         SetContentHeight();
     });
 
+    // Autofocus first form input
+    $(":input:enabled:visible:not([readonly]):first").focus();
 
     // Manage Multi-Row Radio Selects
     $(".radio[value='False']").removeAttr("checked");
