@@ -3,3 +3,5 @@ bin/
 obj/
 Project_Readme.html
 project.lock.json
+*.png
+*.prpt

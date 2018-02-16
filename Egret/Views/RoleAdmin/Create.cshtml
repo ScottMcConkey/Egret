@@ -1,0 +1,16 @@
+﻿@model string
+@{ 
+    ViewData["Title"] = "Create Role";
+    ViewData["HeaderText"] = "Create Role";
+}
+
+<div class="bg-primary panel-body"><h4>Create Role</h4></div>
+
+<form asp-action="Create" method="post">
+    <div class="form-group">
+        <label for="name">Name</label>
+        <input for="name" name="name" class="form-control" />
+    </div>
+    <button type="submit" class="btn btn-primary">Create</button>
+    <a asp-action="Index" class="btn btn-secondary">Cancel</a>
+</form>

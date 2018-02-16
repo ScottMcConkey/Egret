@@ -1,4 +1,4 @@
-﻿@model IEnumerable<User>
+﻿@model IEnumerable<IdentityUser>
 @{
     ViewData["Title"] = "Users";
     ViewData["Headertext"] = "User Details";
@@ -20,7 +20,7 @@
     }
     else
     {
-        foreach (User user in Model)
+        foreach (IdentityUser user in Model)
         {
             <tr>
                 <td>@user.Id</td>

@@ -14,9 +14,7 @@ namespace Egret.Controllers
     {
 
         public SuppliersController(EgretContext context)
-            :base(context)
-        {
-        }
+            :base(context) { }
 
         public IActionResult Edit()
         {
