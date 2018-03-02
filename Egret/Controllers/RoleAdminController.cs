@@ -1,14 +1,14 @@
-﻿
+﻿using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
+using System.Linq;
 using System.Threading.Tasks;
 using Microsoft.AspNetCore.Identity;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using Egret.Models;
 using Egret.ViewModels;
-using System.Collections.Generic;
-using Microsoft.AspNetCore.Authorization;
 
-namespace Users.Controllers
+namespace Egret.Controllers
 {
 
     //[Authorize(Roles = "Administrator")]
@@ -24,8 +24,10 @@ namespace Users.Controllers
             userManager = userMrg;
         }
 
+        [HttpGet]
         public ViewResult Index() => View(roleManager.Roles);
 
+        [HttpGet]
         public IActionResult Create() => View();
 
         [HttpPost]
@@ -70,6 +72,7 @@ namespace Users.Controllers
             return View("Index", roleManager.Roles);
         }
 
+        [HttpGet]
         public async Task<IActionResult> Edit(string id)
         {
 

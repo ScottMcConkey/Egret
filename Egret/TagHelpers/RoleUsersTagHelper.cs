@@ -5,7 +5,7 @@ using Microsoft.AspNetCore.Identity.EntityFrameworkCore;
 using Microsoft.AspNetCore.Razor.TagHelpers;
 using Egret.Models;
 
-namespace Users.TagHelpers
+namespace Egret.TagHelpers
 {
 
     [HtmlTargetElement("td", Attributes = "identity-role")]
@@ -24,10 +24,8 @@ namespace Users.TagHelpers
         [HtmlAttributeName("identity-role")]
         public string Role { get; set; }
 
-        public override async Task ProcessAsync(TagHelperContext context,
-                TagHelperOutput output)
+        public override async Task ProcessAsync(TagHelperContext context, TagHelperOutput output)
         {
-
             List<string> names = new List<string>();
             IdentityRole role = await roleManager.FindByIdAsync(Role);
             if (role != null)

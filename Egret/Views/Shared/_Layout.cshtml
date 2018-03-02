@@ -31,11 +31,17 @@
             </div><div id="main">
                 <div id="main-top" class="lead">
                     @ViewData["HeaderText"]
+                    @if (User?.Identity?.IsAuthenticated ?? false)
+                    {
+                        <a class="btn btn-sm btn-primary pull-right" asp-action="Logout" asp-controller="Account">Log Out</a>
+                    }
                 </div>
                 <div id="main-bottom">
                     @if (TempData["SuccessMessage"] != null)
                     {
-                        <div id="success" class="alert alert-success"><span class="glyphicon glyphicon-check"></span> @TempData["SuccessMessage"]</div>
+                        <div id="success" class="alert alert-success">
+                            <span class="glyphicon glyphicon-check"></span> @TempData["SuccessMessage"]
+                        </div>
                     }
                     @if (!Html.ViewData.ModelState.IsValid)
                     {
