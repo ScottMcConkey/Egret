@@ -32,6 +32,15 @@ namespace Egret.Controllers
         [ValidateAntiForgeryToken]
         public IActionResult Index(List<CurrencyType> types)
         {
+            foreach (var type in types)
+            {
+                if (type.Defaultselection && type.Active == false)
+                {
+                    ModelState.AddModelError(String.Empty, "Default row must be active.");
+                    return View(types);
+                }
+            }
+
             if (ModelState.IsValid)
             {
                 for (int i = 0; i < types.Count; i++)
@@ -41,6 +50,7 @@ namespace Egret.Controllers
                 Context.SaveChanges();
                 TempData["SuccessMessage"] = "Save Complete";
             }
+
             return RedirectToAction(nameof(Index));
         }
 
