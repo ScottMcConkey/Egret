@@ -10,10 +10,8 @@ CREATE TABLE public.inventory_items
     comment text COLLATE pg_catalog."default",
     sellprice double precision,
     sellcurrency text COLLATE pg_catalog."default",
-	sellunit_fk integer,
     buyprice double precision,
     buycurrency text COLLATE pg_catalog."default",
-	buyunit_fk integer,
     stockvalue double precision,
     supplier_fk integer,
     salesacct integer,
@@ -30,6 +28,8 @@ CREATE TABLE public.inventory_items
     userupdatedby text COLLATE pg_catalog."default",
     dateadded timestamp without time zone,
     dateupdated timestamp without time zone,
+    sellunit_fk integer,
+    buyunit_fk integer,
     CONSTRAINT inventory_items_pkey PRIMARY KEY (code),
     CONSTRAINT inventory_items_buycurrency_fk FOREIGN KEY (buycurrency)
         REFERENCES admin.currency_types (abbreviation) MATCH SIMPLE
