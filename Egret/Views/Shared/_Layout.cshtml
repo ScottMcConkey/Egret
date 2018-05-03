@@ -41,7 +41,7 @@
                     @ViewData["HeaderText"]
                     @if (User?.Identity?.IsAuthenticated ?? false)
                     {
-                        <a class="btn btn-sm btn-primary pull-right" asp-action="Logout" asp-controller="Account">Log Out</a>
+                        <a class="btn btn-sm btn-primary pull-right" style="margin-top: 15px; margin-right: 15px" asp-action="Logout" asp-controller="Account">Log Out</a>
                     }
                 </div>
                 <div id="main-bottom">

@@ -25,7 +25,19 @@ namespace Egret.Controllers
         }
 
         [HttpGet]
-        public ViewResult Index() => View(roleManager.Roles);
+        public ViewResult Index()
+        {
+            //List<IdentityRole> roles = new List<IdentityRole>();
+
+
+            //foreach (IdentityRole role in roleManager.Roles)
+            //{
+            //roles.Add(role);
+            //}
+
+            //return View(roles);
+            return View(roleManager.Roles.ToList());
+        }
 
         [HttpGet]
         public IActionResult Create() => View();
