@@ -18,8 +18,13 @@ namespace Egret.DataAccess
             userManager = usrMgr;
         }
 
-        public ViewResult Index() => View();
+        [HttpGet]
+        public ViewResult Index()
+        {
+            return View();
+        }
 
+        [HttpGet]
         public ViewResult Create() => View();
 
         [HttpPost]
@@ -33,8 +38,7 @@ namespace Egret.DataAccess
                     Email = model.Email
                 };
 
-                IdentityResult result
-                    = await userManager.CreateAsync(user, model.Password);
+                IdentityResult result = await userManager.CreateAsync(user, model.Password);
 
                 if (result.Succeeded)
                 {

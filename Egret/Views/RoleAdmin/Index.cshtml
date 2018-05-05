@@ -1,7 +1,7 @@
 ﻿@model List<IdentityRole>
 @{
-    ViewData["Title"] = "Roles";
-    ViewData["HeaderText"] = "Role Administration";
+    ViewData["Title"] = "Admin - Roles";
+    ViewData["HeaderText"] = "User Roles";
 }
 
 <div class="text-danger" asp-validation-summary="ModelOnly"></div>
@@ -52,6 +52,6 @@
         </tbody>
     </table>
 
-    <a class="btn btn-primary" asp-action="Create">Create</a>
+    <a asp-controller="Admin" asp-action="Index">Back to Admin</a>
 
 </form>
