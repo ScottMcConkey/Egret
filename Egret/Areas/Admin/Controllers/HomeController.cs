@@ -5,9 +5,10 @@ using System.Threading.Tasks;
 using Microsoft.AspNetCore.Mvc;
 using Egret.DataAccess;
 
-namespace Egret.Controllers
+namespace Egret.Areas.Admin.Controllers
 {
-    public class AdminController : Controller
+    [Area("Admin")]
+    public class HomeController : Controller
     {
         //private readonly EgretContext _context;
         //
