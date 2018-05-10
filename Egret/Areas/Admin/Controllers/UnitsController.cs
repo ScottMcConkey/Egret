@@ -11,6 +11,7 @@ using Egret.Code;
 
 namespace Egret.Controllers
 {
+    [Area("Admin")]
     public class UnitsController : ManagedController
     {
         public readonly string BackButtonText = "Back to Admin";

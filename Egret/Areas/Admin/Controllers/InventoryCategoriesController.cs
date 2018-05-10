@@ -10,6 +10,7 @@ using Egret.Models;
 
 namespace Egret.Controllers
 {
+    [Area("Admin")]
     public class InventoryCategoriesController : ManagedController
     {
         public InventoryCategoriesController(EgretContext context)

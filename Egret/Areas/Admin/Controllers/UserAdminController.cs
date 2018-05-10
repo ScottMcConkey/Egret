@@ -9,11 +9,12 @@ using Egret.ViewModels;
 
 namespace Egret.DataAccess
 {
-    public class UsersController : Controller
+    [Area("Admin")]
+    public class UserAdminController : Controller
     {
         private UserManager<AppUser> userManager;
         
-        public UsersController(UserManager<AppUser> usrMgr)
+        public UserAdminController(UserManager<AppUser> usrMgr)
         {
             userManager = usrMgr;
         }
@@ -21,7 +22,7 @@ namespace Egret.DataAccess
         [HttpGet]
         public ViewResult Index()
         {
-            return View();
+            return View(userManager.Users.ToList());
         }
 
         [HttpGet]

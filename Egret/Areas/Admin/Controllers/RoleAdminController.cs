@@ -10,7 +10,7 @@ using Egret.ViewModels;
 
 namespace Egret.Controllers
 {
-
+    [Area("Admin")]
     //[Authorize(Roles = "Administrator")]
     public class RoleAdminController : Controller
     {
