@@ -12,6 +12,7 @@ using Egret.Models;
 
 namespace Egret.Controllers
 {
+    [Area("Admin")]
     public class CurrencyTypesController : ManagedController
     {
         public string BackButtonText = "Back to Admin";

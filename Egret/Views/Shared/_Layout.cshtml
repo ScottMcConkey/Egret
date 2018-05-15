@@ -19,7 +19,7 @@
 
     <script asp-src-include="~/scripts/*.js"></script>
 
-    <title>@ViewData["Title"]</title>
+    <title>@ViewData["WindowTitle"]</title>
 </head>
 <body>
     <div class="titleband">Egret</div>
@@ -34,11 +34,11 @@
                     <li><a asp-action="Events"><span class="glyphicon glyphicon-barcode"></span>Events</a></li>
                     <li><a asp-controller="Suppliers" asp-action="Edit"><span class="glyphicon glyphicon-user"></span>Suppliers</a></li>
                     <li><a asp-action="Reports"><span class="glyphicon glyphicon-signal"></span>Reports</a></li>
-                    <li><a asp-controller="Admin" asp-action="Index"><span class="glyphicon glyphicon-cog"></span>Admin</a></li>
+                    <li><a asp-area="Admin" asp-controller="Home" asp-action="Index"><span class="glyphicon glyphicon-cog"></span>Admin</a></li>
                 </ul>
             </div><div id="main">
                 <div id="main-top" class="lead">
-                    @ViewData["HeaderText"]
+                    @ViewData["PageTitle"]
                     @if (User?.Identity?.IsAuthenticated ?? false)
                     {
                         <a class="btn btn-sm btn-primary pull-right" style="margin-top: 15px; margin-right: 15px" asp-action="Logout" asp-controller="Account">Log Out</a>

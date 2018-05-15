@@ -33,6 +33,10 @@ namespace Egret.Controllers
         [ValidateAntiForgeryToken]
         public IActionResult Index(List<Unit> units)
         {
+            var duplicates = units.GroupBy(x => x).Where(g => g.Count() > 1)
+                .Select(y => y.Key)
+                .ToList();
+
             if (ModelState.IsValid)
             {
                 for (int i = 0; i < units.Count; i++)
