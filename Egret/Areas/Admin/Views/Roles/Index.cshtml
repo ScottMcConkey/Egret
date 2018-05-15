@@ -41,8 +41,8 @@
                         </td>
                         <td identity-role="@Model[i].Id"></td>
                         @*<td>
-                            <input type="checkbox" asp-for="@Model[i].Active" class="form-control" />
-                        </td>*@
+                                <input type="checkbox" asp-for="@Model[i].Active" class="form-control" />
+                            </td>*@
                         <td>
                             <a asp-action="Delete" asp-route-id="@Model[i].Id" asp- style="color: red; font-size: 25px; font-weight: bold; text-decoration: none;" title="Delete">&times;</a>
                         </td>
@@ -52,6 +52,8 @@
         </tbody>
     </table>
 
-    <a asp-controller="Admin" asp-action="Index">Back to Admin</a>
-
 </form>
+
+<div>
+    <a asp-area="Admin" asp-controller="Home" asp-action="Index">@ViewData["BackText"]</a>
+</div>

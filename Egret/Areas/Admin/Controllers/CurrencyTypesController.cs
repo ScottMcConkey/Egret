@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.Collections;
 using System.Linq;
+using System.Reflection;
 using System.Threading.Tasks;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
@@ -15,6 +16,13 @@ namespace Egret.Controllers
     [Area("Admin")]
     public class CurrencyTypesController : ManagedController
     {
+        private string GetBackText(object method)
+        {
+            string test = method.GetType().Name + "Test" + method.GetType().ToString();
+
+            return test;
+        }
+
         public string BackButtonText = "Back to Admin";
         public string BackButtonText2 = "Back to Currency Types";
 
@@ -24,7 +32,7 @@ namespace Egret.Controllers
         [HttpGet]
         public IActionResult Index()
         {
-            ViewData["BackText"] = BackButtonText;
+            ViewData["BackText"] = GetBackText(this);//BackButtonText;
             var egretContext = Context.CurrencyTypes.OrderBy(x => x.Sortorder);
             return View(egretContext.ToList());
         }

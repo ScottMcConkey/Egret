@@ -33,9 +33,44 @@ namespace Egret.Controllers
         [ValidateAntiForgeryToken]
         public IActionResult Index(List<Unit> units)
         {
-            var duplicates = units.GroupBy(x => x).Where(g => g.Count() > 1)
+            ViewData["BackText"] = "Back to Admin";
+
+            // Find duplicates
+            var duplicateSortOrders = units.GroupBy(x => x.Sortorder).Where(g => g.Count() > 1)
                 .Select(y => y.Key)
                 .ToList();
+            var duplicateAbbr = units.GroupBy(x => x.Abbreviation).Where(g => g.Count() > 1)
+                .Select(y => y.Key)
+                .ToList();
+            var duplicateName = units.GroupBy(x => x.Name).Where(g => g.Count() > 1)
+                .Select(y => y.Key)
+                .ToList();
+
+            // Find Sort Order <= 0
+            var badSort = units.Where(x => x.Sortorder <= 0);
+
+            // Find usage
+
+
+            if (duplicateName.Count > 0)
+            {
+                ModelState.AddModelError("", "Duplicate Name detected. Please assign every Unit a unique Name.");
+            }
+
+            if (duplicateAbbr.Count > 0)
+            {
+                ModelState.AddModelError("", "Duplicate Abbreviation detected. Please assign every Unit a unique Abbreviation.");
+            }
+
+            if (duplicateSortOrders.Count > 0)
+            {
+                ModelState.AddModelError("", "Duplicate Sort Order detected. Please assign every Unit a unique Sort Order.");
+            }
+
+            if (badSort.Count() > 0)
+            {
+                ModelState.AddModelError("", "Sort Order below 1 detected. Please assign every Unit a positive Sort Order.");
+            }
 
             if (ModelState.IsValid)
             {
@@ -45,6 +80,10 @@ namespace Egret.Controllers
                 }
                 Context.SaveChanges();
                 TempData["SuccessMessage"] = "Save Complete";
+            }
+            else
+            {
+                return View(units);
             }
 
             return RedirectToAction(nameof(Index));
