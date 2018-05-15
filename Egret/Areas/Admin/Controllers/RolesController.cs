@@ -12,12 +12,12 @@ namespace Egret.Controllers
 {
     [Area("Admin")]
     //[Authorize(Roles = "Administrator")]
-    public class RoleAdminController : Controller
+    public class RolesController : Controller
     {
         private RoleManager<IdentityRole> roleManager;
         private UserManager<AppUser> userManager;
 
-        public RoleAdminController(RoleManager<IdentityRole> roleMgr,
+        public RolesController(RoleManager<IdentityRole> roleMgr,
                                    UserManager<AppUser> userMrg)
         {
             roleManager = roleMgr;

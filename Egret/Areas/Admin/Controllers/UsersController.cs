@@ -10,11 +10,11 @@ using Egret.ViewModels;
 namespace Egret.DataAccess
 {
     [Area("Admin")]
-    public class UserAdminController : Controller
+    public class UsersController : Controller
     {
         private UserManager<AppUser> userManager;
         
-        public UserAdminController(UserManager<AppUser> usrMgr)
+        public UsersController(UserManager<AppUser> usrMgr)
         {
             userManager = usrMgr;
         }
