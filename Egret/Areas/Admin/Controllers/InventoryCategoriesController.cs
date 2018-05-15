@@ -28,6 +28,37 @@ namespace Egret.Controllers
         [ValidateAntiForgeryToken]
         public IActionResult Index(List<InventoryCategory> inventoryCategories)
         {
+            ViewData["BackText"] = "Back to Admin";
+
+            // Find duplicates
+            var duplicateName = inventoryCategories.GroupBy(x => x.Name).Where(g => g.Count() > 1)
+                .Select(y => y.Key)
+                .ToList();
+            var duplicateSortOrder = inventoryCategories.GroupBy(x => x.Sortorder).Where(g => g.Count() > 1)
+                .Select(y => y.Key)
+                .ToList();
+
+            // Find Sort Order <= 0
+            var badSort = inventoryCategories.Where(x => x.Sortorder <= 0);
+
+            // Find usage
+
+
+            if (duplicateName.Count > 0)
+            {
+                ModelState.AddModelError("", "Duplicate Name detected. Please assign every Inventory Category a unique Name.");
+            }
+
+            if (duplicateSortOrder.Count > 0)
+            {
+                ModelState.AddModelError("", "Duplicate Sort Order detected. Please assign every Inventory Category a unique Sort Order.");
+            }
+
+            if (badSort.Count() > 0)
+            {
+                ModelState.AddModelError("", "Sort Order below 1 detected. Please assign every Inventory Category a positive Sort Order.");
+            }
+
             if (ModelState.IsValid)
             {
                 for (int i = 0; i < inventoryCategories.Count; i++)
@@ -36,12 +67,13 @@ namespace Egret.Controllers
                 }
                 Context.SaveChanges();
                 TempData["SuccessMessage"] = "Save Complete";
-                return RedirectToAction("Index");
             }
             else
             {
                 return View(inventoryCategories);
             }
+
+            return RedirectToAction(nameof(Index));
         }
 
         [HttpGet]

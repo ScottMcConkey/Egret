@@ -36,13 +36,13 @@ namespace Egret.Controllers
             ViewData["BackText"] = "Back to Admin";
 
             // Find duplicates
-            var duplicateSortOrders = units.GroupBy(x => x.Sortorder).Where(g => g.Count() > 1)
+            var duplicateName = units.GroupBy(x => x.Name).Where(g => g.Count() > 1)
                 .Select(y => y.Key)
                 .ToList();
             var duplicateAbbr = units.GroupBy(x => x.Abbreviation).Where(g => g.Count() > 1)
                 .Select(y => y.Key)
                 .ToList();
-            var duplicateName = units.GroupBy(x => x.Name).Where(g => g.Count() > 1)
+            var duplicateSortOrder = units.GroupBy(x => x.Sortorder).Where(g => g.Count() > 1)
                 .Select(y => y.Key)
                 .ToList();
 
@@ -62,7 +62,7 @@ namespace Egret.Controllers
                 ModelState.AddModelError("", "Duplicate Abbreviation detected. Please assign every Unit a unique Abbreviation.");
             }
 
-            if (duplicateSortOrders.Count > 0)
+            if (duplicateSortOrder.Count > 0)
             {
                 ModelState.AddModelError("", "Duplicate Sort Order detected. Please assign every Unit a unique Sort Order.");
             }
