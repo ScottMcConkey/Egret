@@ -41,6 +41,53 @@ namespace Egret.Controllers
         [ValidateAntiForgeryToken]
         public IActionResult Index(List<CurrencyType> types)
         {
+            ViewData["BackText"] = "Back to Admin";
+
+            // Find duplicates
+            var duplicateName = types.GroupBy(x => x.Name).Where(g => g.Count() > 1)
+                .Select(y => y.Key)
+                .ToList();
+            var duplicateAbbr = types.GroupBy(x => x.Abbreviation).Where(g => g.Count() > 1)
+                .Select(y => y.Key)
+                .ToList();
+            var duplicateSymbol = types.GroupBy(x => x.Symbol).Where(g => g.Count() > 1)
+                .Select(y => y.Key)
+                .ToList();
+            var duplicateSortOrder = types.GroupBy(x => x.Sortorder).Where(g => g.Count() > 1)
+                .Select(y => y.Key)
+                .ToList();
+
+            // Find Sort Order <= 0
+            var badSort = types.Where(x => x.Sortorder <= 0);
+
+
+            if (duplicateName.Count > 0)
+            {
+                ModelState.AddModelError("", "Duplicate Name detected. Please assign every Currency Type a unique Name.");
+            }
+
+            if (duplicateAbbr.Count > 0)
+            {
+                ModelState.AddModelError("", "Duplicate Abbreviation detected. Please assign every Currency Type a unique Abbreviation.");
+            }
+
+            if (duplicateSymbol.Count > 0)
+            {
+                ModelState.AddModelError("", "Duplicate Symbol detected. Please assign every Currency Type a unique Symbol.");
+            }
+
+            if (duplicateSortOrder.Count > 0)
+            {
+                ModelState.AddModelError("", "Duplicate Sort Order detected. Please assign every Currency Type a unique Sort Order.");
+            }
+
+            if (badSort.Count() > 0)
+            {
+                ModelState.AddModelError("", "Sort Order below 1 detected. Please assign every Currency Type a positive Sort Order.");
+            }
+
+
+            // Ensure inactive currency type is not set as default
             foreach (var type in types)
             {
                 if (type.Defaultselection && type.Active == false)
@@ -58,6 +105,10 @@ namespace Egret.Controllers
                 }
                 Context.SaveChanges();
                 TempData["SuccessMessage"] = "Save Complete";
+            }
+            else
+            {
+                return View(types);
             }
 
             return RedirectToAction(nameof(Index));
