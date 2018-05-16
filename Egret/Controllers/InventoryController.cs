@@ -13,8 +13,6 @@ namespace Egret.Controllers
 {
     public class InventoryController : ManagedController
     {
-        public readonly string BackButtonText = "Back to Inventory";
-
         private IQueryable<CurrencyType> ActiveCurrencyTypes { get; set; }
         private IQueryable<Unit> ActiveUnits { get; set; }
         private IQueryable<InventoryCategory> ActiveInventoryCategories { get; set; }
@@ -42,8 +40,6 @@ namespace Egret.Controllers
         [HttpGet]
         public IActionResult Create()
         {
-            ViewData["BackText"] = BackButtonText;
-
             var CurrencyDefault = Context.CurrencyTypes.Where(x => x.Defaultselection == true);
 
             if (CurrencyDefault.Any())
@@ -84,8 +80,6 @@ namespace Egret.Controllers
         [HttpGet]
         public async Task<IActionResult> Edit(string id)
         {
-            ViewData["BackText"] = BackButtonText;
-
             if (id == null)
             {
                 return NotFound();
@@ -108,9 +102,6 @@ namespace Egret.Controllers
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> Edit(string id, [Bind("Code,Description,Category,Comment,Sellprice,Sellcurrency,Sellunit,Buyprice,Buycurrency,Buyunit,Stockvalue,SupplierFk,Salesacct,Stockacct,Cogacct,Sohcount,Stocktakenewqty,Flags,Qtybrksellprice,Costprice,Isconversion,Conversionsource,Useraddedby,Userupdatedby,Dateadded,Dateupdated")] InventoryItem item)
         {
-
-            ViewData["BackText"] = BackButtonText;
-
             if (ModelState.IsValid)
             {
                 Context.Update(item);
@@ -162,8 +153,6 @@ namespace Egret.Controllers
         [HttpGet]
         public IActionResult Search()
         {
-            ViewData["BackText"] = BackButtonText;
-
             return View();
         }
 
@@ -171,8 +160,6 @@ namespace Egret.Controllers
         [ValidateAntiForgeryToken]
         public IActionResult Search(InventorySearchViewModel item)
         {
-            ViewData["BackText"] = BackButtonText;
-
             var results = Context.InventoryItems
                 .Include(i => i.BuycurrencyNavigation)
                 .Include(i => i.BuyunitNavigation)
@@ -197,8 +184,6 @@ namespace Egret.Controllers
         [HttpGet]
         public IActionResult Results(List<InventoryItem> results)
         {
-            ViewData["BackText"] = BackButtonText;
-
             //var egretContext = _context.InventoryItems
             //    .Include(i => i.BuycurrencyNavigation)
             //    .Include(i => i.BuyunitNavigation)
