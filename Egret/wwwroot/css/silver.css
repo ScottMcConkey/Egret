@@ -165,7 +165,7 @@ th {
 .delete, 
 .delete:hover, 
 .delete:active,
-.delete:visited{
+.delete:visited {
     color: red;
     font-size: 25px;
     font-weight: bold;

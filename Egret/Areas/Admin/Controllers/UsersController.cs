@@ -26,7 +26,16 @@ namespace Egret.DataAccess
         }
 
         [HttpGet]
-        public ViewResult Create() => View();
+        public ViewResult Edit()
+        {
+            return View();
+        }
+
+        [HttpGet]
+        public ViewResult Create()
+        {
+            return View();
+        }
 
         [HttpPost]
         public async Task<IActionResult> Create(UserViewModel model)
