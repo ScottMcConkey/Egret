@@ -23,16 +23,12 @@ namespace Egret.Controllers
             return test;
         }
 
-        public string BackButtonText = "Back to Admin";
-        public string BackButtonText2 = "Back to Currency Types";
-
         public CurrencyTypesController(EgretContext context)
             : base(context) { }
 
         [HttpGet]
         public IActionResult Index()
         {
-            ViewData["BackText"] = GetBackText(this);//BackButtonText;
             var egretContext = Context.CurrencyTypes.OrderBy(x => x.Sortorder);
             return View(egretContext.ToList());
         }
@@ -41,19 +37,22 @@ namespace Egret.Controllers
         [ValidateAntiForgeryToken]
         public IActionResult Index(List<CurrencyType> types)
         {
-            ViewData["BackText"] = "Back to Admin";
 
             // Find duplicates
-            var duplicateName = types.GroupBy(x => x.Name).Where(g => g.Count() > 1)
+            var duplicateName = types.GroupBy(x => x.Name)
+                .Where(g => g.Count() > 1)
                 .Select(y => y.Key)
                 .ToList();
-            var duplicateAbbr = types.GroupBy(x => x.Abbreviation).Where(g => g.Count() > 1)
+            var duplicateAbbr = types.GroupBy(x => x.Abbreviation)
+                .Where(g => g.Count() > 1)
                 .Select(y => y.Key)
                 .ToList();
-            var duplicateSymbol = types.GroupBy(x => x.Symbol).Where(g => g.Count() > 1)
+            var duplicateSymbol = types.GroupBy(x => x.Symbol)
+                .Where(g => g.Count() > 1)
                 .Select(y => y.Key)
                 .ToList();
-            var duplicateSortOrder = types.GroupBy(x => x.Sortorder).Where(g => g.Count() > 1)
+            var duplicateSortOrder = types.GroupBy(x => x.Sortorder)
+                .Where(g => g.Count() > 1)
                 .Select(y => y.Key)
                 .ToList();
 
@@ -117,7 +116,6 @@ namespace Egret.Controllers
         [HttpGet]
         public IActionResult Create()
         {
-            ViewData["BackText"] = BackButtonText2;
             return View();
         }
 

@@ -28,8 +28,6 @@ namespace Egret.Controllers
         [ValidateAntiForgeryToken]
         public IActionResult Index(List<InventoryCategory> inventoryCategories)
         {
-            ViewData["BackText"] = "Back to Admin";
-
             // Find duplicates
             var duplicateName = inventoryCategories.GroupBy(x => x.Name).Where(g => g.Count() > 1)
                 .Select(y => y.Key)

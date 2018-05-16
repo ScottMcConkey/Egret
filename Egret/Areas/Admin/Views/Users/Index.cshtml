@@ -13,15 +13,9 @@
 <table class="table table-condensed table-bordered">
     <thead>
         <tr>
-            <th>
-                ID @* @Html.DisplayNameFor(model => model[0].Id) *@
-            </th>
-            <th>
-                User Name@* @Html.DisplayNameFor(model => model[0].UserName) *@
-            </th>
-            <th>
-                Email @* @Html.DisplayNameFor(model => model[0].Email) *@
-            </th>
+            <th>ID @* @Html.DisplayNameFor(model => model[0].Id) *@</th>
+            <th>User Name@* @Html.DisplayNameFor(model => model[0].UserName) *@</th>
+            <th>Email @* @Html.DisplayNameFor(model => model[0].Email) *@</th>
             <th></th>
         </tr>
     </thead>
@@ -51,5 +45,5 @@
 </table>
 
 <div>
-    <a asp-area="Admin" asp-controller="Home" asp-action="Index">@ViewData["BackText"]</a>
+    <a asp-area="Admin" asp-controller="Home" asp-action="Index">Back to Admin</a>
 </div>
