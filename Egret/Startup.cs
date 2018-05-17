@@ -43,6 +43,8 @@ namespace Egret
             services.AddDbContext<EgretContext>(options =>
                 options.UseNpgsql(Configuration["ConnectionStrings:DefaultConnection"]));
             services.AddMvc();
+            services.AddMemoryCache();
+            services.AddSession();
 
             services.AddIdentity<AppUser, IdentityRole>(opts => {
                 opts.Password.RequiredLength = 6;
@@ -67,7 +69,7 @@ namespace Egret
             {
                 app.UseExceptionHandler("/Home/Error");
             }
-            
+
             app.UseStaticFiles();
             //app.UseIdentity();
             app.UseAuthentication();
