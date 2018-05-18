@@ -162,6 +162,10 @@ th {
     margin-bottom: 12px;
 }
 
+.page-nav-container span {
+    padding-right: 8px;
+}
+
 .delete, 
 .delete:hover, 
 .delete:active,

@@ -5,8 +5,6 @@
     ViewData["PageTitle"] = "Edit Inventory Item: " + @Model.Code;
 }
 
-<br />
-
 <div class="row">
     <div class="col-md-4">
         
@@ -17,9 +15,9 @@
             <ul class="nav nav-tabs">
                 <li class="tab-header"><a style="outline: none;" href="#">Details</a></li>
                 @if (Model.Isconversion == true)
-                {
-                <li class="tab-header"><a style="outline: none;" href="#">Conversion</a></li>
-                }
+        {
+            <li class="tab-header"><a style="outline: none;" href="#">Conversion</a></li>
+}
             </ul>
 
             <br />
@@ -149,18 +147,9 @@
                 </div>
             </div><!-- end tab content -->
 
-
-            <div class="form-group">
-                <input type="submit" value="Save" class="btn btn-default" />
-            </div>
+            <button type="submit" class="btn btn-primary">Save</button>
+            <a asp-action="Index" class="btn btn-default">Cancel</a>
 
         </form>
     </div>
 </div>
-
-<div>
-    <a asp-action="Index">@ViewData["BackText"]</a>
-</div>
-
-<br />
-

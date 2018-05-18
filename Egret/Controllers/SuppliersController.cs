@@ -16,6 +16,11 @@ namespace Egret.Controllers
         public SuppliersController(EgretContext context)
             :base(context) { }
 
+        public IActionResult Index()
+        {
+            return View();
+        }
+
         public IActionResult Edit()
         {
             var egretContext = Context.Suppliers.OrderBy(x => x.Name);
