@@ -9,6 +9,6 @@ namespace Egret.Models
 {
     public class AppUser : IdentityUser
     {
-
+        public bool? IsActive { get; set; }
     }
 }

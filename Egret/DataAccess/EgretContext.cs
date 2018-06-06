@@ -27,10 +27,12 @@ namespace Egret.DataAccess
             base.OnModelCreating(modelBuilder);
 
             modelBuilder.Entity<AppUser>()
+                .ToTable("asp_net_users")
                 .Property(u => u.Id)
                 .HasMaxLength(450);
             
-            modelBuilder.Entity<AppRole>()
+            modelBuilder.Entity<Role>()
+                .ToTable("asp_net_roles")
                 .Property(u => u.Id)
                 .HasMaxLength(450);
 
@@ -115,37 +117,43 @@ namespace Egret.DataAccess
                     .HasColumnName("code")
                     .HasDefaultValueSql("nextval('master_seq'::regclass)");
 
+                entity.Property(e => e.DateAdded).HasColumnName("dateadded");
+
+                entity.Property(e => e.Addedby).HasColumnName("useraddedby");
+
+                entity.Property(e => e.Dateupdated).HasColumnName("dateupdated");
+
+                entity.Property(e => e.Updatedby).HasColumnName("userupdatedby");
+
+                entity.Property(e => e.Description)
+                    .IsRequired()
+                    .HasColumnName("description");
+
+                entity.Property(e => e.Category).HasColumnName("category");
+
+                entity.Property(e => e.CustomerPurchasedFor).HasColumnName("customer_purchasedfor");
+
+                entity.Property(e => e.CustomerReservedFor).HasColumnName("customer_reservedfor");
+
+
                 entity.Property(e => e.Buycurrency).HasColumnName("buycurrency");
 
                 entity.Property(e => e.Buyprice).HasColumnName("buyprice");
 
                 entity.Property(e => e.Buyunit).HasColumnName("buyunit_fk");
 
-                entity.Property(e => e.Category).HasColumnName("category");
-
-                entity.Property(e => e.Cogacct).HasColumnName("cogacct");
+                
 
                 entity.Property(e => e.Comment).HasColumnName("comment");
 
-                entity.Property(e => e.Conversionsource).HasColumnName("conversionsource");
+                entity.Property(e => e.ConversionSource).HasColumnName("conversionsource");
 
-                entity.Property(e => e.Costprice).HasColumnName("costprice");
+                
 
-                entity.Property(e => e.Dateadded).HasColumnName("dateadded");
+                
 
-                entity.Property(e => e.Dateupdated).HasColumnName("dateupdated");
+                
 
-                entity.Property(e => e.Description)
-                    .IsRequired()
-                    .HasColumnName("description");
-
-                entity.Property(e => e.Flags).HasColumnName("flags");
-
-                entity.Property(e => e.Isconversion).HasColumnName("isconversion");
-
-                entity.Property(e => e.Qtybrksellprice).HasColumnName("qtybrksellprice");
-
-                entity.Property(e => e.Salesacct).HasColumnName("salesacct");
 
                 entity.Property(e => e.Sellcurrency).HasColumnName("sellcurrency");
 
@@ -153,19 +161,9 @@ namespace Egret.DataAccess
 
                 entity.Property(e => e.Sellunit).HasColumnName("sellunit_fk");
 
-                entity.Property(e => e.Sohcount).HasColumnName("sohcount");
-
-                entity.Property(e => e.Stockacct).HasColumnName("stockacct");
-
-                entity.Property(e => e.Stocktakenewqty).HasColumnName("stocktakenewqty");
-
-                entity.Property(e => e.Stockvalue).HasColumnName("stockvalue");
-
                 entity.Property(e => e.Supplier).HasColumnName("supplier_fk");
 
-                entity.Property(e => e.Addedby).HasColumnName("useraddedby");
-
-                entity.Property(e => e.Updatedby).HasColumnName("userupdatedby");
+                
 
                 entity.HasOne(d => d.BuycurrencyNavigation)
                     .WithMany(p => p.InventoryItemsBuycurrencyNavigation)
