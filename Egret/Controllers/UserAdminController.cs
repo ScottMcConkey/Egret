@@ -11,15 +11,15 @@ namespace Egret.Controllers
 {
     public class UserAdminController : Controller
     {
-        private UserManager<AppUser> userManager;
-        private IUserValidator<AppUser> userValidator;
-        private IPasswordValidator<AppUser> passwordValidator;
-        private IPasswordHasher<AppUser> passwordHasher;
+        private UserManager<User> userManager;
+        private IUserValidator<User> userValidator;
+        private IPasswordValidator<User> passwordValidator;
+        private IPasswordHasher<User> passwordHasher;
 
-        public UserAdminController(UserManager<AppUser> usrMgr, 
-            IUserValidator<AppUser> userValid,
-            IPasswordValidator<AppUser> passValid,
-            IPasswordHasher<AppUser> passwordHash)
+        public UserAdminController(UserManager<User> usrMgr, 
+            IUserValidator<User> userValid,
+            IPasswordValidator<User> passValid,
+            IPasswordHasher<User> passwordHash)
         {
             userManager = usrMgr;
             userValidator = userValid;
@@ -44,7 +44,7 @@ namespace Egret.Controllers
         {
             if (ModelState.IsValid)
             {
-                AppUser user = new AppUser
+                User user = new User
                 {
                     UserName = model.Name,
                     Email = model.Email
@@ -70,7 +70,7 @@ namespace Egret.Controllers
         [HttpGet]
         public async Task<IActionResult> Edit(string id)
         {
-            AppUser user = await userManager.FindByIdAsync(id);
+            User user = await userManager.FindByIdAsync(id);
             if (user != null)
             {
                 return View(user);
@@ -84,7 +84,7 @@ namespace Egret.Controllers
         [HttpPost]
         public async Task<IActionResult> Edit (string id, string email, string password)
         {
-            AppUser user = await userManager.FindByIdAsync(id);
+            User user = await userManager.FindByIdAsync(id);
             if (user != null)
             {
                 user.Email = email;
@@ -133,7 +133,7 @@ namespace Egret.Controllers
         [HttpPost]
         public async Task<IActionResult> Delete(string id)
         {
-            AppUser user = await userManager.FindByIdAsync(id);
+            User user = await userManager.FindByIdAsync(id);
             if (user != null)
             {
                 IdentityResult result = await userManager.DeleteAsync(user);

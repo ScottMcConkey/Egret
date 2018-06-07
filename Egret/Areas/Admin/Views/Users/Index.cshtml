@@ -1,4 +1,4 @@
-﻿@model IEnumerable<AppUser>
+﻿@model IEnumerable<User>
 @{
     ViewData["WindowTitle"] = "Admin - Users";
     ViewData["PageTitle"] = "Users";
@@ -26,7 +26,7 @@
         }
         else
         {
-            foreach (AppUser user in Model)
+            foreach (User user in Model)
             {
                 <tr>
                     <td>@user.Id</td>

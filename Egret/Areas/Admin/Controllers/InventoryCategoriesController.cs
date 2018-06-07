@@ -20,7 +20,7 @@ namespace Egret.Controllers
         [HttpGet]
         public IActionResult Index()
         {
-            var egretContext = Context.InventoryCategories.OrderBy(x => x.Sortorder);
+            var egretContext = Context.InventoryCategories.OrderBy(x => x.SortOrder);
             return View(egretContext.ToList());
         }
 
@@ -32,12 +32,12 @@ namespace Egret.Controllers
             var duplicateName = inventoryCategories.GroupBy(x => x.Name).Where(g => g.Count() > 1)
                 .Select(y => y.Key)
                 .ToList();
-            var duplicateSortOrder = inventoryCategories.GroupBy(x => x.Sortorder).Where(g => g.Count() > 1)
+            var duplicateSortOrder = inventoryCategories.GroupBy(x => x.SortOrder).Where(g => g.Count() > 1)
                 .Select(y => y.Key)
                 .ToList();
 
             // Find Sort Order <= 0
-            var badSort = inventoryCategories.Where(x => x.Sortorder <= 0);
+            var badSort = inventoryCategories.Where(x => x.SortOrder <= 0);
 
             // Find usage
 
@@ -84,7 +84,7 @@ namespace Egret.Controllers
         [ValidateAntiForgeryToken]
         public ActionResult Create(InventoryCategory category)
         {
-            category.Sortorder = Context.InventoryCategories.Max(x => x.Sortorder) + 1;
+            category.SortOrder = Context.InventoryCategories.Max(x => x.SortOrder) + 1;
 
             if (ModelState.IsValid)
             {

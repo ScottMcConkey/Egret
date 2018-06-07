@@ -7,7 +7,7 @@ using System.Threading.Tasks;
 
 namespace Egret.Models
 {
-    public class AppUser : IdentityUser
+    public class User : IdentityUser
     {
         public bool? IsActive { get; set; }
     }

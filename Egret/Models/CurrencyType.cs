@@ -16,11 +16,12 @@ namespace Egret.Models
         public string Name { get; set; }
         public string Symbol { get; set; }
         [Display(Name = "Sort Order")]
-        public int Sortorder { get; set; }
+        [Range(1, System.Int32.MaxValue, ErrorMessage = "Sort Order must be a postitive integer.")]
+        public int SortOrder { get; set; }
         public string Abbreviation { get; set; }
         public bool Active { get; set; }
         [Display(Name = "Default")]
-        public bool Defaultselection { get; set; }
+        public bool DefaultSelection { get; set; }
 
         public ICollection<InventoryItem> InventoryItemsBuycurrencyNavigation { get; set; }
         public ICollection<InventoryItem> InventoryItemsSellcurrencyNavigation { get; set; }

@@ -6,7 +6,7 @@ using Microsoft.AspNetCore.Identity;
 
 namespace Egret.Models
 {
-    public class AppRole : IdentityRole
+    public class Role : IdentityRole
     {
 
     }

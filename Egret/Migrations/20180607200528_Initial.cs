@@ -1,7 +1,6 @@
-﻿using Microsoft.EntityFrameworkCore.Metadata;
+﻿using System;
 using Microsoft.EntityFrameworkCore.Migrations;
-using System;
-using System.Collections.Generic;
+using Npgsql.EntityFrameworkCore.PostgreSQL.Metadata;
 
 namespace Egret.Migrations
 {
@@ -17,11 +16,11 @@ namespace Egret.Migrations
 
             migrationBuilder.CreateSequence(
                 name: "currency_types_sortorder_seq",
-                minValue: 1L);
+                startValue: 100L);
 
             migrationBuilder.CreateSequence(
                 name: "inventory_categories_id_seq",
-                minValue: 1L);
+                startValue: 100L);
 
             migrationBuilder.CreateSequence(
                 name: "master_seq",
@@ -29,60 +28,61 @@ namespace Egret.Migrations
 
             migrationBuilder.CreateSequence(
                 name: "units_id_seq",
-                minValue: 1L);
+                startValue: 100L);
 
             migrationBuilder.CreateTable(
-                name: "asp_net_users",
+                name: "aspnet_roles",
                 columns: table => new
                 {
-                    Id = table.Column<string>(type: "varchar(450)", maxLength: 450, nullable: false),
-                    AccessFailedCount = table.Column<int>(type: "int4", nullable: false),
-                    ConcurrencyStamp = table.Column<string>(type: "text", nullable: true),
-                    Email = table.Column<string>(type: "varchar(256)", maxLength: 256, nullable: true),
-                    EmailConfirmed = table.Column<bool>(type: "bool", nullable: false),
-                    IsActive = table.Column<bool>(type: "bool", nullable: true),
-                    LockoutEnabled = table.Column<bool>(type: "bool", nullable: false),
-                    LockoutEnd = table.Column<DateTimeOffset>(type: "timestamptz", nullable: true),
-                    NormalizedEmail = table.Column<string>(type: "varchar(256)", maxLength: 256, nullable: true),
-                    NormalizedUserName = table.Column<string>(type: "varchar(256)", maxLength: 256, nullable: true),
-                    PasswordHash = table.Column<string>(type: "text", nullable: true),
-                    PhoneNumber = table.Column<string>(type: "text", nullable: true),
-                    PhoneNumberConfirmed = table.Column<bool>(type: "bool", nullable: false),
-                    SecurityStamp = table.Column<string>(type: "text", nullable: true),
-                    TwoFactorEnabled = table.Column<bool>(type: "bool", nullable: false),
-                    UserName = table.Column<string>(type: "varchar(256)", maxLength: 256, nullable: true)
+                    Id = table.Column<string>(maxLength: 450, nullable: false),
+                    Name = table.Column<string>(maxLength: 256, nullable: true),
+                    NormalizedName = table.Column<string>(maxLength: 256, nullable: true),
+                    ConcurrencyStamp = table.Column<string>(nullable: true),
+                    Discriminator = table.Column<string>(nullable: false)
                 },
                 constraints: table =>
                 {
-                    table.PrimaryKey("PK_asp_net_users", x => x.Id);
+                    table.PrimaryKey("PK_aspnet_roles", x => x.Id);
                 });
 
             migrationBuilder.CreateTable(
-                name: "AspNetRoles",
+                name: "aspnet_users",
                 columns: table => new
                 {
-                    Id = table.Column<string>(type: "varchar(450)", maxLength: 450, nullable: false),
-                    ConcurrencyStamp = table.Column<string>(type: "text", nullable: true),
-                    Discriminator = table.Column<string>(type: "text", nullable: false),
-                    Name = table.Column<string>(type: "varchar(256)", maxLength: 256, nullable: true),
-                    NormalizedName = table.Column<string>(type: "varchar(256)", maxLength: 256, nullable: true)
+                    Id = table.Column<string>(maxLength: 450, nullable: false),
+                    UserName = table.Column<string>(maxLength: 256, nullable: true),
+                    NormalizedUserName = table.Column<string>(maxLength: 256, nullable: true),
+                    Email = table.Column<string>(maxLength: 256, nullable: true),
+                    NormalizedEmail = table.Column<string>(maxLength: 256, nullable: true),
+                    EmailConfirmed = table.Column<bool>(nullable: false),
+                    PasswordHash = table.Column<string>(nullable: true),
+                    SecurityStamp = table.Column<string>(nullable: true),
+                    ConcurrencyStamp = table.Column<string>(nullable: true),
+                    PhoneNumber = table.Column<string>(nullable: true),
+                    PhoneNumberConfirmed = table.Column<bool>(nullable: false),
+                    TwoFactorEnabled = table.Column<bool>(nullable: false),
+                    LockoutEnd = table.Column<DateTimeOffset>(nullable: true),
+                    LockoutEnabled = table.Column<bool>(nullable: false),
+                    AccessFailedCount = table.Column<int>(nullable: false),
+                    Discriminator = table.Column<string>(nullable: false),
+                    IsActive = table.Column<bool>(nullable: true)
                 },
                 constraints: table =>
                 {
-                    table.PrimaryKey("PK_AspNetRoles", x => x.Id);
+                    table.PrimaryKey("PK_aspnet_users", x => x.Id);
                 });
 
             migrationBuilder.CreateTable(
                 name: "currency_types",
                 columns: table => new
                 {
-                    id = table.Column<int>(type: "int4", nullable: false),
-                    abbreviation = table.Column<string>(type: "text", nullable: false),
-                    active = table.Column<bool>(type: "bool", nullable: false),
-                    defaultselection = table.Column<bool>(type: "bool", nullable: false),
-                    name = table.Column<string>(type: "text", nullable: false),
-                    sortorder = table.Column<int>(type: "int4", nullable: false, defaultValueSql: "nextval('currency_types_sortorder_seq'::regclass)"),
-                    symbol = table.Column<string>(type: "text", nullable: false)
+                    id = table.Column<int>(nullable: false),
+                    name = table.Column<string>(nullable: false),
+                    symbol = table.Column<string>(nullable: false),
+                    sortorder = table.Column<int>(nullable: false, defaultValueSql: "nextval('currency_types_sortorder_seq'::regclass)"),
+                    abbreviation = table.Column<string>(nullable: false),
+                    active = table.Column<bool>(nullable: false),
+                    defaultselection = table.Column<bool>(nullable: false)
                 },
                 constraints: table =>
                 {
@@ -94,27 +94,26 @@ namespace Egret.Migrations
                 name: "inventory_categories",
                 columns: table => new
                 {
-                    id = table.Column<int>(type: "int4", nullable: false, defaultValueSql: "nextval('inventory_categories_id_seq'::regclass)"),
-                    active = table.Column<bool>(type: "bool", nullable: false),
-                    description = table.Column<string>(type: "text", nullable: true),
-                    name = table.Column<string>(type: "text", nullable: false),
-                    sortorder = table.Column<int>(type: "int4", nullable: false)
+                    id = table.Column<int>(nullable: false, defaultValueSql: "nextval('inventory_categories_id_seq'::regclass)"),
+                    name = table.Column<string>(nullable: false),
+                    description = table.Column<string>(nullable: true),
+                    sortorder = table.Column<int>(nullable: false),
+                    active = table.Column<bool>(nullable: false)
                 },
                 constraints: table =>
                 {
                     table.PrimaryKey("PK_inventory_categories", x => x.id);
-                    table.UniqueConstraint("AK_inventory_categories_name", x => x.name);
                 });
 
             migrationBuilder.CreateTable(
                 name: "units",
                 columns: table => new
                 {
-                    id = table.Column<int>(type: "int4", nullable: false, defaultValueSql: "nextval('units_id_seq'::regclass)"),
-                    abbreviation = table.Column<string>(type: "text", nullable: false),
-                    active = table.Column<bool>(type: "bool", nullable: false),
-                    name = table.Column<string>(type: "text", nullable: false),
-                    sortorder = table.Column<int>(type: "int4", nullable: false)
+                    id = table.Column<int>(nullable: false, defaultValueSql: "nextval('units_id_seq'::regclass)"),
+                    name = table.Column<string>(nullable: false),
+                    abbreviation = table.Column<string>(nullable: false),
+                    sortorder = table.Column<int>(nullable: false),
+                    active = table.Column<bool>(nullable: false)
                 },
                 constraints: table =>
                 {
@@ -126,8 +125,8 @@ namespace Egret.Migrations
                 schema: "public",
                 columns: table => new
                 {
-                    id = table.Column<int>(type: "int4", nullable: false),
-                    name = table.Column<string>(type: "text", nullable: false)
+                    id = table.Column<int>(nullable: false),
+                    name = table.Column<string>(nullable: false)
                 },
                 constraints: table =>
                 {
@@ -135,22 +134,43 @@ namespace Egret.Migrations
                 });
 
             migrationBuilder.CreateTable(
+                name: "AspNetRoleClaims",
+                columns: table => new
+                {
+                    Id = table.Column<int>(nullable: false)
+                        .Annotation("Npgsql:ValueGenerationStrategy", NpgsqlValueGenerationStrategy.SerialColumn),
+                    RoleId = table.Column<string>(nullable: false),
+                    ClaimType = table.Column<string>(nullable: true),
+                    ClaimValue = table.Column<string>(nullable: true)
+                },
+                constraints: table =>
+                {
+                    table.PrimaryKey("PK_AspNetRoleClaims", x => x.Id);
+                    table.ForeignKey(
+                        name: "FK_AspNetRoleClaims_aspnet_roles_RoleId",
+                        column: x => x.RoleId,
+                        principalTable: "aspnet_roles",
+                        principalColumn: "Id",
+                        onDelete: ReferentialAction.Cascade);
+                });
+
+            migrationBuilder.CreateTable(
                 name: "AspNetUserClaims",
                 columns: table => new
                 {
-                    Id = table.Column<int>(type: "int4", nullable: false)
+                    Id = table.Column<int>(nullable: false)
                         .Annotation("Npgsql:ValueGenerationStrategy", NpgsqlValueGenerationStrategy.SerialColumn),
-                    ClaimType = table.Column<string>(type: "text", nullable: true),
-                    ClaimValue = table.Column<string>(type: "text", nullable: true),
-                    UserId = table.Column<string>(type: "varchar(450)", nullable: false)
+                    UserId = table.Column<string>(nullable: false),
+                    ClaimType = table.Column<string>(nullable: true),
+                    ClaimValue = table.Column<string>(nullable: true)
                 },
                 constraints: table =>
                 {
                     table.PrimaryKey("PK_AspNetUserClaims", x => x.Id);
                     table.ForeignKey(
-                        name: "FK_AspNetUserClaims_asp_net_users_UserId",
+                        name: "FK_AspNetUserClaims_aspnet_users_UserId",
                         column: x => x.UserId,
-                        principalTable: "asp_net_users",
+                        principalTable: "aspnet_users",
                         principalColumn: "Id",
                         onDelete: ReferentialAction.Cascade);
                 });
@@ -159,59 +179,18 @@ namespace Egret.Migrations
                 name: "AspNetUserLogins",
                 columns: table => new
                 {
-                    LoginProvider = table.Column<string>(type: "text", nullable: false),
-                    ProviderKey = table.Column<string>(type: "text", nullable: false),
-                    ProviderDisplayName = table.Column<string>(type: "text", nullable: true),
-                    UserId = table.Column<string>(type: "varchar(450)", nullable: false)
+                    LoginProvider = table.Column<string>(nullable: false),
+                    ProviderKey = table.Column<string>(nullable: false),
+                    ProviderDisplayName = table.Column<string>(nullable: true),
+                    UserId = table.Column<string>(nullable: false)
                 },
                 constraints: table =>
                 {
                     table.PrimaryKey("PK_AspNetUserLogins", x => new { x.LoginProvider, x.ProviderKey });
                     table.ForeignKey(
-                        name: "FK_AspNetUserLogins_asp_net_users_UserId",
+                        name: "FK_AspNetUserLogins_aspnet_users_UserId",
                         column: x => x.UserId,
-                        principalTable: "asp_net_users",
-                        principalColumn: "Id",
-                        onDelete: ReferentialAction.Cascade);
-                });
-
-            migrationBuilder.CreateTable(
-                name: "AspNetUserTokens",
-                columns: table => new
-                {
-                    UserId = table.Column<string>(type: "varchar(450)", nullable: false),
-                    LoginProvider = table.Column<string>(type: "text", nullable: false),
-                    Name = table.Column<string>(type: "text", nullable: false),
-                    Value = table.Column<string>(type: "text", nullable: true)
-                },
-                constraints: table =>
-                {
-                    table.PrimaryKey("PK_AspNetUserTokens", x => new { x.UserId, x.LoginProvider, x.Name });
-                    table.ForeignKey(
-                        name: "FK_AspNetUserTokens_asp_net_users_UserId",
-                        column: x => x.UserId,
-                        principalTable: "asp_net_users",
-                        principalColumn: "Id",
-                        onDelete: ReferentialAction.Cascade);
-                });
-
-            migrationBuilder.CreateTable(
-                name: "AspNetRoleClaims",
-                columns: table => new
-                {
-                    Id = table.Column<int>(type: "int4", nullable: false)
-                        .Annotation("Npgsql:ValueGenerationStrategy", NpgsqlValueGenerationStrategy.SerialColumn),
-                    ClaimType = table.Column<string>(type: "text", nullable: true),
-                    ClaimValue = table.Column<string>(type: "text", nullable: true),
-                    RoleId = table.Column<string>(type: "varchar(450)", nullable: false)
-                },
-                constraints: table =>
-                {
-                    table.PrimaryKey("PK_AspNetRoleClaims", x => x.Id);
-                    table.ForeignKey(
-                        name: "FK_AspNetRoleClaims_AspNetRoles_RoleId",
-                        column: x => x.RoleId,
-                        principalTable: "AspNetRoles",
+                        principalTable: "aspnet_users",
                         principalColumn: "Id",
                         onDelete: ReferentialAction.Cascade);
                 });
@@ -220,22 +199,42 @@ namespace Egret.Migrations
                 name: "AspNetUserRoles",
                 columns: table => new
                 {
-                    UserId = table.Column<string>(type: "varchar(450)", nullable: false),
-                    RoleId = table.Column<string>(type: "varchar(450)", nullable: false)
+                    UserId = table.Column<string>(nullable: false),
+                    RoleId = table.Column<string>(nullable: false)
                 },
                 constraints: table =>
                 {
                     table.PrimaryKey("PK_AspNetUserRoles", x => new { x.UserId, x.RoleId });
                     table.ForeignKey(
-                        name: "FK_AspNetUserRoles_AspNetRoles_RoleId",
+                        name: "FK_AspNetUserRoles_aspnet_roles_RoleId",
                         column: x => x.RoleId,
-                        principalTable: "AspNetRoles",
+                        principalTable: "aspnet_roles",
                         principalColumn: "Id",
                         onDelete: ReferentialAction.Cascade);
                     table.ForeignKey(
-                        name: "FK_AspNetUserRoles_asp_net_users_UserId",
+                        name: "FK_AspNetUserRoles_aspnet_users_UserId",
                         column: x => x.UserId,
-                        principalTable: "asp_net_users",
+                        principalTable: "aspnet_users",
+                        principalColumn: "Id",
+                        onDelete: ReferentialAction.Cascade);
+                });
+
+            migrationBuilder.CreateTable(
+                name: "AspNetUserTokens",
+                columns: table => new
+                {
+                    UserId = table.Column<string>(nullable: false),
+                    LoginProvider = table.Column<string>(nullable: false),
+                    Name = table.Column<string>(nullable: false),
+                    Value = table.Column<string>(nullable: true)
+                },
+                constraints: table =>
+                {
+                    table.PrimaryKey("PK_AspNetUserTokens", x => new { x.UserId, x.LoginProvider, x.Name });
+                    table.ForeignKey(
+                        name: "FK_AspNetUserTokens_aspnet_users_UserId",
+                        column: x => x.UserId,
+                        principalTable: "aspnet_users",
                         principalColumn: "Id",
                         onDelete: ReferentialAction.Cascade);
                 });
@@ -244,41 +243,41 @@ namespace Egret.Migrations
                 name: "inventory_items",
                 columns: table => new
                 {
-                    code = table.Column<string>(type: "text", nullable: false, defaultValueSql: "nextval('master_seq'::regclass)"),
-                    useraddedby = table.Column<string>(type: "text", nullable: true),
-                    approxprodqty = table.Column<string>(type: "text", nullable: true),
-                    bondedwarehouse = table.Column<bool>(type: "bool", nullable: true),
-                    buycurrency = table.Column<string>(type: "text", nullable: true),
-                    buyprice = table.Column<double>(type: "float8", nullable: true),
-                    buyunit_fk = table.Column<int>(type: "int4", nullable: true),
-                    category = table.Column<string>(type: "text", nullable: true),
-                    comment = table.Column<string>(type: "text", nullable: true),
-                    conversionsource = table.Column<string>(type: "text", nullable: true),
-                    customerpurchasedfor = table.Column<string>(type: "text", nullable: true),
-                    customerreservedfor = table.Column<string>(type: "text", nullable: true),
-                    dateadded = table.Column<DateTime>(type: "timestamp", nullable: true),
-                    datearrived = table.Column<DateTime>(type: "timestamp", nullable: true),
-                    dateconfirmed = table.Column<DateTime>(type: "timestamp", nullable: true),
-                    dateshipped = table.Column<DateTime>(type: "timestamp", nullable: true),
-                    dateupdated = table.Column<DateTime>(type: "timestamp", nullable: true),
-                    description = table.Column<string>(type: "text", nullable: false),
-                    fobcost = table.Column<decimal>(type: "numeric", nullable: true),
-                    fabrictestresults = table.Column<string>(type: "text", nullable: true),
-                    fabrictests_conversion = table.Column<string>(type: "text", nullable: true),
-                    importcosts = table.Column<decimal>(type: "numeric", nullable: true),
-                    IsConversion = table.Column<bool>(type: "bool", nullable: false),
-                    neededbefore = table.Column<DateTime>(type: "timestamp", nullable: true),
-                    qtypurchased = table.Column<decimal>(type: "numeric", nullable: true),
-                    qtytopurchasenow = table.Column<string>(type: "text", nullable: true),
-                    sellcurrency = table.Column<string>(type: "text", nullable: true),
-                    sellprice = table.Column<double>(type: "float8", nullable: true),
-                    sellunit_fk = table.Column<int>(type: "int4", nullable: true),
-                    shippingcompany = table.Column<string>(type: "text", nullable: true),
-                    shippingcost = table.Column<decimal>(type: "numeric", nullable: true),
-                    supplier_fk = table.Column<int>(type: "int4", nullable: true),
-                    targetprice = table.Column<string>(type: "text", nullable: true),
-                    unit = table.Column<string>(type: "text", nullable: true),
-                    userupdatedby = table.Column<string>(type: "text", nullable: true)
+                    code = table.Column<string>(nullable: false, defaultValueSql: "nextval('master_seq'::regclass)"),
+                    dateadded = table.Column<DateTime>(nullable: true),
+                    useraddedby = table.Column<string>(nullable: true),
+                    dateupdated = table.Column<DateTime>(nullable: true),
+                    userupdatedby = table.Column<string>(nullable: true),
+                    description = table.Column<string>(nullable: false),
+                    category = table.Column<int>(nullable: true),
+                    customerpurchasedfor = table.Column<string>(nullable: true),
+                    customerreservedfor = table.Column<string>(nullable: true),
+                    supplier_fk = table.Column<int>(nullable: true),
+                    qtytopurchasenow = table.Column<string>(nullable: true),
+                    approxprodqty = table.Column<string>(nullable: true),
+                    fabrictests_conversion = table.Column<string>(nullable: true),
+                    fabrictestresults = table.Column<string>(nullable: true),
+                    neededbefore = table.Column<DateTime>(nullable: true),
+                    targetprice = table.Column<string>(nullable: true),
+                    shippingcompany = table.Column<string>(nullable: true),
+                    bondedwarehouse = table.Column<bool>(nullable: true),
+                    dateconfirmed = table.Column<DateTime>(nullable: true),
+                    dateshipped = table.Column<DateTime>(nullable: true),
+                    datearrived = table.Column<DateTime>(nullable: true),
+                    comment = table.Column<string>(nullable: true),
+                    qtypurchased = table.Column<decimal>(nullable: true),
+                    unit = table.Column<string>(nullable: true),
+                    fobcost = table.Column<decimal>(nullable: true),
+                    shippingcost = table.Column<decimal>(nullable: true),
+                    importcosts = table.Column<decimal>(nullable: true),
+                    sellprice = table.Column<decimal>(nullable: true),
+                    sellcurrency = table.Column<string>(nullable: true),
+                    sellunit_fk = table.Column<int>(nullable: true),
+                    buyprice = table.Column<decimal>(nullable: true),
+                    buycurrency = table.Column<string>(nullable: true),
+                    buyunit_fk = table.Column<int>(nullable: true),
+                    IsConversion = table.Column<bool>(nullable: false),
+                    conversionsource = table.Column<string>(nullable: true)
                 },
                 constraints: table =>
                 {
@@ -299,7 +298,7 @@ namespace Egret.Migrations
                         name: "inventory_items_category_fk",
                         column: x => x.category,
                         principalTable: "inventory_categories",
-                        principalColumn: "name",
+                        principalColumn: "id",
                         onDelete: ReferentialAction.Restrict);
                     table.ForeignKey(
                         name: "inventory_items_sellcurrency_fk",
@@ -319,10 +318,10 @@ namespace Egret.Migrations
                 name: "FabricTest",
                 columns: table => new
                 {
-                    Id = table.Column<string>(type: "text", nullable: false),
-                    InventoryItemCode = table.Column<string>(type: "text", nullable: true),
-                    Name = table.Column<string>(type: "text", nullable: true),
-                    Result = table.Column<string>(type: "text", nullable: true)
+                    Id = table.Column<string>(nullable: false),
+                    Name = table.Column<string>(nullable: true),
+                    Result = table.Column<string>(nullable: true),
+                    InventoryItemCode = table.Column<string>(nullable: true)
                 },
                 constraints: table =>
                 {
@@ -335,14 +334,61 @@ namespace Egret.Migrations
                         onDelete: ReferentialAction.Restrict);
                 });
 
+            migrationBuilder.InsertData(
+                table: "currency_types",
+                columns: new[] { "id", "abbreviation", "active", "defaultselection", "name", "sortorder", "symbol" },
+                values: new object[,]
+                {
+                    { 1, "USD", true, false, "United States Dollars", 1, "$" },
+                    { 2, "NRP", true, true, "Nepali Rupees", 2, "रु" },
+                    { 3, "INR", true, false, "Indian Rupees", 3, "₹" }
+                });
+
+            migrationBuilder.InsertData(
+                table: "inventory_categories",
+                columns: new[] { "id", "active", "description", "name", "sortorder" },
+                values: new object[,]
+                {
+                    { 11, true, "", "Zipper", 11 },
+                    { 10, true, "", "Woven Fabric", 10 },
+                    { 9, true, "", "Snap", 9 },
+                    { 8, true, "", "Other", 8 },
+                    { 6, true, "", "Label", 6 },
+                    { 7, true, "", "Leather", 7 },
+                    { 4, true, "", "Hang-Tag", 4 },
+                    { 3, true, "", "Elastic", 3 },
+                    { 2, true, "", "Button", 2 },
+                    { 1, true, "", "Buckle Thread", 1 },
+                    { 5, true, "", "Knit Fabric", 5 }
+                });
+
+            migrationBuilder.InsertData(
+                table: "units",
+                columns: new[] { "id", "abbreviation", "active", "name", "sortorder" },
+                values: new object[,]
+                {
+                    { 5, "cm", true, "centimeters", 5 },
+                    { 1, "kg", true, "kilograms", 1 },
+                    { 2, "m", true, "meters", 2 },
+                    { 3, "ea", true, "each", 3 },
+                    { 4, "g/m2", true, "grams per square meter", 4 },
+                    { 6, "sqf", true, "square feet", 6 }
+                });
+
+            migrationBuilder.CreateIndex(
+                name: "RoleNameIndex",
+                table: "aspnet_roles",
+                column: "NormalizedName",
+                unique: true);
+
             migrationBuilder.CreateIndex(
                 name: "EmailIndex",
-                table: "asp_net_users",
+                table: "aspnet_users",
                 column: "NormalizedEmail");
 
             migrationBuilder.CreateIndex(
                 name: "UserNameIndex",
-                table: "asp_net_users",
+                table: "aspnet_users",
                 column: "NormalizedUserName",
                 unique: true);
 
@@ -350,12 +396,6 @@ namespace Egret.Migrations
                 name: "IX_AspNetRoleClaims_RoleId",
                 table: "AspNetRoleClaims",
                 column: "RoleId");
-
-            migrationBuilder.CreateIndex(
-                name: "RoleNameIndex",
-                table: "AspNetRoles",
-                column: "NormalizedName",
-                unique: true);
 
             migrationBuilder.CreateIndex(
                 name: "IX_AspNetUserClaims_UserId",
@@ -471,10 +511,10 @@ namespace Egret.Migrations
                 schema: "public");
 
             migrationBuilder.DropTable(
-                name: "AspNetRoles");
+                name: "aspnet_roles");
 
             migrationBuilder.DropTable(
-                name: "asp_net_users");
+                name: "aspnet_users");
 
             migrationBuilder.DropTable(
                 name: "inventory_items");

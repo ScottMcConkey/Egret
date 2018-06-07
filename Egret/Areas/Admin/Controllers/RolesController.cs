@@ -15,10 +15,10 @@ namespace Egret.Controllers
     public class RolesController : Controller
     {
         private RoleManager<IdentityRole> roleManager;
-        private UserManager<AppUser> userManager;
+        private UserManager<User> userManager;
 
         public RolesController(RoleManager<IdentityRole> roleMgr,
-                                   UserManager<AppUser> userMrg)
+                                   UserManager<User> userMrg)
         {
             roleManager = roleMgr;
             userManager = userMrg;
@@ -89,9 +89,9 @@ namespace Egret.Controllers
         {
 
             IdentityRole role = await roleManager.FindByIdAsync(id);
-            List<AppUser> members = new List<AppUser>();
-            List<AppUser> nonMembers = new List<AppUser>();
-            foreach (AppUser user in userManager.Users)
+            List<User> members = new List<User>();
+            List<User> nonMembers = new List<User>();
+            foreach (User user in userManager.Users)
             {
                 var list = await userManager.IsInRoleAsync(user, role.Name)
                     ? members : nonMembers;
@@ -113,7 +113,7 @@ namespace Egret.Controllers
             {
                 foreach (string userId in model.IdsToAdd ?? new string[] { })
                 {
-                    AppUser user = await userManager.FindByIdAsync(userId);
+                    User user = await userManager.FindByIdAsync(userId);
                     if (user != null)
                     {
                         result = await userManager.AddToRoleAsync(user,
@@ -126,7 +126,7 @@ namespace Egret.Controllers
                 }
                 foreach (string userId in model.IdsToDelete ?? new string[] { })
                 {
-                    AppUser user = await userManager.FindByIdAsync(userId);
+                    User user = await userManager.FindByIdAsync(userId);
                     if (user != null)
                     {
                         result = await userManager.RemoveFromRoleAsync(user,

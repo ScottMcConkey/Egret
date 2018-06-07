@@ -22,7 +22,7 @@
                     @Html.DisplayNameFor(model => model[0].Abbreviation)
                 </th>
                 <th>
-                    @Html.DisplayNameFor(model => model[0].Sortorder)
+                    @Html.DisplayNameFor(model => model[0].SortOrder)
                 </th>
                 <th>
                     @Html.DisplayNameFor(model => model[0].Active)
@@ -47,7 +47,7 @@
                             <input asp-for="@Model[i].Abbreviation" class="form-control" />
                         </td>
                         <td>
-                            <input asp-for="@Model[i].Sortorder" class="form-control" />
+                            <input asp-for="@Model[i].SortOrder" class="form-control" />
                         </td>
                         <td>
                             <input type="checkbox" asp-for="@Model[i].Active" class="form-control" />

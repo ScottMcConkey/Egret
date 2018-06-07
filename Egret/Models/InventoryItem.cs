@@ -33,7 +33,7 @@ namespace Egret.Models
 
         public string Description { get; set; }
 
-        public string Category { get; set; }
+        public int? Category { get; set; }
 
         [Display(Name = "Customer Purchased For")]
         public string CustomerPurchasedFor { get; set; }
@@ -215,13 +215,13 @@ namespace Egret.Models
 
 
         [Display(Name = "Sell Price")]
-        public double? Sellprice { get; set; }
+        public decimal? Sellprice { get; set; }
         [Display(Name = "Sell Currency")]
         public string Sellcurrency { get; set; }
         [Display(Name = "Sell Unit")]
         public int? Sellunit { get; set; }
         [Display(Name = "Buy Price")]
-        public double? Buyprice { get; set; }
+        public decimal? Buyprice { get; set; }
         [Display(Name = "Buy Currency")]
         public string Buycurrency { get; set; }
         [Display(Name = "Buy Unit")]

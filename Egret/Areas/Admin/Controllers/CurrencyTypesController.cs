@@ -16,20 +16,13 @@ namespace Egret.Controllers
     [Area("Admin")]
     public class CurrencyTypesController : ManagedController
     {
-        private string GetBackText(object method)
-        {
-            string test = method.GetType().Name + "Test" + method.GetType().ToString();
-
-            return test;
-        }
-
         public CurrencyTypesController(EgretContext context)
             : base(context) { }
 
         [HttpGet]
         public IActionResult Index()
         {
-            var egretContext = Context.CurrencyTypes.OrderBy(x => x.Sortorder);
+            var egretContext = Context.CurrencyTypes.OrderBy(x => x.SortOrder);
             return View(egretContext.ToList());
         }
 
@@ -51,13 +44,13 @@ namespace Egret.Controllers
                 .Where(g => g.Count() > 1)
                 .Select(y => y.Key)
                 .ToList();
-            var duplicateSortOrder = types.GroupBy(x => x.Sortorder)
+            var duplicateSortOrder = types.GroupBy(x => x.SortOrder)
                 .Where(g => g.Count() > 1)
                 .Select(y => y.Key)
                 .ToList();
 
             // Find Sort Order <= 0
-            var badSort = types.Where(x => x.Sortorder <= 0);
+            var badSort = types.Where(x => x.SortOrder <= 0);
 
 
             if (duplicateName.Count > 0)
@@ -89,7 +82,7 @@ namespace Egret.Controllers
             // Ensure inactive currency type is not set as default
             foreach (var type in types)
             {
-                if (type.Defaultselection && type.Active == false)
+                if (type.DefaultSelection && type.Active == false)
                 {
                     ModelState.AddModelError(String.Empty, "Default row must be active.");
                     return View(types);
@@ -123,8 +116,8 @@ namespace Egret.Controllers
         [ValidateAntiForgeryToken]
         public IActionResult Create(CurrencyType category)
         {
-            category.Sortorder = Context.CurrencyTypes.Max(x => x.Sortorder) + 1;
-            category.Defaultselection = false;
+            category.SortOrder = Context.CurrencyTypes.Max(x => x.SortOrder) + 1;
+            category.DefaultSelection = false;
 
             if (ModelState.IsValid)
             {

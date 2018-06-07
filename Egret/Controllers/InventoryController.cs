@@ -20,9 +20,9 @@ namespace Egret.Controllers
         public InventoryController(EgretContext context) 
             :base(context)
         {
-            ActiveCurrencyTypes = Context.CurrencyTypes.Where(x => x.Active == true).OrderBy(x => x.Sortorder);
-            ActiveUnits = Context.Units.Where(x => x.Active == true).OrderBy(x => x.Sortorder);
-            ActiveInventoryCategories = Context.InventoryCategories.Where(x => x.Active == true).OrderBy(x => x.Sortorder);
+            ActiveCurrencyTypes = Context.CurrencyTypes.Where(x => x.Active == true).OrderBy(x => x.SortOrder);
+            ActiveUnits = Context.Units.Where(x => x.Active == true).OrderBy(x => x.SortOrder);
+            ActiveInventoryCategories = Context.InventoryCategories.Where(x => x.Active == true).OrderBy(x => x.SortOrder);
             var egretContext = Context.InventoryItems
                 .Include(i => i.BuycurrencyNavigation)
                 .Include(i => i.BuyunitNavigation)
@@ -40,7 +40,7 @@ namespace Egret.Controllers
         [HttpGet]
         public IActionResult Create()
         {
-            var CurrencyDefault = Context.CurrencyTypes.Where(x => x.Defaultselection == true);
+            var CurrencyDefault = Context.CurrencyTypes.Where(x => x.DefaultSelection == true);
 
             if (CurrencyDefault.Any())
             {

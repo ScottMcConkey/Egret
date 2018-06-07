@@ -11,10 +11,10 @@ namespace Egret.TagHelpers
     [HtmlTargetElement("td", Attributes = "identity-role")]
     public class RoleUsersTagHelper : TagHelper
     {
-        private UserManager<AppUser> userManager;
+        private UserManager<User> userManager;
         private RoleManager<IdentityRole> roleManager;
 
-        public RoleUsersTagHelper(UserManager<AppUser> usermgr,
+        public RoleUsersTagHelper(UserManager<User> usermgr,
                                   RoleManager<IdentityRole> rolemgr)
         {
             userManager = usermgr;

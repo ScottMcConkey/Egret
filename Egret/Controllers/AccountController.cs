@@ -13,11 +13,11 @@ namespace Egret.Controllers
     [Authorize]
     public class AccountController : Controller
     {
-        private UserManager<AppUser> userManager;
-        private SignInManager<AppUser> signInManager;
+        private UserManager<User> userManager;
+        private SignInManager<User> signInManager;
 
-        public AccountController(UserManager<AppUser> userMgr,
-            SignInManager<AppUser> signinMgr)
+        public AccountController(UserManager<User> userMgr,
+            SignInManager<User> signinMgr)
         {
             userManager = userMgr;
             signInManager = signinMgr;
@@ -37,7 +37,7 @@ namespace Egret.Controllers
         {
             if (ModelState.IsValid)
             {
-                AppUser user = await userManager.FindByEmailAsync(details.Email);
+                User user = await userManager.FindByEmailAsync(details.Email);
                 if (user != null)
                 {
                     await signInManager.SignOutAsync();

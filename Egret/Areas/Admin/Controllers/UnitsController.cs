@@ -25,7 +25,7 @@ namespace Egret.Controllers
         {
             ViewData["BackText"] = BackButtonText;
 
-            var egretContext = Context.Units.OrderBy(x => x.Sortorder);
+            var egretContext = Context.Units.OrderBy(x => x.SortOrder);
             return View(egretContext.ToList());
         }
 
@@ -42,12 +42,12 @@ namespace Egret.Controllers
             var duplicateAbbr = units.GroupBy(x => x.Abbreviation).Where(g => g.Count() > 1)
                 .Select(y => y.Key)
                 .ToList();
-            var duplicateSortOrder = units.GroupBy(x => x.Sortorder).Where(g => g.Count() > 1)
+            var duplicateSortOrder = units.GroupBy(x => x.SortOrder).Where(g => g.Count() > 1)
                 .Select(y => y.Key)
                 .ToList();
 
             // Find Sort Order <= 0
-            var badSort = units.Where(x => x.Sortorder <= 0);
+            var badSort = units.Where(x => x.SortOrder <= 0);
 
             // Find usage
 
@@ -101,7 +101,7 @@ namespace Egret.Controllers
         [ValidateAntiForgeryToken]
         public ActionResult Create(Unit unit)
         {
-            unit.Sortorder = Context.Units.Max(x => x.Sortorder) + 1;
+            unit.SortOrder = Context.Units.Max(x => x.SortOrder) + 1;
 
             if (ModelState.IsValid)
             {

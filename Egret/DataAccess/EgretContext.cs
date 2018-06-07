@@ -11,7 +11,7 @@ namespace Egret.DataAccess
     /// <summary>
     /// This class is the DbContext used throughout the project for accessing database stores with Entity Framework.
     /// </summary>
-    public partial class EgretContext : IdentityDbContext<AppUser>
+    public partial class EgretContext : IdentityDbContext<User>
     {
         public EgretContext(DbContextOptions<EgretContext> options) 
             : base(options) {}
@@ -26,13 +26,20 @@ namespace Egret.DataAccess
         {
             base.OnModelCreating(modelBuilder);
 
-            modelBuilder.Entity<AppUser>()
-                .ToTable("asp_net_users")
+            modelBuilder.Entity<IdentityUser>()
+                .ToTable("aspnet_users")
                 .Property(u => u.Id)
                 .HasMaxLength(450);
-            
-            modelBuilder.Entity<AppRole>()
-                .ToTable("asp_net_roles")
+            modelBuilder.Entity<User>()
+                .ToTable("aspnet_users")
+                .Property(u => u.Id)
+                .HasMaxLength(450);
+            modelBuilder.Entity<IdentityRole>()
+                .ToTable("aspnet_roles")
+                .Property(u => u.Id)
+                .HasMaxLength(450);
+            modelBuilder.Entity<Role>()
+                .ToTable("aspnet_roles")
                 .Property(u => u.Id)
                 .HasMaxLength(450);
 
@@ -40,17 +47,11 @@ namespace Egret.DataAccess
             modelBuilder.HasSequence<long>("master_seq")
                 .StartsAt(1000);
             modelBuilder.HasSequence<long>("currency_types_sortorder_seq")
-                .StartsAt(1)
-                .HasMin(1);
+                .StartsAt(100);
             modelBuilder.HasSequence<long>("inventory_categories_id_seq")
-                .StartsAt(1)
-                .HasMin(1);
+                .StartsAt(100);
             modelBuilder.HasSequence<long>("units_id_seq")
-                .StartsAt(1)
-                .HasMin(1);
-
-            // Seed Admin Data
-            //modelBuilder.Entity<Unit>().HasData
+                .StartsAt(100);
 
             modelBuilder.HasPostgresExtension("adminpack");
 
@@ -62,7 +63,7 @@ namespace Egret.DataAccess
                     .HasName("currency_types_abbreviation_key")
                     .IsUnique();
 
-                entity.HasIndex(e => e.Sortorder)
+                entity.HasIndex(e => e.SortOrder)
                     .HasName("currency_types_sort_key")
                     .IsUnique();
 
@@ -77,14 +78,14 @@ namespace Egret.DataAccess
                 entity.Property(e => e.Active)
                     .HasColumnName("active");
 
-                entity.Property(e => e.Defaultselection)
+                entity.Property(e => e.DefaultSelection)
                     .HasColumnName("defaultselection");
 
                 entity.Property(e => e.Name)
                     .IsRequired()
                     .HasColumnName("name");
 
-                entity.Property(e => e.Sortorder)
+                entity.Property(e => e.SortOrder)
                     .HasColumnName("sortorder")
                     .HasDefaultValueSql("nextval('currency_types_sortorder_seq'::regclass)");
 
@@ -101,7 +102,7 @@ namespace Egret.DataAccess
                     .HasName("inventory_categories_name_key")
                     .IsUnique();
 
-                entity.HasIndex(e => e.Sortorder)
+                entity.HasIndex(e => e.SortOrder)
                     .HasName("inventory_categories_sort_key")
                     .IsUnique();
 
@@ -119,7 +120,7 @@ namespace Egret.DataAccess
                     .IsRequired()
                     .HasColumnName("name");
 
-                entity.Property(e => e.Sortorder)
+                entity.Property(e => e.SortOrder)
                     .HasColumnName("sortorder");
             });
 
@@ -223,7 +224,6 @@ namespace Egret.DataAccess
 
                 entity.HasOne(d => d.CategoryNavigation)
                     .WithMany(p => p.InventoryItems)
-                    .HasPrincipalKey(p => p.Name)
                     .HasForeignKey(d => d.Category)
                     .HasConstraintName("inventory_items_category_fk")
                     .OnDelete(DeleteBehavior.Restrict);
@@ -252,7 +252,7 @@ namespace Egret.DataAccess
             {
                 entity.ToTable("units");
 
-                entity.HasIndex(e => e.Sortorder)
+                entity.HasIndex(e => e.SortOrder)
                     .HasName("units_sort_key")
                     .IsUnique();
 
@@ -272,7 +272,7 @@ namespace Egret.DataAccess
                     .IsRequired()
                     .HasColumnName("abbreviation");
 
-                entity.Property(e => e.Sortorder)
+                entity.Property(e => e.SortOrder)
                     .HasColumnName("sortorder");
 
                 entity.Property(e => e.Active)
@@ -301,6 +301,32 @@ namespace Egret.DataAccess
                     .HasColumnName("name");
 
             });
+
+            // Seed Admin Data
+            modelBuilder.Entity<CurrencyType>().HasData(
+                                                new { Id = 1, Name = "United States Dollars", Symbol = "$", Abbreviation = "USD", SortOrder = 1, Active = true, DefaultSelection = false },
+                                                new { Id = 2, Name = "Nepali Rupees", Symbol = "रु", Abbreviation = "NRP", SortOrder = 2, Active = true, DefaultSelection = true },
+                                                new { Id = 3, Name = "Indian Rupees", Symbol = "₹", Abbreviation = "INR", SortOrder = 3, Active = true, DefaultSelection = false });
+
+            modelBuilder.Entity<InventoryCategory>().HasData(
+                                                new { Id = 1, Name = "Buckle Thread", Description = "", SortOrder = 1, Active = true },
+                                                new { Id = 2, Name = "Button", Description = "", SortOrder = 2, Active = true },
+                                                new { Id = 3, Name = "Elastic", Description = "", SortOrder = 3, Active = true },
+                                                new { Id = 4, Name = "Hang-Tag", Description = "", SortOrder = 4, Active = true },
+                                                new { Id = 5, Name = "Knit Fabric", Description = "", SortOrder = 5, Active = true },
+                                                new { Id = 6, Name = "Label", Description = "", SortOrder = 6, Active = true },
+                                                new { Id = 7, Name = "Leather", Description = "", SortOrder = 7, Active = true },
+                                                new { Id = 8, Name = "Other", Description = "", SortOrder = 8, Active = true },
+                                                new { Id = 9, Name = "Snap", Description = "", SortOrder = 9, Active = true },
+                                                new { Id = 10, Name = "Woven Fabric", Description = "", SortOrder = 10, Active = true },
+                                                new { Id = 11, Name = "Zipper", Description = "", SortOrder = 11, Active = true });
+
+            modelBuilder.Entity<Unit>().HasData(new { Id = 1, Name = "kilograms", Abbreviation = "kg", SortOrder = 1, Active = true },
+                                                new { Id = 2, Name = "meters", Abbreviation = "m", SortOrder = 2, Active = true },
+                                                new { Id = 3, Name = "each", Abbreviation = "ea", SortOrder = 3, Active = true },
+                                                new { Id = 4, Name = "grams per square meter", Abbreviation = "g/m2", SortOrder = 4, Active = true },
+                                                new { Id = 5, Name = "centimeters", Abbreviation = "cm", SortOrder = 5, Active = true },
+                                                new { Id = 6, Name = "square feet", Abbreviation = "sqf", SortOrder = 6, Active = true });
         }
     }
 }

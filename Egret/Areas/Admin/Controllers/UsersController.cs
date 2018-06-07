@@ -12,9 +12,9 @@ namespace Egret.DataAccess
     [Area("Admin")]
     public class UsersController : Controller
     {
-        private UserManager<AppUser> userManager;
+        private UserManager<User> userManager;
         
-        public UsersController(UserManager<AppUser> usrMgr)
+        public UsersController(UserManager<User> usrMgr)
         {
             userManager = usrMgr;
         }
@@ -42,7 +42,7 @@ namespace Egret.DataAccess
         {
             if (ModelState.IsValid)
             {
-                AppUser user = new AppUser
+                User user = new User
                 {
                     UserName = model.Name,
                     Email = model.Email

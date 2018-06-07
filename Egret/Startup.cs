@@ -46,7 +46,7 @@ namespace Egret
             services.AddMemoryCache();
             services.AddSession();
 
-            services.AddIdentity<AppUser, IdentityRole>(opts => {
+            services.AddIdentity<User, IdentityRole>(opts => {
                 opts.Password.RequiredLength = 6;
                 opts.Password.RequireNonAlphanumeric = false;
                 opts.Password.RequireLowercase = false;
