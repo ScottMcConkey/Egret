@@ -12,22 +12,33 @@ namespace Egret.Models
     /// </summary>
     public partial class InventoryItem
     {
+        [Key]
         public string Code { get; set; }
 
         [Display(Name = "Added")]
         [ReadOnly(true)]
         public DateTime? DateAdded { get; set; }
 
+        [Display(Name = "Added By")]
+        [ReadOnly(true)]
+        public string AddedBy { get; set; }
+
+        [Display(Name = "Updated")]
+        [ReadOnly(true)]
+        public DateTime? DateUpdated { get; set; }
+
         [Display(Name = "Updated By")]
         [ReadOnly(true)]
-        public string Updatedby { get; set; }
+        public string UpdatedBy { get; set; }
 
         public string Description { get; set; }
 
         public string Category { get; set; }
 
+        [Display(Name = "Customer Purchased For")]
         public string CustomerPurchasedFor { get; set; }
 
+        [Display(Name = "Customer Reserved For")]
         public string CustomerReservedFor { get; set; }
 
         [UIHint("Text")]
@@ -40,7 +51,7 @@ namespace Egret.Models
         public string ApproxProdQty { get; set; }
 
         [Display(Name = "Fabric Tests")]
-        public string FabricTests { get; set; }
+        public string FabricTests_Conversion { get; set; }
 
         [Display(Name = "Fabric Test Results")]
         public string FabricTestResults { get; set; }
@@ -51,30 +62,87 @@ namespace Egret.Models
         [Display(Name = "Target Price")]
         public string TargetPrice { get; set; }
 
-        [Display(Name = "Bonded Warehouse?")]
+        [Display(Name = "Shipping Company")]
         public string ShippingCompany { get; set; }
 
         [Display(Name = "Bonded Warehouse?")]
         public bool? BondedWarehouse { get; set; }
 
         [Display(Name = "Date of Order Confirmed")]
-        public DateTime? DateOrderConfirmed { get; set; }
-
-        // Calculate no of days
+        public DateTime? DateConfirmed { get; set; }
 
         [Display(Name = "Date of Shipping")]
         public DateTime? DateShipped { get; set; }
 
-        [Display(Name = "Total Days for Shipping")]
-        public int? DaysForShipping { get; set; }
+        [Display(Name = "Date of Arrival")]
+        public DateTime? DateArrived { get; set; }
 
-        [Display(Name = "Arrival Date / Completed Task Date")]
-        public DateTime? DateCompleted { get; set; }
+        [Display(Name = "No. of Days to Confirm Order")]
+        [ReadOnly(true)]
+        [NotMapped]
+        [DatabaseGenerated(DatabaseGeneratedOption.Computed)]
+        public int? DaysToConfirm
+        {
+            get
+            {
+                if (DateConfirmed != null && DateAdded != null)
+                {
+                    return (int)((DateTime)DateConfirmed - (DateTime)DateAdded).TotalDays;
+                }
+                else
+                {
+                    return null;
+                }
+            }
+            private set { }
+        }
+
+        [Display(Name = "No. of Days for Shipping")]
+        [ReadOnly(true)]
+        [NotMapped]
+        [DatabaseGenerated(DatabaseGeneratedOption.Computed)]
+        public int? DaysToShip
+        {
+            get
+            {
+                if (DateArrived != null && DateShipped != null)
+                {
+                    return (int) ((DateTime)DateArrived - (DateTime) DateShipped).TotalDays;
+                }
+                else
+                {
+                    return null;
+                }
+            }
+            private set { }
+        }
+
+        [Display(Name = "No. of Days for Completion")]
+        [ReadOnly(true)]
+        [NotMapped]
+        [DatabaseGenerated(DatabaseGeneratedOption.Computed)]
+        public int? DaysToComplete
+        {
+            get
+            {
+                if (DateArrived != null && DateAdded != null)
+                {
+                    return (int)((DateTime)DateArrived - (DateTime)DateAdded).TotalDays;
+                }
+                else
+                {
+                    return null;
+                }
+            }
+            private set { }
+        }
+
+
 
         public string Comment { get; set; }
 
         [Display(Name = "Qty Purchased")]
-        public decimal? QtyPruchased { get; set; }
+        public decimal? QtyPurchased { get; set; }
 
         public string Unit { get; set; }
 
@@ -87,18 +155,63 @@ namespace Egret.Models
         [Display(Name = "Import/Custom/Delivery Costs/VAT (Nrs)*")]
         public decimal? ImportCosts { get; set; }
 
+
+
         [Display(Name = "Total Cost")]
-        public decimal? TotalCost { get; set; }
+        [ReadOnly(true)]
+        [NotMapped]
+        [DatabaseGenerated(DatabaseGeneratedOption.Computed)]
+        public decimal? TotalCost
+        {
+            get
+            {
+                return (int) (FOBCost ?? 0) + (ImportCosts ?? 0);
+            }
+            private set { }
+        }
 
         //Cost Per Unit for Accounting
+        [Display(Name = "Cost Per Unit")]
+        [ReadOnly(true)]
         [NotMapped]
-        public decimal? CostPerUnit { get; }
+        [DatabaseGenerated(DatabaseGeneratedOption.Computed)]
+        public decimal? CostPerUnit
+        {
+            get
+            {
+                if (QtyPurchased != null && QtyPurchased != 0 && FOBCost != null && FOBCost != 0)
+                {
+                    return (int)(FOBCost ?? 0) / (QtyPurchased ?? 0);
+                }
+                else
+                {
+                    return null;
+                }
+                
+            }
+            private set { }
+        }
 
         //Total Cost/Unit for Pricing
+        [Display(Name = "Total Cost Per Unit")]
+        [ReadOnly(true)]
         [NotMapped]
-        public decimal? TotalCostPerUnit { get; }
-
-
+        [DatabaseGenerated(DatabaseGeneratedOption.Computed)]
+        public decimal? TotalCostPerUnit
+        {
+            get
+            {
+                if (TotalCost != null && TotalCost != 0 && QtyPurchased != null && QtyPurchased != 0)
+                {
+                    return (int)(TotalCost ?? 0) / (QtyPurchased ?? 0);
+                }
+                else
+                {
+                    return null;
+                }
+            }
+            private set { }
+        }
 
 
         [Display(Name = "Sell Price")]
@@ -113,50 +226,20 @@ namespace Egret.Models
         public string Buycurrency { get; set; }
         [Display(Name = "Buy Unit")]
         public int? Buyunit { get; set; }
-        //[Display(Name = "Stock Value")]
-        //public double? Stockvalue { get; set; }
         
-        //[Display(Name = "Sales Account")]
-        //[UIHint("Text")]
-        //public int? Salesacct { get; set; }
-        //[Display(Name = "Stock Account")]
-        //[UIHint("Text")]
-        //public int? Stockacct { get; set; }
-        //[Display(Name = "COG Account")]
-        //[UIHint("Text")]
-        //public int? Cogacct { get; set; }
-        //[Display(Name = "SOH Count")]
-        //[UIHint("Text")]
-        //public double? Sohcount { get; set; }
-        //[Display(Name = "Stock Take New Qty")]
-        //public double? Stocktakenewqty { get; set; }
-        //[UIHint("Text")]
-        //public int? Flags { get; set; }
-        //[Display(Name = "Qty Brk Sell Price")]
-        //public double? Qtybrksellprice { get; set; }
-        //[Display(Name = "Cost Price")]
-        //public double? Costprice { get; set; }
 
         [Display(Name = "Is Conversion?")]
         public bool IsConversion { get; set; }
         [Display(Name = "Conversion Source")]
         [ReadOnly(true)]
         public string ConversionSource { get; set; }
-        [Display(Name = "Added By")]
-        [ReadOnly(true)]
-        public string Addedby { get; set; }
         
-        
-        
-        
-        [Display(Name = "Updated")]
-        [ReadOnly(true)]
-        public DateTime? Dateupdated { get; set; }
 
         public CurrencyType BuycurrencyNavigation { get; set; }
         public Unit BuyunitNavigation { get; set; }
         public InventoryCategory CategoryNavigation { get; set; }
         public CurrencyType SellcurrencyNavigation { get; set; }
         public Unit SellunitNavigation { get; set; }
+        public ICollection<FabricTest> FabricTests { get; set; }
     }
 }

@@ -89,7 +89,6 @@ namespace Egret.Controllers
             if (ModelState.IsValid)
             {
                 Context.Add(category);
-                
             }
             Context.SaveChanges();
             TempData["SuccessMessage"] = "Save Complete";

@@ -20,7 +20,11 @@ namespace Egret.Migrations
             modelBuilder
                 .HasAnnotation("Npgsql:PostgresExtension:adminpack", "'adminpack', '', ''")
                 .HasAnnotation("Npgsql:ValueGenerationStrategy", NpgsqlValueGenerationStrategy.SerialColumn)
-                .HasAnnotation("ProductVersion", "2.0.0-rtm-26452");
+                .HasAnnotation("ProductVersion", "2.0.0-rtm-26452")
+                .HasAnnotation("Relational:Sequence:.currency_types_sortorder_seq", "'currency_types_sortorder_seq', '', '1', '1', '1', '', 'Int64', 'False'")
+                .HasAnnotation("Relational:Sequence:.inventory_categories_id_seq", "'inventory_categories_id_seq', '', '1', '1', '1', '', 'Int64', 'False'")
+                .HasAnnotation("Relational:Sequence:.master_seq", "'master_seq', '', '1000', '1', '', '', 'Int64', 'False'")
+                .HasAnnotation("Relational:Sequence:.units_id_seq", "'units_id_seq', '', '1', '1', '1', '', 'Int64', 'False'");
 
             modelBuilder.Entity("Egret.DataAccess.Supplier", b =>
                 {
@@ -56,6 +60,8 @@ namespace Egret.Migrations
 
                     b.Property<bool>("EmailConfirmed");
 
+                    b.Property<bool?>("IsActive");
+
                     b.Property<bool>("LockoutEnabled");
 
                     b.Property<DateTimeOffset?>("LockoutEnd");
@@ -88,7 +94,7 @@ namespace Egret.Migrations
                         .IsUnique()
                         .HasName("UserNameIndex");
 
-                    b.ToTable("AspNetUsers");
+                    b.ToTable("asp_net_users");
                 });
 
             modelBuilder.Entity("Egret.Models.CurrencyType", b =>
@@ -113,7 +119,7 @@ namespace Egret.Migrations
                     b.Property<int>("Sortorder")
                         .ValueGeneratedOnAdd()
                         .HasColumnName("sortorder")
-                        .HasDefaultValueSql("nextval('admin.currency_types_sortorder_seq'::regclass)");
+                        .HasDefaultValueSql("nextval('currency_types_sortorder_seq'::regclass)");
 
                     b.Property<string>("Symbol")
                         .IsRequired()
@@ -129,7 +135,25 @@ namespace Egret.Migrations
                         .IsUnique()
                         .HasName("currency_types_sort_key");
 
-                    b.ToTable("currency_types","admin");
+                    b.ToTable("currency_types");
+                });
+
+            modelBuilder.Entity("Egret.Models.FabricTest", b =>
+                {
+                    b.Property<string>("Id")
+                        .ValueGeneratedOnAdd();
+
+                    b.Property<string>("InventoryItemCode");
+
+                    b.Property<string>("Name");
+
+                    b.Property<string>("Result");
+
+                    b.HasKey("Id");
+
+                    b.HasIndex("InventoryItemCode");
+
+                    b.ToTable("FabricTest");
                 });
 
             modelBuilder.Entity("Egret.Models.InventoryCategory", b =>
@@ -137,7 +161,7 @@ namespace Egret.Migrations
                     b.Property<int>("Id")
                         .ValueGeneratedOnAdd()
                         .HasColumnName("id")
-                        .HasDefaultValueSql("nextval('admin.inventory_categories_id_seq'::regclass)");
+                        .HasDefaultValueSql("nextval('inventory_categories_id_seq'::regclass)");
 
                     b.Property<bool>("Active")
                         .HasColumnName("active");
@@ -162,7 +186,7 @@ namespace Egret.Migrations
                         .IsUnique()
                         .HasName("inventory_categories_sort_key");
 
-                    b.ToTable("inventory_categories","admin");
+                    b.ToTable("inventory_categories");
                 });
 
             modelBuilder.Entity("Egret.Models.InventoryItem", b =>
@@ -172,8 +196,14 @@ namespace Egret.Migrations
                         .HasColumnName("code")
                         .HasDefaultValueSql("nextval('master_seq'::regclass)");
 
-                    b.Property<string>("Addedby")
+                    b.Property<string>("AddedBy")
                         .HasColumnName("useraddedby");
+
+                    b.Property<string>("ApproxProdQty")
+                        .HasColumnName("approxprodqty");
+
+                    b.Property<bool?>("BondedWarehouse")
+                        .HasColumnName("bondedwarehouse");
 
                     b.Property<string>("Buycurrency")
                         .HasColumnName("buycurrency");
@@ -187,39 +217,59 @@ namespace Egret.Migrations
                     b.Property<string>("Category")
                         .HasColumnName("category");
 
-                    b.Property<int?>("Cogacct")
-                        .HasColumnName("cogacct");
-
                     b.Property<string>("Comment")
                         .HasColumnName("comment");
 
-                    b.Property<string>("Conversionsource")
+                    b.Property<string>("ConversionSource")
                         .HasColumnName("conversionsource");
 
-                    b.Property<double?>("Costprice")
-                        .HasColumnName("costprice");
+                    b.Property<string>("CustomerPurchasedFor")
+                        .HasColumnName("customerpurchasedfor");
 
-                    b.Property<DateTime?>("Dateadded")
+                    b.Property<string>("CustomerReservedFor")
+                        .HasColumnName("customerreservedfor");
+
+                    b.Property<DateTime?>("DateAdded")
                         .HasColumnName("dateadded");
 
-                    b.Property<DateTime?>("Dateupdated")
+                    b.Property<DateTime?>("DateArrived")
+                        .HasColumnName("datearrived");
+
+                    b.Property<DateTime?>("DateConfirmed")
+                        .HasColumnName("dateconfirmed");
+
+                    b.Property<DateTime?>("DateShipped")
+                        .HasColumnName("dateshipped");
+
+                    b.Property<DateTime?>("DateUpdated")
                         .HasColumnName("dateupdated");
 
                     b.Property<string>("Description")
                         .IsRequired()
                         .HasColumnName("description");
 
-                    b.Property<int?>("Flags")
-                        .HasColumnName("flags");
+                    b.Property<decimal?>("FOBCost")
+                        .HasColumnName("fobcost");
 
-                    b.Property<bool?>("Isconversion")
-                        .HasColumnName("isconversion");
+                    b.Property<string>("FabricTestResults")
+                        .HasColumnName("fabrictestresults");
 
-                    b.Property<double?>("Qtybrksellprice")
-                        .HasColumnName("qtybrksellprice");
+                    b.Property<string>("FabricTests_Conversion")
+                        .HasColumnName("fabrictests_conversion");
 
-                    b.Property<int?>("Salesacct")
-                        .HasColumnName("salesacct");
+                    b.Property<decimal?>("ImportCosts")
+                        .HasColumnName("importcosts");
+
+                    b.Property<bool>("IsConversion");
+
+                    b.Property<DateTime?>("NeededBefore")
+                        .HasColumnName("neededbefore");
+
+                    b.Property<decimal?>("QtyPurchased")
+                        .HasColumnName("qtypurchased");
+
+                    b.Property<string>("QtyToPurchaseNow")
+                        .HasColumnName("qtytopurchasenow");
 
                     b.Property<string>("Sellcurrency")
                         .HasColumnName("sellcurrency");
@@ -230,22 +280,22 @@ namespace Egret.Migrations
                     b.Property<int?>("Sellunit")
                         .HasColumnName("sellunit_fk");
 
-                    b.Property<double?>("Sohcount")
-                        .HasColumnName("sohcount");
+                    b.Property<string>("ShippingCompany")
+                        .HasColumnName("shippingcompany");
 
-                    b.Property<int?>("Stockacct")
-                        .HasColumnName("stockacct");
-
-                    b.Property<double?>("Stocktakenewqty")
-                        .HasColumnName("stocktakenewqty");
-
-                    b.Property<double?>("Stockvalue")
-                        .HasColumnName("stockvalue");
+                    b.Property<decimal?>("ShippingCost")
+                        .HasColumnName("shippingcost");
 
                     b.Property<int?>("Supplier")
                         .HasColumnName("supplier_fk");
 
-                    b.Property<string>("Updatedby")
+                    b.Property<string>("TargetPrice")
+                        .HasColumnName("targetprice");
+
+                    b.Property<string>("Unit")
+                        .HasColumnName("unit");
+
+                    b.Property<string>("UpdatedBy")
                         .HasColumnName("userupdatedby");
 
                     b.HasKey("Code");
@@ -268,7 +318,7 @@ namespace Egret.Migrations
                     b.Property<int>("Id")
                         .ValueGeneratedOnAdd()
                         .HasColumnName("id")
-                        .HasDefaultValueSql("nextval('admin.units_id_seq'::regclass)");
+                        .HasDefaultValueSql("nextval('units_id_seq'::regclass)");
 
                     b.Property<string>("Abbreviation")
                         .IsRequired()
@@ -294,7 +344,7 @@ namespace Egret.Migrations
                         .IsUnique()
                         .HasName("units_sort_key");
 
-                    b.ToTable("units","admin");
+                    b.ToTable("units");
                 });
 
             modelBuilder.Entity("Microsoft.AspNetCore.Identity.IdentityRole", b =>
@@ -415,9 +465,17 @@ namespace Egret.Migrations
                     b.HasBaseType("Microsoft.AspNetCore.Identity.IdentityRole");
 
 
-                    b.ToTable("AppRole");
+                    b.ToTable("asp_net_roles");
 
                     b.HasDiscriminator().HasValue("AppRole");
+                });
+
+            modelBuilder.Entity("Egret.Models.FabricTest", b =>
+                {
+                    b.HasOne("Egret.Models.InventoryItem", "InventoryItem")
+                        .WithMany("FabricTests")
+                        .HasForeignKey("InventoryItemCode")
+                        .OnDelete(DeleteBehavior.Restrict);
                 });
 
             modelBuilder.Entity("Egret.Models.InventoryItem", b =>

@@ -28,10 +28,16 @@ namespace Egret.Controllers
         }
 
         [HttpGet]
-        public ViewResult Index() => View(userManager.Users);
+        public ViewResult Index()
+        {
+            return View(userManager.Users);
+        }
 
         [HttpGet]
-        public ViewResult Create() => View();
+        public ViewResult Create()
+        {
+            return View();
+        }
 
         [HttpPost]
         public async Task<IActionResult> Create(UserViewModel model)
