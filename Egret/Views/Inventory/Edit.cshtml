@@ -8,7 +8,6 @@
 <div class="row">
     <div class="col-md-4">
         
-
         <form asp-action="Edit">
 
             <!-- Tab Links -->
@@ -70,6 +69,46 @@
                     <label asp-for="Supplier" class="control-label"></label>
                     <input asp-for="Supplier" class="form-control" />
                     <span asp-validation-for="Supplier" class="text-danger"></span>
+                </div>
+                <div class="form-group">
+                    <label asp-for="CustomerPurchasedFor" class="control-label"></label>
+                    <input asp-for="CustomerPurchasedFor" class="form-control" />
+                    <span asp-validation-for="CustomerPurchasedFor" class="text-danger"></span>
+                </div>
+                <div class="form-group">
+                    <label asp-for="CustomerReservedFor" class="control-label"></label>
+                    <input asp-for="CustomerReservedFor" class="form-control" />
+                    <span asp-validation-for="CustomerReservedFor" class="text-danger"></span>
+                </div>
+                <div class="form-group">
+                    <label asp-for="QtyToPurchaseNow" class="control-label"></label>
+                    <input asp-for="QtyToPurchaseNow" class="form-control" />
+                    <span asp-validation-for="QtyToPurchaseNow" class="text-danger"></span>
+                </div>
+                <div class="form-group">
+                    <label asp-for="ApproxProdQty" class="control-label"></label>
+                    <input asp-for="ApproxProdQty" class="form-control" />
+                    <span asp-validation-for="ApproxProdQty" class="text-danger"></span>
+                </div>
+                <div class="form-group">
+                    <label asp-for="FabricTests_Conversion" class="control-label"></label>
+                    <input asp-for="FabricTests_Conversion" class="form-control" />
+                    <span asp-validation-for="FabricTests_Conversion" class="text-danger"></span>
+                </div>
+                <div class="form-group">
+                    <label asp-for="FabricTestResults" class="control-label"></label>
+                    <input asp-for="FabricTestResults" class="form-control" />
+                    <span asp-validation-for="FabricTestResults" class="text-danger"></span>
+                </div>
+                <div class="form-group">
+                    <label asp-for="NeededBefore" class="control-label"></label>
+                    <input asp-for="NeededBefore" class="form-control" />
+                    <span asp-validation-for="NeededBefore" class="text-danger"></span>
+                </div>
+                <div class="form-group">
+                    <label asp-for="TargetPrice" class="control-label"></label>
+                    <input asp-for="TargetPrice" class="form-control" />
+                    <span asp-validation-for="TargetPrice" class="text-danger"></span>
                 </div>
             </div><!-- end tab-content -->
 

@@ -33,8 +33,6 @@ namespace Egret.Models
 
         public string Description { get; set; }
 
-        public int? Category { get; set; }
-
         [Display(Name = "Customer Purchased For")]
         public string CustomerPurchasedFor { get; set; }
 
@@ -226,7 +224,9 @@ namespace Egret.Models
         public string Buycurrency { get; set; }
         [Display(Name = "Buy Unit")]
         public int? Buyunit { get; set; }
-        
+
+        public string Category { get; set; }
+
 
         [Display(Name = "Is Conversion?")]
         public bool IsConversion { get; set; }

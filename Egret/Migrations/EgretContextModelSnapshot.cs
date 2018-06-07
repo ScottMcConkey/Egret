@@ -179,7 +179,7 @@ namespace Egret.Migrations
                     b.Property<int?>("Buyunit")
                         .HasColumnName("buyunit_fk");
 
-                    b.Property<int?>("Category")
+                    b.Property<string>("Category")
                         .HasColumnName("category");
 
                     b.Property<string>("Comment")
@@ -538,6 +538,7 @@ namespace Egret.Migrations
                         .WithMany("InventoryItems")
                         .HasForeignKey("Category")
                         .HasConstraintName("inventory_items_category_fk")
+                        .HasPrincipalKey("Name")
                         .OnDelete(DeleteBehavior.Restrict);
 
                     b.HasOne("Egret.Models.CurrencyType", "SellcurrencyNavigation")

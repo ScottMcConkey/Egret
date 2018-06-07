@@ -61,7 +61,7 @@ namespace Egret.Controllers
 
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Create([Bind("Code,Description,Category,Comment,Sellprice,Sellcurrency,Sellunit,Buyprice,Buycurrency,Buyunit,Stockvalue,SupplierFk,Salesacct,Stockacct,Cogacct,Sohcount,Stocktakenewqty,Flags,Qtybrksellprice,Costprice,Isconversion,Conversionsource,Useraddedby,Userupdatedby,Dateadded,Dateupdated")] InventoryItem inventoryItems)
+        public async Task<IActionResult> Create([Bind("Code,Description,Category,Comment,Sellprice,Sellcurrency,Sellunit,Buyprice,Buycurrency,Buyunit,Isconversion,Conversionsource,Useraddedby,Userupdatedby,Dateadded,Dateupdated")] InventoryItem inventoryItems)
         {
             if (ModelState.IsValid)
             {
@@ -91,7 +91,7 @@ namespace Egret.Controllers
                 return NotFound();
             }
             ViewData["Buycurrency"] = new SelectList(ActiveCurrencyTypes, "Abbreviation", "Abbreviation", item.Buycurrency);
-            ViewData["Buyunit"] = new SelectList(ActiveUnits, "Id", "Abbreviation", item.Buyunit);
+            ViewData["Buyunit"] = new SelectList(ActiveUnits, "Abbreviation", "Abbreviation", item.Buyunit);
             ViewData["Category"] = new SelectList(ActiveInventoryCategories, "Name", "Name", item.Category);
             ViewData["Sellcurrency"] = new SelectList(ActiveCurrencyTypes, "Abbreviation", "Abbreviation", item.Sellcurrency);
             ViewData["Sellunit"] = new SelectList(ActiveUnits, "Abbreviation", "Abbreviation", item.Sellunit);
@@ -100,7 +100,7 @@ namespace Egret.Controllers
 
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Edit(string id, [Bind("Code,Description,Category,Comment,Sellprice,Sellcurrency,Sellunit,Buyprice,Buycurrency,Buyunit,Stockvalue,SupplierFk,Salesacct,Stockacct,Cogacct,Sohcount,Stocktakenewqty,Flags,Qtybrksellprice,Costprice,Isconversion,Conversionsource,Useraddedby,Userupdatedby,Dateadded,Dateupdated")] InventoryItem item)
+        public async Task<IActionResult> Edit(string id, [Bind("Code,Description,Category,Comment,Sellprice,Sellcurrency,Sellunit,Buyprice,Buycurrency,Buyunit,Isconversion,Conversionsource,Useraddedby,Userupdatedby,Dateadded,Dateupdated")] InventoryItem item)
         {
             if (ModelState.IsValid)
             {
@@ -109,7 +109,7 @@ namespace Egret.Controllers
                 TempData["SuccessMessage"] = "Save Complete";
             }
             ViewData["Buycurrency"] = new SelectList(ActiveCurrencyTypes, "Abbreviation", "Abbreviation", item.Buycurrency);
-            ViewData["Buyunit"] = new SelectList(ActiveUnits, "Id", "Abbreviation", item.Buyunit);
+            ViewData["Buyunit"] = new SelectList(ActiveUnits, "Abbreviation", "Abbreviation", item.Buyunit);
             ViewData["Category"] = new SelectList(ActiveInventoryCategories, "Name", "Name", item.Category);
             ViewData["Sellcurrency"] = new SelectList(ActiveCurrencyTypes, "Abbreviation", "Abbreviation", item.Sellcurrency);
             ViewData["Sellunit"] = new SelectList(ActiveUnits, "Abbreviation", "Abbreviation", item.Sellunit);

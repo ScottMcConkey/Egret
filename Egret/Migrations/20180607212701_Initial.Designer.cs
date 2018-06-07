@@ -10,7 +10,7 @@ using Npgsql.EntityFrameworkCore.PostgreSQL.Metadata;
 namespace Egret.Migrations
 {
     [DbContext(typeof(EgretContext))]
-    [Migration("20180607200528_Initial")]
+    [Migration("20180607212701_Initial")]
     partial class Initial
     {
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
@@ -181,7 +181,7 @@ namespace Egret.Migrations
                     b.Property<int?>("Buyunit")
                         .HasColumnName("buyunit_fk");
 
-                    b.Property<int?>("Category")
+                    b.Property<string>("Category")
                         .HasColumnName("category");
 
                     b.Property<string>("Comment")
@@ -540,6 +540,7 @@ namespace Egret.Migrations
                         .WithMany("InventoryItems")
                         .HasForeignKey("Category")
                         .HasConstraintName("inventory_items_category_fk")
+                        .HasPrincipalKey("Name")
                         .OnDelete(DeleteBehavior.Restrict);
 
                     b.HasOne("Egret.Models.CurrencyType", "SellcurrencyNavigation")

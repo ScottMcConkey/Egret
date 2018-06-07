@@ -215,19 +215,6 @@ namespace Egret.DataAccess
                     .HasConstraintName("inventory_items_buycurrency_fk")
                     .OnDelete(DeleteBehavior.Restrict);
 
-                entity.HasOne(d => d.BuyunitNavigation)
-                    .WithMany(p => p.InventoryItemsBuyunitNavigation)
-                    .HasPrincipalKey(p => p.Id)
-                    .HasForeignKey(d => d.Buyunit)
-                    .HasConstraintName("inventory_items_buyunit_fk")
-                    .OnDelete(DeleteBehavior.Restrict);
-
-                entity.HasOne(d => d.CategoryNavigation)
-                    .WithMany(p => p.InventoryItems)
-                    .HasForeignKey(d => d.Category)
-                    .HasConstraintName("inventory_items_category_fk")
-                    .OnDelete(DeleteBehavior.Restrict);
-
                 entity.HasOne(d => d.SellcurrencyNavigation)
                     .WithMany(p => p.InventoryItemsSellcurrencyNavigation)
                     .HasPrincipalKey(p => p.Abbreviation)
@@ -235,11 +222,25 @@ namespace Egret.DataAccess
                     .HasConstraintName("inventory_items_sellcurrency_fk")
                     .OnDelete(DeleteBehavior.Restrict);
 
+                entity.HasOne(d => d.BuyunitNavigation)
+                    .WithMany(p => p.InventoryItemsBuyunitNavigation)
+                    .HasPrincipalKey(p => p.Id)
+                    .HasForeignKey(d => d.Buyunit)
+                    .HasConstraintName("inventory_items_buyunit_fk")
+                    .OnDelete(DeleteBehavior.Restrict);
+
                 entity.HasOne(d => d.SellunitNavigation)
                     .WithMany(p => p.InventoryItemsSellunitNavigation)
                     .HasPrincipalKey(p => p.Id)
                     .HasForeignKey(d => d.Sellunit)
                     .HasConstraintName("inventory_items_sellunit_fk")
+                    .OnDelete(DeleteBehavior.Restrict);
+
+                entity.HasOne(d => d.CategoryNavigation)
+                    .WithMany(p => p.InventoryItems)
+                    .HasPrincipalKey(p => p.Name)
+                    .HasForeignKey(d => d.Category)
+                    .HasConstraintName("inventory_items_category_fk")
                     .OnDelete(DeleteBehavior.Restrict);
 
                 entity.HasMany(d => d.FabricTests)

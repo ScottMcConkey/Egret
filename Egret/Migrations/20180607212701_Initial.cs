@@ -103,6 +103,7 @@ namespace Egret.Migrations
                 constraints: table =>
                 {
                     table.PrimaryKey("PK_inventory_categories", x => x.id);
+                    table.UniqueConstraint("AK_inventory_categories_name", x => x.name);
                 });
 
             migrationBuilder.CreateTable(
@@ -249,7 +250,6 @@ namespace Egret.Migrations
                     dateupdated = table.Column<DateTime>(nullable: true),
                     userupdatedby = table.Column<string>(nullable: true),
                     description = table.Column<string>(nullable: false),
-                    category = table.Column<int>(nullable: true),
                     customerpurchasedfor = table.Column<string>(nullable: true),
                     customerreservedfor = table.Column<string>(nullable: true),
                     supplier_fk = table.Column<int>(nullable: true),
@@ -276,6 +276,7 @@ namespace Egret.Migrations
                     buyprice = table.Column<decimal>(nullable: true),
                     buycurrency = table.Column<string>(nullable: true),
                     buyunit_fk = table.Column<int>(nullable: true),
+                    category = table.Column<string>(nullable: true),
                     IsConversion = table.Column<bool>(nullable: false),
                     conversionsource = table.Column<string>(nullable: true)
                 },
@@ -298,7 +299,7 @@ namespace Egret.Migrations
                         name: "inventory_items_category_fk",
                         column: x => x.category,
                         principalTable: "inventory_categories",
-                        principalColumn: "id",
+                        principalColumn: "name",
                         onDelete: ReferentialAction.Restrict);
                     table.ForeignKey(
                         name: "inventory_items_sellcurrency_fk",
