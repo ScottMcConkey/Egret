@@ -49,6 +49,9 @@ namespace Egret.DataAccess
                 .StartsAt(1)
                 .HasMin(1);
 
+            // Seed Admin Data
+            //modelBuilder.Entity<Unit>().HasData
+
             modelBuilder.HasPostgresExtension("adminpack");
 
             modelBuilder.Entity<CurrencyType>(entity =>
