@@ -119,6 +119,7 @@ namespace Egret.Migrations
                 constraints: table =>
                 {
                     table.PrimaryKey("PK_units", x => x.id);
+                    table.UniqueConstraint("AK_units_abbreviation", x => x.abbreviation);
                 });
 
             migrationBuilder.CreateTable(
@@ -272,12 +273,12 @@ namespace Egret.Migrations
                     importcosts = table.Column<decimal>(nullable: true),
                     sellprice = table.Column<decimal>(nullable: true),
                     sellcurrency = table.Column<string>(nullable: true),
-                    sellunit_fk = table.Column<int>(nullable: true),
+                    sellunit_fk = table.Column<string>(nullable: true),
                     buyprice = table.Column<decimal>(nullable: true),
                     buycurrency = table.Column<string>(nullable: true),
-                    buyunit_fk = table.Column<int>(nullable: true),
+                    buyunit_fk = table.Column<string>(nullable: true),
                     category = table.Column<string>(nullable: true),
-                    IsConversion = table.Column<bool>(nullable: false),
+                    isconversion = table.Column<bool>(nullable: false),
                     conversionsource = table.Column<string>(nullable: true)
                 },
                 constraints: table =>
@@ -293,7 +294,7 @@ namespace Egret.Migrations
                         name: "inventory_items_buyunit_fk",
                         column: x => x.buyunit_fk,
                         principalTable: "units",
-                        principalColumn: "id",
+                        principalColumn: "abbreviation",
                         onDelete: ReferentialAction.Restrict);
                     table.ForeignKey(
                         name: "inventory_items_category_fk",
@@ -311,7 +312,7 @@ namespace Egret.Migrations
                         name: "inventory_items_sellunit_fk",
                         column: x => x.sellunit_fk,
                         principalTable: "units",
-                        principalColumn: "id",
+                        principalColumn: "abbreviation",
                         onDelete: ReferentialAction.Restrict);
                 });
 

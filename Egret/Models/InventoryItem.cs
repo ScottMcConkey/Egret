@@ -15,16 +15,17 @@ namespace Egret.Models
         [Key]
         public string Code { get; set; }
 
-        [Display(Name = "Added")]
-        [ReadOnly(true)]
+        [Display(Name = "Date Added")]
+        [UIHint("Date")]
         public DateTime? DateAdded { get; set; }
 
         [Display(Name = "Added By")]
         [ReadOnly(true)]
         public string AddedBy { get; set; }
 
-        [Display(Name = "Updated")]
+        [Display(Name = "Date Updated")]
         [ReadOnly(true)]
+        [UIHint("Date")]
         public DateTime? DateUpdated { get; set; }
 
         [Display(Name = "Updated By")]
@@ -67,12 +68,15 @@ namespace Egret.Models
         public bool? BondedWarehouse { get; set; }
 
         [Display(Name = "Date of Order Confirmed")]
+        [UIHint("Date")]
         public DateTime? DateConfirmed { get; set; }
 
         [Display(Name = "Date of Shipping")]
+        [UIHint("Date")]
         public DateTime? DateShipped { get; set; }
 
         [Display(Name = "Date of Arrival")]
+        [UIHint("Date")]
         public DateTime? DateArrived { get; set; }
 
         [Display(Name = "No. of Days to Confirm Order")]
@@ -163,7 +167,14 @@ namespace Egret.Models
         {
             get
             {
-                return (int) (FOBCost ?? 0) + (ImportCosts ?? 0);
+                if (FOBCost != null && FOBCost != 0 && ImportCosts != null && ImportCosts != 0)
+                {
+                    return FOBCost + ImportCosts;
+                }
+                else
+                {
+                    return null;
+                }
             }
             private set { }
         }
@@ -217,13 +228,13 @@ namespace Egret.Models
         [Display(Name = "Sell Currency")]
         public string Sellcurrency { get; set; }
         [Display(Name = "Sell Unit")]
-        public int? Sellunit { get; set; }
+        public string Sellunit { get; set; }
         [Display(Name = "Buy Price")]
         public decimal? Buyprice { get; set; }
         [Display(Name = "Buy Currency")]
         public string Buycurrency { get; set; }
         [Display(Name = "Buy Unit")]
-        public int? Buyunit { get; set; }
+        public string Buyunit { get; set; }
 
         public string Category { get; set; }
 

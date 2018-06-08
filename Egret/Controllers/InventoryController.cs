@@ -61,7 +61,7 @@ namespace Egret.Controllers
 
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Create([Bind("Code,Description,Category,Comment,Sellprice,Sellcurrency,Sellunit,Buyprice,Buycurrency,Buyunit,Isconversion,Conversionsource,Useraddedby,Userupdatedby,Dateadded,Dateupdated")] InventoryItem inventoryItems)
+        public async Task<IActionResult> Create(InventoryItem inventoryItems)
         {
             if (ModelState.IsValid)
             {
@@ -100,7 +100,7 @@ namespace Egret.Controllers
 
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Edit(string id, [Bind("Code,Description,Category,Comment,Sellprice,Sellcurrency,Sellunit,Buyprice,Buycurrency,Buyunit,Isconversion,Conversionsource,Useraddedby,Userupdatedby,Dateadded,Dateupdated")] InventoryItem item)
+        public async Task<IActionResult> Edit(string id, InventoryItem item)
         {
             if (ModelState.IsValid)
             {

@@ -10,7 +10,7 @@ using Npgsql.EntityFrameworkCore.PostgreSQL.Metadata;
 namespace Egret.Migrations
 {
     [DbContext(typeof(EgretContext))]
-    [Migration("20180607212701_Initial")]
+    [Migration("20180607230109_Initial")]
     partial class Initial
     {
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
@@ -178,7 +178,7 @@ namespace Egret.Migrations
                     b.Property<decimal?>("Buyprice")
                         .HasColumnName("buyprice");
 
-                    b.Property<int?>("Buyunit")
+                    b.Property<string>("Buyunit")
                         .HasColumnName("buyunit_fk");
 
                     b.Property<string>("Category")
@@ -227,7 +227,8 @@ namespace Egret.Migrations
                     b.Property<decimal?>("ImportCosts")
                         .HasColumnName("importcosts");
 
-                    b.Property<bool>("IsConversion");
+                    b.Property<bool>("IsConversion")
+                        .HasColumnName("isconversion");
 
                     b.Property<DateTime?>("NeededBefore")
                         .HasColumnName("neededbefore");
@@ -244,7 +245,7 @@ namespace Egret.Migrations
                     b.Property<decimal?>("Sellprice")
                         .HasColumnName("sellprice");
 
-                    b.Property<int?>("Sellunit")
+                    b.Property<string>("Sellunit")
                         .HasColumnName("sellunit_fk");
 
                     b.Property<string>("ShippingCompany")
@@ -534,6 +535,7 @@ namespace Egret.Migrations
                         .WithMany("InventoryItemsBuyunitNavigation")
                         .HasForeignKey("Buyunit")
                         .HasConstraintName("inventory_items_buyunit_fk")
+                        .HasPrincipalKey("Abbreviation")
                         .OnDelete(DeleteBehavior.Restrict);
 
                     b.HasOne("Egret.Models.InventoryCategory", "CategoryNavigation")
@@ -554,6 +556,7 @@ namespace Egret.Migrations
                         .WithMany("InventoryItemsSellunitNavigation")
                         .HasForeignKey("Sellunit")
                         .HasConstraintName("inventory_items_sellunit_fk")
+                        .HasPrincipalKey("Abbreviation")
                         .OnDelete(DeleteBehavior.Restrict);
                 });
 

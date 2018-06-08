@@ -176,6 +176,7 @@ namespace Egret.DataAccess
 
                 entity.Property(e => e.DateArrived).HasColumnName("datearrived");
 
+
                 entity.Property(e => e.Comment).HasColumnName("comment");
 
                 entity.Property(e => e.QtyPurchased).HasColumnName("qtypurchased");
@@ -188,9 +189,14 @@ namespace Egret.DataAccess
 
                 entity.Property(e => e.ImportCosts).HasColumnName("importcosts");
 
+                entity.Property(e => e.IsConversion).HasColumnName("isconversion");
+
 
 
                 entity.Property(e => e.ConversionSource).HasColumnName("conversionsource");
+
+
+
 
                 entity.Property(e => e.Buycurrency).HasColumnName("buycurrency");
 
@@ -224,14 +230,14 @@ namespace Egret.DataAccess
 
                 entity.HasOne(d => d.BuyunitNavigation)
                     .WithMany(p => p.InventoryItemsBuyunitNavigation)
-                    .HasPrincipalKey(p => p.Id)
+                    .HasPrincipalKey(p => p.Abbreviation)
                     .HasForeignKey(d => d.Buyunit)
                     .HasConstraintName("inventory_items_buyunit_fk")
                     .OnDelete(DeleteBehavior.Restrict);
 
                 entity.HasOne(d => d.SellunitNavigation)
                     .WithMany(p => p.InventoryItemsSellunitNavigation)
-                    .HasPrincipalKey(p => p.Id)
+                    .HasPrincipalKey(p => p.Abbreviation)
                     .HasForeignKey(d => d.Sellunit)
                     .HasConstraintName("inventory_items_sellunit_fk")
                     .OnDelete(DeleteBehavior.Restrict);
