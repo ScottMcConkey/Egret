@@ -61,20 +61,24 @@ namespace Egret.Controllers
 
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Create(InventoryItem inventoryItems)
+        public async Task<IActionResult> Create(InventoryItem inventoryItem)
         {
             if (ModelState.IsValid)
             {
-                Context.Add(inventoryItems);
+                inventoryItem.AddedBy = User.Identity.Name;
+                inventoryItem.UpdatedBy = User.Identity.Name;
+                inventoryItem.DateAdded = DateTime.Now;
+                inventoryItem.DateUpdated = DateTime.Now;
+                Context.Add(inventoryItem);
                 await Context.SaveChangesAsync();
                 return RedirectToAction(nameof(Index));
             }
-            ViewData["Buycurrency"] = new SelectList(ActiveCurrencyTypes, "Abbreviation", "Abbreviation", inventoryItems.Buycurrency);
-            ViewData["Buyunit"] = new SelectList(ActiveUnits, "Abbreviation", "Abbreviation", inventoryItems.Buyunit);
-            ViewData["Category"] = new SelectList(ActiveInventoryCategories, "Name", "Name", inventoryItems.Category);
-            ViewData["Sellcurrency"] = new SelectList(ActiveCurrencyTypes, "Abbreviation", "Abbreviation", inventoryItems.Sellcurrency);
-            ViewData["Sellunit"] = new SelectList(ActiveUnits, "Abbreviation", "Abbreviation", inventoryItems.Sellunit);
-            return View(inventoryItems);
+            ViewData["Buycurrency"] = new SelectList(ActiveCurrencyTypes, "Abbreviation", "Abbreviation", inventoryItem.Buycurrency);
+            ViewData["Buyunit"] = new SelectList(ActiveUnits, "Abbreviation", "Abbreviation", inventoryItem.Buyunit);
+            ViewData["Category"] = new SelectList(ActiveInventoryCategories, "Name", "Name", inventoryItem.Category);
+            ViewData["Sellcurrency"] = new SelectList(ActiveCurrencyTypes, "Abbreviation", "Abbreviation", inventoryItem.Sellcurrency);
+            ViewData["Sellunit"] = new SelectList(ActiveUnits, "Abbreviation", "Abbreviation", inventoryItem.Sellunit);
+            return View(inventoryItem);
         }
 
         [HttpGet]
@@ -104,6 +108,8 @@ namespace Egret.Controllers
         {
             if (ModelState.IsValid)
             {
+                item.UpdatedBy = User.Identity.Name;
+                item.DateUpdated = DateTime.Now;
                 Context.Update(item);
                 await Context.SaveChangesAsync();
                 TempData["SuccessMessage"] = "Save Complete";

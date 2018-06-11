@@ -19,8 +19,8 @@ namespace Egret.Migrations
                 .HasAnnotation("Npgsql:ValueGenerationStrategy", NpgsqlValueGenerationStrategy.SerialColumn)
                 .HasAnnotation("ProductVersion", "2.1.0-rtm-30799")
                 .HasAnnotation("Relational:MaxIdentifierLength", 63)
-                .HasAnnotation("Relational:Sequence:.currency_types_sortorder_seq", "'currency_types_sortorder_seq', '', '100', '1', '', '', 'Int64', 'False'")
-                .HasAnnotation("Relational:Sequence:.inventory_categories_id_seq", "'inventory_categories_id_seq', '', '100', '1', '', '', 'Int64', 'False'")
+                .HasAnnotation("Relational:Sequence:.currencytypes_id_seq", "'currencytypes_id_seq', '', '100', '1', '', '', 'Int64', 'False'")
+                .HasAnnotation("Relational:Sequence:.inventorycategories_id_seq", "'inventorycategories_id_seq', '', '100', '1', '', '', 'Int64', 'False'")
                 .HasAnnotation("Relational:Sequence:.master_seq", "'master_seq', '', '1000', '1', '', '', 'Int64', 'False'")
                 .HasAnnotation("Relational:Sequence:.units_id_seq", "'units_id_seq', '', '100', '1', '', '', 'Int64', 'False'");
 
@@ -37,7 +37,7 @@ namespace Egret.Migrations
 
                     b.HasIndex("Id")
                         .IsUnique()
-                        .HasName("suppliers_pkey");
+                        .HasName("ix_suppliers_pkey");
 
                     b.ToTable("suppliers","public");
                 });
@@ -45,7 +45,9 @@ namespace Egret.Migrations
             modelBuilder.Entity("Egret.Models.CurrencyType", b =>
                 {
                     b.Property<int>("Id")
-                        .HasColumnName("id");
+                        .ValueGeneratedOnAdd()
+                        .HasColumnName("id")
+                        .HasDefaultValueSql("nextval('currencytypes_id_seq'::regclass)");
 
                     b.Property<string>("Abbreviation")
                         .IsRequired()
@@ -62,9 +64,7 @@ namespace Egret.Migrations
                         .HasColumnName("name");
 
                     b.Property<int>("SortOrder")
-                        .ValueGeneratedOnAdd()
-                        .HasColumnName("sortorder")
-                        .HasDefaultValueSql("nextval('currency_types_sortorder_seq'::regclass)");
+                        .HasColumnName("sortorder");
 
                     b.Property<string>("Symbol")
                         .IsRequired()
@@ -74,11 +74,11 @@ namespace Egret.Migrations
 
                     b.HasIndex("Abbreviation")
                         .IsUnique()
-                        .HasName("currency_types_abbreviation_key");
+                        .HasName("ix_currencytypes_abbreviation");
 
                     b.HasIndex("SortOrder")
                         .IsUnique()
-                        .HasName("currency_types_sort_key");
+                        .HasName("ix_currencytypes_sortorder");
 
                     b.ToTable("currency_types");
 
@@ -112,7 +112,7 @@ namespace Egret.Migrations
                     b.Property<int>("Id")
                         .ValueGeneratedOnAdd()
                         .HasColumnName("id")
-                        .HasDefaultValueSql("nextval('inventory_categories_id_seq'::regclass)");
+                        .HasDefaultValueSql("nextval('inventorycategories_id_seq'::regclass)");
 
                     b.Property<bool>("Active")
                         .HasColumnName("active");
@@ -131,11 +131,7 @@ namespace Egret.Migrations
 
                     b.HasIndex("Name")
                         .IsUnique()
-                        .HasName("inventory_categories_name_key");
-
-                    b.HasIndex("SortOrder")
-                        .IsUnique()
-                        .HasName("inventory_categories_sort_key");
+                        .HasName("ix_inventorycategories_name");
 
                     b.ToTable("inventory_categories");
 
@@ -304,11 +300,11 @@ namespace Egret.Migrations
 
                     b.HasIndex("Abbreviation")
                         .IsUnique()
-                        .HasName("units_abbreviation_key");
+                        .HasName("ix_units_abbreviation");
 
                     b.HasIndex("SortOrder")
                         .IsUnique()
-                        .HasName("units_sort_key");
+                        .HasName("ix_units_sortorder");
 
                     b.ToTable("units");
 
@@ -367,7 +363,7 @@ namespace Egret.Migrations
 
                     b.HasIndex("RoleId");
 
-                    b.ToTable("AspNetRoleClaims");
+                    b.ToTable("aspnet_roleclaims");
                 });
 
             modelBuilder.Entity("Microsoft.AspNetCore.Identity.IdentityUser", b =>
@@ -435,7 +431,7 @@ namespace Egret.Migrations
 
                     b.HasIndex("UserId");
 
-                    b.ToTable("AspNetUserClaims");
+                    b.ToTable("aspnet_userclaims");
                 });
 
             modelBuilder.Entity("Microsoft.AspNetCore.Identity.IdentityUserLogin<string>", b =>
@@ -453,7 +449,7 @@ namespace Egret.Migrations
 
                     b.HasIndex("UserId");
 
-                    b.ToTable("AspNetUserLogins");
+                    b.ToTable("aspnet_userlogins");
                 });
 
             modelBuilder.Entity("Microsoft.AspNetCore.Identity.IdentityUserRole<string>", b =>
@@ -466,7 +462,7 @@ namespace Egret.Migrations
 
                     b.HasIndex("RoleId");
 
-                    b.ToTable("AspNetUserRoles");
+                    b.ToTable("aspnet_userroles");
                 });
 
             modelBuilder.Entity("Microsoft.AspNetCore.Identity.IdentityUserToken<string>", b =>
@@ -481,7 +477,7 @@ namespace Egret.Migrations
 
                     b.HasKey("UserId", "LoginProvider", "Name");
 
-                    b.ToTable("AspNetUserTokens");
+                    b.ToTable("aspnet_usertokens");
                 });
 
             modelBuilder.Entity("Egret.Models.Role", b =>
@@ -510,6 +506,10 @@ namespace Egret.Migrations
                     b.ToTable("aspnet_users");
 
                     b.HasDiscriminator().HasValue("User");
+
+                    b.HasData(
+                        new { Id = "00000000-0000-0000-0000-000000000000", AccessFailedCount = 0, ConcurrencyStamp = "2cebd9d0-694d-4ed3-8dc2-384f41557310", Email = "bob@example.com", EmailConfirmed = false, LockoutEnabled = false, NormalizedEmail = "BOB@EXAMPLE.COM", NormalizedUserName = "BOB", PasswordHash = "AQAAAAEAACcQAAAAEI4jEmRsUYzL6KnpR2/OjIPvkI9BWNmnnCZYah1GFvB2EOCWkgkk49YqCJBz38N8rg==", PhoneNumberConfirmed = false, SecurityStamp = "3YILVFJYDKC4OK7QLLR4TO4KT6V4ZK5E", TwoFactorEnabled = false, UserName = "Bob" }
+                    );
                 });
 
             modelBuilder.Entity("Egret.Models.FabricTest", b =>
@@ -525,35 +525,35 @@ namespace Egret.Migrations
                     b.HasOne("Egret.Models.CurrencyType", "BuycurrencyNavigation")
                         .WithMany("InventoryItemsBuycurrencyNavigation")
                         .HasForeignKey("Buycurrency")
-                        .HasConstraintName("inventory_items_buycurrency_fk")
+                        .HasConstraintName("inventoryitems_buycurrency_fk")
                         .HasPrincipalKey("Abbreviation")
                         .OnDelete(DeleteBehavior.Restrict);
 
                     b.HasOne("Egret.Models.Unit", "BuyunitNavigation")
                         .WithMany("InventoryItemsBuyunitNavigation")
                         .HasForeignKey("Buyunit")
-                        .HasConstraintName("inventory_items_buyunit_fk")
+                        .HasConstraintName("inventoryitems_buyunit_fk")
                         .HasPrincipalKey("Abbreviation")
                         .OnDelete(DeleteBehavior.Restrict);
 
                     b.HasOne("Egret.Models.InventoryCategory", "CategoryNavigation")
                         .WithMany("InventoryItems")
                         .HasForeignKey("Category")
-                        .HasConstraintName("inventory_items_category_fk")
+                        .HasConstraintName("inventoryitems_category_fk")
                         .HasPrincipalKey("Name")
                         .OnDelete(DeleteBehavior.Restrict);
 
                     b.HasOne("Egret.Models.CurrencyType", "SellcurrencyNavigation")
                         .WithMany("InventoryItemsSellcurrencyNavigation")
                         .HasForeignKey("Sellcurrency")
-                        .HasConstraintName("inventory_items_sellcurrency_fk")
+                        .HasConstraintName("inventoryitems_sellcurrency_fk")
                         .HasPrincipalKey("Abbreviation")
                         .OnDelete(DeleteBehavior.Restrict);
 
                     b.HasOne("Egret.Models.Unit", "SellunitNavigation")
                         .WithMany("InventoryItemsSellunitNavigation")
                         .HasForeignKey("Sellunit")
-                        .HasConstraintName("inventory_items_sellunit_fk")
+                        .HasConstraintName("inventoryitems_sellunit_fk")
                         .HasPrincipalKey("Abbreviation")
                         .OnDelete(DeleteBehavior.Restrict);
                 });

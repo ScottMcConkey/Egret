@@ -46,14 +46,16 @@ namespace Egret
             services.AddMemoryCache();
             services.AddSession();
 
-            services.AddIdentity<User, IdentityRole>(opts => {
-                opts.Password.RequiredLength = 6;
-                opts.Password.RequireNonAlphanumeric = false;
-                opts.Password.RequireLowercase = false;
-                opts.Password.RequireUppercase = false;
-                opts.Password.RequireDigit = false;
-                opts.User.RequireUniqueEmail = true;})
-                //.AddDefaultTokenProviders();
+            services.AddIdentity<User, IdentityRole>(opts => 
+                {
+                    opts.Password.RequiredLength = 6;
+                    opts.Password.RequireNonAlphanumeric = false;
+                    opts.Password.RequireLowercase = false;
+                    opts.Password.RequireUppercase = false;
+                    opts.Password.RequireDigit = false;
+                    opts.User.RequireUniqueEmail = true;
+                }
+            )
                 .AddEntityFrameworkStores<EgretContext>();
         }
 

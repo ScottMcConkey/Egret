@@ -17,6 +17,9 @@ $(document).ready(function () {
         $(this).closest(".form-group").find("span.field-validation-error").remove();
     });
 
+    // Special Form Fields
+    $("input[type='date']").parent().css("width", "50%");
+
 
     // Manage Tabs
     $(".tab-header").removeClass("active");

@@ -15,11 +15,11 @@ namespace Egret.Migrations
                 .Annotation("Npgsql:PostgresExtension:adminpack", "'adminpack', '', ''");
 
             migrationBuilder.CreateSequence(
-                name: "currency_types_sortorder_seq",
+                name: "currencytypes_id_seq",
                 startValue: 100L);
 
             migrationBuilder.CreateSequence(
-                name: "inventory_categories_id_seq",
+                name: "inventorycategories_id_seq",
                 startValue: 100L);
 
             migrationBuilder.CreateSequence(
@@ -76,10 +76,10 @@ namespace Egret.Migrations
                 name: "currency_types",
                 columns: table => new
                 {
-                    id = table.Column<int>(nullable: false),
+                    id = table.Column<int>(nullable: false, defaultValueSql: "nextval('currencytypes_id_seq'::regclass)"),
                     name = table.Column<string>(nullable: false),
                     symbol = table.Column<string>(nullable: false),
-                    sortorder = table.Column<int>(nullable: false, defaultValueSql: "nextval('currency_types_sortorder_seq'::regclass)"),
+                    sortorder = table.Column<int>(nullable: false),
                     abbreviation = table.Column<string>(nullable: false),
                     active = table.Column<bool>(nullable: false),
                     defaultselection = table.Column<bool>(nullable: false)
@@ -94,7 +94,7 @@ namespace Egret.Migrations
                 name: "inventory_categories",
                 columns: table => new
                 {
-                    id = table.Column<int>(nullable: false, defaultValueSql: "nextval('inventory_categories_id_seq'::regclass)"),
+                    id = table.Column<int>(nullable: false, defaultValueSql: "nextval('inventorycategories_id_seq'::regclass)"),
                     name = table.Column<string>(nullable: false),
                     description = table.Column<string>(nullable: true),
                     sortorder = table.Column<int>(nullable: false),
@@ -136,7 +136,7 @@ namespace Egret.Migrations
                 });
 
             migrationBuilder.CreateTable(
-                name: "AspNetRoleClaims",
+                name: "aspnet_roleclaims",
                 columns: table => new
                 {
                     Id = table.Column<int>(nullable: false)
@@ -147,9 +147,9 @@ namespace Egret.Migrations
                 },
                 constraints: table =>
                 {
-                    table.PrimaryKey("PK_AspNetRoleClaims", x => x.Id);
+                    table.PrimaryKey("PK_aspnet_roleclaims", x => x.Id);
                     table.ForeignKey(
-                        name: "FK_AspNetRoleClaims_aspnet_roles_RoleId",
+                        name: "FK_aspnet_roleclaims_aspnet_roles_RoleId",
                         column: x => x.RoleId,
                         principalTable: "aspnet_roles",
                         principalColumn: "Id",
@@ -157,7 +157,7 @@ namespace Egret.Migrations
                 });
 
             migrationBuilder.CreateTable(
-                name: "AspNetUserClaims",
+                name: "aspnet_userclaims",
                 columns: table => new
                 {
                     Id = table.Column<int>(nullable: false)
@@ -168,9 +168,9 @@ namespace Egret.Migrations
                 },
                 constraints: table =>
                 {
-                    table.PrimaryKey("PK_AspNetUserClaims", x => x.Id);
+                    table.PrimaryKey("PK_aspnet_userclaims", x => x.Id);
                     table.ForeignKey(
-                        name: "FK_AspNetUserClaims_aspnet_users_UserId",
+                        name: "FK_aspnet_userclaims_aspnet_users_UserId",
                         column: x => x.UserId,
                         principalTable: "aspnet_users",
                         principalColumn: "Id",
@@ -178,7 +178,7 @@ namespace Egret.Migrations
                 });
 
             migrationBuilder.CreateTable(
-                name: "AspNetUserLogins",
+                name: "aspnet_userlogins",
                 columns: table => new
                 {
                     LoginProvider = table.Column<string>(nullable: false),
@@ -188,9 +188,9 @@ namespace Egret.Migrations
                 },
                 constraints: table =>
                 {
-                    table.PrimaryKey("PK_AspNetUserLogins", x => new { x.LoginProvider, x.ProviderKey });
+                    table.PrimaryKey("PK_aspnet_userlogins", x => new { x.LoginProvider, x.ProviderKey });
                     table.ForeignKey(
-                        name: "FK_AspNetUserLogins_aspnet_users_UserId",
+                        name: "FK_aspnet_userlogins_aspnet_users_UserId",
                         column: x => x.UserId,
                         principalTable: "aspnet_users",
                         principalColumn: "Id",
@@ -198,7 +198,7 @@ namespace Egret.Migrations
                 });
 
             migrationBuilder.CreateTable(
-                name: "AspNetUserRoles",
+                name: "aspnet_userroles",
                 columns: table => new
                 {
                     UserId = table.Column<string>(nullable: false),
@@ -206,15 +206,15 @@ namespace Egret.Migrations
                 },
                 constraints: table =>
                 {
-                    table.PrimaryKey("PK_AspNetUserRoles", x => new { x.UserId, x.RoleId });
+                    table.PrimaryKey("PK_aspnet_userroles", x => new { x.UserId, x.RoleId });
                     table.ForeignKey(
-                        name: "FK_AspNetUserRoles_aspnet_roles_RoleId",
+                        name: "FK_aspnet_userroles_aspnet_roles_RoleId",
                         column: x => x.RoleId,
                         principalTable: "aspnet_roles",
                         principalColumn: "Id",
                         onDelete: ReferentialAction.Cascade);
                     table.ForeignKey(
-                        name: "FK_AspNetUserRoles_aspnet_users_UserId",
+                        name: "FK_aspnet_userroles_aspnet_users_UserId",
                         column: x => x.UserId,
                         principalTable: "aspnet_users",
                         principalColumn: "Id",
@@ -222,7 +222,7 @@ namespace Egret.Migrations
                 });
 
             migrationBuilder.CreateTable(
-                name: "AspNetUserTokens",
+                name: "aspnet_usertokens",
                 columns: table => new
                 {
                     UserId = table.Column<string>(nullable: false),
@@ -232,9 +232,9 @@ namespace Egret.Migrations
                 },
                 constraints: table =>
                 {
-                    table.PrimaryKey("PK_AspNetUserTokens", x => new { x.UserId, x.LoginProvider, x.Name });
+                    table.PrimaryKey("PK_aspnet_usertokens", x => new { x.UserId, x.LoginProvider, x.Name });
                     table.ForeignKey(
-                        name: "FK_AspNetUserTokens_aspnet_users_UserId",
+                        name: "FK_aspnet_usertokens_aspnet_users_UserId",
                         column: x => x.UserId,
                         principalTable: "aspnet_users",
                         principalColumn: "Id",
@@ -285,31 +285,31 @@ namespace Egret.Migrations
                 {
                     table.PrimaryKey("PK_inventory_items", x => x.code);
                     table.ForeignKey(
-                        name: "inventory_items_buycurrency_fk",
+                        name: "inventoryitems_buycurrency_fk",
                         column: x => x.buycurrency,
                         principalTable: "currency_types",
                         principalColumn: "abbreviation",
                         onDelete: ReferentialAction.Restrict);
                     table.ForeignKey(
-                        name: "inventory_items_buyunit_fk",
+                        name: "inventoryitems_buyunit_fk",
                         column: x => x.buyunit_fk,
                         principalTable: "units",
                         principalColumn: "abbreviation",
                         onDelete: ReferentialAction.Restrict);
                     table.ForeignKey(
-                        name: "inventory_items_category_fk",
+                        name: "inventoryitems_category_fk",
                         column: x => x.category,
                         principalTable: "inventory_categories",
                         principalColumn: "name",
                         onDelete: ReferentialAction.Restrict);
                     table.ForeignKey(
-                        name: "inventory_items_sellcurrency_fk",
+                        name: "inventoryitems_sellcurrency_fk",
                         column: x => x.sellcurrency,
                         principalTable: "currency_types",
                         principalColumn: "abbreviation",
                         onDelete: ReferentialAction.Restrict);
                     table.ForeignKey(
-                        name: "inventory_items_sellunit_fk",
+                        name: "inventoryitems_sellunit_fk",
                         column: x => x.sellunit_fk,
                         principalTable: "units",
                         principalColumn: "abbreviation",
@@ -337,13 +337,18 @@ namespace Egret.Migrations
                 });
 
             migrationBuilder.InsertData(
+                table: "aspnet_users",
+                columns: new[] { "Id", "AccessFailedCount", "ConcurrencyStamp", "Discriminator", "Email", "EmailConfirmed", "LockoutEnabled", "LockoutEnd", "NormalizedEmail", "NormalizedUserName", "PasswordHash", "PhoneNumber", "PhoneNumberConfirmed", "SecurityStamp", "TwoFactorEnabled", "UserName", "IsActive" },
+                values: new object[] { "00000000-0000-0000-0000-000000000000", 0, "2cebd9d0-694d-4ed3-8dc2-384f41557310", "User", "bob@example.com", false, false, null, "BOB@EXAMPLE.COM", "BOB", "AQAAAAEAACcQAAAAEI4jEmRsUYzL6KnpR2/OjIPvkI9BWNmnnCZYah1GFvB2EOCWkgkk49YqCJBz38N8rg==", null, false, "3YILVFJYDKC4OK7QLLR4TO4KT6V4ZK5E", false, "Bob", null });
+
+            migrationBuilder.InsertData(
                 table: "currency_types",
                 columns: new[] { "id", "abbreviation", "active", "defaultselection", "name", "sortorder", "symbol" },
                 values: new object[,]
                 {
+                    { 3, "INR", true, false, "Indian Rupees", 3, "₹" },
                     { 1, "USD", true, false, "United States Dollars", 1, "$" },
-                    { 2, "NRP", true, true, "Nepali Rupees", 2, "रु" },
-                    { 3, "INR", true, false, "Indian Rupees", 3, "₹" }
+                    { 2, "NRP", true, true, "Nepali Rupees", 2, "रु" }
                 });
 
             migrationBuilder.InsertData(
@@ -351,17 +356,17 @@ namespace Egret.Migrations
                 columns: new[] { "id", "active", "description", "name", "sortorder" },
                 values: new object[,]
                 {
+                    { 1, true, "", "Buckle Thread", 1 },
                     { 11, true, "", "Zipper", 11 },
                     { 10, true, "", "Woven Fabric", 10 },
-                    { 9, true, "", "Snap", 9 },
-                    { 8, true, "", "Other", 8 },
-                    { 6, true, "", "Label", 6 },
                     { 7, true, "", "Leather", 7 },
+                    { 9, true, "", "Snap", 9 },
+                    { 5, true, "", "Knit Fabric", 5 },
                     { 4, true, "", "Hang-Tag", 4 },
                     { 3, true, "", "Elastic", 3 },
                     { 2, true, "", "Button", 2 },
-                    { 1, true, "", "Buckle Thread", 1 },
-                    { 5, true, "", "Knit Fabric", 5 }
+                    { 6, true, "", "Label", 6 },
+                    { 8, true, "", "Other", 8 }
                 });
 
             migrationBuilder.InsertData(
@@ -369,19 +374,39 @@ namespace Egret.Migrations
                 columns: new[] { "id", "abbreviation", "active", "name", "sortorder" },
                 values: new object[,]
                 {
-                    { 5, "cm", true, "centimeters", 5 },
+                    { 6, "sqf", true, "square feet", 6 },
                     { 1, "kg", true, "kilograms", 1 },
                     { 2, "m", true, "meters", 2 },
                     { 3, "ea", true, "each", 3 },
                     { 4, "g/m2", true, "grams per square meter", 4 },
-                    { 6, "sqf", true, "square feet", 6 }
+                    { 5, "cm", true, "centimeters", 5 }
                 });
+
+            migrationBuilder.CreateIndex(
+                name: "IX_aspnet_roleclaims_RoleId",
+                table: "aspnet_roleclaims",
+                column: "RoleId");
 
             migrationBuilder.CreateIndex(
                 name: "RoleNameIndex",
                 table: "aspnet_roles",
                 column: "NormalizedName",
                 unique: true);
+
+            migrationBuilder.CreateIndex(
+                name: "IX_aspnet_userclaims_UserId",
+                table: "aspnet_userclaims",
+                column: "UserId");
+
+            migrationBuilder.CreateIndex(
+                name: "IX_aspnet_userlogins_UserId",
+                table: "aspnet_userlogins",
+                column: "UserId");
+
+            migrationBuilder.CreateIndex(
+                name: "IX_aspnet_userroles_RoleId",
+                table: "aspnet_userroles",
+                column: "RoleId");
 
             migrationBuilder.CreateIndex(
                 name: "EmailIndex",
@@ -395,33 +420,13 @@ namespace Egret.Migrations
                 unique: true);
 
             migrationBuilder.CreateIndex(
-                name: "IX_AspNetRoleClaims_RoleId",
-                table: "AspNetRoleClaims",
-                column: "RoleId");
-
-            migrationBuilder.CreateIndex(
-                name: "IX_AspNetUserClaims_UserId",
-                table: "AspNetUserClaims",
-                column: "UserId");
-
-            migrationBuilder.CreateIndex(
-                name: "IX_AspNetUserLogins_UserId",
-                table: "AspNetUserLogins",
-                column: "UserId");
-
-            migrationBuilder.CreateIndex(
-                name: "IX_AspNetUserRoles_RoleId",
-                table: "AspNetUserRoles",
-                column: "RoleId");
-
-            migrationBuilder.CreateIndex(
-                name: "currency_types_abbreviation_key",
+                name: "ix_currencytypes_abbreviation",
                 table: "currency_types",
                 column: "abbreviation",
                 unique: true);
 
             migrationBuilder.CreateIndex(
-                name: "currency_types_sort_key",
+                name: "ix_currencytypes_sortorder",
                 table: "currency_types",
                 column: "sortorder",
                 unique: true);
@@ -432,15 +437,9 @@ namespace Egret.Migrations
                 column: "InventoryItemCode");
 
             migrationBuilder.CreateIndex(
-                name: "inventory_categories_name_key",
+                name: "ix_inventorycategories_name",
                 table: "inventory_categories",
                 column: "name",
-                unique: true);
-
-            migrationBuilder.CreateIndex(
-                name: "inventory_categories_sort_key",
-                table: "inventory_categories",
-                column: "sortorder",
                 unique: true);
 
             migrationBuilder.CreateIndex(
@@ -469,19 +468,19 @@ namespace Egret.Migrations
                 column: "sellunit_fk");
 
             migrationBuilder.CreateIndex(
-                name: "units_abbreviation_key",
+                name: "ix_units_abbreviation",
                 table: "units",
                 column: "abbreviation",
                 unique: true);
 
             migrationBuilder.CreateIndex(
-                name: "units_sort_key",
+                name: "ix_units_sortorder",
                 table: "units",
                 column: "sortorder",
                 unique: true);
 
             migrationBuilder.CreateIndex(
-                name: "suppliers_pkey",
+                name: "ix_suppliers_pkey",
                 schema: "public",
                 table: "suppliers",
                 column: "id",
@@ -491,19 +490,19 @@ namespace Egret.Migrations
         protected override void Down(MigrationBuilder migrationBuilder)
         {
             migrationBuilder.DropTable(
-                name: "AspNetRoleClaims");
+                name: "aspnet_roleclaims");
 
             migrationBuilder.DropTable(
-                name: "AspNetUserClaims");
+                name: "aspnet_userclaims");
 
             migrationBuilder.DropTable(
-                name: "AspNetUserLogins");
+                name: "aspnet_userlogins");
 
             migrationBuilder.DropTable(
-                name: "AspNetUserRoles");
+                name: "aspnet_userroles");
 
             migrationBuilder.DropTable(
-                name: "AspNetUserTokens");
+                name: "aspnet_usertokens");
 
             migrationBuilder.DropTable(
                 name: "FabricTest");
@@ -531,10 +530,10 @@ namespace Egret.Migrations
                 name: "inventory_categories");
 
             migrationBuilder.DropSequence(
-                name: "currency_types_sortorder_seq");
+                name: "currencytypes_id_seq");
 
             migrationBuilder.DropSequence(
-                name: "inventory_categories_id_seq");
+                name: "inventorycategories_id_seq");
 
             migrationBuilder.DropSequence(
                 name: "master_seq");

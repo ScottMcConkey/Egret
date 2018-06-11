@@ -32,6 +32,7 @@ namespace Egret.Models
         [ReadOnly(true)]
         public string UpdatedBy { get; set; }
 
+        [Required]
         public string Description { get; set; }
 
         [Display(Name = "Customer Purchased For")]
@@ -81,6 +82,7 @@ namespace Egret.Models
 
         [Display(Name = "No. of Days to Confirm Order")]
         [ReadOnly(true)]
+        [UIHint("text")]
         [NotMapped]
         [DatabaseGenerated(DatabaseGeneratedOption.Computed)]
         public int? DaysToConfirm
@@ -101,6 +103,7 @@ namespace Egret.Models
 
         [Display(Name = "No. of Days for Shipping")]
         [ReadOnly(true)]
+        [UIHint("text")]
         [NotMapped]
         [DatabaseGenerated(DatabaseGeneratedOption.Computed)]
         public int? DaysToShip
@@ -121,6 +124,7 @@ namespace Egret.Models
 
         [Display(Name = "No. of Days for Completion")]
         [ReadOnly(true)]
+        [UIHint("text")]
         [NotMapped]
         [DatabaseGenerated(DatabaseGeneratedOption.Computed)]
         public int? DaysToComplete

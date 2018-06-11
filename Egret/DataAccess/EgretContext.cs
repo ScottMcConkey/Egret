@@ -21,6 +21,7 @@ namespace Egret.DataAccess
         public virtual DbSet<InventoryItem> InventoryItems { get; set; }
         public virtual DbSet<Unit> Units { get; set; }
         public virtual DbSet<Supplier> Suppliers { get; set; }
+        public virtual DbSet<FabricTest> FabricTests { get; set; }
 
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
@@ -42,34 +43,54 @@ namespace Egret.DataAccess
                 .ToTable("aspnet_roles")
                 .Property(u => u.Id)
                 .HasMaxLength(450);
+            // Nobody should have to use double quotes for ad-hoc queries (FTS),
+            // so give all the Identity tables custom names that won't be generated
+            // as string literals.
+            modelBuilder.Entity<IdentityUserRole<string>>()
+                .ToTable("aspnet_userroles")
+                ;//.HasIndex("ix_aspnet_userroles_roleid");
+            modelBuilder.Entity<IdentityUserClaim<string>>()
+                .ToTable("aspnet_userclaims")
+                ;//.HasIndex("ix_aspnet_userclaims_userid");
+            modelBuilder.Entity<IdentityUserLogin<string>>()
+                .ToTable("aspnet_userlogins")
+                ;//.HasIndex("ix_aspnet_userlogins_userid");
+            modelBuilder.Entity<IdentityRoleClaim<string>>()
+                .ToTable("aspnet_roleclaims")
+                ;//.HasIndex("ix_aspnet_roleclaims_roleid");
+            modelBuilder.Entity<IdentityUserToken<string>>()
+                .ToTable("aspnet_usertokens");
 
             // Create Sequences
             modelBuilder.HasSequence<long>("master_seq")
                 .StartsAt(1000);
-            modelBuilder.HasSequence<long>("currency_types_sortorder_seq")
-                .StartsAt(100);
-            modelBuilder.HasSequence<long>("inventory_categories_id_seq")
+            modelBuilder.HasSequence<long>("inventorycategories_id_seq")
                 .StartsAt(100);
             modelBuilder.HasSequence<long>("units_id_seq")
+                .StartsAt(100);
+            modelBuilder.HasSequence<long>("currencytypes_id_seq")
                 .StartsAt(100);
 
             modelBuilder.HasPostgresExtension("adminpack");
 
             modelBuilder.Entity<CurrencyType>(entity =>
             {
+                // Table definition
                 entity.ToTable("currency_types");
 
+                // Indexes
                 entity.HasIndex(e => e.Abbreviation)
-                    .HasName("currency_types_abbreviation_key")
+                    .HasName("ix_currencytypes_abbreviation")
                     .IsUnique();
 
                 entity.HasIndex(e => e.SortOrder)
-                    .HasName("currency_types_sort_key")
+                    .HasName("ix_currencytypes_sortorder")
                     .IsUnique();
 
+                // Properties
                 entity.Property(e => e.Id)
                     .HasColumnName("id")
-                    .ValueGeneratedNever();
+                    .HasDefaultValueSql("nextval('currencytypes_id_seq'::regclass)");
 
                 entity.Property(e => e.Abbreviation)
                     .IsRequired()
@@ -86,8 +107,7 @@ namespace Egret.DataAccess
                     .HasColumnName("name");
 
                 entity.Property(e => e.SortOrder)
-                    .HasColumnName("sortorder")
-                    .HasDefaultValueSql("nextval('currency_types_sortorder_seq'::regclass)");
+                    .HasColumnName("sortorder");
 
                 entity.Property(e => e.Symbol)
                     .IsRequired()
@@ -99,16 +119,12 @@ namespace Egret.DataAccess
                 entity.ToTable("inventory_categories");
 
                 entity.HasIndex(e => e.Name)
-                    .HasName("inventory_categories_name_key")
-                    .IsUnique();
-
-                entity.HasIndex(e => e.SortOrder)
-                    .HasName("inventory_categories_sort_key")
+                    .HasName("ix_inventorycategories_name")
                     .IsUnique();
 
                 entity.Property(e => e.Id)
                     .HasColumnName("id")
-                    .HasDefaultValueSql("nextval('inventory_categories_id_seq'::regclass)");
+                    .HasDefaultValueSql("nextval('inventorycategories_id_seq'::regclass)");
 
                 entity.Property(e => e.Active)
                     .HasColumnName("active");
@@ -122,6 +138,38 @@ namespace Egret.DataAccess
 
                 entity.Property(e => e.SortOrder)
                     .HasColumnName("sortorder");
+            });
+
+            modelBuilder.Entity<Unit>(entity =>
+            {
+                entity.ToTable("units");
+
+                entity.HasIndex(e => e.SortOrder)
+                    .HasName("ix_units_sortorder")
+                    .IsUnique();
+
+                entity.HasIndex(e => e.Abbreviation)
+                    .HasName("ix_units_abbreviation")
+                    .IsUnique();
+
+                entity.Property(e => e.Id)
+                    .HasColumnName("id")
+                    .HasDefaultValueSql("nextval('units_id_seq'::regclass)");
+
+                entity.Property(e => e.Name)
+                    .IsRequired()
+                    .HasColumnName("name");
+
+                entity.Property(e => e.Abbreviation)
+                    .IsRequired()
+                    .HasColumnName("abbreviation");
+
+                entity.Property(e => e.SortOrder)
+                    .HasColumnName("sortorder");
+
+                entity.Property(e => e.Active)
+                    .HasColumnName("active");
+
             });
 
             modelBuilder.Entity<InventoryItem>(entity =>
@@ -176,7 +224,6 @@ namespace Egret.DataAccess
 
                 entity.Property(e => e.DateArrived).HasColumnName("datearrived");
 
-
                 entity.Property(e => e.Comment).HasColumnName("comment");
 
                 entity.Property(e => e.QtyPurchased).HasColumnName("qtypurchased");
@@ -191,12 +238,7 @@ namespace Egret.DataAccess
 
                 entity.Property(e => e.IsConversion).HasColumnName("isconversion");
 
-
-
                 entity.Property(e => e.ConversionSource).HasColumnName("conversionsource");
-
-
-
 
                 entity.Property(e => e.Buycurrency).HasColumnName("buycurrency");
 
@@ -218,35 +260,35 @@ namespace Egret.DataAccess
                     .WithMany(p => p.InventoryItemsBuycurrencyNavigation)
                     .HasPrincipalKey(p => p.Abbreviation)
                     .HasForeignKey(d => d.Buycurrency)
-                    .HasConstraintName("inventory_items_buycurrency_fk")
+                    .HasConstraintName("inventoryitems_buycurrency_fk")
                     .OnDelete(DeleteBehavior.Restrict);
 
                 entity.HasOne(d => d.SellcurrencyNavigation)
                     .WithMany(p => p.InventoryItemsSellcurrencyNavigation)
                     .HasPrincipalKey(p => p.Abbreviation)
                     .HasForeignKey(d => d.Sellcurrency)
-                    .HasConstraintName("inventory_items_sellcurrency_fk")
+                    .HasConstraintName("inventoryitems_sellcurrency_fk")
                     .OnDelete(DeleteBehavior.Restrict);
 
                 entity.HasOne(d => d.BuyunitNavigation)
                     .WithMany(p => p.InventoryItemsBuyunitNavigation)
                     .HasPrincipalKey(p => p.Abbreviation)
                     .HasForeignKey(d => d.Buyunit)
-                    .HasConstraintName("inventory_items_buyunit_fk")
+                    .HasConstraintName("inventoryitems_buyunit_fk")
                     .OnDelete(DeleteBehavior.Restrict);
 
                 entity.HasOne(d => d.SellunitNavigation)
                     .WithMany(p => p.InventoryItemsSellunitNavigation)
                     .HasPrincipalKey(p => p.Abbreviation)
                     .HasForeignKey(d => d.Sellunit)
-                    .HasConstraintName("inventory_items_sellunit_fk")
+                    .HasConstraintName("inventoryitems_sellunit_fk")
                     .OnDelete(DeleteBehavior.Restrict);
 
                 entity.HasOne(d => d.CategoryNavigation)
                     .WithMany(p => p.InventoryItems)
                     .HasPrincipalKey(p => p.Name)
                     .HasForeignKey(d => d.Category)
-                    .HasConstraintName("inventory_items_category_fk")
+                    .HasConstraintName("inventoryitems_category_fk")
                     .OnDelete(DeleteBehavior.Restrict);
 
                 entity.HasMany(d => d.FabricTests)
@@ -255,44 +297,12 @@ namespace Egret.DataAccess
                     .OnDelete(DeleteBehavior.Restrict);
             });
 
-            modelBuilder.Entity<Unit>(entity =>
-            {
-                entity.ToTable("units");
-
-                entity.HasIndex(e => e.SortOrder)
-                    .HasName("units_sort_key")
-                    .IsUnique();
-
-                entity.HasIndex(e => e.Abbreviation)
-                    .HasName("units_abbreviation_key")
-                    .IsUnique();
-
-                entity.Property(e => e.Id)
-                    .HasColumnName("id")
-                    .HasDefaultValueSql("nextval('units_id_seq'::regclass)");
-
-                entity.Property(e => e.Name)
-                    .IsRequired()
-                    .HasColumnName("name");
-
-                entity.Property(e => e.Abbreviation)
-                    .IsRequired()
-                    .HasColumnName("abbreviation");
-
-                entity.Property(e => e.SortOrder)
-                    .HasColumnName("sortorder");
-
-                entity.Property(e => e.Active)
-                    .HasColumnName("active");
-
-            });
-
             modelBuilder.Entity<Supplier>(entity =>
             {
-                entity.ToTable("suppliers", "public");
+                entity.ToTable("suppliers");
 
                 entity.HasIndex(e => e.Id)
-                    .HasName("suppliers_pkey")
+                    .HasName("ix_suppliers_pk")
                     .IsUnique();
 
                 entity.Property(e => e.Id)
@@ -308,6 +318,22 @@ namespace Egret.DataAccess
                     .HasColumnName("name");
 
             });
+
+            modelBuilder.Entity<FabricTest>(entity =>
+                {
+                    entity.ToTable("fabric_tests");
+
+                    entity.HasIndex(e => e.Id)
+                        .HasName("ix_fabrictests_pk")
+                        .IsUnique();
+
+                    entity.Property(e => e.Id).HasColumnName("id");
+
+                    entity.Property(e => e.Name).HasColumnName("name");
+
+                    entity.Property(e => e.Result).HasColumnName("result");
+                }
+            );
 
             // Seed Admin Data
             modelBuilder.Entity<CurrencyType>().HasData(
@@ -334,6 +360,23 @@ namespace Egret.DataAccess
                                                 new { Id = 4, Name = "grams per square meter", Abbreviation = "g/m2", SortOrder = 4, Active = true },
                                                 new { Id = 5, Name = "centimeters", Abbreviation = "cm", SortOrder = 5, Active = true },
                                                 new { Id = 6, Name = "square feet", Abbreviation = "sqf", SortOrder = 6, Active = true });
+
+            modelBuilder.Entity<User>().HasData(new
+            {
+                Id = new Guid().ToString(),
+                UserName = "Bob",
+                NormalizedUserName = "BOB",
+                Email = "bob@example.com",
+                NormalizedEmail = "BOB@EXAMPLE.COM",
+                PasswordHash = "AQAAAAEAACcQAAAAEI4jEmRsUYzL6KnpR2/OjIPvkI9BWNmnnCZYah1GFvB2EOCWkgkk49YqCJBz38N8rg==",
+                SecurityStamp = "3YILVFJYDKC4OK7QLLR4TO4KT6V4ZK5E",
+                ConcurrencyStamp = "2cebd9d0-694d-4ed3-8dc2-384f41557310",
+                AccessFailedCount = 0,
+                EmailConfirmed = false,
+                LockoutEnabled = false,
+                PhoneNumberConfirmed = false,
+                TwoFactorEnabled = false
+            });
         }
     }
 }

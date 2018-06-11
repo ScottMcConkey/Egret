@@ -16,7 +16,7 @@
             </div>
             <div class="form-group">
                 <label asp-for="Category" class="control-label"></label>
-                <select asp-for="Category" class ="form-control" asp-items="ViewBag.Category">
+                <select asp-for="Category" class="form-control" asp-items="ViewBag.Category">
                     <option value=""></option>
                 </select>
             </div>
@@ -25,24 +25,22 @@
                 <textarea asp-for="Comment" class="form-control" style="height: 8em;"></textarea>
                 <span asp-validation-for="Comment" class="text-danger"></span>
             </div>
-
+            <label asp-for="Sellprice" class="control-label"></label>
             <div class="form-group form-inline">
-                <label asp-for="Sellprice" class="control-label"></label>
-                <input asp-for="Sellprice" class="form-control" style="width: 30%;" />
-                <span asp-validation-for="Sellprice" class="text-danger"></span>
-
+                <input asp-for="Sellprice" class="form-control" style="width: 25%;" />
                 <select asp-for="Sellcurrency" class="form-control" style="width: 25%;" asp-items="ViewBag.Sellcurrency">
                     <option value=""></option>
                 </select>
-
                 <select asp-for="Sellunit" class="form-control" style="width: 20%;" asp-items="ViewBag.Sellunit">
                     <option value=""></option>
                 </select>
+                <span asp-validation-for="Sellprice" class="text-danger"></span>
+                <span asp-validation-for="Sellcurrency" class="text-danger"></span>
+                <span asp-validation-for="Sellunit" class="text-danger"></span>
             </div>
-
+            <label asp-for="Buyprice" class="control-label"></label>
             <div class="form-group form-inline" style="width: 100%">
-                <label asp-for="Buyprice" class="control-label"></label>
-                <input asp-for="Buyprice" class="form-control" style="width: 30%;" />
+                <input asp-for="Buyprice" class="form-control" style="width: 25%;" />
                 <select asp-for="Buycurrency" class="form-control" style="width: 25%;" asp-items="ViewBag.Buycurrency">
                     <option value=""></option>
                 </select>
@@ -50,8 +48,6 @@
                     <option value=""></option>
                 </select>
                 <span asp-validation-for="Buyprice" class="text-danger"></span>
-                <span asp-validation-for="Buycurrency" class="text-danger"></span>
-                <span asp-validation-for="Buyunit" class="text-danger"></span>
             </div>
             <div class="form-group">
                 <label asp-for="Supplier" class="control-label"></label>
