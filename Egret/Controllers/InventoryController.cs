@@ -113,13 +113,8 @@ namespace Egret.Controllers
                 Context.Update(item);
                 await Context.SaveChangesAsync();
                 TempData["SuccessMessage"] = "Save Complete";
+                return RedirectToAction(nameof(Edit));
             }
-            ViewData["Buycurrency"] = new SelectList(ActiveCurrencyTypes, "Abbreviation", "Abbreviation", item.Buycurrency);
-            ViewData["Buyunit"] = new SelectList(ActiveUnits, "Abbreviation", "Abbreviation", item.Buyunit);
-            ViewData["Category"] = new SelectList(ActiveInventoryCategories, "Name", "Name", item.Category);
-            ViewData["Sellcurrency"] = new SelectList(ActiveCurrencyTypes, "Abbreviation", "Abbreviation", item.Sellcurrency);
-            ViewData["Sellunit"] = new SelectList(ActiveUnits, "Abbreviation", "Abbreviation", item.Sellunit);
-            //return RedirectToAction(nameof(Edit));
             return View(item);
         }
 

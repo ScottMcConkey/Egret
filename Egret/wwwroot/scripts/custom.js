@@ -51,9 +51,11 @@ $(document).ready(function () {
         }
     });
 
-    // Manage Success Messages
+    // Fade Out Success Messages
     $(function () {
-        $("#success").delay(2000).fadeOut(5000);
+        $("#success").delay(2000).fadeOut(5000, function () {
+            $(this).css({ "visibility": "hidden", display: 'block' }).slideUp();
+        });
     });
 
 });

@@ -16,6 +16,7 @@
             <th>ID @* @Html.DisplayNameFor(model => model[0].Id) *@</th>
             <th>User Name@* @Html.DisplayNameFor(model => model[0].UserName) *@</th>
             <th>Email @* @Html.DisplayNameFor(model => model[0].Email) *@</th>
+            <th>Is Active?</th>
             <th></th>
         </tr>
     </thead>
@@ -32,6 +33,9 @@
                     <td>@user.Id</td>
                     <td>@user.UserName</td>
                     <td>@user.Email</td>
+                    <td>
+                        <input type="checkbox" asp-for="@user.IsActive" class="form-control" disabled="disabled" />
+                    </td>
                     <td>
                         <form asp-action="Delete" asp-route-id="@user.Id" method="post">
                             <a class="btn btn-sm btn-primary" asp-action="Edit" asp-route-id="@user.Id">Edit</a>

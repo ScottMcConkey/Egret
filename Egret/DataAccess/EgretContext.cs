@@ -48,7 +48,9 @@ namespace Egret.DataAccess
             // as string literals.
             modelBuilder.Entity<IdentityUserRole<string>>()
                 .ToTable("aspnet_userroles")
-                ;//.HasIndex("ix_aspnet_userroles_roleid");
+                .HasIndex(u => u.RoleId)
+                .HasName("ix_aspnet_userroles_roleid")
+                .IsUnique();
             modelBuilder.Entity<IdentityUserClaim<string>>()
                 .ToTable("aspnet_userclaims")
                 ;//.HasIndex("ix_aspnet_userclaims_userid");
@@ -61,7 +63,7 @@ namespace Egret.DataAccess
             modelBuilder.Entity<IdentityUserToken<string>>()
                 .ToTable("aspnet_usertokens");
 
-            // Create Sequences
+            // Sequences
             modelBuilder.HasSequence<long>("master_seq")
                 .StartsAt(1000);
             modelBuilder.HasSequence<long>("inventorycategories_id_seq")
@@ -363,7 +365,7 @@ namespace Egret.DataAccess
 
             modelBuilder.Entity<User>().HasData(new
             {
-                Id = new Guid().ToString(),
+                Id = new Guid().GetHashCode().ToString(),
                 UserName = "Bob",
                 NormalizedUserName = "BOB",
                 Email = "bob@example.com",
@@ -375,7 +377,8 @@ namespace Egret.DataAccess
                 EmailConfirmed = false,
                 LockoutEnabled = false,
                 PhoneNumberConfirmed = false,
-                TwoFactorEnabled = false
+                TwoFactorEnabled = false,
+                IsActive = true
             });
         }
     }
