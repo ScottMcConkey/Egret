@@ -10,8 +10,8 @@ using Npgsql.EntityFrameworkCore.PostgreSQL.Metadata;
 namespace Egret.Migrations
 {
     [DbContext(typeof(EgretContext))]
-    [Migration("20180611181734_Initial")]
-    partial class Initial
+    [Migration("20180615194124_ConsumptionEvents")]
+    partial class ConsumptionEvents
     {
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
@@ -39,9 +39,56 @@ namespace Egret.Migrations
 
                     b.HasIndex("Id")
                         .IsUnique()
-                        .HasName("ix_suppliers_pkey");
+                        .HasName("ix_suppliers_pk");
 
-                    b.ToTable("suppliers","public");
+                    b.ToTable("suppliers");
+                });
+
+            modelBuilder.Entity("Egret.Models.ConsumptionEvent", b =>
+                {
+                    b.Property<string>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnName("id")
+                        .HasDefaultValueSql("nextval('master_seq'::regclass)");
+
+                    b.Property<string>("ConsumedBy")
+                        .HasColumnName("consumed_by");
+
+                    b.Property<DateTime?>("DateOfConsumption")
+                        .IsRequired()
+                        .HasColumnName("date_of_consumption");
+
+                    b.Property<string>("InventoryItemCode");
+
+                    b.Property<string>("PatternNumber")
+                        .HasColumnName("pattern_number");
+
+                    b.Property<string>("ProductionOrderNumber")
+                        .HasColumnName("production_order_number");
+
+                    b.Property<decimal?>("QuantityConsumed")
+                        .HasColumnName("quantity_consumed");
+
+                    b.Property<string>("SampleOrderNumber");
+
+                    b.Property<string>("Unit");
+
+                    b.Property<int?>("UnitId");
+
+                    b.Property<decimal?>("ValueConsumed")
+                        .HasColumnName("value_consumed");
+
+                    b.HasKey("Id");
+
+                    b.HasIndex("Id")
+                        .IsUnique()
+                        .HasName("id");
+
+                    b.HasIndex("InventoryItemCode");
+
+                    b.HasIndex("UnitId");
+
+                    b.ToTable("consumption_events");
                 });
 
             modelBuilder.Entity("Egret.Models.CurrencyType", b =>
@@ -94,19 +141,26 @@ namespace Egret.Migrations
             modelBuilder.Entity("Egret.Models.FabricTest", b =>
                 {
                     b.Property<string>("Id")
-                        .ValueGeneratedOnAdd();
+                        .ValueGeneratedOnAdd()
+                        .HasColumnName("id");
 
                     b.Property<string>("InventoryItemCode");
 
-                    b.Property<string>("Name");
+                    b.Property<string>("Name")
+                        .HasColumnName("name");
 
-                    b.Property<string>("Result");
+                    b.Property<string>("Result")
+                        .HasColumnName("result");
 
                     b.HasKey("Id");
 
+                    b.HasIndex("Id")
+                        .IsUnique()
+                        .HasName("ix_fabrictests_pk");
+
                     b.HasIndex("InventoryItemCode");
 
-                    b.ToTable("FabricTest");
+                    b.ToTable("fabric_tests");
                 });
 
             modelBuilder.Entity("Egret.Models.InventoryCategory", b =>
@@ -462,7 +516,9 @@ namespace Egret.Migrations
 
                     b.HasKey("UserId", "RoleId");
 
-                    b.HasIndex("RoleId");
+                    b.HasIndex("RoleId")
+                        .IsUnique()
+                        .HasName("ix_aspnet_userroles_roleid");
 
                     b.ToTable("aspnet_userroles");
                 });
@@ -496,7 +552,7 @@ namespace Egret.Migrations
                 {
                     b.HasBaseType("Microsoft.AspNetCore.Identity.IdentityUser");
 
-                    b.Property<bool?>("IsActive");
+                    b.Property<bool>("IsActive");
 
                     b.HasIndex("NormalizedEmail")
                         .HasName("EmailIndex");
@@ -510,8 +566,19 @@ namespace Egret.Migrations
                     b.HasDiscriminator().HasValue("User");
 
                     b.HasData(
-                        new { Id = "00000000-0000-0000-0000-000000000000", AccessFailedCount = 0, ConcurrencyStamp = "2cebd9d0-694d-4ed3-8dc2-384f41557310", Email = "bob@example.com", EmailConfirmed = false, LockoutEnabled = false, NormalizedEmail = "BOB@EXAMPLE.COM", NormalizedUserName = "BOB", PasswordHash = "AQAAAAEAACcQAAAAEI4jEmRsUYzL6KnpR2/OjIPvkI9BWNmnnCZYah1GFvB2EOCWkgkk49YqCJBz38N8rg==", PhoneNumberConfirmed = false, SecurityStamp = "3YILVFJYDKC4OK7QLLR4TO4KT6V4ZK5E", TwoFactorEnabled = false, UserName = "Bob" }
+                        new { Id = "0", AccessFailedCount = 0, ConcurrencyStamp = "2cebd9d0-694d-4ed3-8dc2-384f41557310", Email = "bob@example.com", EmailConfirmed = false, LockoutEnabled = false, NormalizedEmail = "BOB@EXAMPLE.COM", NormalizedUserName = "BOB", PasswordHash = "AQAAAAEAACcQAAAAEI4jEmRsUYzL6KnpR2/OjIPvkI9BWNmnnCZYah1GFvB2EOCWkgkk49YqCJBz38N8rg==", PhoneNumberConfirmed = false, SecurityStamp = "3YILVFJYDKC4OK7QLLR4TO4KT6V4ZK5E", TwoFactorEnabled = false, UserName = "Bob", IsActive = true }
                     );
+                });
+
+            modelBuilder.Entity("Egret.Models.ConsumptionEvent", b =>
+                {
+                    b.HasOne("Egret.Models.InventoryItem", "InventoryItem")
+                        .WithMany("ConsumptionEvents")
+                        .HasForeignKey("InventoryItemCode");
+
+                    b.HasOne("Egret.Models.Unit")
+                        .WithMany("ConsumptionEventUnitNavigation")
+                        .HasForeignKey("UnitId");
                 });
 
             modelBuilder.Entity("Egret.Models.FabricTest", b =>

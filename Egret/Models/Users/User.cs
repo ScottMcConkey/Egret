@@ -1,14 +1,11 @@
-﻿using Microsoft.AspNetCore.Identity.EntityFrameworkCore;
-using Microsoft.AspNetCore.Identity;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Threading.Tasks;
+﻿using Microsoft.AspNetCore.Identity;
+using System.ComponentModel.DataAnnotations;
 
 namespace Egret.Models
 {
     public class User : IdentityUser
     {
-        public bool IsActive { get; set; } = true;
+        [Display(Name = "Is Active?")]
+        public bool IsActive { get; set; }
     }
 }

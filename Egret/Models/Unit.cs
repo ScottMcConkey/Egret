@@ -11,6 +11,7 @@ namespace Egret.Models
         {
             InventoryItemsBuyunitNavigation = new HashSet<InventoryItem>();
             InventoryItemsSellunitNavigation = new HashSet<InventoryItem>();
+            ConsumptionEventUnitNavigation = new HashSet<ConsumptionEvent>();
         }
 
         public int Id { get; set; }
@@ -25,5 +26,6 @@ namespace Egret.Models
 
         public ICollection<InventoryItem> InventoryItemsBuyunitNavigation { get; set; }
         public ICollection<InventoryItem> InventoryItemsSellunitNavigation { get; set; }
+        public ICollection<ConsumptionEvent> ConsumptionEventUnitNavigation { get; set; }
     }
 }

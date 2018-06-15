@@ -1,24 +1,13 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Configuration;
-using System.Linq;
-using System.Threading.Tasks;
+﻿using Egret.DataAccess;
+using Egret.Models;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
-using Microsoft.AspNetCore.Routing;
-using Microsoft.AspNetCore.Routing.Constraints;
-using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Identity;
-using Microsoft.AspNetCore.Identity.EntityFrameworkCore;
+using Microsoft.AspNetCore.Routing;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
-using Microsoft.Extensions.Configuration.Json;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Logging;
-using Egret.Controllers;
-using Egret.DataAccess;
-using Egret.Models;
-using Egret.Areas.Admin;
 
 namespace Egret
 {
@@ -45,6 +34,10 @@ namespace Egret
             services.AddMvc();
             services.AddMemoryCache();
             services.AddSession();
+            services.AddAuthorization(options =>
+            {
+                options.AddPolicy("AccessAdmin", policy => policy.RequireClaim("CanAccessAdmin"));
+            });
 
             services.AddIdentity<User, IdentityRole>(opts => 
                 {
@@ -65,7 +58,6 @@ namespace Egret
             {
                 app.UseDeveloperExceptionPage();
                 app.UseStatusCodePages();
-                //app.UseBrowserLink();
             }
             else
             {
@@ -73,14 +65,13 @@ namespace Egret
             }
 
             app.UseStaticFiles();
-            //app.UseIdentity();
             app.UseAuthentication();
             loggerFactory.AddDebug();
             app.UseMvc(routes =>
             {
                 routes.MapRoute(
                 name: "areas",
-                template: "{area:exists}/{controller=Home}/{action=Index}");
+                template: "{area:exists}/{controller=Home}/{action=Index}/{id?}");
 
                 routes.MapRoute(
                     name: "default",

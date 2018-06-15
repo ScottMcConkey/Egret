@@ -84,6 +84,7 @@ namespace Egret.Controllers
         [HttpGet]
         public async Task<IActionResult> Edit(string id)
         {
+            InventoryItemViewModel presentation = new InventoryItemViewModel();
             if (id == null)
             {
                 return NotFound();
@@ -99,7 +100,8 @@ namespace Egret.Controllers
             ViewData["Category"] = new SelectList(ActiveInventoryCategories, "Name", "Name", item.Category);
             ViewData["Sellcurrency"] = new SelectList(ActiveCurrencyTypes, "Abbreviation", "Abbreviation", item.Sellcurrency);
             ViewData["Sellunit"] = new SelectList(ActiveUnits, "Abbreviation", "Abbreviation", item.Sellunit);
-            return View(item);
+            presentation.Item = item;
+            return View(presentation);
         }
 
         [HttpPost]

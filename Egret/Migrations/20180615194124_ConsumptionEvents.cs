@@ -4,13 +4,10 @@ using Npgsql.EntityFrameworkCore.PostgreSQL.Metadata;
 
 namespace Egret.Migrations
 {
-    public partial class Initial : Migration
+    public partial class ConsumptionEvents : Migration
     {
         protected override void Up(MigrationBuilder migrationBuilder)
         {
-            migrationBuilder.EnsureSchema(
-                name: "public");
-
             migrationBuilder.AlterDatabase()
                 .Annotation("Npgsql:PostgresExtension:adminpack", "'adminpack', '', ''");
 
@@ -107,6 +104,18 @@ namespace Egret.Migrations
                 });
 
             migrationBuilder.CreateTable(
+                name: "suppliers",
+                columns: table => new
+                {
+                    id = table.Column<int>(nullable: false),
+                    name = table.Column<string>(nullable: false)
+                },
+                constraints: table =>
+                {
+                    table.PrimaryKey("PK_suppliers", x => x.id);
+                });
+
+            migrationBuilder.CreateTable(
                 name: "units",
                 columns: table => new
                 {
@@ -120,19 +129,6 @@ namespace Egret.Migrations
                 {
                     table.PrimaryKey("PK_units", x => x.id);
                     table.UniqueConstraint("AK_units_abbreviation", x => x.abbreviation);
-                });
-
-            migrationBuilder.CreateTable(
-                name: "suppliers",
-                schema: "public",
-                columns: table => new
-                {
-                    id = table.Column<int>(nullable: false),
-                    name = table.Column<string>(nullable: false)
-                },
-                constraints: table =>
-                {
-                    table.PrimaryKey("PK_suppliers", x => x.id);
                 });
 
             migrationBuilder.CreateTable(
@@ -317,19 +313,52 @@ namespace Egret.Migrations
                 });
 
             migrationBuilder.CreateTable(
-                name: "FabricTest",
+                name: "consumption_events",
                 columns: table => new
                 {
-                    Id = table.Column<string>(nullable: false),
-                    Name = table.Column<string>(nullable: true),
-                    Result = table.Column<string>(nullable: true),
+                    id = table.Column<string>(nullable: false, defaultValueSql: "nextval('master_seq'::regclass)"),
+                    quantity_consumed = table.Column<decimal>(nullable: true),
+                    Unit = table.Column<string>(nullable: true),
+                    consumed_by = table.Column<string>(nullable: true),
+                    date_of_consumption = table.Column<DateTime>(nullable: false),
+                    SampleOrderNumber = table.Column<string>(nullable: true),
+                    production_order_number = table.Column<string>(nullable: true),
+                    pattern_number = table.Column<string>(nullable: true),
+                    value_consumed = table.Column<decimal>(nullable: true),
+                    InventoryItemCode = table.Column<string>(nullable: true),
+                    UnitId = table.Column<int>(nullable: true)
+                },
+                constraints: table =>
+                {
+                    table.PrimaryKey("PK_consumption_events", x => x.id);
+                    table.ForeignKey(
+                        name: "FK_consumption_events_inventory_items_InventoryItemCode",
+                        column: x => x.InventoryItemCode,
+                        principalTable: "inventory_items",
+                        principalColumn: "code",
+                        onDelete: ReferentialAction.Restrict);
+                    table.ForeignKey(
+                        name: "FK_consumption_events_units_UnitId",
+                        column: x => x.UnitId,
+                        principalTable: "units",
+                        principalColumn: "id",
+                        onDelete: ReferentialAction.Restrict);
+                });
+
+            migrationBuilder.CreateTable(
+                name: "fabric_tests",
+                columns: table => new
+                {
+                    id = table.Column<string>(nullable: false),
+                    name = table.Column<string>(nullable: true),
+                    result = table.Column<string>(nullable: true),
                     InventoryItemCode = table.Column<string>(nullable: true)
                 },
                 constraints: table =>
                 {
-                    table.PrimaryKey("PK_FabricTest", x => x.Id);
+                    table.PrimaryKey("PK_fabric_tests", x => x.id);
                     table.ForeignKey(
-                        name: "FK_FabricTest_inventory_items_InventoryItemCode",
+                        name: "FK_fabric_tests_inventory_items_InventoryItemCode",
                         column: x => x.InventoryItemCode,
                         principalTable: "inventory_items",
                         principalColumn: "code",
@@ -339,7 +368,7 @@ namespace Egret.Migrations
             migrationBuilder.InsertData(
                 table: "aspnet_users",
                 columns: new[] { "Id", "AccessFailedCount", "ConcurrencyStamp", "Discriminator", "Email", "EmailConfirmed", "LockoutEnabled", "LockoutEnd", "NormalizedEmail", "NormalizedUserName", "PasswordHash", "PhoneNumber", "PhoneNumberConfirmed", "SecurityStamp", "TwoFactorEnabled", "UserName", "IsActive" },
-                values: new object[] { "00000000-0000-0000-0000-000000000000", 0, "2cebd9d0-694d-4ed3-8dc2-384f41557310", "User", "bob@example.com", false, false, null, "BOB@EXAMPLE.COM", "BOB", "AQAAAAEAACcQAAAAEI4jEmRsUYzL6KnpR2/OjIPvkI9BWNmnnCZYah1GFvB2EOCWkgkk49YqCJBz38N8rg==", null, false, "3YILVFJYDKC4OK7QLLR4TO4KT6V4ZK5E", false, "Bob", null });
+                values: new object[] { "0", 0, "2cebd9d0-694d-4ed3-8dc2-384f41557310", "User", "bob@example.com", false, false, null, "BOB@EXAMPLE.COM", "BOB", "AQAAAAEAACcQAAAAEI4jEmRsUYzL6KnpR2/OjIPvkI9BWNmnnCZYah1GFvB2EOCWkgkk49YqCJBz38N8rg==", null, false, "3YILVFJYDKC4OK7QLLR4TO4KT6V4ZK5E", false, "Bob", true });
 
             migrationBuilder.InsertData(
                 table: "currency_types",
@@ -404,9 +433,10 @@ namespace Egret.Migrations
                 column: "UserId");
 
             migrationBuilder.CreateIndex(
-                name: "IX_aspnet_userroles_RoleId",
+                name: "ix_aspnet_userroles_roleid",
                 table: "aspnet_userroles",
-                column: "RoleId");
+                column: "RoleId",
+                unique: true);
 
             migrationBuilder.CreateIndex(
                 name: "EmailIndex",
@@ -418,6 +448,22 @@ namespace Egret.Migrations
                 table: "aspnet_users",
                 column: "NormalizedUserName",
                 unique: true);
+
+            migrationBuilder.CreateIndex(
+                name: "id",
+                table: "consumption_events",
+                column: "id",
+                unique: true);
+
+            migrationBuilder.CreateIndex(
+                name: "IX_consumption_events_InventoryItemCode",
+                table: "consumption_events",
+                column: "InventoryItemCode");
+
+            migrationBuilder.CreateIndex(
+                name: "IX_consumption_events_UnitId",
+                table: "consumption_events",
+                column: "UnitId");
 
             migrationBuilder.CreateIndex(
                 name: "ix_currencytypes_abbreviation",
@@ -432,8 +478,14 @@ namespace Egret.Migrations
                 unique: true);
 
             migrationBuilder.CreateIndex(
-                name: "IX_FabricTest_InventoryItemCode",
-                table: "FabricTest",
+                name: "ix_fabrictests_pk",
+                table: "fabric_tests",
+                column: "id",
+                unique: true);
+
+            migrationBuilder.CreateIndex(
+                name: "IX_fabric_tests_InventoryItemCode",
+                table: "fabric_tests",
                 column: "InventoryItemCode");
 
             migrationBuilder.CreateIndex(
@@ -468,6 +520,12 @@ namespace Egret.Migrations
                 column: "sellunit_fk");
 
             migrationBuilder.CreateIndex(
+                name: "ix_suppliers_pk",
+                table: "suppliers",
+                column: "id",
+                unique: true);
+
+            migrationBuilder.CreateIndex(
                 name: "ix_units_abbreviation",
                 table: "units",
                 column: "abbreviation",
@@ -477,13 +535,6 @@ namespace Egret.Migrations
                 name: "ix_units_sortorder",
                 table: "units",
                 column: "sortorder",
-                unique: true);
-
-            migrationBuilder.CreateIndex(
-                name: "ix_suppliers_pkey",
-                schema: "public",
-                table: "suppliers",
-                column: "id",
                 unique: true);
         }
 
@@ -505,11 +556,13 @@ namespace Egret.Migrations
                 name: "aspnet_usertokens");
 
             migrationBuilder.DropTable(
-                name: "FabricTest");
+                name: "consumption_events");
 
             migrationBuilder.DropTable(
-                name: "suppliers",
-                schema: "public");
+                name: "fabric_tests");
+
+            migrationBuilder.DropTable(
+                name: "suppliers");
 
             migrationBuilder.DropTable(
                 name: "aspnet_roles");

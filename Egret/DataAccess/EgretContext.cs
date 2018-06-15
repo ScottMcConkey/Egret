@@ -39,12 +39,15 @@ namespace Egret.DataAccess
                 .ToTable("aspnet_roles")
                 .Property(u => u.Id)
                 .HasMaxLength(450);
-            modelBuilder.Entity<Role>()
-                .ToTable("aspnet_roles")
-                .Property(u => u.Id)
-                .HasMaxLength(450);
-            // Nobody should have to use double quotes for ad-hoc queries (FTS),
-            // so give all the Identity tables custom names that won't be generated
+
+            modelBuilder.Entity<Role>(entity =>
+            {
+                entity.ToTable("aspnet_roles");
+                entity.Property(u => u.Id)
+                    .HasMaxLength(450);
+            });
+
+            // Give all the Identity tables custom names that won't be generated
             // as string literals.
             modelBuilder.Entity<IdentityUserRole<string>>()
                 .ToTable("aspnet_userroles")
@@ -297,6 +300,39 @@ namespace Egret.DataAccess
                     .WithOne(p => p.InventoryItem)
                     .HasPrincipalKey(p => p.Code)
                     .OnDelete(DeleteBehavior.Restrict);
+            });
+
+            modelBuilder.Entity<ConsumptionEvent>(entity =>
+            {
+                entity.ToTable("consumption_events");
+
+                entity.HasIndex(e => e.Id)
+                    .HasName("id")
+                    .IsUnique();
+
+                entity.Property(e => e.Id)
+                    .HasColumnName("id")
+                    .HasDefaultValueSql("nextval('master_seq'::regclass)");
+
+                entity.Property(e => e.QuantityConsumed)
+                    .HasColumnName("quantity_consumed");
+
+                entity.Property(e => e.ConsumedBy)
+                    .HasColumnName("consumed_by");
+
+                entity.Property(e => e.DateOfConsumption)
+                    .IsRequired()
+                    .HasColumnName("date_of_consumption");
+
+                entity.Property(e => e.ProductionOrderNumber)
+                    .HasColumnName("production_order_number");
+
+                entity.Property(e => e.PatternNumber)
+                    .HasColumnName("pattern_number");
+
+                entity.Property(e => e.ValueConsumed)
+                    .HasColumnName("value_consumed");
+
             });
 
             modelBuilder.Entity<Supplier>(entity =>

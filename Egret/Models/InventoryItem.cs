@@ -256,5 +256,6 @@ namespace Egret.Models
         public CurrencyType SellcurrencyNavigation { get; set; }
         public Unit SellunitNavigation { get; set; }
         public ICollection<FabricTest> FabricTests { get; set; }
+        public ICollection<ConsumptionEvent> ConsumptionEvents { get; set; }
     }
 }
