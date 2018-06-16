@@ -14,7 +14,7 @@
                 <ul class="nav nav-tabs">
                     <li class="tab-header"><a style="outline: none;" href="#">Details</a></li>
                     @*@if (Model.IsConversion == true)
-                {*@
+                    {*@
                     <li class="tab-header"><a style="outline: none;" href="#">Conversion</a></li>
                     @*}*@
                     <li class="tab-header"><a style="outline: none;" href="#">Accounting</a></li>
@@ -235,7 +235,20 @@
                         <span asp-validation-for="Item.DaysToComplete" class="text-danger"></span>
                     </div>
                 </div>
+                <div style="border: 1px solid gray">
+                    <div style="background-color: black; color: white; padding: 5px;">
+                        Consumption Events
+                    </div>
+                    @foreach (var e in Model.ConsumptionEvents.OrderBy(x => x.DateOfConsumption))
+                    {
+                        <div style="border-top: 1px solid black; color: black;">
+                            <span style="background-color: white;" class="glyphicon glyphicon-chevron-right"></span>
+                            <a asp-controller="Consumption" asp-action="Edit" asp-route-id="@e.Id">@e.DateOfConsumption - Consumption: @e.QuantityConsumed</a>
+                        </div>
+                    }
+                </div>
             </div>
+
         </div>
     </div>
 </form>

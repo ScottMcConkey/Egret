@@ -90,7 +90,7 @@ namespace Egret.Controllers
                 return NotFound();
             }
 
-            var item = await Context.InventoryItems.SingleOrDefaultAsync(m => m.Code == id);
+            var item = await Context.InventoryItems.Include(i => i.ConsumptionEvents).SingleOrDefaultAsync(m => m.Code == id);
             if (item == null)
             {
                 return NotFound();
@@ -101,6 +101,8 @@ namespace Egret.Controllers
             ViewData["Sellcurrency"] = new SelectList(ActiveCurrencyTypes, "Abbreviation", "Abbreviation", item.Sellcurrency);
             ViewData["Sellunit"] = new SelectList(ActiveUnits, "Abbreviation", "Abbreviation", item.Sellunit);
             presentation.Item = item;
+            presentation.ConsumptionEvents = item.ConsumptionEvents.ToList();
+
             return View(presentation);
         }
 
@@ -115,7 +117,7 @@ namespace Egret.Controllers
                 Context.Update(item);
                 await Context.SaveChangesAsync();
                 TempData["SuccessMessage"] = "Save Complete";
-                return RedirectToAction(nameof(Edit));
+                return RedirectToAction("Edit", id);
             }
             return View(item);
         }

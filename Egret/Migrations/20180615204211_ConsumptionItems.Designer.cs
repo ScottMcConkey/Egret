@@ -3,15 +3,17 @@ using System;
 using Egret.DataAccess;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 using Npgsql.EntityFrameworkCore.PostgreSQL.Metadata;
 
 namespace Egret.Migrations
 {
     [DbContext(typeof(EgretContext))]
-    partial class EgretContextModelSnapshot : ModelSnapshot
+    [Migration("20180615204211_ConsumptionItems")]
+    partial class ConsumptionItems
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -53,6 +55,7 @@ namespace Egret.Migrations
                         .HasColumnName("consumed_by");
 
                     b.Property<DateTime?>("DateOfConsumption")
+                        .IsRequired()
                         .HasColumnName("date_of_consumption");
 
                     b.Property<string>("InventoryItem");
@@ -68,11 +71,9 @@ namespace Egret.Migrations
                     b.Property<decimal?>("QuantityConsumed")
                         .HasColumnName("quantity_consumed");
 
-                    b.Property<string>("SampleOrderNumber")
-                        .HasColumnName("sample_order_number");
+                    b.Property<string>("SampleOrderNumber");
 
-                    b.Property<string>("Unit")
-                        .HasColumnName("unit_id");
+                    b.Property<string>("Unit");
 
                     b.Property<int?>("UnitId");
 

@@ -20,6 +20,7 @@ namespace Egret.Models
         public string ConsumedBy { get; set; }
 
         [Display(Name = "Date Consumed")]
+        [UIHint("date")]
         public DateTime? DateOfConsumption { get; set; }
 
         [Display(Name = "Sample Order Number")]
@@ -34,6 +35,11 @@ namespace Egret.Models
         [Display(Name = "Value Consumed")]
         public decimal? ValueConsumed { get; set; }
 
-        public InventoryItem InventoryItem { get; set; }
+
+        public string InventoryItem { get; set; }
+
+
+
+        public InventoryItem InventoryItemNavigation { get; set; }
     }
 }

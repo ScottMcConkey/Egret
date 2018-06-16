@@ -22,6 +22,7 @@ namespace Egret.DataAccess
         public virtual DbSet<Unit> Units { get; set; }
         public virtual DbSet<Supplier> Suppliers { get; set; }
         public virtual DbSet<FabricTest> FabricTests { get; set; }
+        public virtual DbSet<ConsumptionEvent> ConsumptionEvents { get; set; }
 
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
@@ -300,6 +301,9 @@ namespace Egret.DataAccess
                     .WithOne(p => p.InventoryItem)
                     .HasPrincipalKey(p => p.Code)
                     .OnDelete(DeleteBehavior.Restrict);
+
+                entity.HasMany(d => d.ConsumptionEvents)
+                    .WithOne(p => p.InventoryItemNavigation);
             });
 
             modelBuilder.Entity<ConsumptionEvent>(entity =>
@@ -314,6 +318,9 @@ namespace Egret.DataAccess
                     .HasColumnName("id")
                     .HasDefaultValueSql("nextval('master_seq'::regclass)");
 
+                entity.Property(e => e.Unit)
+                    .HasColumnName("unit_id");
+
                 entity.Property(e => e.QuantityConsumed)
                     .HasColumnName("quantity_consumed");
 
@@ -321,8 +328,10 @@ namespace Egret.DataAccess
                     .HasColumnName("consumed_by");
 
                 entity.Property(e => e.DateOfConsumption)
-                    .IsRequired()
                     .HasColumnName("date_of_consumption");
+
+                entity.Property(e => e.SampleOrderNumber)
+                    .HasColumnName("sample_order_number");
 
                 entity.Property(e => e.ProductionOrderNumber)
                     .HasColumnName("production_order_number");
@@ -332,6 +341,12 @@ namespace Egret.DataAccess
 
                 entity.Property(e => e.ValueConsumed)
                     .HasColumnName("value_consumed");
+
+
+                entity.HasOne(d => d.InventoryItemNavigation)
+                    .WithMany(p => p.ConsumptionEvents)
+                    .HasPrincipalKey(p => p.Code)
+                    .OnDelete(DeleteBehavior.Cascade);
 
             });
 
