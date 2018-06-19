@@ -117,7 +117,7 @@ namespace Egret.Controllers
                 Context.Update(item);
                 await Context.SaveChangesAsync();
                 TempData["SuccessMessage"] = "Save Complete";
-                return RedirectToAction("Edit", id);
+                return RedirectToAction();
             }
             return View(item);
         }

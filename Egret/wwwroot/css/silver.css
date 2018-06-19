@@ -177,3 +177,27 @@ th {
 }
 
 
+.related-objects {
+    border-left: 1px solid #0f0e31;
+    border-right: 1px solid #0f0e31;
+}
+
+.related-objects-header {
+    padding: 10px;
+    background-color: #0f0e31;
+    color: white;
+}
+
+.related-object-link {
+    text-decoration: none;
+    color: black;
+}
+
+.related-object-div {
+    padding: 5px;
+    border-bottom: 1px solid black;
+    color: black;
+}
+
+
+

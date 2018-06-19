@@ -80,7 +80,7 @@ namespace Egret.Models
         [UIHint("Date")]
         public DateTime? DateArrived { get; set; }
 
-        [Display(Name = "No. of Days to Confirm Order")]
+        [Display(Name = "Days to Confirm Order")]
         [ReadOnly(true)]
         [UIHint("text")]
         [NotMapped]
@@ -101,7 +101,7 @@ namespace Egret.Models
             private set { }
         }
 
-        [Display(Name = "No. of Days for Shipping")]
+        [Display(Name = "Days for Shipping")]
         [ReadOnly(true)]
         [UIHint("text")]
         [NotMapped]
@@ -122,7 +122,7 @@ namespace Egret.Models
             private set { }
         }
 
-        [Display(Name = "No. of Days for Completion")]
+        [Display(Name = "Days for Completion")]
         [ReadOnly(true)]
         [UIHint("text")]
         [NotMapped]

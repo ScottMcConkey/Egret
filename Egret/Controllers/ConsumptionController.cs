@@ -37,5 +37,11 @@ namespace Egret.Controllers
             }
             return View(consumptionEvent);
         }
+
+        [HttpGet]
+        public IActionResult Create(string id)
+        {
+            return View();
+        }
     }
 }

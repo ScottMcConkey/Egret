@@ -4,18 +4,23 @@
 <head>
     <meta name="viewport" content="width=device-width" />
     <link rel="stylesheet" asp-href-include="~/lib/css/reset.css" />
-    <link rel="stylesheet" asp-href-include="~/lib/bootstrap/dist/css/*.css" />
-    <link rel="stylesheet" asp-href-include="~/css/*.css" />
+
     <environment names="production">
+        <link rel="stylesheet" asp-href-include="~/lib/bootstrap/dist/css/bootstrap-theme.min.css" />
+        <link rel="stylesheet" asp-href-include="~/lib/bootstrap/dist/css/bootstrap.min.css" />
         <script asp-src-include="~/lib/jquery/dist/jquery.min.js"></script>
         <script asp-src-include="~/lib/jquery-validation/dist/jquery.*.min.js"></script>
         <script asp-src-include="~/lib/jquery-validation-unobtrusive/dist/*.min.js"></script>
     </environment>
     <environment names="development">
+        <link rel="stylesheet" asp-href-include="~/lib/bootstrap/dist/css/bootstrap-theme.css" />
+        <link rel="stylesheet" asp-href-include="~/lib/bootstrap/dist/css/bootstrap.css" />
         <script asp-src-include="~/lib/jquery/dist/jquery.js"></script>
         <script asp-src-include="~/lib/jquery-validation/dist/jquery.*.js"></script>
         <script asp-src-include="~/lib/jquery-validation-unobtrusive/dist/*.js"></script>
     </environment>
+
+    <link rel="stylesheet" asp-href-include="~/css/*.css" />
 
     <script asp-src-include="~/scripts/*.js"></script>
 
@@ -30,10 +35,10 @@
                 <ul>
                     <li><a asp-area="" asp-controller="Home" asp-action="Index"><span class="glyphicon glyphicon-home"></span>Home</a></li>
                     <li><a asp-area="" asp-controller="Inventory" asp-action="Index"><span class="glyphicon glyphicon-tag"></span>Inventory</a></li>
-                    <li><a asp-area="" asp-action="Projects"><span class="glyphicon glyphicon-folder-open"></span>Projects</a></li>
-                    <li><a asp-area="" asp-action="Events"><span class="glyphicon glyphicon-barcode"></span>Events</a></li>
+                    <li><a asp-area="" asp-controller="" asp-action="Projects"><span class="glyphicon glyphicon-folder-open"></span>Projects</a></li>
+                    <li><a asp-area="" asp-controller="" asp-action="Events"><span class="glyphicon glyphicon-barcode"></span>Events</a></li>
                     <li><a asp-area="" asp-controller="Suppliers" asp-action="Index"><span class="glyphicon glyphicon-user"></span>Suppliers</a></li>
-                    <li><a asp-area="" asp-action="Reports"><span class="glyphicon glyphicon-signal"></span>Reports</a></li>
+                    <li><a asp-area="" asp-controller="" asp-action="Reports"><span class="glyphicon glyphicon-signal"></span>Reports</a></li>
                     <li><a asp-area="Admin" asp-controller="Home" asp-action="Index"><span class="glyphicon glyphicon-cog"></span>Admin</a></li>
                 </ul>
             </div><div id="main">
