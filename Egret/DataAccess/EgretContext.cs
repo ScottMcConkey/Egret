@@ -223,7 +223,7 @@ namespace Egret.DataAccess
 
                 // Keys
                 entity.HasKey(k => k.Code)
-                    .HasName("pk_inventoryitems");
+                    .HasName("pk_inventoryitems_id");
 
                 // Properties
                 entity.Property(e => e.Code)
@@ -347,6 +347,7 @@ namespace Egret.DataAccess
 
                 entity.HasMany(d => d.ConsumptionEvents)
                     .WithOne(p => p.InventoryItemNavigation)
+                    .HasForeignKey(f => f.InventoryItemCode)
                     .HasConstraintName("fk_inventoryitems_consumptionevents")
                     .OnDelete(DeleteBehavior.Cascade);
             });
@@ -403,12 +404,14 @@ namespace Egret.DataAccess
                     .WithMany(p => p.ConsumptionEvents)
                     .HasPrincipalKey(p => p.Code)
                     .HasForeignKey(f => f.InventoryItemCode)
+                    .HasConstraintName("fk_consumptionevents_inventory_code")
                     .OnDelete(DeleteBehavior.Cascade);
 
                 entity.HasOne(d => d.UnitNavigation)
                     .WithMany()
                     .HasPrincipalKey(p => p.Abbreviation)
                     .HasForeignKey(f => f.Unit)
+                    .HasConstraintName("fk_consumptionevents_units")
                     .OnDelete(DeleteBehavior.Restrict);
 
             });
