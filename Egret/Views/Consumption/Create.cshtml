@@ -10,7 +10,7 @@
     <div>
         @if (!String.IsNullOrEmpty(Context.Request.Query["inventoryid"]))
         {
-            <input asp-for="InventoryItemCode" type="hidden" name="InventoryItem" value="@Context.Request.Query["inventoryid"]" />
+            <input asp-for="InventoryItemCode" type="hidden" name="InventoryItemCode" value="@Context.Request.Query["inventoryid"]" />
         }
     </div>
 

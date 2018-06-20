@@ -395,15 +395,20 @@ namespace Egret.DataAccess
                 entity.Property(e => e.ValueConsumed)
                     .HasColumnName("value_consumed");
 
+                entity.Property(p => p.InventoryItemCode)
+                    .HasColumnName("inventory_item_code");
+
                 // Relationships
                 entity.HasOne(d => d.InventoryItemNavigation)
                     .WithMany(p => p.ConsumptionEvents)
                     .HasPrincipalKey(p => p.Code)
+                    .HasForeignKey(f => f.InventoryItemCode)
                     .OnDelete(DeleteBehavior.Cascade);
 
                 entity.HasOne(d => d.UnitNavigation)
                     .WithMany()
                     .HasPrincipalKey(p => p.Abbreviation)
+                    .HasForeignKey(f => f.Unit)
                     .OnDelete(DeleteBehavior.Restrict);
 
             });
@@ -442,16 +447,25 @@ namespace Egret.DataAccess
                         .IsUnique();
 
                     // Keys
+                    entity.HasKey(k => k.Id)
+                        .HasName("pk_fabrictests_id");
 
                     // Properties
-                    entity.Property(e => e.Id).HasColumnName("id");
+                    entity.Property(e => e.Id)
+                        .HasColumnName("id")
+                        .HasDefaultValueSql("nextval('master_seq'::regclass)");
 
                     entity.Property(e => e.Name).HasColumnName("name");
 
                     entity.Property(e => e.Result).HasColumnName("result");
 
+                    entity.Property(p => p.InventoryItemCode).HasColumnName("inventory_item_code");
+
+                    // Relationships
                     entity.HasOne(e => e.InventoryItem)
-                        .WithMany(p => p.FabricTests);
+                        .WithMany(p => p.FabricTests)
+                        .HasForeignKey(f => f.InventoryItemCode)
+                        .HasPrincipalKey(k => k.Code);
                 }
             );
 

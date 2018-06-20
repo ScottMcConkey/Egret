@@ -3,15 +3,17 @@ using System;
 using Egret.DataAccess;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 using Npgsql.EntityFrameworkCore.PostgreSQL.Metadata;
 
 namespace Egret.Migrations
 {
     [DbContext(typeof(EgretContext))]
-    partial class EgretContextModelSnapshot : ModelSnapshot
+    [Migration("20180620214357_ModifyRelationships")]
+    partial class ModifyRelationships
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -145,11 +147,9 @@ namespace Egret.Migrations
                 {
                     b.Property<string>("Id")
                         .ValueGeneratedOnAdd()
-                        .HasColumnName("id")
-                        .HasDefaultValueSql("nextval('master_seq'::regclass)");
+                        .HasColumnName("id");
 
-                    b.Property<string>("InventoryItemCode")
-                        .HasColumnName("inventory_item_code");
+                    b.Property<string>("InventoryItemCode");
 
                     b.Property<string>("Name")
                         .HasColumnName("name");
@@ -157,8 +157,7 @@ namespace Egret.Migrations
                     b.Property<string>("Result")
                         .HasColumnName("result");
 
-                    b.HasKey("Id")
-                        .HasName("pk_fabrictests_id");
+                    b.HasKey("Id");
 
                     b.HasIndex("Id")
                         .IsUnique()

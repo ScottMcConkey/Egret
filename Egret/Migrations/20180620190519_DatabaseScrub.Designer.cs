@@ -3,15 +3,17 @@ using System;
 using Egret.DataAccess;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 using Npgsql.EntityFrameworkCore.PostgreSQL.Metadata;
 
 namespace Egret.Migrations
 {
     [DbContext(typeof(EgretContext))]
-    partial class EgretContextModelSnapshot : ModelSnapshot
+    [Migration("20180620190519_DatabaseScrub")]
+    partial class DatabaseScrub
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -55,8 +57,7 @@ namespace Egret.Migrations
                     b.Property<DateTime?>("DateOfConsumption")
                         .HasColumnName("date_of_consumption");
 
-                    b.Property<string>("InventoryItemCode")
-                        .HasColumnName("inventory_item_code");
+                    b.Property<string>("InventoryItemCode");
 
                     b.Property<string>("PatternNumber")
                         .HasColumnName("pattern_number");
@@ -73,6 +74,8 @@ namespace Egret.Migrations
                     b.Property<string>("Unit")
                         .HasColumnName("unit");
 
+                    b.Property<string>("UnitNavigationAbbreviation");
+
                     b.Property<decimal?>("ValueConsumed")
                         .HasColumnName("value_consumed");
 
@@ -85,7 +88,7 @@ namespace Egret.Migrations
 
                     b.HasIndex("InventoryItemCode");
 
-                    b.HasIndex("Unit");
+                    b.HasIndex("UnitNavigationAbbreviation");
 
                     b.ToTable("consumption_events");
                 });
@@ -145,11 +148,9 @@ namespace Egret.Migrations
                 {
                     b.Property<string>("Id")
                         .ValueGeneratedOnAdd()
-                        .HasColumnName("id")
-                        .HasDefaultValueSql("nextval('master_seq'::regclass)");
+                        .HasColumnName("id");
 
-                    b.Property<string>("InventoryItemCode")
-                        .HasColumnName("inventory_item_code");
+                    b.Property<string>("InventoryItemCode");
 
                     b.Property<string>("Name")
                         .HasColumnName("name");
@@ -157,8 +158,7 @@ namespace Egret.Migrations
                     b.Property<string>("Result")
                         .HasColumnName("result");
 
-                    b.HasKey("Id")
-                        .HasName("pk_fabrictests_id");
+                    b.HasKey("Id");
 
                     b.HasIndex("Id")
                         .IsUnique()
@@ -602,7 +602,7 @@ namespace Egret.Migrations
 
                     b.HasOne("Egret.Models.Unit", "UnitNavigation")
                         .WithMany()
-                        .HasForeignKey("Unit")
+                        .HasForeignKey("UnitNavigationAbbreviation")
                         .HasPrincipalKey("Abbreviation")
                         .OnDelete(DeleteBehavior.Restrict);
                 });

@@ -159,7 +159,9 @@ th {
 }
 
 .related-object-link,
-.related-object-link:hover {
+.related-object-link:hover,
+.related-object-link:active,
+.related-object-link:focus {
     text-decoration: none;
     color: black;
 }

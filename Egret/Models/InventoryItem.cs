@@ -57,6 +57,7 @@ namespace Egret.Models
         public string FabricTestResults { get; set; }
 
         [Display(Name = "Needed Before")]
+        [UIHint("date")]
         public DateTime? NeededBefore { get; set; }
 
         [Display(Name = "Target Price")]

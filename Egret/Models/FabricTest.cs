@@ -15,6 +15,8 @@ namespace Egret.Models
 
         public string Result { get; set; }
 
+        public string InventoryItemCode { get; set; }
+
         public InventoryItem InventoryItem { get; set; }
 
     }

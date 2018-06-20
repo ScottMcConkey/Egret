@@ -4,8 +4,10 @@
 
 function AddTableRow() {
     $("#tests tr:last").after(
-        "<tr class='fabrictests'><td><input class='form-control' type='text' name='FabricTests[" + $('.fabrictests').length + "].Name' /></td><td>" +
-        "<input class='form-control' type='text' name='FabricTests[" + $('.fabrictests').length + "].Result' /></td></tr>");
+        "<tr class='fabrictest'>" +
+            "<td><div class='form-group'><input class='form-control' type='text' name='FabricTests[" + $('.fabrictest').length + "].Name' /></div></td>" +
+            "<td><div class='form-group'><input class='form-control' type='text' name='FabricTests[" + $('.fabrictest').length + "].Result' /></div></td>" +
+        "</tr > ");
 }
 
 $(document).ready(function () {

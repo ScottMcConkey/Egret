@@ -42,13 +42,15 @@
                     <li><a asp-area="Admin" asp-controller="Home" asp-action="Index"><span class="glyphicon glyphicon-cog"></span>Admin</a></li>
                 </ul>
             </div><div id="main">
-                <div id="main-top" class="lead">
-                    @ViewData["PageTitle"]
-                    @if (User?.Identity?.IsAuthenticated ?? false)
-                    {
-                        <a class="btn btn-sm btn-default pull-right" style="margin-top: 15px; margin-right: 15px" asp-action="Logout" asp-controller="Account">Log Out</a>
-                    }
-                </div>
+                      <div id="main-top" class="lead">
+                          @ViewData["PageTitle"]
+                          @if (User?.Identity?.IsAuthenticated ?? false)
+                          {
+
+                              <a class="btn btn-sm btn-default pull-right" style="margin-top: 15px; margin-right: 15px" asp-action="Logout" asp-controller="Account">Log Out</a>
+                              <div style="font-size: 15pt; margin-top: 15px; margin-right: 15px" class="pull-right">@User.Identity.Name</div>
+                          }
+                      </div>
                 <div id="main-bottom">
                     @if (TempData["SuccessMessage"] != null)
                     {

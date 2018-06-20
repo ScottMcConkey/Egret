@@ -3,15 +3,17 @@ using System;
 using Egret.DataAccess;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 using Npgsql.EntityFrameworkCore.PostgreSQL.Metadata;
 
 namespace Egret.Migrations
 {
     [DbContext(typeof(EgretContext))]
-    partial class EgretContextModelSnapshot : ModelSnapshot
+    [Migration("20180620222632_FixFabricKey")]
+    partial class FixFabricKey
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -148,8 +150,7 @@ namespace Egret.Migrations
                         .HasColumnName("id")
                         .HasDefaultValueSql("nextval('master_seq'::regclass)");
 
-                    b.Property<string>("InventoryItemCode")
-                        .HasColumnName("inventory_item_code");
+                    b.Property<string>("InventoryItemCode");
 
                     b.Property<string>("Name")
                         .HasColumnName("name");

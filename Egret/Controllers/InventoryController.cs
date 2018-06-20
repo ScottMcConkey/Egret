@@ -8,6 +8,7 @@ using Microsoft.EntityFrameworkCore;
 using Egret.DataAccess;
 using Egret.Models;
 using Egret.ViewModels;
+using System.Diagnostics;
 
 namespace Egret.Controllers
 {
@@ -107,28 +108,32 @@ namespace Egret.Controllers
 
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Edit(string id, InventoryItem item)
+        public async Task<IActionResult> Edit(string id, InventoryItemViewModel vm)
         {
             if (ModelState.IsValid)
             {
-                item.UpdatedBy = User.Identity.Name;
-                item.DateUpdated = DateTime.Now;
+                vm.Item.UpdatedBy = User.Identity.Name;
+                vm.Item.DateUpdated = DateTime.Now;
 
-                //if (item.FabricTests != null)
-                //{
-                //    foreach (var i in item.FabricTests)
-                //    {
-                //        Context.FabricTests.Add(i);
-                //    }
-                //}
-                
+                if (vm.FabricTests != null)
+                {
+                    TempData["SuccessMessage"] = vm.FabricTests.Count.ToString();
 
-                Context.Update(item);
+                    foreach (FabricTest i in vm.FabricTests)
+                    {
+                        i.InventoryItemCode = vm.Item.Code;
+
+                        Context.FabricTests.Update(i);              
+                    }
+                }
+
+                Context.InventoryItems.Update(vm.Item);
+
                 await Context.SaveChangesAsync();
-                TempData["SuccessMessage"] = "Save Complete";
+                //TempData["SuccessMessage"] = "Save Complete";
                 return RedirectToAction();
             }
-            return View(item);
+            return View(vm);
         }
 
         [HttpGet]
