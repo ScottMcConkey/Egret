@@ -147,7 +147,7 @@ namespace Egret.Models
 
         public string Comment { get; set; }
 
-        [Display(Name = "Qty Purchased")]
+        [Display(Name = "Quantity Purchased")]
         public decimal? QtyPurchased { get; set; }
 
         public string Unit { get; set; }
@@ -231,14 +231,15 @@ namespace Egret.Models
         public decimal? Sellprice { get; set; }
         [Display(Name = "Sell Currency")]
         public string Sellcurrency { get; set; }
-        [Display(Name = "Sell Unit")]
-        public string Sellunit { get; set; }
         [Display(Name = "Buy Price")]
         public decimal? Buyprice { get; set; }
         [Display(Name = "Buy Currency")]
         public string Buycurrency { get; set; }
+
         [Display(Name = "Buy Unit")]
-        public string Buyunit { get; set; }
+        public string BuyUnit { get; set; }
+        [Display(Name = "Sell Unit")]
+        public string SellUnit { get; set; }
 
         public string Category { get; set; }
 
@@ -251,10 +252,10 @@ namespace Egret.Models
         
 
         public CurrencyType BuycurrencyNavigation { get; set; }
-        public Unit BuyunitNavigation { get; set; }
         public InventoryCategory CategoryNavigation { get; set; }
         public CurrencyType SellcurrencyNavigation { get; set; }
-        public Unit SellunitNavigation { get; set; }
+        public Unit BuyUnitNavigation { get; set; }
+        public Unit SellUnitNavigation { get; set; }
         public ICollection<FabricTest> FabricTests { get; set; }
         public ICollection<ConsumptionEvent> ConsumptionEvents { get; set; }
     }

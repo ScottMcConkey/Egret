@@ -6,47 +6,19 @@
     padding-bottom: 40px;
 }
 
-.test:hover {
-    color: #000;
-    text-decoration: none;
-    margin: 0;
-    padding: 0;
-    width: inherit;
-    display: inline;
-}
-
 a {
     text-decoration: none;
-}
-
-hr {
-    margin: 0;
-    margin-bottom: 10px;
 }
 
 #container {
     width: 100%;
 }
 
-.leftnav ul {
-    text-decoration: none;
-    list-style-type: none;
-    margin: 0;
-    padding: 0;
-}
-
-.titleband {
+#titleband {
     font: "verdana" bold;
     font-size: 30pt;
     color: #000;
     margin-bottom: 20px;
-}
-
-.leftnav li {
-    text-align: center;
-    border-bottom: 1px solid #368798;
-    padding: 2px;
-    background-color: #0f0e31;
 }
 
 .leftnav {
@@ -56,6 +28,17 @@ hr {
 }
 
 .leftnav li {
+    text-align: center;
+    border-bottom: 1px solid #368798;
+    padding: 2px;
+    background-color: #0f0e31;
+    margin: 0;
+    padding: 0;
+}
+
+.leftnav ul {
+    text-decoration: none;
+    list-style-type: none;
     margin: 0;
     padding: 0;
 }
@@ -63,9 +46,11 @@ hr {
 .leftnav span {
     display: block;
     margin: 0;
+    font-size: 25pt;
 }
 
-.leftnav a, .leftnav a:hover {
+.leftnav a,
+.leftnav a:hover {
     text-decoration: none;
     color: #fff;
     width: 100%;
@@ -78,11 +63,6 @@ hr {
 }
 
 
-.leftnav span {
-    font-size: 25pt;
-}
-
-
 #main {
     margin: 0;
     display: inline-block;
@@ -91,34 +71,23 @@ hr {
     width: 90%;
 }
 
-.middle {
-    padding: 0;
-    color: #254a7d;
-    display: inline;
+#main-top {
+    min-width: 700px;
+    width: 100%;
+    padding-left: 10px;
+    border-bottom: 1px solid #ccc;
+    font-size: 30px;
+    display: block;
+    margin: 0;
 }
 
-.middle:hover {
-    padding: 0;
-    color: #368798;
-    display: inline;
+#main-bottom {
+    background-color: transparent;
+    display: block;
+    padding: 20px;
+    margin: 0;
 }
 
-    #main-top {
-        min-width: 700px;
-        width: 100%;
-        padding-left: 10px;
-        border-bottom: 1px solid #ccc;
-        font-size: 30px;
-        display: block;
-        margin: 0;
-    }
-
-    #main-bottom {
-        background-color: transparent;
-        display: block;
-        padding: 20px;
-        margin: 0;
-    }
 
 td, th {
     padding-left: 10px;
@@ -156,6 +125,7 @@ th {
     list-style-type: disc;
 }
 
+/* Used by main pages */
 .page-nav-container {
     display: block;
     margin-top: 12px;
@@ -188,15 +158,24 @@ th {
     color: white;
 }
 
-.related-object-link {
+.related-object-link,
+.related-object-link:hover {
     text-decoration: none;
     color: black;
+}
+
+.related-object-link:hover {
+    background-color: #368798;
 }
 
 .related-object-div {
     padding: 5px;
     border-bottom: 1px solid black;
     color: black;
+}
+
+.related-object-div:hover {
+    background-color: #368798;
 }
 
 

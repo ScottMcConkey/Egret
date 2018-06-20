@@ -2,6 +2,12 @@
     $("div#main").css("min-height", $("div.leftnav").height() + "px");
 }
 
+function AddTableRow() {
+    $("#tests tr:last").after(
+        "<tr class='fabrictests'><td><input class='form-control' type='text' name='FabricTests[" + $('.fabrictests').length + "].Name' /></td><td>" +
+        "<input class='form-control' type='text' name='FabricTests[" + $('.fabrictests').length + "].Result' /></td></tr>");
+}
+
 $(document).ready(function () {
 
     $("div#main-top").css("height", $("div.leftnav ul li").height() + 1 + "px");

@@ -36,10 +36,10 @@ namespace Egret.Models
         public decimal? ValueConsumed { get; set; }
 
 
-        public string InventoryItem { get; set; }
+        public string InventoryItemCode { get; set; }
 
 
-
+        public Unit UnitNavigation { get; set; }
         public InventoryItem InventoryItemNavigation { get; set; }
     }
 }

@@ -81,17 +81,24 @@ namespace Egret.DataAccess
 
             modelBuilder.Entity<CurrencyType>(entity =>
             {
-                // Table definition
+                // Table
                 entity.ToTable("currency_types");
 
                 // Indexes
+                entity.HasIndex(e => e.Id)
+                    .HasName("ix_currencytypes_id")
+                    .IsUnique();
+
                 entity.HasIndex(e => e.Abbreviation)
                     .HasName("ix_currencytypes_abbreviation")
                     .IsUnique();
 
-                entity.HasIndex(e => e.SortOrder)
-                    .HasName("ix_currencytypes_sortorder")
-                    .IsUnique();
+                // Keys
+                entity.HasKey(k => k.Id)
+                    .HasName("pk_currencytypes_id");
+
+                entity.HasAlternateKey(k => k.Abbreviation)
+                    .HasName("uk_currencytypes_abbreviation");
 
                 // Properties
                 entity.Property(e => e.Id)
@@ -122,12 +129,25 @@ namespace Egret.DataAccess
 
             modelBuilder.Entity<InventoryCategory>(entity =>
             {
+                // Table
                 entity.ToTable("inventory_categories");
 
-                entity.HasIndex(e => e.Name)
+                // Indexes
+                entity.HasIndex(i => i.Id)
+                    .HasName("ix_inventorycategories_id");
+
+                entity.HasIndex(i => i.Name)
                     .HasName("ix_inventorycategories_name")
                     .IsUnique();
 
+                // Keys
+                entity.HasKey(k => k.Id)
+                    .HasName("pk_inventorycategories_id");
+
+                entity.HasAlternateKey(k => k.Name)
+                    .HasName("uk_inventorycategories_name");
+
+                // Properties
                 entity.Property(e => e.Id)
                     .HasColumnName("id")
                     .HasDefaultValueSql("nextval('inventorycategories_id_seq'::regclass)");
@@ -148,8 +168,10 @@ namespace Egret.DataAccess
 
             modelBuilder.Entity<Unit>(entity =>
             {
+                // Table
                 entity.ToTable("units");
 
+                // Indexes
                 entity.HasIndex(e => e.SortOrder)
                     .HasName("ix_units_sortorder")
                     .IsUnique();
@@ -158,6 +180,14 @@ namespace Egret.DataAccess
                     .HasName("ix_units_abbreviation")
                     .IsUnique();
 
+                // Keys
+                entity.HasKey(e => e.Id)
+                    .HasName("pk_units_id");
+
+                entity.HasAlternateKey(e => e.Abbreviation)
+                    .HasName("uk_units_abbreviation");
+
+                // Properties
                 entity.Property(e => e.Id)
                     .HasColumnName("id")
                     .HasDefaultValueSql("nextval('units_id_seq'::regclass)");
@@ -180,10 +210,22 @@ namespace Egret.DataAccess
 
             modelBuilder.Entity<InventoryItem>(entity =>
             {
-                entity.HasKey(e => e.Code);
-
+                // Table
                 entity.ToTable("inventory_items");
 
+                // Indexes
+                entity.HasIndex(i => i.Code)
+                    .HasName("ix_inventoryitems_code")
+                    .IsUnique();
+
+                entity.HasIndex(i => i.Code)
+                    .HasName("ix_inventoryitems_description");
+
+                // Keys
+                entity.HasKey(k => k.Code)
+                    .HasName("pk_inventoryitems");
+
+                // Properties
                 entity.Property(e => e.Code)
                     .HasColumnName("code")
                     .HasDefaultValueSql("nextval('master_seq'::regclass)");
@@ -250,76 +292,87 @@ namespace Egret.DataAccess
 
                 entity.Property(e => e.Buyprice).HasColumnName("buyprice");
 
-                entity.Property(e => e.Buyunit).HasColumnName("buyunit_fk");
+                entity.Property(e => e.BuyUnit).HasColumnName("buyunit_fk");
 
                 entity.Property(e => e.Sellcurrency).HasColumnName("sellcurrency");
 
                 entity.Property(e => e.Sellprice).HasColumnName("sellprice");
 
-                entity.Property(e => e.Sellunit).HasColumnName("sellunit_fk");
+                entity.Property(e => e.SellUnit).HasColumnName("sellunit");
 
-                entity.Property(e => e.Supplier).HasColumnName("supplier_fk");
+                entity.Property(e => e.Supplier).HasColumnName("supplier");
 
                 
 
                 entity.HasOne(d => d.BuycurrencyNavigation)
-                    .WithMany(p => p.InventoryItemsBuycurrencyNavigation)
+                    .WithMany()
                     .HasPrincipalKey(p => p.Abbreviation)
                     .HasForeignKey(d => d.Buycurrency)
-                    .HasConstraintName("inventoryitems_buycurrency_fk")
+                    .HasConstraintName("fk_inventoryitems_buycurrency")
                     .OnDelete(DeleteBehavior.Restrict);
 
                 entity.HasOne(d => d.SellcurrencyNavigation)
-                    .WithMany(p => p.InventoryItemsSellcurrencyNavigation)
+                    .WithMany()
                     .HasPrincipalKey(p => p.Abbreviation)
                     .HasForeignKey(d => d.Sellcurrency)
-                    .HasConstraintName("inventoryitems_sellcurrency_fk")
+                    .HasConstraintName("fk_inventoryitems_sellcurrency")
                     .OnDelete(DeleteBehavior.Restrict);
 
-                entity.HasOne(d => d.BuyunitNavigation)
-                    .WithMany(p => p.InventoryItemsBuyunitNavigation)
+                entity.HasOne(d => d.BuyUnitNavigation)
+                    .WithMany()
                     .HasPrincipalKey(p => p.Abbreviation)
-                    .HasForeignKey(d => d.Buyunit)
-                    .HasConstraintName("inventoryitems_buyunit_fk")
+                    .HasForeignKey(d => d.BuyUnit)
+                    .HasConstraintName("fk_inventoryitems_buyunit")
                     .OnDelete(DeleteBehavior.Restrict);
 
-                entity.HasOne(d => d.SellunitNavigation)
-                    .WithMany(p => p.InventoryItemsSellunitNavigation)
+                entity.HasOne(d => d.SellUnitNavigation)
+                    .WithMany()
                     .HasPrincipalKey(p => p.Abbreviation)
-                    .HasForeignKey(d => d.Sellunit)
-                    .HasConstraintName("inventoryitems_sellunit_fk")
+                    .HasForeignKey(d => d.SellUnit)
+                    .HasConstraintName("fk_inventoryitems_sellunit")
                     .OnDelete(DeleteBehavior.Restrict);
 
                 entity.HasOne(d => d.CategoryNavigation)
-                    .WithMany(p => p.InventoryItems)
+                    .WithMany()
                     .HasPrincipalKey(p => p.Name)
                     .HasForeignKey(d => d.Category)
-                    .HasConstraintName("inventoryitems_category_fk")
+                    .HasConstraintName("fk_inventoryitems_category")
                     .OnDelete(DeleteBehavior.Restrict);
 
                 entity.HasMany(d => d.FabricTests)
                     .WithOne(p => p.InventoryItem)
                     .HasPrincipalKey(p => p.Code)
-                    .OnDelete(DeleteBehavior.Restrict);
+                    .HasConstraintName("fk_inventoryitems_fabrictests")
+                    .OnDelete(DeleteBehavior.Cascade);
 
                 entity.HasMany(d => d.ConsumptionEvents)
-                    .WithOne(p => p.InventoryItemNavigation);
+                    .WithOne(p => p.InventoryItemNavigation)
+                    .HasConstraintName("fk_inventoryitems_consumptionevents")
+                    .OnDelete(DeleteBehavior.Cascade);
             });
 
             modelBuilder.Entity<ConsumptionEvent>(entity =>
             {
+                // Table
                 entity.ToTable("consumption_events");
 
-                entity.HasIndex(e => e.Id)
-                    .HasName("id")
+                // Indexes
+                entity.HasIndex(i => i.Id)
+                    .HasName("ix_consumptionevents_id")
                     .IsUnique();
 
+                // Keys
+                entity.HasKey(k => k.Id)
+                    .HasName("pk_consumptionevents_id");
+
+
+                // Properties
                 entity.Property(e => e.Id)
                     .HasColumnName("id")
                     .HasDefaultValueSql("nextval('master_seq'::regclass)");
 
                 entity.Property(e => e.Unit)
-                    .HasColumnName("unit_id");
+                    .HasColumnName("unit");
 
                 entity.Property(e => e.QuantityConsumed)
                     .HasColumnName("quantity_consumed");
@@ -342,29 +395,35 @@ namespace Egret.DataAccess
                 entity.Property(e => e.ValueConsumed)
                     .HasColumnName("value_consumed");
 
-
+                // Relationships
                 entity.HasOne(d => d.InventoryItemNavigation)
                     .WithMany(p => p.ConsumptionEvents)
                     .HasPrincipalKey(p => p.Code)
                     .OnDelete(DeleteBehavior.Cascade);
 
+                entity.HasOne(d => d.UnitNavigation)
+                    .WithMany()
+                    .HasPrincipalKey(p => p.Abbreviation)
+                    .OnDelete(DeleteBehavior.Restrict);
+
             });
 
             modelBuilder.Entity<Supplier>(entity =>
             {
+                // Table
                 entity.ToTable("suppliers");
 
+                // Indexes
                 entity.HasIndex(e => e.Id)
                     .HasName("ix_suppliers_pk")
                     .IsUnique();
 
+                // Properties
                 entity.Property(e => e.Id)
                     .HasColumnName("id")
                     .ValueGeneratedNever();
 
                 entity.Property(e => e.Id).HasColumnName("id");
-
-                entity.Property(e => e.Name).HasColumnName("name");
 
                 entity.Property(e => e.Name)
                     .IsRequired()
@@ -374,17 +433,25 @@ namespace Egret.DataAccess
 
             modelBuilder.Entity<FabricTest>(entity =>
                 {
+                    // Table
                     entity.ToTable("fabric_tests");
 
-                    entity.HasIndex(e => e.Id)
-                        .HasName("ix_fabrictests_pk")
+                    // Indexes
+                    entity.HasIndex(i => i.Id)
+                        .HasName("ix_fabrictests_id")
                         .IsUnique();
 
+                    // Keys
+
+                    // Properties
                     entity.Property(e => e.Id).HasColumnName("id");
 
                     entity.Property(e => e.Name).HasColumnName("name");
 
                     entity.Property(e => e.Result).HasColumnName("result");
+
+                    entity.HasOne(e => e.InventoryItem)
+                        .WithMany(p => p.FabricTests);
                 }
             );
 

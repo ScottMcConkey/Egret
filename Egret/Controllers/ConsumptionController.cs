@@ -39,8 +39,21 @@ namespace Egret.Controllers
         }
 
         [HttpGet]
-        public IActionResult Create(string id)
+        public IActionResult Create(string inventoryid)
         {
+            return View();
+        }
+
+        [HttpPost]
+        public IActionResult Create(ConsumptionEvent consumptionEvent)
+        {
+            if (ModelState.IsValid)
+            {
+
+                Context.ConsumptionEvents.Add(consumptionEvent);
+                Context.SaveChanges();
+                return RedirectToAction("Edit", "Inventory", new { id = consumptionEvent.InventoryItemCode });
+            }
             return View();
         }
     }

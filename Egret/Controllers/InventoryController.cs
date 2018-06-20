@@ -23,12 +23,7 @@ namespace Egret.Controllers
             ActiveCurrencyTypes = Context.CurrencyTypes.Where(x => x.Active == true).OrderBy(x => x.SortOrder);
             ActiveUnits = Context.Units.Where(x => x.Active == true).OrderBy(x => x.SortOrder);
             ActiveInventoryCategories = Context.InventoryCategories.Where(x => x.Active == true).OrderBy(x => x.SortOrder);
-            var egretContext = Context.InventoryItems
-                .Include(i => i.BuycurrencyNavigation)
-                .Include(i => i.BuyunitNavigation)
-                .Include(i => i.CategoryNavigation)
-                .Include(i => i.SellcurrencyNavigation)
-                .Include(i => i.SellunitNavigation);
+            var egretContext = Context.InventoryItems;
         }
 
         [HttpGet]
@@ -74,10 +69,10 @@ namespace Egret.Controllers
                 return RedirectToAction(nameof(Index));
             }
             ViewData["Buycurrency"] = new SelectList(ActiveCurrencyTypes, "Abbreviation", "Abbreviation", inventoryItem.Buycurrency);
-            ViewData["Buyunit"] = new SelectList(ActiveUnits, "Abbreviation", "Abbreviation", inventoryItem.Buyunit);
+            ViewData["Buyunit"] = new SelectList(ActiveUnits, "Abbreviation", "Abbreviation", inventoryItem.BuyUnit);
             ViewData["Category"] = new SelectList(ActiveInventoryCategories, "Name", "Name", inventoryItem.Category);
             ViewData["Sellcurrency"] = new SelectList(ActiveCurrencyTypes, "Abbreviation", "Abbreviation", inventoryItem.Sellcurrency);
-            ViewData["Sellunit"] = new SelectList(ActiveUnits, "Abbreviation", "Abbreviation", inventoryItem.Sellunit);
+            ViewData["Sellunit"] = new SelectList(ActiveUnits, "Abbreviation", "Abbreviation", inventoryItem.SellUnit);
             return View(inventoryItem);
         }
 
@@ -90,17 +85,21 @@ namespace Egret.Controllers
                 return NotFound();
             }
 
-            var item = await Context.InventoryItems.Include(i => i.ConsumptionEvents).SingleOrDefaultAsync(m => m.Code == id);
+            var item = await Context.InventoryItems
+                .Include(i => i.ConsumptionEvents)
+                .Include(i => i.FabricTests)
+                .SingleOrDefaultAsync(m => m.Code == id);
             if (item == null)
             {
                 return NotFound();
             }
             ViewData["Buycurrency"] = new SelectList(ActiveCurrencyTypes, "Abbreviation", "Abbreviation", item.Buycurrency);
-            ViewData["Buyunit"] = new SelectList(ActiveUnits, "Abbreviation", "Abbreviation", item.Buyunit);
+            ViewData["Buyunit"] = new SelectList(ActiveUnits, "Abbreviation", "Abbreviation", item.BuyUnit);
             ViewData["Category"] = new SelectList(ActiveInventoryCategories, "Name", "Name", item.Category);
             ViewData["Sellcurrency"] = new SelectList(ActiveCurrencyTypes, "Abbreviation", "Abbreviation", item.Sellcurrency);
-            ViewData["Sellunit"] = new SelectList(ActiveUnits, "Abbreviation", "Abbreviation", item.Sellunit);
+            ViewData["Sellunit"] = new SelectList(ActiveUnits, "Abbreviation", "Abbreviation", item.SellUnit);
             presentation.Item = item;
+            presentation.FabricTests = item.FabricTests.ToList();
             presentation.ConsumptionEvents = item.ConsumptionEvents.ToList();
 
             return View(presentation);
@@ -114,6 +113,16 @@ namespace Egret.Controllers
             {
                 item.UpdatedBy = User.Identity.Name;
                 item.DateUpdated = DateTime.Now;
+
+                //if (item.FabricTests != null)
+                //{
+                //    foreach (var i in item.FabricTests)
+                //    {
+                //        Context.FabricTests.Add(i);
+                //    }
+                //}
+                
+
                 Context.Update(item);
                 await Context.SaveChangesAsync();
                 TempData["SuccessMessage"] = "Save Complete";
@@ -130,13 +139,7 @@ namespace Egret.Controllers
                 return NotFound();
             }
 
-            var inventoryItems = await Context.InventoryItems
-                .Include(i => i.BuycurrencyNavigation)
-                .Include(i => i.BuyunitNavigation)
-                .Include(i => i.CategoryNavigation)
-                .Include(i => i.SellcurrencyNavigation)
-                .Include(i => i.SellunitNavigation)
-                .SingleOrDefaultAsync(m => m.Code == id);
+            var inventoryItems = await Context.InventoryItems.SingleOrDefaultAsync(m => m.Code == id);
             if (inventoryItems == null)
             {
                 return NotFound();
@@ -165,13 +168,7 @@ namespace Egret.Controllers
         [ValidateAntiForgeryToken]
         public IActionResult Search(InventorySearchViewModel item)
         {
-            var results = Context.InventoryItems
-                .Include(i => i.BuycurrencyNavigation)
-                .Include(i => i.BuyunitNavigation)
-                .Include(i => i.CategoryNavigation)
-                .Include(i => i.SellcurrencyNavigation)
-                .Include(i => i.SellunitNavigation)
-                .AsQueryable();
+            var results = Context.InventoryItems.AsQueryable();
 
             if (!String.IsNullOrEmpty(item.Code))
             {
