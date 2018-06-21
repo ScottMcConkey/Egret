@@ -32,7 +32,7 @@
                             </div>
                             <div class="form-group">
                                 <label asp-for="Item.Description" class="control-label"></label>
-                                <input asp-for="Item.Description" class="form-control" />
+                                <textarea asp-for="Item.Description" class="form-control" style="height: 6em;"></textarea>
                                 <span asp-validation-for="Item.Description" class="text-danger"></span>
                             </div>
                             <div class="form-group">
@@ -240,6 +240,31 @@
             </div><!-- End First col-md-8 -->
 
             <div class="col-md-4">
+
+                <div style="border: 1px solid black; padding: 5px">
+                    <table>
+                        <tr>
+                            <td>Added By:</td>
+                            <td>@Model.Item.AddedBy</td>
+                        </tr>
+                        <tr>
+                            <td>Added On:</td>
+                            <td>@Model.Item.DateAdded.Value.ToShortDateString()</td>
+                        </tr>
+                        <tr>
+                            <td>Updated By:</td>
+                            <td>@Model.Item.UpdatedBy</td>
+                        </tr>
+                        <tr>
+                            <td>Update On:</td>
+                            <td>@Model.Item.DateUpdated.Value.ToShortDateString()</td>
+                        </tr>
+                    </table>
+                </div>
+
+                <br />
+                <br />
+
                 <div class="related-objects">
                     <div class="related-objects-header">
                         Consumption Events
@@ -248,7 +273,6 @@
                     @if (Model.ConsumptionEvents.Count() == 0)
                     {
                         <div class="related-object-blank">There are currently no Consumption Items.</div>
-
                     }
                     @foreach (ConsumptionEvent e in Model.ConsumptionEvents.OrderBy(x => x.DateOfConsumption))
                     {
@@ -263,26 +287,6 @@
 
                 <br />
 
-                <div class="form-group">
-                    <label asp-for="Item.AddedBy" class="control-label"></label>
-                    <input asp-for="Item.AddedBy" class="form-control" readonly="readonly" />
-                    <span asp-validation-for="Item.AddedBy" class="text-danger"></span>
-                </div>
-                <div class="form-group">
-                    <label asp-for="Item.UpdatedBy" class="control-label"></label>
-                    <input asp-for="Item.UpdatedBy" class="form-control" readonly="readonly" />
-                    <span asp-validation-for="Item.UpdatedBy" class="text-danger"></span>
-                </div>
-                <div class="form-group">
-                    <label asp-for="Item.DateAdded" class="control-label"></label>
-                    <input asp-for="Item.DateAdded" class="form-control" />
-                    <span asp-validation-for="Item.DateAdded" class="text-danger"></span>
-                </div>
-                <div class="form-group">
-                    <label asp-for="Item.DateUpdated" class="control-label"></label>
-                    <input asp-for="Item.DateUpdated" class="form-control" readonly="readonly" />
-                    <span asp-validation-for="Item.DateUpdated" class="text-danger"></span>
-                </div>
                 <div class="form-group">
                     <label asp-for="Item.DateConfirmed" class="control-label"></label>
                     <input asp-for="Item.DateConfirmed" class="form-control" />

@@ -99,6 +99,7 @@ namespace Egret.Controllers
             ViewData["Category"] = new SelectList(ActiveInventoryCategories, "Name", "Name", item.Category);
             ViewData["Sellcurrency"] = new SelectList(ActiveCurrencyTypes, "Abbreviation", "Abbreviation", item.Sellcurrency);
             ViewData["Sellunit"] = new SelectList(ActiveUnits, "Abbreviation", "Abbreviation", item.SellUnit);
+
             presentation.Item = item;
             presentation.FabricTests = item.FabricTests.ToList();
             presentation.ConsumptionEvents = item.ConsumptionEvents.ToList();
@@ -127,7 +128,10 @@ namespace Egret.Controllers
                     }
                 }
 
+                
                 Context.InventoryItems.Update(vm.Item);
+                Context.Entry(vm.Item).Property(x => x.AddedBy).IsModified = false;
+                Context.Entry(vm.Item).Property(x => x.DateAdded).IsModified = false;
 
                 await Context.SaveChangesAsync();
                 TempData["SuccessMessage"] = "Save Complete";

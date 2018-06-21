@@ -177,7 +177,7 @@ th {
 }
 
 .related-object-div:hover {
-    background-color: #368798;
+    background-color: lightgray; /*#368798*/
 }
 
 .related-object-blank {
@@ -185,6 +185,3 @@ th {
     border-bottom: 1px solid black;
     color: black;
 }
-
-
-

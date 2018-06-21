@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using System.ComponentModel;
 using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
-using Egret.Models;
+using Microsoft.AspNetCore.Mvc.ModelBinding;
 
 namespace Egret.Models
 {
@@ -16,20 +16,15 @@ namespace Egret.Models
         public string Code { get; set; }
 
         [Display(Name = "Date Added")]
-        [UIHint("Date")]
         public DateTime? DateAdded { get; set; }
 
         [Display(Name = "Added By")]
-        [ReadOnly(true)]
         public string AddedBy { get; set; }
 
         [Display(Name = "Date Updated")]
-        [ReadOnly(true)]
-        [UIHint("Date")]
         public DateTime? DateUpdated { get; set; }
 
         [Display(Name = "Updated By")]
-        [ReadOnly(true)]
         public string UpdatedBy { get; set; }
 
         [Required]
