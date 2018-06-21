@@ -428,10 +428,7 @@ namespace Egret.DataAccess
 
                 // Properties
                 entity.Property(e => e.Id)
-                    .HasColumnName("id")
-                    .ValueGeneratedNever();
-
-                entity.Property(e => e.Id).HasColumnName("id");
+                    .HasColumnName("id");
 
                 entity.Property(e => e.Name)
                     .IsRequired()
@@ -479,24 +476,20 @@ namespace Egret.DataAccess
                                                 new { Id = 3, Name = "Indian Rupees", Symbol = "₹", Abbreviation = "INR", SortOrder = 3, Active = true, DefaultSelection = false });
 
             modelBuilder.Entity<InventoryCategory>().HasData(
-                                                new { Id = 1, Name = "Buckle Thread", Description = "", SortOrder = 1, Active = true },
-                                                new { Id = 2, Name = "Button", Description = "", SortOrder = 2, Active = true },
-                                                new { Id = 3, Name = "Elastic", Description = "", SortOrder = 3, Active = true },
-                                                new { Id = 4, Name = "Hang-Tag", Description = "", SortOrder = 4, Active = true },
-                                                new { Id = 5, Name = "Knit Fabric", Description = "", SortOrder = 5, Active = true },
-                                                new { Id = 6, Name = "Label", Description = "", SortOrder = 6, Active = true },
-                                                new { Id = 7, Name = "Leather", Description = "", SortOrder = 7, Active = true },
-                                                new { Id = 8, Name = "Other", Description = "", SortOrder = 8, Active = true },
-                                                new { Id = 9, Name = "Snap", Description = "", SortOrder = 9, Active = true },
-                                                new { Id = 10, Name = "Woven Fabric", Description = "", SortOrder = 10, Active = true },
-                                                new { Id = 11, Name = "Zipper", Description = "", SortOrder = 11, Active = true });
+                                                new { Id = 1, Name = "Elastic", Description = "", SortOrder = 1, Active = true },
+                                                new { Id = 2, Name = "Fastener", Description = "", SortOrder = 2, Active = true },
+                                                new { Id = 3, Name = "Knit", Description = "", SortOrder = 3, Active = true },
+                                                new { Id = 4, Name = "Labels and Tags", Description = "", SortOrder = 4, Active = true },
+                                                new { Id = 5, Name = "Leather", Description = "", SortOrder = 5, Active = true },
+                                                new { Id = 6, Name = "Other", Description = "", SortOrder = 6, Active = true },
+                                                new { Id = 7, Name = "Thread", Description = "", SortOrder = 7, Active = true },
+                                                new { Id = 8, Name = "Woven", Description = "", SortOrder = 8, Active = true },
+                                                new { Id = 9, Name = "Zipper", Description = "", SortOrder = 9, Active = true });
 
-            modelBuilder.Entity<Unit>().HasData(new { Id = 1, Name = "kilograms", Abbreviation = "kg", SortOrder = 1, Active = true },
-                                                new { Id = 2, Name = "meters", Abbreviation = "m", SortOrder = 2, Active = true },
-                                                new { Id = 3, Name = "each", Abbreviation = "ea", SortOrder = 3, Active = true },
-                                                new { Id = 4, Name = "grams per square meter", Abbreviation = "g/m2", SortOrder = 4, Active = true },
-                                                new { Id = 5, Name = "centimeters", Abbreviation = "cm", SortOrder = 5, Active = true },
-                                                new { Id = 6, Name = "square feet", Abbreviation = "sqf", SortOrder = 6, Active = true });
+            modelBuilder.Entity<Unit>().HasData(new { Id = 1, Name = "kilogram", Abbreviation = "kg", SortOrder = 1, Active = true },
+                                                new { Id = 2, Name = "meter", Abbreviation = "meter", SortOrder = 2, Active = true },
+                                                new { Id = 3, Name = "piece", Abbreviation = "piece", SortOrder = 3, Active = true },
+                                                new { Id = 4, Name = "set", Abbreviation = "set", SortOrder = 4, Active = true });
 
             modelBuilder.Entity<User>().HasData(new
             {

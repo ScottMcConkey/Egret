@@ -47,19 +47,6 @@
                                 <input asp-for="Item.QtyPurchased" class="form-control" />
                                 <span asp-validation-for="Item.QtyPurchased" class="text-danger"></span>
                             </div>
-                            <label asp-for="Item.Sellprice" class="control-label"></label>
-                            <div class="form-group form-inline">
-                                <input asp-for="Item.Sellprice" class="form-control" style="width: 25%;" />
-                                <select asp-for="Item.Sellcurrency" class="form-control" style="width: 25%;" asp-items="ViewBag.Sellcurrency">
-                                    <option value=""></option>
-                                </select>
-                                <select asp-for="Item.SellUnit" class="form-control" style="width: 20%;" asp-items="ViewBag.Sellunit">
-                                    <option value=""></option>
-                                </select>
-                                <span asp-validation-for="Item.Sellprice" class="text-danger"></span>
-                                <span asp-validation-for="Item.Sellcurrency" class="text-danger"></span>
-                                <span asp-validation-for="Item.SellUnit" class="text-danger"></span>
-                            </div>
                             <label asp-for="Item.Buyprice" class="control-label"></label>
                             <div class="form-group form-inline" style="width: 100%">
                                 <input asp-for="Item.Buyprice" class="form-control" style="width: 25%;" />
@@ -102,16 +89,6 @@
                                 <span asp-validation-for="Item.ApproxProdQty" class="text-danger"></span>
                             </div>
                             <div class="form-group">
-                                <label asp-for="Item.FabricTests_Conversion" class="control-label"></label>
-                                <input asp-for="Item.FabricTests_Conversion" class="form-control" />
-                                <span asp-validation-for="Item.FabricTests_Conversion" class="text-danger"></span>
-                            </div>
-                            <div class="form-group">
-                                <label asp-for="Item.FabricTestResults" class="control-label"></label>
-                                <input asp-for="Item.FabricTestResults" class="form-control" />
-                                <span asp-validation-for="Item.FabricTestResults" class="text-danger"></span>
-                            </div>
-                            <div class="form-group">
                                 <label asp-for="Item.NeededBefore" class="control-label"></label>
                                 <input asp-for="Item.NeededBefore" class="form-control" />
                                 <span asp-validation-for="Item.NeededBefore" class="text-danger"></span>
@@ -128,7 +105,7 @@
                             </div>
                             <div class="form-group">
                                 <label asp-for="Item.BondedWarehouse" class="control-label"></label>
-                                <input asp-for="Item.BondedWarehouse" class="form-control" />
+                                <input asp-for="Item.BondedWarehouse" class="checkbox" />
                                 <span asp-validation-for="Item.BondedWarehouse" class="text-danger"></span>
                             </div>
                             <div class="form-group">
@@ -268,6 +245,11 @@
                         Consumption Events
                         <a asp-route-inventoryid="@Model.Item.Code" asp-controller="Consumption" asp-action="Create"><span title="Add Consumption Event" style="float: right; top: -1px;" class="glyphicon glyphicon-plus" /></a>
                     </div>
+                    @if (Model.ConsumptionEvents.Count() == 0)
+                    {
+                        <div class="related-object-blank">There are currently no Consumption Items.</div>
+
+                    }
                     @foreach (ConsumptionEvent e in Model.ConsumptionEvents.OrderBy(x => x.DateOfConsumption))
                     {
                         <a class="related-object-link" target="_blank" asp-controller="Consumption" asp-action="Edit" asp-route-id="@e.Id">

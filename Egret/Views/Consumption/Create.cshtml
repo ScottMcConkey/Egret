@@ -6,34 +6,56 @@
 }
 
 <form asp-action="Create">
+    <div class="row">
+        <div class="col-md-4">
 
-    <div>
-        @if (!String.IsNullOrEmpty(Context.Request.Query["inventoryid"]))
-        {
-            <input asp-for="InventoryItemCode" type="hidden" name="InventoryItemCode" value="@Context.Request.Query["inventoryid"]" />
-        }
+            <div>
+                @if (!String.IsNullOrEmpty(Context.Request.Query["inventoryid"]))
+                {
+                    <input asp-for="InventoryItemCode" type="hidden" name="InventoryItemCode" value="@Context.Request.Query["inventoryid"]" />
+                }
+            </div>
+
+            <div class="form-group">
+                <label asp-for="@Model.DateOfConsumption" class="control-label"></label>
+                <input asp-for="@Model.DateOfConsumption" class="form-control" />
+                <span asp-validation-for="@Model.DateOfConsumption" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="@Model.ConsumedBy" class="control-label"></label>
+                <input asp-for="@Model.ConsumedBy" class="form-control" />
+                <span asp-validation-for="@Model.ConsumedBy" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="@Model.SampleOrderNumber" class="control-label"></label>
+                <input asp-for="@Model.SampleOrderNumber" class="form-control" />
+                <span asp-validation-for="@Model.SampleOrderNumber" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="@Model.ProductionOrderNumber" class="control-label"></label>
+                <input asp-for="@Model.ProductionOrderNumber" class="form-control" />
+                <span asp-validation-for="@Model.ProductionOrderNumber" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="@Model.PatternNumber" class="control-label"></label>
+                <input asp-for="@Model.PatternNumber" class="form-control" />
+                <span asp-validation-for="@Model.PatternNumber" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="@Model.QuantityConsumed" class="control-label"></label>
+                <input asp-for="@Model.QuantityConsumed" class="form-control" />
+                <span asp-validation-for="@Model.QuantityConsumed" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="@Model.ValueConsumed" class="control-label"></label>
+                <input asp-for="@Model.ValueConsumed" class="form-control" />
+                <span asp-validation-for="@Model.ValueConsumed" class="text-danger"></span>
+            </div>
+
+            <button type="submit" class="btn btn-primary">Save and Return to Inventory</button>
+            <button type="submit" class="btn btn-primary">Save</button>
+            <a asp-action="Index" class="btn btn-default">Cancel</a>
+        </div>
     </div>
-
-
-    <div class="form-group">
-        <label asp-for="@Model.QuantityConsumed" class="control-label"></label>
-        <input asp-for="@Model.QuantityConsumed" class="form-control" />
-        <span asp-validation-for="@Model.QuantityConsumed" class="text-danger"></span>
-    </div>
-    <div class="form-group">
-        <label asp-for="@Model.DateOfConsumption" class="control-label"></label>
-        <input asp-for="@Model.DateOfConsumption" class="form-control" />
-        <span asp-validation-for="@Model.DateOfConsumption" class="text-danger"></span>
-    </div>
-    <div class="form-group">
-        <label asp-for="@Model.PatternNumber" class="control-label"></label>
-        <input asp-for="@Model.PatternNumber" class="form-control" />
-        <span asp-validation-for="@Model.PatternNumber" class="text-danger"></span>
-    </div>
-
-    <button type="submit" class="btn btn-primary">Save and Return to Inventory</button>
-    <button type="submit" class="btn btn-primary">Save</button>
-    <a asp-action="Index" class="btn btn-default">Cancel</a>
-
 </form>
 

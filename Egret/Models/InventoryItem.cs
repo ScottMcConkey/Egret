@@ -42,7 +42,7 @@ namespace Egret.Models
         public string CustomerReservedFor { get; set; }
 
         [UIHint("Text")]
-        public int? Supplier { get; set; }
+        public string Supplier { get; set; }
 
         [Display(Name = "Quantity to Purchase Now")]
         public string QtyToPurchaseNow { get; set; }
@@ -67,7 +67,8 @@ namespace Egret.Models
         public string ShippingCompany { get; set; }
 
         [Display(Name = "Bonded Warehouse?")]
-        public bool? BondedWarehouse { get; set; }
+        [UIHint("checkbox")]
+        public bool BondedWarehouse { get; set; }
 
         [Display(Name = "Date of Order Confirmed")]
         [UIHint("Date")]

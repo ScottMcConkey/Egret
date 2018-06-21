@@ -9,14 +9,10 @@
     <div class="row">
         <div class="col-md-4">
             <div class="form-group">
+                <input type="hidden" asp-for="@Model.InventoryItemCode" />
                 <label asp-for="@Model.Id" class="control-label"></label>
                 <input asp-for="@Model.Id" class="form-control" disabled />
                 <span asp-validation-for="@Model.Id" class="text-danger"></span>
-            </div>
-            <div class="form-group">
-                <label asp-for="@Model.QuantityConsumed" class="control-label"></label>
-                <input asp-for="@Model.QuantityConsumed" class="form-control" />
-                <span asp-validation-for="@Model.QuantityConsumed" class="text-danger"></span>
             </div>
             <div class="form-group">
                 <label asp-for="@Model.DateOfConsumption" class="control-label"></label>
@@ -24,9 +20,34 @@
                 <span asp-validation-for="@Model.DateOfConsumption" class="text-danger"></span>
             </div>
             <div class="form-group">
-                <label asp-for="@Model.InventoryItemCode" class="control-label"></label>
-                <input asp-for="@Model.InventoryItemCode" class="form-control" />
-                <span asp-validation-for="@Model.InventoryItemCode" class="text-danger"></span>
+                <label asp-for="@Model.ConsumedBy" class="control-label"></label>
+                <input asp-for="@Model.ConsumedBy" class="form-control" />
+                <span asp-validation-for="@Model.ConsumedBy" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="@Model.ProductionOrderNumber" class="control-label"></label>
+                <input asp-for="@Model.ProductionOrderNumber" class="form-control" />
+                <span asp-validation-for="@Model.ProductionOrderNumber" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="@Model.SampleOrderNumber" class="control-label"></label>
+                <input asp-for="@Model.SampleOrderNumber" class="form-control" />
+                <span asp-validation-for="@Model.SampleOrderNumber" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="@Model.PatternNumber" class="control-label"></label>
+                <input asp-for="@Model.PatternNumber" class="form-control" />
+                <span asp-validation-for="@Model.PatternNumber" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="@Model.QuantityConsumed" class="control-label"></label>
+                <input asp-for="@Model.QuantityConsumed" class="form-control" />
+                <span asp-validation-for="@Model.QuantityConsumed" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="@Model.ValueConsumed" class="control-label"></label>
+                <input asp-for="@Model.ValueConsumed" class="form-control" />
+                <span asp-validation-for="@Model.ValueConsumed" class="text-danger"></span>
             </div>
         </div>
     </div>

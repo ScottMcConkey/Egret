@@ -130,7 +130,7 @@ namespace Egret.Controllers
                 Context.InventoryItems.Update(vm.Item);
 
                 await Context.SaveChangesAsync();
-                //TempData["SuccessMessage"] = "Save Complete";
+                TempData["SuccessMessage"] = "Save Complete";
                 return RedirectToAction();
             }
             return View(vm);

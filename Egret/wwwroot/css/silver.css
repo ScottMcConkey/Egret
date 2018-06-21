@@ -180,5 +180,11 @@ th {
     background-color: #368798;
 }
 
+.related-object-blank {
+    padding: 5px;
+    border-bottom: 1px solid black;
+    color: black;
+}
+
 
 
