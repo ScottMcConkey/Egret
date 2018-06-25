@@ -7,12 +7,8 @@ using Microsoft.AspNetCore.Mvc.ModelBinding;
 
 namespace Egret.Models
 {
-    /// <summary>
-    /// Test
-    /// </summary>
     public partial class InventoryItem
     {
-        [Key]
         public string Code { get; set; }
 
         [Display(Name = "Date Added")]
@@ -36,7 +32,6 @@ namespace Egret.Models
         [Display(Name = "Customer Reserved For")]
         public string CustomerReservedFor { get; set; }
 
-        [UIHint("Text")]
         public string Supplier { get; set; }
 
         [Display(Name = "Quantity to Purchase Now")]
@@ -140,8 +135,6 @@ namespace Egret.Models
             private set { }
         }
 
-
-
         public string Comment { get; set; }
 
         [Display(Name = "Quantity Purchased")]
@@ -224,17 +217,15 @@ namespace Egret.Models
         }
 
 
-        [Display(Name = "Sell Price")]
-        public decimal? Sellprice { get; set; }
-        [Display(Name = "Sell Currency")]
-        public string Sellcurrency { get; set; }
         [Display(Name = "Buy Price")]
         public decimal? Buyprice { get; set; }
+
         [Display(Name = "Buy Currency")]
         public string Buycurrency { get; set; }
 
         [Display(Name = "Buy Unit")]
         public string BuyUnit { get; set; }
+
         [Display(Name = "Sell Unit")]
         public string SellUnit { get; set; }
 
@@ -243,17 +234,17 @@ namespace Egret.Models
 
         [Display(Name = "Is Conversion?")]
         public bool IsConversion { get; set; }
+
         [Display(Name = "Conversion Source")]
         [ReadOnly(true)]
         public string ConversionSource { get; set; }
         
 
         public CurrencyType BuycurrencyNavigation { get; set; }
-        public InventoryCategory CategoryNavigation { get; set; }
-        public CurrencyType SellcurrencyNavigation { get; set; }
         public Unit BuyUnitNavigation { get; set; }
-        public Unit SellUnitNavigation { get; set; }
-        public ICollection<FabricTest> FabricTests { get; set; }
-        public ICollection<ConsumptionEvent> ConsumptionEvents { get; set; }
+        public InventoryCategory CategoryNavigation { get; set; }
+        public Unit UnitNavigation { get; set; }
+        public ICollection<FabricTest> FabricTestsNavigation { get; set; }
+        public ICollection<ConsumptionEvent> ConsumptionEventsNavigation { get; set; }
     }
 }

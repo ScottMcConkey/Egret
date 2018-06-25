@@ -49,6 +49,13 @@
                 <input asp-for="@Model.ValueConsumed" class="form-control" />
                 <span asp-validation-for="@Model.ValueConsumed" class="text-danger"></span>
             </div>
+            <div class="form-group">
+                <label asp-for="@Model.Unit" class="control-label"></label>
+                <select asp-for="@Model.Unit" class="form-control" style="width: 20%;" asp-items="ViewBag.Unit">
+                    <option value=""></option>
+                </select>
+                <span asp-validation-for="@Model.Unit" class="text-danger"></span>
+            </div>
         </div>
     </div>
 

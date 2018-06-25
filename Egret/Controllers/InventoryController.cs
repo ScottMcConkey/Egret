@@ -41,17 +41,15 @@ namespace Egret.Controllers
             if (CurrencyDefault.Any())
             {
                 ViewData["Buycurrency"] = new SelectList(ActiveCurrencyTypes, "Abbreviation", "Abbreviation", CurrencyDefault.First().Abbreviation);
-                ViewData["Sellcurrency"] = new SelectList(ActiveCurrencyTypes, "Abbreviation", "Abbreviation", CurrencyDefault.First().Abbreviation);
             }
             else
             {
                 ViewData["Buycurrency"] = new SelectList(ActiveCurrencyTypes, "Abbreviation", "Abbreviation");
-                ViewData["Sellcurrency"] = new SelectList(ActiveCurrencyTypes, "Abbreviation", "Abbreviation");
             }
 
             ViewData["Buyunit"] = new SelectList(ActiveUnits, "Abbreviation", "Abbreviation");
             ViewData["Category"] = new SelectList(ActiveInventoryCategories, "Name", "Name");
-            ViewData["Sellunit"] = new SelectList(ActiveUnits, "Abbreviation", "Abbreviation");
+            ViewData["Unit"] = new SelectList(ActiveUnits, "Abbreviation", "Abbreviation");
             return View();
         }
 
@@ -67,13 +65,13 @@ namespace Egret.Controllers
                 inventoryItem.DateUpdated = DateTime.Now;
                 Context.Add(inventoryItem);
                 await Context.SaveChangesAsync();
+                TempData["SuccessMessage"] = "Inventory Item Created";//new Html"Inventory Item Created: <a asp-action=\"Edit\" asp-route-id=\"" + inventoryItem.Code + "\">View</a>";
                 return RedirectToAction(nameof(Index));
             }
             ViewData["Buycurrency"] = new SelectList(ActiveCurrencyTypes, "Abbreviation", "Abbreviation", inventoryItem.Buycurrency);
             ViewData["Buyunit"] = new SelectList(ActiveUnits, "Abbreviation", "Abbreviation", inventoryItem.BuyUnit);
             ViewData["Category"] = new SelectList(ActiveInventoryCategories, "Name", "Name", inventoryItem.Category);
-            ViewData["Sellcurrency"] = new SelectList(ActiveCurrencyTypes, "Abbreviation", "Abbreviation", inventoryItem.Sellcurrency);
-            ViewData["Sellunit"] = new SelectList(ActiveUnits, "Abbreviation", "Abbreviation", inventoryItem.SellUnit);
+            ViewData["Unit"] = new SelectList(ActiveUnits, "Abbreviation", "Abbreviation", inventoryItem.Unit);
             return View(inventoryItem);
         }
 
@@ -87,8 +85,8 @@ namespace Egret.Controllers
             }
 
             var item = await Context.InventoryItems
-                .Include(i => i.ConsumptionEvents)
-                .Include(i => i.FabricTests)
+                .Include(i => i.ConsumptionEventsNavigation)
+                .Include(i => i.FabricTestsNavigation)
                 .SingleOrDefaultAsync(m => m.Code == id);
             if (item == null)
             {
@@ -97,12 +95,11 @@ namespace Egret.Controllers
             ViewData["Buycurrency"] = new SelectList(ActiveCurrencyTypes, "Abbreviation", "Abbreviation", item.Buycurrency);
             ViewData["Buyunit"] = new SelectList(ActiveUnits, "Abbreviation", "Abbreviation", item.BuyUnit);
             ViewData["Category"] = new SelectList(ActiveInventoryCategories, "Name", "Name", item.Category);
-            ViewData["Sellcurrency"] = new SelectList(ActiveCurrencyTypes, "Abbreviation", "Abbreviation", item.Sellcurrency);
-            ViewData["Sellunit"] = new SelectList(ActiveUnits, "Abbreviation", "Abbreviation", item.SellUnit);
+            ViewData["Unit"] = new SelectList(ActiveUnits, "Abbreviation", "Abbreviation", item.Unit);
 
             presentation.Item = item;
-            presentation.FabricTests = item.FabricTests.ToList();
-            presentation.ConsumptionEvents = item.ConsumptionEvents.ToList();
+            presentation.FabricTests = item.FabricTestsNavigation.OrderBy(x => x.Id).ToList();
+            presentation.ConsumptionEvents = item.ConsumptionEventsNavigation.ToList();
 
             return View(presentation);
         }
@@ -111,30 +108,48 @@ namespace Egret.Controllers
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> Edit(string id, InventoryItemViewModel vm)
         {
+
             if (ModelState.IsValid)
             {
                 vm.Item.UpdatedBy = User.Identity.Name;
                 vm.Item.DateUpdated = DateTime.Now;
 
+                
                 if (vm.FabricTests != null)
                 {
-                    TempData["SuccessMessage"] = vm.FabricTests.Count.ToString();
+                    TempData["SuccessMessage"] = vm.FabricTests.Count().ToString();
 
                     foreach (FabricTest i in vm.FabricTests)
                     {
                         i.InventoryItemCode = vm.Item.Code;
+                        Context.FabricTests.Update(i);
+                    }
 
-                        Context.FabricTests.Update(i);              
+                    // Get related Fabric Tests from database
+                    List<FabricTest> DbTests = Context.FabricTests?.Where(x => x.InventoryItemCode == vm.Item.Code).ToList();
+                    foreach (FabricTest test in DbTests)
+                    {
+                        if (!vm.FabricTests.Contains(test))
+                        {
+                            Context.FabricTests.Remove(test);
+                        }
+                    }
+                }
+                else
+                {
+                    List<FabricTest> DbTests = Context.FabricTests?.Where(x => x.InventoryItemCode == vm.Item.Code).ToList();
+                    foreach (FabricTest ft in DbTests)
+                    {
+                        Context.FabricTests.Remove(ft);
                     }
                 }
 
-                
                 Context.InventoryItems.Update(vm.Item);
                 Context.Entry(vm.Item).Property(x => x.AddedBy).IsModified = false;
                 Context.Entry(vm.Item).Property(x => x.DateAdded).IsModified = false;
 
                 await Context.SaveChangesAsync();
-                TempData["SuccessMessage"] = "Save Complete";
+                //TempData["SuccessMessage"] = "Save Complete";
                 return RedirectToAction();
             }
             return View(vm);
@@ -187,7 +202,7 @@ namespace Egret.Controllers
             {
                 results = results.Where(x => x.Description.Contains(item.Description));
             }
-            return View("Results", results.ToList());
+            return View("Results", results.OrderBy(x => x.Code).ToList());
             //return RedirectToAction(SearchResults(results.ToList()));
 
         }

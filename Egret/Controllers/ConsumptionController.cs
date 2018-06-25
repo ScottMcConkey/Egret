@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.AspNetCore.Mvc.Rendering;
 using Egret.DataAccess;
 using Egret.Models;
 
@@ -16,6 +17,8 @@ namespace Egret.Controllers
         [HttpGet]
         public IActionResult Edit(string id)
         {
+            var ActiveUnits = Context.Units.Where(x => x.Active == true).OrderBy(x => x.SortOrder);
+            ViewData["Unit"] = new SelectList(ActiveUnits, "Abbreviation", "Abbreviation");
             ConsumptionEvent consumptionEvent = Context.ConsumptionEvents.Where(x => x.Id == id).FirstOrDefault();
 
             if (consumptionEvent != null)
@@ -35,12 +38,17 @@ namespace Egret.Controllers
                 TempData["SuccessMessage"] = "Save Complete";
                 return RedirectToAction(nameof(Edit));
             }
+            var ActiveUnits = Context.Units.Where(x => x.Active == true).OrderBy(x => x.SortOrder);
+            ViewData["Unit"] = new SelectList(ActiveUnits, "Abbreviation", "Abbreviation");
+
             return View(consumptionEvent);
         }
 
         [HttpGet]
         public IActionResult Create(string inventoryid)
         {
+            var ActiveUnits = Context.Units.Where(x => x.Active == true).OrderBy(x => x.SortOrder);
+            ViewData["Unit"] = new SelectList(ActiveUnits, "Abbreviation", "Abbreviation");
             return View();
         }
 
@@ -54,6 +62,9 @@ namespace Egret.Controllers
                 Context.SaveChanges();
                 return RedirectToAction("Edit", "Inventory", new { id = consumptionEvent.InventoryItemCode });
             }
+            var ActiveUnits = Context.Units.Where(x => x.Active == true).OrderBy(x => x.SortOrder);
+            ViewData["Unit"] = new SelectList(ActiveUnits, "Abbreviation", "Abbreviation");
+
             return View();
         }
     }

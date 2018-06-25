@@ -2,13 +2,64 @@
     $("div#main").css("min-height", $("div.leftnav").height() + "px");
 }
 
-function AddTableRow() {
-    $("#tests tr:last").after(
-        "<tr class='fabrictest'>" +
-            "<td><div class='form-group'><input class='form-control' type='text' name='FabricTests[" + $('.fabrictest').length + "].Name' /></div></td>" +
-            "<td><div class='form-group'><input class='form-control' type='text' name='FabricTests[" + $('.fabrictest').length + "].Result' /></div></td>" +
-        "</tr > ");
+function SetTestsForDelete() {
+    $(".delete").on("click", function() {
+        $(this).parent().parent().remove();
+        var manager = new TestManager();
+        manager.reOrder();
+    });
 }
+
+function AddTableRow() {
+    var manager = new TestManager();
+    manager.addOne();
+}
+
+class TestManager {
+
+    getCount() {
+        console.log($("tr.fabrictest").length);
+        return $("tr.fabrictest").length;
+    }
+
+    reOrder() {
+        if (this.getCount() > 0) {
+            for (var j = 0; j < this.getCount(); j++) {
+                var testId = $("input.testId")[j];
+                $(testId).attr("name", "FabricTests[" + j + "].Id");
+                console.log(testId);
+            };
+
+            for (var k = 0; k < this.getCount(); k++) {
+                var testname = $("input.testName")[k];
+                $(testname).attr("name", "FabricTests[" + k + "].Name");
+                console.log(testname);
+            };
+
+            for (var m = 0; m < this.getCount(); m++) {
+                var testresult = $("input.testResult")[m];
+                $(testresult).attr("name", "FabricTests[" + m + "].Result");
+                console.log(testresult);
+            };
+        };
+    }
+
+    addOne() {
+        $("tr#notests").remove();
+
+        $("#tests tr:last").after(
+            "<tr class='fabrictest'>" +
+                "<td><div class='form-group'><input class='form-control testName' type='text' name='FabricTests[" + this.getCount() + "].Name' /></div></td>" +
+                "<td><div class='form-group'><input class='form-control testResult' type='text' name='FabricTests[" + this.getCount() + "].Result' /></div></td>" +
+                "<td><a class='delete' title='Delete' href='#'>&times;</a></td>" +
+            "</tr>");
+
+        SetTestsForDelete();
+    }
+
+}
+
+
 
 $(document).ready(function () {
 
@@ -65,5 +116,8 @@ $(document).ready(function () {
             $(this).css({ "visibility": "hidden", display: 'block' }).slideUp();
         });
     });
+
+    SetTestsForDelete();
+
 
 });

@@ -44,8 +44,19 @@ namespace Egret.DataAccess
             modelBuilder.Entity<Role>(entity =>
             {
                 entity.ToTable("aspnet_roles");
+
                 entity.Property(u => u.Id)
+                    .HasColumnName("id")
                     .HasMaxLength(450);
+
+                entity.Property(p => p.Name)
+                    .HasColumnName("name");
+
+                entity.Property(p => p.NormalizedName)
+                    .HasColumnName("normalized_name");
+
+                entity.Property(p => p.ConcurrencyStamp)
+                    .HasColumnName("concurrency_stamp");
             });
 
             // Give all the Identity tables custom names that won't be generated
@@ -230,92 +241,76 @@ namespace Egret.DataAccess
                     .HasColumnName("code")
                     .HasDefaultValueSql("nextval('master_seq'::regclass)");
 
-                entity.Property(e => e.DateAdded).HasColumnName("dateadded");
-
-                entity.Property(e => e.AddedBy).HasColumnName("useraddedby");
-
-                entity.Property(e => e.DateUpdated).HasColumnName("dateupdated");
-
-                entity.Property(e => e.UpdatedBy).HasColumnName("userupdatedby");
-
                 entity.Property(e => e.Description)
                     .IsRequired()
                     .HasColumnName("description");
 
                 entity.Property(e => e.Category).HasColumnName("category");
 
-                entity.Property(e => e.CustomerPurchasedFor).HasColumnName("customerpurchasedfor");
+                entity.Property(e => e.QtyPurchased).HasColumnName("qty+purchased");
 
-                entity.Property(e => e.CustomerReservedFor).HasColumnName("customerreservedfor");
+                entity.Property(e => e.Unit).HasColumnName("unit");
+
+                entity.Property(e => e.Buyprice).HasColumnName("buy_price");
+
+                entity.Property(e => e.Buycurrency).HasColumnName("buy_currency");
+
+                entity.Property(e => e.BuyUnit).HasColumnName("buy_unit");
+
+                entity.Property(e => e.CustomerPurchasedFor).HasColumnName("customer_purchased_for");
+
+                entity.Property(e => e.CustomerReservedFor).HasColumnName("customer_reserved_for");
 
                 entity.Property(e => e.Supplier).HasColumnName("supplier");
 
-                entity.Property(e => e.QtyToPurchaseNow).HasColumnName("qtytopurchasenow");
+                entity.Property(e => e.QtyToPurchaseNow).HasColumnName("qty_to_purchase_now");
 
-                entity.Property(e => e.ApproxProdQty).HasColumnName("approxprodqty");
+                entity.Property(e => e.ApproxProdQty).HasColumnName("approx_prod_qty");
+
+                entity.Property(e => e.NeededBefore).HasColumnName("needed_before");
+
+                entity.Property(e => e.TargetPrice).HasColumnName("target_price");
+
+                entity.Property(e => e.ShippingCompany).HasColumnName("shipping_company");
+
+                entity.Property(e => e.BondedWarehouse).HasColumnName("bonded_warehouse");
+
+                entity.Property(e => e.Comment).HasColumnName("comment");
+
+                entity.Property(e => e.FOBCost).HasColumnName("fob_cost");
+
+                entity.Property(e => e.ShippingCost).HasColumnName("shipping_cost");
+
+                entity.Property(e => e.ImportCosts).HasColumnName("import_cost");
+
+                entity.Property(e => e.IsConversion).HasColumnName("is_conversion");
+
+                entity.Property(e => e.ConversionSource).HasColumnName("conversion_source");
+
+                entity.Property(e => e.DateAdded).HasColumnName("date_added");
+
+                entity.Property(e => e.AddedBy).HasColumnName("user_added_by");
+
+                entity.Property(e => e.DateUpdated).HasColumnName("date_updated");
+
+                entity.Property(e => e.UpdatedBy).HasColumnName("user_updated_by");
+
+                entity.Property(e => e.DateConfirmed).HasColumnName("date_confirmed");
+
+                entity.Property(e => e.DateShipped).HasColumnName("date_shipped");
+
+                entity.Property(e => e.DateArrived).HasColumnName("date_arrived");
 
                 entity.Property(e => e.FabricTests_Conversion).HasColumnName("fabrictests_conversion");
 
                 entity.Property(e => e.FabricTestResults).HasColumnName("fabrictestresults");
-
-                entity.Property(e => e.NeededBefore).HasColumnName("neededbefore");
-
-                entity.Property(e => e.TargetPrice).HasColumnName("targetprice");
-
-                entity.Property(e => e.ShippingCompany).HasColumnName("shippingcompany");
-
-                entity.Property(e => e.BondedWarehouse).HasColumnName("bondedwarehouse");
-
-                entity.Property(e => e.DateConfirmed).HasColumnName("dateconfirmed");
-
-                entity.Property(e => e.DateShipped).HasColumnName("dateshipped");
-
-                entity.Property(e => e.DateArrived).HasColumnName("datearrived");
-
-                entity.Property(e => e.Comment).HasColumnName("comment");
-
-                entity.Property(e => e.QtyPurchased).HasColumnName("qtypurchased");
-
-                entity.Property(e => e.Unit).HasColumnName("unit");
-
-                entity.Property(e => e.FOBCost).HasColumnName("fobcost");
-
-                entity.Property(e => e.ShippingCost).HasColumnName("shippingcost");
-
-                entity.Property(e => e.ImportCosts).HasColumnName("importcosts");
-
-                entity.Property(e => e.IsConversion).HasColumnName("isconversion");
-
-                entity.Property(e => e.ConversionSource).HasColumnName("conversionsource");
-
-                entity.Property(e => e.Buycurrency).HasColumnName("buycurrency");
-
-                entity.Property(e => e.Buyprice).HasColumnName("buyprice");
-
-                entity.Property(e => e.BuyUnit).HasColumnName("buyunit_fk");
-
-                entity.Property(e => e.Sellcurrency).HasColumnName("sellcurrency");
-
-                entity.Property(e => e.Sellprice).HasColumnName("sellprice");
-
-                entity.Property(e => e.SellUnit).HasColumnName("sellunit");
-
-                entity.Property(e => e.Supplier).HasColumnName("supplier");
-
                 
-
+                // Relationships
                 entity.HasOne(d => d.BuycurrencyNavigation)
                     .WithMany()
                     .HasPrincipalKey(p => p.Abbreviation)
                     .HasForeignKey(d => d.Buycurrency)
                     .HasConstraintName("fk_inventoryitems_buycurrency")
-                    .OnDelete(DeleteBehavior.Restrict);
-
-                entity.HasOne(d => d.SellcurrencyNavigation)
-                    .WithMany()
-                    .HasPrincipalKey(p => p.Abbreviation)
-                    .HasForeignKey(d => d.Sellcurrency)
-                    .HasConstraintName("fk_inventoryitems_sellcurrency")
                     .OnDelete(DeleteBehavior.Restrict);
 
                 entity.HasOne(d => d.BuyUnitNavigation)
@@ -325,12 +320,10 @@ namespace Egret.DataAccess
                     .HasConstraintName("fk_inventoryitems_buyunit")
                     .OnDelete(DeleteBehavior.Restrict);
 
-                entity.HasOne(d => d.SellUnitNavigation)
+                entity.HasOne(d => d.UnitNavigation)
                     .WithMany()
-                    .HasPrincipalKey(p => p.Abbreviation)
-                    .HasForeignKey(d => d.SellUnit)
-                    .HasConstraintName("fk_inventoryitems_sellunit")
-                    .OnDelete(DeleteBehavior.Restrict);
+                    .HasPrincipalKey(k => k.Abbreviation)
+                    .HasConstraintName("fk_inventoryitems_unit");
 
                 entity.HasOne(d => d.CategoryNavigation)
                     .WithMany()
@@ -339,13 +332,13 @@ namespace Egret.DataAccess
                     .HasConstraintName("fk_inventoryitems_category")
                     .OnDelete(DeleteBehavior.Restrict);
 
-                entity.HasMany(d => d.FabricTests)
+                entity.HasMany(d => d.FabricTestsNavigation)
                     .WithOne(p => p.InventoryItem)
                     .HasPrincipalKey(p => p.Code)
                     .HasConstraintName("fk_inventoryitems_fabrictests")
                     .OnDelete(DeleteBehavior.Cascade);
 
-                entity.HasMany(d => d.ConsumptionEvents)
+                entity.HasMany(d => d.ConsumptionEventsNavigation)
                     .WithOne(p => p.InventoryItemNavigation)
                     .HasForeignKey(f => f.InventoryItemCode)
                     .HasConstraintName("fk_inventoryitems_consumptionevents")
@@ -365,7 +358,6 @@ namespace Egret.DataAccess
                 // Keys
                 entity.HasKey(k => k.Id)
                     .HasName("pk_consumptionevents_id");
-
 
                 // Properties
                 entity.Property(e => e.Id)
@@ -401,7 +393,7 @@ namespace Egret.DataAccess
 
                 // Relationships
                 entity.HasOne(d => d.InventoryItemNavigation)
-                    .WithMany(p => p.ConsumptionEvents)
+                    .WithMany(p => p.ConsumptionEventsNavigation)
                     .HasPrincipalKey(p => p.Code)
                     .HasForeignKey(f => f.InventoryItemCode)
                     .HasConstraintName("fk_consumptionevents_inventory_code")
@@ -413,7 +405,6 @@ namespace Egret.DataAccess
                     .HasForeignKey(f => f.Unit)
                     .HasConstraintName("fk_consumptionevents_units")
                     .OnDelete(DeleteBehavior.Restrict);
-
             });
 
             modelBuilder.Entity<Supplier>(entity =>
@@ -463,7 +454,7 @@ namespace Egret.DataAccess
 
                     // Relationships
                     entity.HasOne(e => e.InventoryItem)
-                        .WithMany(p => p.FabricTests)
+                        .WithMany(p => p.FabricTestsNavigation)
                         .HasForeignKey(f => f.InventoryItemCode)
                         .HasPrincipalKey(k => k.Code);
                 }
