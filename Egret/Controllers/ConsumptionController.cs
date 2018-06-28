@@ -11,13 +11,44 @@ namespace Egret.Controllers
 {
     public class ConsumptionController : ManagedController
     {
+        private IQueryable<Unit> ActiveUnits { get; set; }
+
         public ConsumptionController(EgretContext context)
-            : base(context) { }
+            : base(context)
+        {
+            ActiveUnits = Context.Units.Where(x => x.Active == true).OrderBy(x => x.SortOrder);
+        }
+
+        [HttpGet]
+        public IActionResult Create()
+        {
+            ViewData["Unit"] = new SelectList(ActiveUnits, "Abbreviation", "Abbreviation");
+            return View();
+        }
+
+        [HttpPost]
+        public IActionResult Create(string inventoryid, ConsumptionEvent consumptionEvent)
+        {
+            ViewData["Unit"] = new SelectList(ActiveUnits, "Abbreviation", "Abbreviation");
+
+            if (ModelState.IsValid)
+            {
+                consumptionEvent.AddedBy = User.Identity.Name;
+                consumptionEvent.UpdatedBy = User.Identity.Name;
+                consumptionEvent.DateAdded = DateTime.Now;
+                consumptionEvent.DateUpdated = DateTime.Now;
+                Context.ConsumptionEvents.Add(consumptionEvent);
+                Context.SaveChanges();
+
+                return RedirectToAction("Edit", "Inventory", new { id = consumptionEvent.InventoryItemCode });
+            }
+
+            return View();
+        }
 
         [HttpGet]
         public IActionResult Edit(string id)
         {
-            var ActiveUnits = Context.Units.Where(x => x.Active == true).OrderBy(x => x.SortOrder);
             ViewData["Unit"] = new SelectList(ActiveUnits, "Abbreviation", "Abbreviation");
             ConsumptionEvent consumptionEvent = Context.ConsumptionEvents.Where(x => x.Id == id).FirstOrDefault();
 
@@ -25,47 +56,27 @@ namespace Egret.Controllers
             {
                 return View(consumptionEvent);
             }
+
             return View();
         }
 
         [HttpPost]
         public async Task<IActionResult> Edit(string id, ConsumptionEvent consumptionEvent)
         {
+            ViewData["Unit"] = new SelectList(ActiveUnits, "Abbreviation", "Abbreviation");
+
             if (ModelState.IsValid)
             {
+                consumptionEvent.UpdatedBy = User.Identity.Name;
+                consumptionEvent.DateUpdated = DateTime.Now;
                 Context.Update(consumptionEvent);
                 await Context.SaveChangesAsync();
                 TempData["SuccessMessage"] = "Save Complete";
                 return RedirectToAction(nameof(Edit));
             }
-            var ActiveUnits = Context.Units.Where(x => x.Active == true).OrderBy(x => x.SortOrder);
-            ViewData["Unit"] = new SelectList(ActiveUnits, "Abbreviation", "Abbreviation");
-
+            
             return View(consumptionEvent);
         }
 
-        [HttpGet]
-        public IActionResult Create(string inventoryid)
-        {
-            var ActiveUnits = Context.Units.Where(x => x.Active == true).OrderBy(x => x.SortOrder);
-            ViewData["Unit"] = new SelectList(ActiveUnits, "Abbreviation", "Abbreviation");
-            return View();
-        }
-
-        [HttpPost]
-        public IActionResult Create(ConsumptionEvent consumptionEvent)
-        {
-            if (ModelState.IsValid)
-            {
-
-                Context.ConsumptionEvents.Add(consumptionEvent);
-                Context.SaveChanges();
-                return RedirectToAction("Edit", "Inventory", new { id = consumptionEvent.InventoryItemCode });
-            }
-            var ActiveUnits = Context.Units.Where(x => x.Active == true).OrderBy(x => x.SortOrder);
-            ViewData["Unit"] = new SelectList(ActiveUnits, "Abbreviation", "Abbreviation");
-
-            return View();
-        }
     }
 }

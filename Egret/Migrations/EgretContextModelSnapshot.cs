@@ -50,11 +50,20 @@ namespace Egret.Migrations
                         .HasColumnName("id")
                         .HasDefaultValueSql("nextval('master_seq'::regclass)");
 
+                    b.Property<string>("AddedBy")
+                        .HasColumnName("user_added_by");
+
                     b.Property<string>("ConsumedBy")
                         .HasColumnName("consumed_by");
 
+                    b.Property<DateTime?>("DateAdded")
+                        .HasColumnName("date_added");
+
                     b.Property<DateTime?>("DateOfConsumption")
                         .HasColumnName("date_of_consumption");
+
+                    b.Property<DateTime?>("DateUpdated")
+                        .HasColumnName("date_updated");
 
                     b.Property<string>("InventoryItemCode")
                         .HasColumnName("inventory_item_code");
@@ -73,6 +82,9 @@ namespace Egret.Migrations
 
                     b.Property<string>("Unit")
                         .HasColumnName("unit");
+
+                    b.Property<string>("UpdatedBy")
+                        .HasColumnName("user_updated_by");
 
                     b.Property<decimal?>("ValueConsumed")
                         .HasColumnName("value_consumed");
@@ -234,8 +246,9 @@ namespace Egret.Migrations
                     b.Property<bool>("BondedWarehouse")
                         .HasColumnName("bonded_warehouse");
 
-                    b.Property<string>("BuyUnit")
-                        .HasColumnName("buy_unit");
+                    b.Property<string>("BuyUnit");
+
+                    b.Property<int?>("BuyUnitNavigationId");
 
                     b.Property<string>("Buycurrency")
                         .HasColumnName("buy_currency");
@@ -326,7 +339,7 @@ namespace Egret.Migrations
                     b.HasKey("Code")
                         .HasName("pk_inventoryitems_id");
 
-                    b.HasIndex("BuyUnit");
+                    b.HasIndex("BuyUnitNavigationId");
 
                     b.HasIndex("Buycurrency");
 
@@ -615,10 +628,7 @@ namespace Egret.Migrations
                 {
                     b.HasOne("Egret.Models.Unit", "BuyUnitNavigation")
                         .WithMany()
-                        .HasForeignKey("BuyUnit")
-                        .HasConstraintName("fk_inventoryitems_buyunit")
-                        .HasPrincipalKey("Abbreviation")
-                        .OnDelete(DeleteBehavior.Restrict);
+                        .HasForeignKey("BuyUnitNavigationId");
 
                     b.HasOne("Egret.Models.CurrencyType", "BuycurrencyNavigation")
                         .WithMany()

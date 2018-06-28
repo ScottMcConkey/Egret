@@ -11,6 +11,18 @@ namespace Egret.Models
         [Key]
         public string Id { get; set; }
 
+        [Display(Name = "Date Added")]
+        public DateTime? DateAdded { get; set; }
+
+        [Display(Name = "Added By")]
+        public string AddedBy { get; set; }
+
+        [Display(Name = "Date Updated")]
+        public DateTime? DateUpdated { get; set; }
+
+        [Display(Name = "Updated By")]
+        public string UpdatedBy { get; set; }
+
         [Display(Name = "Quantity Consumed")]
         public decimal? QuantityConsumed { get; set; }
 

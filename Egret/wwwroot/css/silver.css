@@ -185,3 +185,9 @@ th {
     border-bottom: 1px solid black;
     color: black;
 }
+
+.edit-info {
+    border: 1px solid black;
+    padding: 5px;
+    margin-bottom: 30px;
+}

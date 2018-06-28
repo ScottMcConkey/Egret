@@ -18,7 +18,6 @@ function AddTableRow() {
 class TestManager {
 
     getCount() {
-        console.log($("tr.fabrictest").length);
         return $("tr.fabrictest").length;
     }
 
@@ -77,7 +76,7 @@ $(document).ready(function () {
     });
 
     // Special Form Fields
-    $("input[type='date']").parent().css("width", "50%");
+    //$("input[type='date']").parent().css("width", "50%");
 
 
     // Manage Tabs

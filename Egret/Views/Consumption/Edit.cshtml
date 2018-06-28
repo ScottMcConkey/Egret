@@ -2,65 +2,99 @@
 
 @{
     ViewData["WindowTitle"] = "Edit Consumption Event";
-    ViewData["PageTitle"] = "Consumption Event: " + @Model?.Id;
+    ViewData["PageTitle"] = "Consumption Event: " + @Model.Id;
 }
 
 <form asp-action="Edit">
     <div class="row">
-        <div class="col-md-4">
-            <div class="form-group">
-                <input type="hidden" asp-for="@Model.InventoryItemCode" />
-                <label asp-for="@Model.Id" class="control-label"></label>
-                <input asp-for="@Model.Id" class="form-control" disabled />
-                <span asp-validation-for="@Model.Id" class="text-danger"></span>
+        <div class="col-md-12">
+            <div class="col-md-8">
+                <div class="col-md-4">
+                    <div class="form-group">
+                        <input type="hidden" asp-for="@Model.InventoryItemCode" />
+                        <label asp-for="@Model.Id" class="control-label"></label>
+                        <input asp-for="@Model.Id" class="form-control" disabled />
+                        <span asp-validation-for="@Model.Id" class="text-danger"></span>
+                    </div>
+                    <div class="form-group">
+                        <label asp-for="@Model.DateOfConsumption" class="control-label"></label>
+                        <input asp-for="@Model.DateOfConsumption" class="form-control" />
+                        <span asp-validation-for="@Model.DateOfConsumption" class="text-danger"></span>
+                    </div>
+                    <div class="form-group">
+                        <label asp-for="@Model.ConsumedBy" class="control-label"></label>
+                        <input asp-for="@Model.ConsumedBy" class="form-control" />
+                        <span asp-validation-for="@Model.ConsumedBy" class="text-danger"></span>
+                    </div>
+                    <div class="form-group">
+                        <label asp-for="@Model.ProductionOrderNumber" class="control-label"></label>
+                        <input asp-for="@Model.ProductionOrderNumber" class="form-control" />
+                        <span asp-validation-for="@Model.ProductionOrderNumber" class="text-danger"></span>
+                    </div>
+                    <div class="form-group">
+                        <label asp-for="@Model.SampleOrderNumber" class="control-label"></label>
+                        <input asp-for="@Model.SampleOrderNumber" class="form-control" />
+                        <span asp-validation-for="@Model.SampleOrderNumber" class="text-danger"></span>
+                    </div>
+                    <div class="form-group">
+                        <label asp-for="@Model.PatternNumber" class="control-label"></label>
+                        <input asp-for="@Model.PatternNumber" class="form-control" />
+                        <span asp-validation-for="@Model.PatternNumber" class="text-danger"></span>
+                    </div>
+                    <div class="form-group">
+                        <label asp-for="@Model.QuantityConsumed" class="control-label"></label>
+                        <input asp-for="@Model.QuantityConsumed" class="form-control" />
+                        <span asp-validation-for="@Model.QuantityConsumed" class="text-danger"></span>
+                    </div>
+                    <div class="form-group">
+                        <label asp-for="@Model.ValueConsumed" class="control-label"></label>
+                        <input asp-for="@Model.ValueConsumed" class="form-control" />
+                        <span asp-validation-for="@Model.ValueConsumed" class="text-danger"></span>
+                    </div>
+                    <div class="form-group">
+                        <label asp-for="@Model.Unit" class="control-label"></label>
+                        <select asp-for="@Model.Unit" class="form-control" style="width: 50%;" asp-items="ViewBag.Unit">
+                            <option value=""></option>
+                        </select>
+                        <span asp-validation-for="@Model.Unit" class="text-danger"></span>
+                    </div>
+                </div>
             </div>
-            <div class="form-group">
-                <label asp-for="@Model.DateOfConsumption" class="control-label"></label>
-                <input asp-for="@Model.DateOfConsumption" class="form-control" />
-                <span asp-validation-for="@Model.DateOfConsumption" class="text-danger"></span>
+            
+            <div class="col-md-4">
+                <div object-info="true" addedby="@Model.AddedBy" addedon="@Model.DateAdded" updatedby="@Model.UpdatedBy" updatedon="@Model.DateUpdated"></div>
             </div>
-            <div class="form-group">
-                <label asp-for="@Model.ConsumedBy" class="control-label"></label>
-                <input asp-for="@Model.ConsumedBy" class="form-control" />
-                <span asp-validation-for="@Model.ConsumedBy" class="text-danger"></span>
+
+            <div class="related-objects">
+                <div class="related-objects-header">
+                    Inventory Item
+                    <a asp-route-inventoryid="@Model.InventoryItemCode" asp-controller="Consumption" asp-action="Create"><span title="Add Consumption Event" style="float: right; top: -1px;" class="glyphicon glyphicon-plus" /></a>
+                </div>
+                @if (Model.InventoryItemNavigation != null)
+                {
+                    <div class="related-object-blank">There are currently no Consumption Events.</div>
+                }
+
+                <a class="related-object-link" target="_blank" asp-controller="Inventory" asp-action="Edit" asp-route-id="@Model.InventoryItemCode">
+                    <div class="related-object-div">
+                        <span class="glyphicon glyphicon-chevron-right"></span>
+                        Test
+                    </div>
+                </a>
             </div>
-            <div class="form-group">
-                <label asp-for="@Model.ProductionOrderNumber" class="control-label"></label>
-                <input asp-for="@Model.ProductionOrderNumber" class="form-control" />
-                <span asp-validation-for="@Model.ProductionOrderNumber" class="text-danger"></span>
-            </div>
-            <div class="form-group">
-                <label asp-for="@Model.SampleOrderNumber" class="control-label"></label>
-                <input asp-for="@Model.SampleOrderNumber" class="form-control" />
-                <span asp-validation-for="@Model.SampleOrderNumber" class="text-danger"></span>
-            </div>
-            <div class="form-group">
-                <label asp-for="@Model.PatternNumber" class="control-label"></label>
-                <input asp-for="@Model.PatternNumber" class="form-control" />
-                <span asp-validation-for="@Model.PatternNumber" class="text-danger"></span>
-            </div>
-            <div class="form-group">
-                <label asp-for="@Model.QuantityConsumed" class="control-label"></label>
-                <input asp-for="@Model.QuantityConsumed" class="form-control" />
-                <span asp-validation-for="@Model.QuantityConsumed" class="text-danger"></span>
-            </div>
-            <div class="form-group">
-                <label asp-for="@Model.ValueConsumed" class="control-label"></label>
-                <input asp-for="@Model.ValueConsumed" class="form-control" />
-                <span asp-validation-for="@Model.ValueConsumed" class="text-danger"></span>
-            </div>
-            <div class="form-group">
-                <label asp-for="@Model.Unit" class="control-label"></label>
-                <select asp-for="@Model.Unit" class="form-control" style="width: 20%;" asp-items="ViewBag.Unit">
-                    <option value=""></option>
-                </select>
-                <span asp-validation-for="@Model.Unit" class="text-danger"></span>
-            </div>
+
         </div>
     </div>
 
-    <button type="submit" class="btn btn-primary">Save</button>
-    <a asp-action="Index" class="btn btn-default">Cancel</a>
+    <div class="row">
+        <div class="col-md-12">
+            <div class="col-md-8">
+                <br />
+                <button type="submit" class="btn btn-primary">Save</button>
+                <a asp-action="Index" class="btn btn-default">Cancel</a>
+            </div>
+        </div>
+    </div>
 
 </form>
 

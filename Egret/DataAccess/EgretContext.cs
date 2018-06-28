@@ -255,8 +255,6 @@ namespace Egret.DataAccess
 
                 entity.Property(e => e.Buycurrency).HasColumnName("buy_currency");
 
-                entity.Property(e => e.BuyUnit).HasColumnName("buy_unit");
-
                 entity.Property(e => e.CustomerPurchasedFor).HasColumnName("customer_purchased_for");
 
                 entity.Property(e => e.CustomerReservedFor).HasColumnName("customer_reserved_for");
@@ -313,13 +311,6 @@ namespace Egret.DataAccess
                     .HasConstraintName("fk_inventoryitems_buycurrency")
                     .OnDelete(DeleteBehavior.Restrict);
 
-                entity.HasOne(d => d.BuyUnitNavigation)
-                    .WithMany()
-                    .HasPrincipalKey(p => p.Abbreviation)
-                    .HasForeignKey(d => d.BuyUnit)
-                    .HasConstraintName("fk_inventoryitems_buyunit")
-                    .OnDelete(DeleteBehavior.Restrict);
-
                 entity.HasOne(d => d.UnitNavigation)
                     .WithMany()
                     .HasPrincipalKey(k => k.Abbreviation)
@@ -363,6 +354,18 @@ namespace Egret.DataAccess
                 entity.Property(e => e.Id)
                     .HasColumnName("id")
                     .HasDefaultValueSql("nextval('master_seq'::regclass)");
+
+                entity.Property(e => e.DateAdded)
+                    .HasColumnName("date_added");
+
+                entity.Property(e => e.AddedBy)
+                    .HasColumnName("user_added_by");
+
+                entity.Property(e => e.DateUpdated)
+                    .HasColumnName("date_updated");
+
+                entity.Property(e => e.UpdatedBy)
+                    .HasColumnName("user_updated_by");
 
                 entity.Property(e => e.Unit)
                     .HasColumnName("unit");

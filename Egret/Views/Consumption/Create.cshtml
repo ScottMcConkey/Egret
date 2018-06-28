@@ -59,9 +59,8 @@
                 <span asp-validation-for="@Model.Unit" class="text-danger"></span>
             </div>
 
-            <button type="submit" class="btn btn-primary">Save and Return to Inventory</button>
-            <button type="submit" class="btn btn-primary">Save</button>
-            <a asp-action="Index" class="btn btn-default">Cancel</a>
+            <input type="submit" value="Save and Return to Inventory" class="btn btn-primary" />
+            <a asp-controller="Inventory" asp-action="Edit" asp-route-id="@Context.Request.Query["inventoryid"]" class="btn btn-default">Cancel</a>
         </div>
     </div>
 </form>
