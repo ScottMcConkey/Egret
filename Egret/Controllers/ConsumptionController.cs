@@ -1,11 +1,14 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Data.Common;
 using System.Linq;
 using System.Threading.Tasks;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.Rendering;
+using Microsoft.EntityFrameworkCore;
 using Egret.DataAccess;
 using Egret.Models;
+using Egret.ViewModels;
 
 namespace Egret.Controllers
 {
@@ -47,35 +50,47 @@ namespace Egret.Controllers
         }
 
         [HttpGet]
-        public IActionResult Edit(string id)
+        public async Task<IActionResult> Edit(string id)
         {
-            ViewData["Unit"] = new SelectList(ActiveUnits, "Abbreviation", "Abbreviation");
-            ConsumptionEvent consumptionEvent = Context.ConsumptionEvents.Where(x => x.Id == id).FirstOrDefault();
+            ConsumptionEventViewModel presentation = new ConsumptionEventViewModel();
 
-            if (consumptionEvent != null)
+            ViewData["Unit"] = new SelectList(ActiveUnits, "Abbreviation", "Abbreviation");
+            ConsumptionEvent consumptionEvent = await Context.ConsumptionEvents
+                .Include(i => i.InventoryItemNavigation)
+                .SingleOrDefaultAsync(m => m.Id == id);
+
+            if (consumptionEvent == null)
             {
-                return View(consumptionEvent);
+                return NotFound();
+            }
+
+            presentation.ConsumptionEvent = consumptionEvent;
+            presentation.InventoryItem = consumptionEvent.InventoryItemNavigation;
+
+            if (presentation.ConsumptionEvent != null)
+            {
+                return View(presentation);
             }
 
             return View();
         }
 
         [HttpPost]
-        public async Task<IActionResult> Edit(string id, ConsumptionEvent consumptionEvent)
+        public async Task<IActionResult> Edit(string id, ConsumptionEventViewModel vm)
         {
             ViewData["Unit"] = new SelectList(ActiveUnits, "Abbreviation", "Abbreviation");
 
             if (ModelState.IsValid)
             {
-                consumptionEvent.UpdatedBy = User.Identity.Name;
-                consumptionEvent.DateUpdated = DateTime.Now;
-                Context.Update(consumptionEvent);
+                vm.ConsumptionEvent.UpdatedBy = User.Identity.Name;
+                vm.ConsumptionEvent.DateUpdated = DateTime.Now;
+                Context.Update(vm.ConsumptionEvent);
                 await Context.SaveChangesAsync();
                 TempData["SuccessMessage"] = "Save Complete";
                 return RedirectToAction(nameof(Edit));
             }
             
-            return View(consumptionEvent);
+            return View(vm.ConsumptionEvent);
         }
 
     }

@@ -6,7 +6,7 @@ using Microsoft.AspNetCore.Razor.TagHelpers;
 
 namespace Egret.TagHelpers
 {
-    [HtmlTargetElement("div", Attributes = "object-info")]
+    [HtmlTargetElement("object-info", TagStructure = TagStructure.NormalOrSelfClosing)]
     public class ObjectInfoTagHelper : TagHelper
     {
         [HtmlAttributeName("addedby")]
@@ -23,27 +23,27 @@ namespace Egret.TagHelpers
 
         public override void Process(TagHelperContext context, TagHelperOutput output)
         {
-            
-
+            output.TagName = null;
             output.Content.SetHtmlContent($@"<div class='edit-info'>
-                                            <table>
-                                                <tr>
-                                                    <td>Added By:</td>
-                                                    <td>{AddedBy}</td>
-                                                </tr>
-                                                <tr>
-                                                    <td>Added On:</td>
-                                                    <td>{AddedOn.Value.ToShortDateString()}</td>
-                                                </tr>
-                                                <tr>
-                                                    <td>Updated By:</td>
-                                                    <td>{UpdatedBy}</td>
-                                                </tr>
-                                                <tr>
-                                                    <td>Updated On:</td>
-                                                    <td>{UpdatedOn.Value.ToShortDateString()}</td>
-                                                </tr>
-                                            </table>");
+                                                <table>
+                                                    <tr>
+                                                        <td>Added By:</td>
+                                                        <td>{AddedBy}</td>
+                                                    </tr>
+                                                    <tr>
+                                                        <td>Added On:</td>
+                                                        <td>{(AddedOn != null ? AddedOn.Value.ToShortDateString() : "")}</td>
+                                                    </tr>
+                                                    <tr>
+                                                        <td>Updated By:</td>
+                                                        <td>{UpdatedBy}</td>
+                                                    </tr>
+                                                    <tr>
+                                                        <td>Updated On:</td>
+                                                        <td>{(UpdatedOn != null ?  UpdatedOn.Value.ToShortDateString() : "")}</td>
+                                                    </tr>
+                                                </table>
+                                            </div>");
         }
     }
 }

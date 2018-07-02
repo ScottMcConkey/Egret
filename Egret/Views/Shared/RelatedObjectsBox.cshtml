@@ -1,0 +1,22 @@
+﻿
+
+<div class="related-objects">
+    <div class="related-objects-header">
+        Inventory Item
+        <a asp-route-inventoryid="@Model.ConsumptionEvent.InventoryItemCode" asp-controller="Consumption" asp-action="Create">
+            <span title="Add Consumption Event" style="float: right; top: -1px;" class="glyphicon glyphicon-plus" />
+        </a>
+    </div>
+    @if (Model.InventoryItem == null)
+    {
+        <div class="related-object-blank">There are currently no Inventory Items.</div>
+    }
+
+    <a class="related-object-link" target="_blank" asp-controller="Inventory" asp-action="Edit" asp-route-id="@Model.ConsumptionEvent.InventoryItemCode">
+        <div class="related-object-div">
+            <span class="glyphicon glyphicon-chevron-right"></span>
+            Test
+        </div>
+    </a>
+</div>
+

@@ -1,8 +1,8 @@
-﻿@model ConsumptionEvent
+﻿@model ConsumptionEventViewModel
 
 @{
-    ViewData["WindowTitle"] = "Edit Consumption Event";
-    ViewData["PageTitle"] = "Consumption Event: " + @Model.Id;
+    ViewData["WindowTitle"] = "Consumption Event - Edit";
+    ViewData["PageTitle"] = "Consumption Event: " + @Model.ConsumptionEvent.Id;
 }
 
 <form asp-action="Edit">
@@ -11,78 +11,82 @@
             <div class="col-md-8">
                 <div class="col-md-4">
                     <div class="form-group">
-                        <input type="hidden" asp-for="@Model.InventoryItemCode" />
-                        <label asp-for="@Model.Id" class="control-label"></label>
-                        <input asp-for="@Model.Id" class="form-control" disabled />
-                        <span asp-validation-for="@Model.Id" class="text-danger"></span>
+                        <input type="hidden" asp-for="@Model.ConsumptionEvent.InventoryItemCode" />
+                        <label asp-for="@Model.ConsumptionEvent.Id" class="control-label"></label>
+                        <input asp-for="@Model.ConsumptionEvent.Id" class="form-control" disabled />
+                        <span asp-validation-for="@Model.ConsumptionEvent.Id" class="text-danger"></span>
                     </div>
                     <div class="form-group">
-                        <label asp-for="@Model.DateOfConsumption" class="control-label"></label>
-                        <input asp-for="@Model.DateOfConsumption" class="form-control" />
-                        <span asp-validation-for="@Model.DateOfConsumption" class="text-danger"></span>
+                        <label asp-for="@Model.ConsumptionEvent.DateOfConsumption" class="control-label"></label>
+                        <input asp-for="@Model.ConsumptionEvent.DateOfConsumption" class="form-control" />
+                        <span asp-validation-for="@Model.ConsumptionEvent.DateOfConsumption" class="text-danger"></span>
                     </div>
                     <div class="form-group">
-                        <label asp-for="@Model.ConsumedBy" class="control-label"></label>
-                        <input asp-for="@Model.ConsumedBy" class="form-control" />
-                        <span asp-validation-for="@Model.ConsumedBy" class="text-danger"></span>
+                        <label asp-for="@Model.ConsumptionEvent.ConsumedBy" class="control-label"></label>
+                        <input asp-for="@Model.ConsumptionEvent.ConsumedBy" class="form-control" />
+                        <span asp-validation-for="@Model.ConsumptionEvent.ConsumedBy" class="text-danger"></span>
                     </div>
                     <div class="form-group">
-                        <label asp-for="@Model.ProductionOrderNumber" class="control-label"></label>
-                        <input asp-for="@Model.ProductionOrderNumber" class="form-control" />
-                        <span asp-validation-for="@Model.ProductionOrderNumber" class="text-danger"></span>
+                        <label asp-for="@Model.ConsumptionEvent.ProductionOrderNumber" class="control-label"></label>
+                        <input asp-for="@Model.ConsumptionEvent.ProductionOrderNumber" class="form-control" />
+                        <span asp-validation-for="@Model.ConsumptionEvent.ProductionOrderNumber" class="text-danger"></span>
                     </div>
                     <div class="form-group">
-                        <label asp-for="@Model.SampleOrderNumber" class="control-label"></label>
-                        <input asp-for="@Model.SampleOrderNumber" class="form-control" />
-                        <span asp-validation-for="@Model.SampleOrderNumber" class="text-danger"></span>
+                        <label asp-for="@Model.ConsumptionEvent.SampleOrderNumber" class="control-label"></label>
+                        <input asp-for="@Model.ConsumptionEvent.SampleOrderNumber" class="form-control" />
+                        <span asp-validation-for="@Model.ConsumptionEvent.SampleOrderNumber" class="text-danger"></span>
                     </div>
                     <div class="form-group">
-                        <label asp-for="@Model.PatternNumber" class="control-label"></label>
-                        <input asp-for="@Model.PatternNumber" class="form-control" />
-                        <span asp-validation-for="@Model.PatternNumber" class="text-danger"></span>
+                        <label asp-for="@Model.ConsumptionEvent.PatternNumber" class="control-label"></label>
+                        <input asp-for="@Model.ConsumptionEvent.PatternNumber" class="form-control" />
+                        <span asp-validation-for="@Model.ConsumptionEvent.PatternNumber" class="text-danger"></span>
                     </div>
                     <div class="form-group">
-                        <label asp-for="@Model.QuantityConsumed" class="control-label"></label>
-                        <input asp-for="@Model.QuantityConsumed" class="form-control" />
-                        <span asp-validation-for="@Model.QuantityConsumed" class="text-danger"></span>
+                        <label asp-for="@Model.ConsumptionEvent.QuantityConsumed" class="control-label"></label>
+                        <input asp-for="@Model.ConsumptionEvent.QuantityConsumed" class="form-control" />
+                        <span asp-validation-for="@Model.ConsumptionEvent.QuantityConsumed" class="text-danger"></span>
                     </div>
                     <div class="form-group">
-                        <label asp-for="@Model.ValueConsumed" class="control-label"></label>
-                        <input asp-for="@Model.ValueConsumed" class="form-control" />
-                        <span asp-validation-for="@Model.ValueConsumed" class="text-danger"></span>
+                        <label asp-for="@Model.ConsumptionEvent.ValueConsumed" class="control-label"></label>
+                        <input asp-for="@Model.ConsumptionEvent.ValueConsumed" class="form-control" />
+                        <span asp-validation-for="@Model.ConsumptionEvent.ValueConsumed" class="text-danger"></span>
                     </div>
                     <div class="form-group">
-                        <label asp-for="@Model.Unit" class="control-label"></label>
-                        <select asp-for="@Model.Unit" class="form-control" style="width: 50%;" asp-items="ViewBag.Unit">
+                        <label asp-for="@Model.ConsumptionEvent.Unit" class="control-label"></label>
+                        <select asp-for="@Model.ConsumptionEvent.Unit" class="form-control" style="width: 50%;" asp-items="ViewBag.Unit">
                             <option value=""></option>
                         </select>
-                        <span asp-validation-for="@Model.Unit" class="text-danger"></span>
+                        <span asp-validation-for="@Model.ConsumptionEvent.Unit" class="text-danger"></span>
                     </div>
                 </div>
             </div>
-            
+
             <div class="col-md-4">
-                <div object-info="true" addedby="@Model.AddedBy" addedon="@Model.DateAdded" updatedby="@Model.UpdatedBy" updatedon="@Model.DateUpdated"></div>
-            </div>
+                <object-info addedby="@Model.ConsumptionEvent.AddedBy" addedon="@Model.ConsumptionEvent.DateAdded" 
+                             updatedby="@Model.ConsumptionEvent.UpdatedBy" updatedon="@Model.ConsumptionEvent.DateUpdated" />
 
-            <div class="related-objects">
-                <div class="related-objects-header">
-                    Inventory Item
-                    <a asp-route-inventoryid="@Model.InventoryItemCode" asp-controller="Consumption" asp-action="Create"><span title="Add Consumption Event" style="float: right; top: -1px;" class="glyphicon glyphicon-plus" /></a>
-                </div>
-                @if (Model.InventoryItemNavigation != null)
-                {
-                    <div class="related-object-blank">There are currently no Consumption Events.</div>
-                }
 
-                <a class="related-object-link" target="_blank" asp-controller="Inventory" asp-action="Edit" asp-route-id="@Model.InventoryItemCode">
-                    <div class="related-object-div">
-                        <span class="glyphicon glyphicon-chevron-right"></span>
-                        Test
+                <div class="related-objects">
+                    <div class="related-objects-header">
+                        Inventory Item
+                        <a asp-route-inventoryid="@Model.ConsumptionEvent.InventoryItemCode" asp-controller="Consumption" asp-action="Create">
+                            <span title="Add Consumption Event" style="float: right; top: -1px;" class="glyphicon glyphicon-plus" />
+                        </a>
                     </div>
-                </a>
-            </div>
+                    @if (Model.InventoryItem == null)
+                    {
+                        <div class="related-object-blank">There are currently no Inventory Items.</div>
+                    }
 
+                    <a class="related-object-link" target="_blank" asp-controller="Inventory" asp-action="Edit" asp-route-id="@Model.ConsumptionEvent.InventoryItemCode">
+                        <div class="related-object-div">
+                            <span class="glyphicon glyphicon-chevron-right"></span>
+                            Test
+                        </div>
+                    </a>
+                </div>
+
+            </div>
         </div>
     </div>
 
