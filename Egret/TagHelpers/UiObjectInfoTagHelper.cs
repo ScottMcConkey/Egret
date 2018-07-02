@@ -6,8 +6,8 @@ using Microsoft.AspNetCore.Razor.TagHelpers;
 
 namespace Egret.TagHelpers
 {
-    [HtmlTargetElement("object-info", TagStructure = TagStructure.NormalOrSelfClosing)]
-    public class ObjectInfoTagHelper : TagHelper
+    [HtmlTargetElement("ui-object-info", TagStructure = TagStructure.NormalOrSelfClosing)]
+    public class UiObjectInfoTagHelper : TagHelper
     {
         [HtmlAttributeName("addedby")]
         public string AddedBy { get; set; }
