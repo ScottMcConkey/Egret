@@ -246,5 +246,23 @@ namespace Egret.Models
         public Unit UnitNavigation { get; set; }
         public ICollection<FabricTest> FabricTestsNavigation { get; set; }
         public ICollection<ConsumptionEvent> ConsumptionEventsNavigation { get; set; }
+
+        [NotMapped]
+        [DatabaseGenerated(DatabaseGeneratedOption.Computed)]
+        public string RelationshipDisplay
+        {
+            get
+            {
+                return (Code != "" ? "Code: " + Code + " - " : "") + (Description != "" ? Description.Substring(0, 40) : "");
+            }
+            private set { }
+
+            //get
+            //{
+            //    return (DateOfConsumption != null ? DateOfConsumption.Value.ToShortDateString() + " - " : "")
+            //        + "Units Consumed: " + (QuantityConsumed != null ? QuantityConsumed.ToString() : "0");
+            //}
+            //private set { }
+        }
     }
 }

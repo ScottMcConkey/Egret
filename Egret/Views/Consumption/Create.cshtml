@@ -7,61 +7,69 @@
 
 <form asp-action="Create">
     <div class="row">
-        <div class="col-md-4">
+        <div class="col-md-12">
+            <div class="col-md-8">
+                <div class="col-md-6">
+                    <div class="form-group">
+                        @if (!String.IsNullOrEmpty(Context.Request.Query["sourceid"]))
+                        {
+                            <input asp-for="InventoryItemCode" type="hidden" name="InventoryItemCode" value="@Context.Request.Query["sourceid"]" />
+                        }
+                        <label asp-for="@Model.DateOfConsumption" class="control-label"></label>
+                        <input asp-for="@Model.DateOfConsumption" class="form-control" />
+                        <span asp-validation-for="@Model.DateOfConsumption" class="text-danger"></span>
+                    </div>
+                    <div class="form-group">
+                        <label asp-for="@Model.ConsumedBy" class="control-label"></label>
+                        <input asp-for="@Model.ConsumedBy" class="form-control" />
+                        <span asp-validation-for="@Model.ConsumedBy" class="text-danger"></span>
+                    </div>
+                    <div class="form-group">
+                        <label asp-for="@Model.SampleOrderNumber" class="control-label"></label>
+                        <input asp-for="@Model.SampleOrderNumber" class="form-control" />
+                        <span asp-validation-for="@Model.SampleOrderNumber" class="text-danger"></span>
+                    </div>
+                    <div class="form-group">
+                        <label asp-for="@Model.ProductionOrderNumber" class="control-label"></label>
+                        <input asp-for="@Model.ProductionOrderNumber" class="form-control" />
+                        <span asp-validation-for="@Model.ProductionOrderNumber" class="text-danger"></span>
+                    </div>
+                    <div class="form-group">
+                        <label asp-for="@Model.PatternNumber" class="control-label"></label>
+                        <input asp-for="@Model.PatternNumber" class="form-control" />
+                        <span asp-validation-for="@Model.PatternNumber" class="text-danger"></span>
+                    </div>
+                    <label asp-for="@Model.QuantityConsumed" class="control-label"></label>
+                    <div class="form-group form-inline">
+                        <input asp-for="@Model.QuantityConsumed" class="form-control" />
+                        <span asp-validation-for="@Model.QuantityConsumed" class="text-danger"></span>
+                        <select asp-for="@Model.Unit" style="width: 25%;" class="form-control" asp-items="ViewBag.Unit">
+                            <option value=""></option>
+                        </select>
+                    </div>
+                    <div class="form-group">
+                        <label asp-for="@Model.ValueConsumed" class="control-label"></label>
+                        <input asp-for="@Model.ValueConsumed" class="form-control" />
+                        <span asp-validation-for="@Model.ValueConsumed" class="text-danger"></span>
+                    </div>
 
-            <div>
-                @if (!String.IsNullOrEmpty(Context.Request.Query["inventoryid"]))
-                {
-                    <input asp-for="InventoryItemCode" type="hidden" name="InventoryItemCode" value="@Context.Request.Query["inventoryid"]" />
-                }
-            </div>
 
-            <div class="form-group">
-                <label asp-for="@Model.DateOfConsumption" class="control-label"></label>
-                <input asp-for="@Model.DateOfConsumption" class="form-control" />
-                <span asp-validation-for="@Model.DateOfConsumption" class="text-danger"></span>
-            </div>
-            <div class="form-group">
-                <label asp-for="@Model.ConsumedBy" class="control-label"></label>
-                <input asp-for="@Model.ConsumedBy" class="form-control" />
-                <span asp-validation-for="@Model.ConsumedBy" class="text-danger"></span>
-            </div>
-            <div class="form-group">
-                <label asp-for="@Model.SampleOrderNumber" class="control-label"></label>
-                <input asp-for="@Model.SampleOrderNumber" class="form-control" />
-                <span asp-validation-for="@Model.SampleOrderNumber" class="text-danger"></span>
-            </div>
-            <div class="form-group">
-                <label asp-for="@Model.ProductionOrderNumber" class="control-label"></label>
-                <input asp-for="@Model.ProductionOrderNumber" class="form-control" />
-                <span asp-validation-for="@Model.ProductionOrderNumber" class="text-danger"></span>
-            </div>
-            <div class="form-group">
-                <label asp-for="@Model.PatternNumber" class="control-label"></label>
-                <input asp-for="@Model.PatternNumber" class="form-control" />
-                <span asp-validation-for="@Model.PatternNumber" class="text-danger"></span>
-            </div>
-            <div class="form-group">
-                <label asp-for="@Model.QuantityConsumed" class="control-label"></label>
-                <input asp-for="@Model.QuantityConsumed" class="form-control" />
-                <span asp-validation-for="@Model.QuantityConsumed" class="text-danger"></span>
-            </div>
-            <div class="form-group">
-                <label asp-for="@Model.ValueConsumed" class="control-label"></label>
-                <input asp-for="@Model.ValueConsumed" class="form-control" />
-                <span asp-validation-for="@Model.ValueConsumed" class="text-danger"></span>
-            </div>
-            <div class="form-group">
-                <label asp-for="@Model.Unit" class="control-label"></label>
-                <select asp-for="@Model.Unit" class="form-control" style="width: 20%;" asp-items="ViewBag.Unit">
-                    <option value=""></option>
-                </select>
-                <span asp-validation-for="@Model.Unit" class="text-danger"></span>
+                </div>
             </div>
 
-            <input type="submit" value="Save and Return to Inventory" class="btn btn-primary" />
-            <a asp-controller="Inventory" asp-action="Edit" asp-route-id="@Context.Request.Query["inventoryid"]" class="btn btn-default">Cancel</a>
+
         </div>
     </div>
+
+    <div class="row">
+        <div class="col-md-12">
+            <div class="col-md-8">
+                <br />
+                <input type="submit" value="Save and Return to Inventory" class="btn btn-primary" />
+                <a asp-controller="Inventory" asp-action="Edit" asp-route-id="@Context.Request.Query["inventoryid"]" class="btn btn-default">Cancel</a>
+            </div>
+        </div>
+    </div>
+
 </form>
 

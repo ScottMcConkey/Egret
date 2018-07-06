@@ -6,6 +6,6 @@ namespace Egret.ViewModels
     public class ConsumptionEventViewModel
     {
         public ConsumptionEvent ConsumptionEvent { get; set; }
-        public InventoryItem InventoryItem { get; set; }
+        public List<InventoryItem> InventoryItems { get; set; }
     }
 }

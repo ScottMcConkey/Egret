@@ -65,7 +65,10 @@ namespace Egret.Controllers
             }
 
             presentation.ConsumptionEvent = consumptionEvent;
-            presentation.InventoryItem = consumptionEvent.InventoryItemNavigation;
+            //presentation.InventoryItems 
+                var test = new List<InventoryItem>();
+            test.Add(consumptionEvent.InventoryItemNavigation);
+            presentation.InventoryItems = test;
 
             if (presentation.ConsumptionEvent != null)
             {

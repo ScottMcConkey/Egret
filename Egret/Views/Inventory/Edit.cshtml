@@ -260,33 +260,7 @@
 
                 <ui-object-info addedby="@Model.Item.AddedBy" addedon="@Model.Item.DateAdded" updatedby="@Model.Item.UpdatedBy" updatedon="@Model.Item.DateUpdated" />
 
-                @await Html.PartialAsync("RelatedObjectsBox", Model.ConsumptionEvents,
-                    new ViewDataDictionary(ViewData) { { "Title", "Consumption Events" }, { "Controller", "Consumption" },
-                        { "Action", "Edit" }, { "HoverText", "Add Consumption Event" } });
-                    
-                
-
-                <div class="related-objects">
-                    <div class="related-objects-header">
-                        Consumption Events
-                        <a asp-route-inventoryid="@Model.Item.Code" asp-controller="Consumption" asp-action="Create"><span title="Add Consumption Event" style="float: right; top: -1px;" class="glyphicon glyphicon-plus" /></a>
-                    </div>
-                    @if (Model.ConsumptionEvents.Count() == 0)
-                    {
-                        <div class="related-object-blank">There are currently no Consumption Events.</div>
-                    }
-                    @foreach (ConsumptionEvent e in Model.ConsumptionEvents.OrderBy(x => x.DateOfConsumption))
-                    {
-                        <a class="related-object-link" target="_blank" asp-controller="Consumption" asp-action="Edit" asp-route-id="@e.Id">
-                            <div class="related-object-div">
-                                <span class="glyphicon glyphicon-chevron-right"></span>
-                                @e.DateOfConsumption.Value.ToShortDateString() - Units Consumed: @e.QuantityConsumed
-                            </div>
-                        </a>
-                    }
-                </div>
-
-
+                @await Html.PartialAsync("_RelatedObjectsWidget", new RelationshipViewModelConsumption(Model.ConsumptionEvents.OrderBy(x => x.DateOfConsumption).ToList(), Model.Item.Code))
 
             </div>
         </div>

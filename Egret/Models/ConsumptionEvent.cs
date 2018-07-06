@@ -2,7 +2,9 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
+using System.ComponentModel;
 using System.ComponentModel.DataAnnotations;
+using System.ComponentModel.DataAnnotations.Schema;
 
 namespace Egret.Models
 {
@@ -49,6 +51,18 @@ namespace Egret.Models
 
 
         public string InventoryItemCode { get; set; }
+
+        [NotMapped]
+        [DatabaseGenerated(DatabaseGeneratedOption.Computed)]
+        public string RelationshipDisplay
+        {
+            get
+            {
+                return (DateOfConsumption != null ? DateOfConsumption.Value.ToShortDateString() + " - " : "") 
+                    + "Units Consumed: " + (QuantityConsumed != null ? QuantityConsumed.ToString() : "0");
+            }
+            private set { }
+        }
 
 
         public Unit UnitNavigation { get; set; }

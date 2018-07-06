@@ -1,0 +1,34 @@
+﻿@model IRelationshipViewModel
+
+<div class="related-objects">
+    <div class="related-objects-header">
+        @Model.Title
+        @if (Model.HasCreateNew == true)
+        {
+            <a asp-route-sourceid="@Model.SourceId" asp-controller="@Model.Controller" asp-action="Create">
+                <span title="@Model.HelpText" style="float: right; top: -1px;" class="@Model.CssClass" />
+            </a>
+        }
+
+    </div>
+
+    @if (((ICollection)Model.RelationshipObjects).Count == 0)
+    {
+        <div class="related-object-blank">There are currently no @Model.Title</div>
+    }
+    else
+    {
+        @foreach (var e in Model.RelationshipObjects)
+        {
+            <a class="related-object-link" target="_blank" asp-controller="@Model.Controller" asp-action="@Model.Action" asp-route-id="@e.GetType().GetProperty(Model.TargetObjectIdColumn).GetValue(e, null)">
+                <div class="related-object-div">
+                    <span class="glyphicon glyphicon-chevron-right"></span>
+                    @e.GetType().GetProperty(Model.ObjectDisplay).GetValue(e, null)
+                </div>
+            </a>
+        }
+
+
+    }
+
+</div>
