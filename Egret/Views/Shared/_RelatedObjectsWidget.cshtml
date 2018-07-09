@@ -12,7 +12,7 @@
 
     </div>
 
-    @if (((ICollection)Model.RelationshipObjects).Count == 0)
+    @if (((ICollection)Model?.RelationshipObjects).Count == 0)
     {
         <div class="related-object-blank">There are currently no @Model.Title</div>
     }

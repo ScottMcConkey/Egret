@@ -35,13 +35,13 @@
                         </select>
                     </div>
                 </div>
-                <label asp-for="Buyprice" class="control-label"></label>
+                <label asp-for="BuyPrice" class="control-label"></label>
                 <div class="form-group form-inline" style="width: 100%">
-                    <input asp-for="Buyprice" class="form-control" style="width: 25%;" />
-                    <select asp-for="Buycurrency" class="form-control" style="width: 25%;" asp-items="ViewBag.Buycurrency">
+                    <input asp-for="BuyPrice" class="form-control" style="width: 25%;" />
+                    <select asp-for="BuyCurrency" class="form-control" style="width: 25%;" asp-items="ViewBag.BuyCurrency">
                         <option value=""></option>
                     </select>
-                    <span asp-validation-for="Buyprice" class="text-danger"></span>
+                    <span asp-validation-for="BuyPrice" class="text-danger"></span>
                 </div>
                 <div class="form-group">
                     <label asp-for="CustomerPurchasedFor" class="control-label"></label>

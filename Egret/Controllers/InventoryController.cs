@@ -47,7 +47,7 @@ namespace Egret.Controllers
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> Create(InventoryItem inventoryItem)
         {
-            ViewData["Buycurrency"] = new SelectList(ActiveCurrencyTypes, "Abbreviation", "Abbreviation", inventoryItem.Buycurrency);
+            ViewData["Buycurrency"] = new SelectList(ActiveCurrencyTypes, "Abbreviation", "Abbreviation", inventoryItem.BuyCurrency);
             ViewData["Category"] = new SelectList(ActiveInventoryCategories, "Name", "Name", inventoryItem.Category);
             ViewData["Unit"] = new SelectList(ActiveUnits, "Abbreviation", "Abbreviation", inventoryItem.Unit);
 
@@ -85,7 +85,7 @@ namespace Egret.Controllers
                 return NotFound();
             }
 
-            ViewData["Buycurrency"] = new SelectList(ActiveCurrencyTypes, "Abbreviation", "Abbreviation", item.Buycurrency);
+            ViewData["Buycurrency"] = new SelectList(ActiveCurrencyTypes, "Abbreviation", "Abbreviation", item.BuyCurrency);
             ViewData["Category"] = new SelectList(ActiveInventoryCategories, "Name", "Name", item.Category);
             ViewData["Unit"] = new SelectList(ActiveUnits, "Abbreviation", "Abbreviation", item.Unit);
 
@@ -100,11 +100,20 @@ namespace Egret.Controllers
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> Edit(string id, InventoryItemViewModel vm)
         {
+            ViewData["Buycurrency"] = new SelectList(ActiveCurrencyTypes, "Abbreviation", "Abbreviation", vm.Item.BuyCurrency);
+            ViewData["Category"] = new SelectList(ActiveInventoryCategories, "Name", "Name", vm.Item.Category);
+            ViewData["Unit"] = new SelectList(ActiveUnits, "Abbreviation", "Abbreviation", vm.Item.Unit);
+
+
+            // MOFO. We need this in order for the partial view to get the ConsumptionEvents. Since we are not
+            // querying with .Include() as in the Get, we have to manually add these again
+            //vm.Item = Context.InventoryItems.Where(x => x.Code == id).SingleOrDefault();
+            vm.ConsumptionEvents = Context.ConsumptionEvents.Where(x => x.InventoryItemCode == id).ToList();
+
             if (ModelState.IsValid)
             {
                 vm.Item.UpdatedBy = User.Identity.Name;
                 vm.Item.DateUpdated = DateTime.Now;
-
                 
                 if (vm.FabricTests != null)
                 {
@@ -132,8 +141,10 @@ namespace Egret.Controllers
                         Context.FabricTests.Remove(ft);
                     }
                 }
-
+                
                 Context.InventoryItems.Update(vm.Item);
+
+                // Bypass binding to make sure these values are not changed
                 Context.Entry(vm.Item).Property(x => x.AddedBy).IsModified = false;
                 Context.Entry(vm.Item).Property(x => x.DateAdded).IsModified = false;
 

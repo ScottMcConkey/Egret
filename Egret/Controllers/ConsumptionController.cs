@@ -30,7 +30,7 @@ namespace Egret.Controllers
         }
 
         [HttpPost]
-        public IActionResult Create(string inventoryid, ConsumptionEvent consumptionEvent)
+        public IActionResult Create(string sourceid, ConsumptionEvent consumptionEvent)
         {
             ViewData["Unit"] = new SelectList(ActiveUnits, "Abbreviation", "Abbreviation");
 
@@ -55,6 +55,7 @@ namespace Egret.Controllers
             ConsumptionEventViewModel presentation = new ConsumptionEventViewModel();
 
             ViewData["Unit"] = new SelectList(ActiveUnits, "Abbreviation", "Abbreviation");
+
             ConsumptionEvent consumptionEvent = await Context.ConsumptionEvents
                 .Include(i => i.InventoryItemNavigation)
                 .SingleOrDefaultAsync(m => m.Id == id);
@@ -66,7 +67,7 @@ namespace Egret.Controllers
 
             presentation.ConsumptionEvent = consumptionEvent;
             //presentation.InventoryItems 
-                var test = new List<InventoryItem>();
+            var test = new List<InventoryItem>();
             test.Add(consumptionEvent.InventoryItemNavigation);
             presentation.InventoryItems = test;
 

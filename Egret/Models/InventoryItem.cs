@@ -218,16 +218,10 @@ namespace Egret.Models
 
 
         [Display(Name = "Buy Price")]
-        public decimal? Buyprice { get; set; }
+        public decimal? BuyPrice { get; set; }
 
         [Display(Name = "Buy Currency")]
-        public string Buycurrency { get; set; }
-
-        [Display(Name = "Buy Unit")]
-        public string BuyUnit { get; set; }
-
-        [Display(Name = "Sell Unit")]
-        public string SellUnit { get; set; }
+        public string BuyCurrency { get; set; }
 
         public string Category { get; set; }
 
@@ -240,8 +234,7 @@ namespace Egret.Models
         public string ConversionSource { get; set; }
         
 
-        public CurrencyType BuycurrencyNavigation { get; set; }
-        public Unit BuyUnitNavigation { get; set; }
+        public CurrencyType BuyCurrencyNavigation { get; set; }
         public InventoryCategory CategoryNavigation { get; set; }
         public Unit UnitNavigation { get; set; }
         public ICollection<FabricTest> FabricTestsNavigation { get; set; }

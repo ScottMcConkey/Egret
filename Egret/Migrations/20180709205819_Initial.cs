@@ -270,8 +270,6 @@ namespace Egret.Migrations
                     import_cost = table.Column<decimal>(nullable: true),
                     buy_price = table.Column<decimal>(nullable: true),
                     buy_currency = table.Column<string>(nullable: true),
-                    buy_unit = table.Column<string>(nullable: true),
-                    SellUnit = table.Column<string>(nullable: true),
                     category = table.Column<string>(nullable: true),
                     is_conversion = table.Column<bool>(nullable: false),
                     conversion_source = table.Column<string>(nullable: true),
@@ -280,12 +278,6 @@ namespace Egret.Migrations
                 constraints: table =>
                 {
                     table.PrimaryKey("pk_inventoryitems_id", x => x.code);
-                    table.ForeignKey(
-                        name: "fk_inventoryitems_buyunit",
-                        column: x => x.buy_unit,
-                        principalTable: "units",
-                        principalColumn: "abbreviation",
-                        onDelete: ReferentialAction.Restrict);
                     table.ForeignKey(
                         name: "fk_inventoryitems_buycurrency",
                         column: x => x.buy_currency,
@@ -311,6 +303,10 @@ namespace Egret.Migrations
                 columns: table => new
                 {
                     id = table.Column<string>(nullable: false, defaultValueSql: "nextval('master_seq'::regclass)"),
+                    date_added = table.Column<DateTime>(nullable: true),
+                    user_added_by = table.Column<string>(nullable: true),
+                    date_updated = table.Column<DateTime>(nullable: true),
+                    user_updated_by = table.Column<string>(nullable: true),
                     quantity_consumed = table.Column<decimal>(nullable: true),
                     unit = table.Column<string>(nullable: true),
                     consumed_by = table.Column<string>(nullable: true),
@@ -489,11 +485,6 @@ namespace Egret.Migrations
                 unique: true);
 
             migrationBuilder.CreateIndex(
-                name: "IX_inventory_items_buy_unit",
-                table: "inventory_items",
-                column: "buy_unit");
-
-            migrationBuilder.CreateIndex(
                 name: "IX_inventory_items_buy_currency",
                 table: "inventory_items",
                 column: "buy_currency");
@@ -569,13 +560,13 @@ namespace Egret.Migrations
                 name: "inventory_items");
 
             migrationBuilder.DropTable(
-                name: "units");
-
-            migrationBuilder.DropTable(
                 name: "currency_types");
 
             migrationBuilder.DropTable(
                 name: "inventory_categories");
+
+            migrationBuilder.DropTable(
+                name: "units");
 
             migrationBuilder.DropSequence(
                 name: "currencytypes_id_seq");

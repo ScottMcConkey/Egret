@@ -246,14 +246,10 @@ namespace Egret.Migrations
                     b.Property<bool>("BondedWarehouse")
                         .HasColumnName("bonded_warehouse");
 
-                    b.Property<string>("BuyUnit");
-
-                    b.Property<int?>("BuyUnitNavigationId");
-
-                    b.Property<string>("Buycurrency")
+                    b.Property<string>("BuyCurrency")
                         .HasColumnName("buy_currency");
 
-                    b.Property<decimal?>("Buyprice")
+                    b.Property<decimal?>("BuyPrice")
                         .HasColumnName("buy_price");
 
                     b.Property<string>("Category")
@@ -314,8 +310,6 @@ namespace Egret.Migrations
                     b.Property<string>("QtyToPurchaseNow")
                         .HasColumnName("qty_to_purchase_now");
 
-                    b.Property<string>("SellUnit");
-
                     b.Property<string>("ShippingCompany")
                         .HasColumnName("shipping_company");
 
@@ -339,9 +333,7 @@ namespace Egret.Migrations
                     b.HasKey("Code")
                         .HasName("pk_inventoryitems_id");
 
-                    b.HasIndex("BuyUnitNavigationId");
-
-                    b.HasIndex("Buycurrency");
+                    b.HasIndex("BuyCurrency");
 
                     b.HasIndex("Category");
 
@@ -626,13 +618,9 @@ namespace Egret.Migrations
 
             modelBuilder.Entity("Egret.Models.InventoryItem", b =>
                 {
-                    b.HasOne("Egret.Models.Unit", "BuyUnitNavigation")
+                    b.HasOne("Egret.Models.CurrencyType", "BuyCurrencyNavigation")
                         .WithMany()
-                        .HasForeignKey("BuyUnitNavigationId");
-
-                    b.HasOne("Egret.Models.CurrencyType", "BuycurrencyNavigation")
-                        .WithMany()
-                        .HasForeignKey("Buycurrency")
+                        .HasForeignKey("BuyCurrency")
                         .HasConstraintName("fk_inventoryitems_buycurrency")
                         .HasPrincipalKey("Abbreviation")
                         .OnDelete(DeleteBehavior.Restrict);

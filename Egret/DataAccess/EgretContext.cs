@@ -251,9 +251,9 @@ namespace Egret.DataAccess
 
                 entity.Property(e => e.Unit).HasColumnName("unit");
 
-                entity.Property(e => e.Buyprice).HasColumnName("buy_price");
+                entity.Property(e => e.BuyPrice).HasColumnName("buy_price");
 
-                entity.Property(e => e.Buycurrency).HasColumnName("buy_currency");
+                entity.Property(e => e.BuyCurrency).HasColumnName("buy_currency");
 
                 entity.Property(e => e.CustomerPurchasedFor).HasColumnName("customer_purchased_for");
 
@@ -304,10 +304,10 @@ namespace Egret.DataAccess
                 entity.Property(e => e.FabricTestResults).HasColumnName("fabrictestresults");
                 
                 // Relationships
-                entity.HasOne(d => d.BuycurrencyNavigation)
+                entity.HasOne(d => d.BuyCurrencyNavigation)
                     .WithMany()
                     .HasPrincipalKey(p => p.Abbreviation)
-                    .HasForeignKey(d => d.Buycurrency)
+                    .HasForeignKey(d => d.BuyCurrency)
                     .HasConstraintName("fk_inventoryitems_buycurrency")
                     .OnDelete(DeleteBehavior.Restrict);
 
@@ -329,9 +329,10 @@ namespace Egret.DataAccess
                     .HasConstraintName("fk_inventoryitems_fabrictests")
                     .OnDelete(DeleteBehavior.Cascade);
 
-                entity.HasMany(d => d.ConsumptionEventsNavigation)
+                entity.HasMany(s => s.ConsumptionEventsNavigation)
                     .WithOne(p => p.InventoryItemNavigation)
-                    .HasForeignKey(f => f.InventoryItemCode)
+                    .HasPrincipalKey(p => p.Code)
+                    //.HasForeignKey(f => f.InventoryItemCode)
                     .HasConstraintName("fk_inventoryitems_consumptionevents")
                     .OnDelete(DeleteBehavior.Cascade);
             });

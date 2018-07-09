@@ -10,7 +10,7 @@ using Npgsql.EntityFrameworkCore.PostgreSQL.Metadata;
 namespace Egret.Migrations
 {
     [DbContext(typeof(EgretContext))]
-    [Migration("20180622160408_Initial")]
+    [Migration("20180709205819_Initial")]
     partial class Initial
     {
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
@@ -52,11 +52,20 @@ namespace Egret.Migrations
                         .HasColumnName("id")
                         .HasDefaultValueSql("nextval('master_seq'::regclass)");
 
+                    b.Property<string>("AddedBy")
+                        .HasColumnName("user_added_by");
+
                     b.Property<string>("ConsumedBy")
                         .HasColumnName("consumed_by");
 
+                    b.Property<DateTime?>("DateAdded")
+                        .HasColumnName("date_added");
+
                     b.Property<DateTime?>("DateOfConsumption")
                         .HasColumnName("date_of_consumption");
+
+                    b.Property<DateTime?>("DateUpdated")
+                        .HasColumnName("date_updated");
 
                     b.Property<string>("InventoryItemCode")
                         .HasColumnName("inventory_item_code");
@@ -75,6 +84,9 @@ namespace Egret.Migrations
 
                     b.Property<string>("Unit")
                         .HasColumnName("unit");
+
+                    b.Property<string>("UpdatedBy")
+                        .HasColumnName("user_updated_by");
 
                     b.Property<decimal?>("ValueConsumed")
                         .HasColumnName("value_consumed");
@@ -236,13 +248,10 @@ namespace Egret.Migrations
                     b.Property<bool>("BondedWarehouse")
                         .HasColumnName("bonded_warehouse");
 
-                    b.Property<string>("BuyUnit")
-                        .HasColumnName("buy_unit");
-
-                    b.Property<string>("Buycurrency")
+                    b.Property<string>("BuyCurrency")
                         .HasColumnName("buy_currency");
 
-                    b.Property<decimal?>("Buyprice")
+                    b.Property<decimal?>("BuyPrice")
                         .HasColumnName("buy_price");
 
                     b.Property<string>("Category")
@@ -303,8 +312,6 @@ namespace Egret.Migrations
                     b.Property<string>("QtyToPurchaseNow")
                         .HasColumnName("qty_to_purchase_now");
 
-                    b.Property<string>("SellUnit");
-
                     b.Property<string>("ShippingCompany")
                         .HasColumnName("shipping_company");
 
@@ -328,9 +335,7 @@ namespace Egret.Migrations
                     b.HasKey("Code")
                         .HasName("pk_inventoryitems_id");
 
-                    b.HasIndex("BuyUnit");
-
-                    b.HasIndex("Buycurrency");
+                    b.HasIndex("BuyCurrency");
 
                     b.HasIndex("Category");
 
@@ -615,16 +620,9 @@ namespace Egret.Migrations
 
             modelBuilder.Entity("Egret.Models.InventoryItem", b =>
                 {
-                    b.HasOne("Egret.Models.Unit", "BuyUnitNavigation")
+                    b.HasOne("Egret.Models.CurrencyType", "BuyCurrencyNavigation")
                         .WithMany()
-                        .HasForeignKey("BuyUnit")
-                        .HasConstraintName("fk_inventoryitems_buyunit")
-                        .HasPrincipalKey("Abbreviation")
-                        .OnDelete(DeleteBehavior.Restrict);
-
-                    b.HasOne("Egret.Models.CurrencyType", "BuycurrencyNavigation")
-                        .WithMany()
-                        .HasForeignKey("Buycurrency")
+                        .HasForeignKey("BuyCurrency")
                         .HasConstraintName("fk_inventoryitems_buycurrency")
                         .HasPrincipalKey("Abbreviation")
                         .OnDelete(DeleteBehavior.Restrict);

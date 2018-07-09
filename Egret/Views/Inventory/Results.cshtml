@@ -22,7 +22,7 @@
                 @Html.DisplayNameFor(model => model[0].Comment)
             </th>
             <th>
-                @Html.DisplayNameFor(model => model[0].Buyprice)
+                @Html.DisplayNameFor(model => model[0].BuyPrice)
             </th>
         </tr>
     </thead>
@@ -48,7 +48,7 @@
                         @Html.DisplayFor(modelItem => item.Comment)
                     </td>
                     <td>
-                        @Html.DisplayFor(modelItem => item.Buyprice)
+                        @Html.DisplayFor(modelItem => item.BuyPrice)
                     </td>
                     <td>
                         <a class="delete" title="Delete" asp-action="Delete" asp-route-id="@item.Code">&times;</a>
