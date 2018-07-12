@@ -108,7 +108,7 @@ namespace Egret.Controllers
             // MOFO. We need this in order for the partial view to get the ConsumptionEvents. Since we are not
             // querying with .Include() as in the Get, we have to manually add these again
             //vm.Item = Context.InventoryItems.Where(x => x.Code == id).SingleOrDefault();
-            vm.ConsumptionEvents = Context.ConsumptionEvents.Where(x => x.InventoryItemCode == id).ToList();
+            //vm.ConsumptionEvents = Context.ConsumptionEvents.Where(x => x.InventoryItemCode == id).ToList();
 
             if (ModelState.IsValid)
             {

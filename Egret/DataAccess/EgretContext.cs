@@ -28,18 +28,33 @@ namespace Egret.DataAccess
         {
             base.OnModelCreating(modelBuilder);
 
-            modelBuilder.Entity<IdentityUser>()
-                .ToTable("aspnet_users")
-                .Property(u => u.Id)
-                .HasMaxLength(450);
-            modelBuilder.Entity<User>()
-                .ToTable("aspnet_users")
-                .Property(u => u.Id)
-                .HasMaxLength(450);
-            modelBuilder.Entity<IdentityRole>()
-                .ToTable("aspnet_roles")
-                .Property(u => u.Id)
-                .HasMaxLength(450);
+            // AspNet Identity
+            modelBuilder.Entity<IdentityUser>(entity =>
+            {
+                entity.ToTable("aspnet_users");
+
+                entity.Property(p => p.Id)
+                    .HasColumnName("id")
+                    .HasMaxLength(450);
+            });
+
+            modelBuilder.Entity<User>(entity =>
+            {
+                entity.ToTable("aspnet_users");
+
+                entity.Property(p => p.Id)
+                    .HasColumnName("Id")
+                    .HasMaxLength(450);
+            });
+
+            modelBuilder.Entity<IdentityRole>(entity =>
+            {
+                entity.ToTable("aspnet_roles");
+
+                entity.Property(p => p.Id)
+                    .HasColumnName("id")
+                    .HasMaxLength(450);
+            });
 
             modelBuilder.Entity<Role>(entity =>
             {
@@ -88,8 +103,10 @@ namespace Egret.DataAccess
             modelBuilder.HasSequence<long>("currencytypes_id_seq")
                 .StartsAt(100);
 
+            // PostgreSQL-specific
             modelBuilder.HasPostgresExtension("adminpack");
 
+            // Entities
             modelBuilder.Entity<CurrencyType>(entity =>
             {
                 // Table
@@ -463,6 +480,8 @@ namespace Egret.DataAccess
                         .HasPrincipalKey(k => k.Code);
                 }
             );
+
+
 
             // Seed Admin Data
             modelBuilder.Entity<CurrencyType>().HasData(

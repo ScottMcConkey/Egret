@@ -12,7 +12,7 @@
 
     </div>
 
-    @if (((ICollection)Model?.RelationshipObjects).Count == 0)
+    @if (((ICollection)Model.RelationshipObjects).Count == 0)
     {
         <div class="related-object-blank">There are currently no @Model.Title</div>
     }
@@ -23,7 +23,15 @@
             <a class="related-object-link" target="_blank" asp-controller="@Model.Controller" asp-action="@Model.Action" asp-route-id="@e.GetType().GetProperty(Model.TargetObjectIdColumn).GetValue(e, null)">
                 <div class="related-object-div">
                     <span class="glyphicon glyphicon-chevron-right"></span>
-                    @e.GetType().GetProperty(Model.ObjectDisplay).GetValue(e, null)
+
+                    @if (e.GetType().GetProperty(Model.ObjectDisplay) != null)
+                    {
+                        @e.GetType().GetProperty(Model.ObjectDisplay).GetValue(e, null);
+                    }
+                    else
+                    {
+                        @e.GetType().GetProperty(Model.TargetObjectIdColumn).GetValue(e, null);
+                    }
                 </div>
             </a>
         }
