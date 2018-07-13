@@ -11,6 +11,7 @@ namespace Egret.Interfaces
         string Title { get; set; }
         bool HasCreateNew { get; set; }
         string SourceId { get; set; }
+        string Area { get; set; }
         string Controller { get; set; }
         string Action { get; set; }
         string HelpText { get; set; }

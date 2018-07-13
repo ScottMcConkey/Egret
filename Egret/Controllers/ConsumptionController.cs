@@ -19,7 +19,7 @@ namespace Egret.Controllers
         public ConsumptionController(EgretContext context)
             : base(context)
         {
-            ActiveUnits = Context.Units.Where(x => x.Active == true).OrderBy(x => x.SortOrder);
+            ActiveUnits = Context.Units.Where(x => x.Active).OrderBy(x => x.SortOrder);
         }
 
         [HttpGet]

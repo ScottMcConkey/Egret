@@ -27,6 +27,7 @@ namespace Egret.ViewModels
         public string Title { get; set; } = "Consumption Events";
         public bool HasCreateNew { get; set; } = true;
         public string SourceId { get; set; }
+        public string Area { get; set; } = "";
         public string Controller { get; set; } = "Consumption";
         public string Action { get; set; } = "Edit";
         public string HelpText { get; set; } = "Create New Consumption Event";

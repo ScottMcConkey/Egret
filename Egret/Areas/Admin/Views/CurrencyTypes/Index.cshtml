@@ -1,4 +1,5 @@
 ﻿@model List<CurrencyType>
+
 @{
     ViewData["WindowTitle"] = "Admin - Currency Types";
     ViewData["PageTitle"] = "Currency Types";
@@ -8,9 +9,9 @@
     <a asp-action="Create">Create New</a>
 </p>
 
-<form asp-action="Index" method="post">
+<form asp-action="Index">
 
-    <table class="table  table-condensed table-bordered">
+    <table class="table table-condensed table-bordered">
         <thead>
             <tr>
                 <th>
@@ -40,7 +41,7 @@
             }
             else
             {
-                for (int i = 0; i < Model.Count; i++)
+                for (int i = 0; i < Model.Count(); i++)
                 {
                 <tr>
                     <td>
@@ -62,7 +63,7 @@
                     <td>
                         <input class="form-control radio" type="radio" asp-for="@Model[i].DefaultSelection" value="@Model[i].DefaultSelection" />
                     </td>
-                    <td>
+                    <td style="text-align: center;">
                         <a class="delete" asp-action="Delete" asp-route-id="@Model[i].Id" title="Delete">&times;</a>
                     </td>
                 </tr>

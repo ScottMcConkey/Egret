@@ -128,10 +128,12 @@
                                 <tbody>
                                     @if (Model.FabricTests.Count() == 0)
                                     {
-                                        <tr id="notests"><td colspan="2" class="text-center">There are currently no Tests.</td></tr>
+                                        <tr id="notests"><td colspan="3" class="text-center">There are currently no Tests.</td></tr>
                                     }
                                     else
                                     {
+                                        <tr id="notests" style="display: none;"><td colspan="3" class="text-center">There are currently no Tests.</td></tr>
+
                                         @for (int i = 0; i < Model.FabricTests.Count(); i++)
                                         {
                                             <tr class="fabrictest">
@@ -229,7 +231,6 @@
                             <div class="form-group">
                                 <label asp-for="Item.ConversionSource" class="control-label"></label>
                                 <input asp-for="Item.ConversionSource" class="form-control" />
-                                <span asp-validation-for="Item.ConversionSource" class="text-danger"></span>
                             </div>
 
                         </div>
@@ -244,7 +245,6 @@
 
                 @await Html.PartialAsync("_RelatedObjectsWidget", new RelationshipViewModelConsumption(Model.ConsumptionEvents.OrderBy(x => x.DateOfConsumption).ToList(), Model.Item.Code))
                 
-
             </div>
         </div>
     </div>

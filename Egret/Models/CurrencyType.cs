@@ -1,6 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.ComponentModel.DataAnnotations;
+﻿using System.ComponentModel.DataAnnotations;
 
 namespace Egret.Models
 {
@@ -13,7 +11,6 @@ namespace Egret.Models
         public string Symbol { get; set; }
 
         [Display(Name = "Sort Order")]
-        [Range(1, System.Int32.MaxValue, ErrorMessage = "Sort Order must be a postitive integer.")]
         public int SortOrder { get; set; }
 
         [Required]

@@ -100,15 +100,19 @@ namespace Egret.Controllers
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> Edit(string id, InventoryItemViewModel vm)
         {
-            ViewData["Buycurrency"] = new SelectList(ActiveCurrencyTypes, "Abbreviation", "Abbreviation", vm.Item.BuyCurrency);
+            ViewData["BuyCurrency"] = new SelectList(ActiveCurrencyTypes, "Abbreviation", "Abbreviation", vm.Item.BuyCurrency);
             ViewData["Category"] = new SelectList(ActiveInventoryCategories, "Name", "Name", vm.Item.Category);
             ViewData["Unit"] = new SelectList(ActiveUnits, "Abbreviation", "Abbreviation", vm.Item.Unit);
 
+            InventoryItem item = await Context.InventoryItems
+                .Include(i => i.ConsumptionEventsNavigation)
+                .Include(i => i.FabricTestsNavigation)
+                .SingleOrDefaultAsync(m => m.Code == id);
 
-            // MOFO. We need this in order for the partial view to get the ConsumptionEvents. Since we are not
-            // querying with .Include() as in the Get, we have to manually add these again
-            //vm.Item = Context.InventoryItems.Where(x => x.Code == id).SingleOrDefault();
-            //vm.ConsumptionEvents = Context.ConsumptionEvents.Where(x => x.InventoryItemCode == id).ToList();
+            // Rebuild the view model since not all values will be passed to this action
+            //vm.Item = item;
+            vm.ConsumptionEvents = item.ConsumptionEventsNavigation.OrderBy(x => x.Id).ToList();
+            vm.FabricTests = item.FabricTestsNavigation.ToList();
 
             if (ModelState.IsValid)
             {
@@ -153,6 +157,7 @@ namespace Egret.Controllers
 
                 return RedirectToAction();
             }
+
             return View(vm);
         }
 

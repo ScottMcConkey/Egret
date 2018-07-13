@@ -7,6 +7,9 @@ function SetTestsForDelete() {
         $(this).parent().parent().remove();
         var manager = new TestManager();
         manager.reOrder();
+        if ($("tr.fabrictest").length == 0) {
+            $("tr#notests").show();
+        };
     });
 }
 
@@ -44,7 +47,7 @@ class TestManager {
     }
 
     addOne() {
-        $("tr#notests").remove();
+        $("tr#notests").hide();
 
         $("#tests tr:last").after(
             "<tr class='fabrictest'>" +

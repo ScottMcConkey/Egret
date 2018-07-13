@@ -31,17 +31,20 @@ namespace Egret.Controllers
         }
 
         [HttpGet]
-        public IActionResult Create() => View();
+        public IActionResult Create()
+        {
+            return View();
+        }
 
         [HttpPost]
         public async Task<IActionResult> Create([Required]string name)
         {
             if (ModelState.IsValid)
             {
-                IdentityResult result
-                    = await roleManager.CreateAsync(new IdentityRole(name));
+                IdentityResult result = await roleManager.CreateAsync(new IdentityRole(name));
                 if (result.Succeeded)
                 {
+                    TempData["SuccessMessage"] = "Role Created";
                     return RedirectToAction("Index");
                 }
                 else
@@ -61,6 +64,7 @@ namespace Egret.Controllers
                 IdentityResult result = await roleManager.DeleteAsync(role);
                 if (result.Succeeded)
                 {
+                    TempData["SuccessMessage"] = $"Role '{role.Name}' Deleted";
                     return RedirectToAction("Index");
                 }
                 else
@@ -132,6 +136,7 @@ namespace Egret.Controllers
 
             if (ModelState.IsValid)
             {
+                TempData["SuccessMessage"] = "Save Complete";
                 return RedirectToAction(nameof(Index));
             }
             else

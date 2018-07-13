@@ -1,12 +1,8 @@
-﻿using System;
+﻿using Egret.DataAccess;
+using Egret.Models;
+using Microsoft.AspNetCore.Mvc;
 using System.Collections.Generic;
 using System.Linq;
-using System.Threading.Tasks;
-using Microsoft.AspNetCore.Http;
-using Microsoft.AspNetCore.Mvc;
-using Microsoft.EntityFrameworkCore;
-using Egret.DataAccess;
-using Egret.Models;
 
 namespace Egret.Controllers
 {
@@ -41,37 +37,28 @@ namespace Egret.Controllers
 
             // Find usage
 
-
-            if (duplicateName.Count > 0)
-            {
+            // Error on duplicates
+            if (duplicateName.Count() > 0)
                 ModelState.AddModelError("", "Duplicate Name detected. Please assign every Inventory Category a unique Name.");
-            }
 
-            if (duplicateSortOrder.Count > 0)
-            {
+            if (duplicateSortOrder.Count() > 0)
                 ModelState.AddModelError("", "Duplicate Sort Order detected. Please assign every Inventory Category a unique Sort Order.");
-            }
 
             if (badSort.Count() > 0)
-            {
                 ModelState.AddModelError("", "Sort Order below 1 detected. Please assign every Inventory Category a positive Sort Order.");
-            }
 
             if (ModelState.IsValid)
             {
-                for (int i = 0; i < inventoryCategories.Count; i++)
+                for (int i = 0; i < inventoryCategories.Count(); i++)
                 {
                     Context.Update(inventoryCategories[i]);
                 }
                 Context.SaveChanges();
                 TempData["SuccessMessage"] = "Save Complete";
-            }
-            else
-            {
-                return View(inventoryCategories);
+                return RedirectToAction(nameof(Index));
             }
 
-            return RedirectToAction(nameof(Index));
+            return View(inventoryCategories);
         }
 
         [HttpGet]
@@ -89,10 +76,12 @@ namespace Egret.Controllers
             if (ModelState.IsValid)
             {
                 Context.Add(category);
+                Context.SaveChanges();
+                TempData["SuccessMessage"] = "Inventory Category Created";
+                return RedirectToAction(nameof(Index));
             }
-            Context.SaveChanges();
-            TempData["SuccessMessage"] = "Save Complete";
-            return View();
+            
+            return View(category);
         }
 
         [ActionName("Delete")]

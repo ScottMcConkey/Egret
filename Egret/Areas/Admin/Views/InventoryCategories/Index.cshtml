@@ -5,11 +5,11 @@
     ViewData["PageTitle"] = "Inventory Categories";
 }
 
-<form asp-action="Index" method="post">
+<p class="page-nav-container">
+    <a asp-action="Create">Create New</a>
+</p>
 
-    <p class="page-nav-container">
-        <a asp-action="Create">Create New</a>
-    </p>
+<form asp-action="Index">
 
     <table class="table table-condensed table-bordered">
         <thead>
@@ -35,7 +35,7 @@
             }
             else
             {
-                for (int i = 0; i < Model.Count; i++)
+                for (int i = 0; i < Model.Count(); i++)
                 {
                     <tr>
                         <td>
@@ -51,8 +51,8 @@
                         <td>
                             <input type="checkbox" asp-for="@Model[i].Active" class="form-control" />
                         </td>
-                        <td>
-                            <a asp-action="Delete" asp-route-id="@Model[i].Id" asp- style="color: red; font-size: 25px; font-weight: bold; text-decoration: none;" title="Delete">&times;</a>
+                        <td style="text-align: center;">
+                            <a asp-action="Delete" asp-route-id="@Model[i].Id" style="color: red; font-size: 25px; font-weight: bold; text-decoration: none;" title="Delete">&times;</a>
                         </td>
                     </tr>
                 }
