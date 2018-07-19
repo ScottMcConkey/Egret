@@ -17,5 +17,7 @@ namespace Egret.ViewModels
 
         [UIHint("date")]
         public DateTime? DateCreatedEnd { get; set; }
+
+        public string Category { get; set; }
     }
 }

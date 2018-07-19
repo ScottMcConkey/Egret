@@ -4,7 +4,10 @@ using System.Linq;
 using System.Threading.Tasks;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Identity;
+using Microsoft.AspNetCore.Authentication;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.IdentityModel;
+using Microsoft.Extensions;
 using Egret.Models;
 using Egret.ViewModels;
 
@@ -23,11 +26,37 @@ namespace Egret.Controllers
             signInManager = signinMgr;
         }
 
+        [HttpGet]
         [AllowAnonymous]
         public IActionResult Login(string returnUrl)
         {
             ViewBag.returnUrl = returnUrl;
             return View();
+        }
+
+        [HttpGet]
+        [Authorize]
+        public IActionResult ChangePassword()
+        {
+            return View();
+        }
+
+
+        [HttpPost]
+        [Authorize]
+        public async Task<IActionResult> ChangePassword(ChangePasswordModel details)
+        {
+            //User person = ();
+            //IdentityResult passwordChangeResult = await userManager.ChangePasswordAsync(User.Identity.GetUserId(), details.CurrentPassword, details.NewPassword);
+           
+
+            //if (passwordChangeResult.Succeeded)
+            //{
+            //    ViewData["SuccessMessage"] = "User Password Updated";
+            //    return RedirectToAction("Index", "Home");
+            //}
+            return View(details);
+
         }
 
         [HttpPost]

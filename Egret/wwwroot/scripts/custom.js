@@ -53,7 +53,7 @@ class TestManager {
             "<tr class='fabrictest'>" +
                 "<td><div class='form-group'><input class='form-control testName' type='text' name='FabricTests[" + this.getCount() + "].Name' /></div></td>" +
                 "<td><div class='form-group'><input class='form-control testResult' type='text' name='FabricTests[" + this.getCount() + "].Result' /></div></td>" +
-                "<td><a class='delete' title='Delete' href='#'>&times;</a></td>" +
+                "<td style='text-align: center;'><a class='delete' title='Delete' href='#'>&times;</a></td>" +
             "</tr>");
 
         SetTestsForDelete();

@@ -62,4 +62,13 @@ namespace Egret.ViewModels
 
         public string[] IdsToDelete { get; set; }
     }
+
+    public class ChangePasswordModel
+    {
+        [Required]
+        public string CurrentPassword { get; set; }
+
+        [Required]
+        public string NewPassword { get; set; }
+    }
 }

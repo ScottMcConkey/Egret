@@ -8,6 +8,7 @@ using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Logging;
+using System;
 
 namespace Egret
 {
@@ -47,9 +48,18 @@ namespace Egret
                     opts.Password.RequireUppercase = false;
                     opts.Password.RequireDigit = false;
                     opts.User.RequireUniqueEmail = true;
+                    opts.Lockout.DefaultLockoutTimeSpan = TimeSpan.FromMinutes(10);
+                    opts.Lockout.MaxFailedAccessAttempts = 10;
                 }
             )
                 .AddEntityFrameworkStores<EgretContext>();
+
+            services.ConfigureApplicationCookie(options =>
+            {
+                options.Cookie.HttpOnly = true;
+                options.ExpireTimeSpan = TimeSpan.FromMinutes(30);
+                options.SlidingExpiration = true;
+            });
         }
 
         public void Configure(IApplicationBuilder app, IHostingEnvironment env, ILoggerFactory loggerFactory)

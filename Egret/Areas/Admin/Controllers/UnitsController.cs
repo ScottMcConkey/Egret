@@ -95,6 +95,7 @@ namespace Egret.Controllers
             var unit = Context.Units.SingleOrDefault(m => m.Id == id);
             Context.Units.Remove(unit);
             Context.SaveChanges();
+            TempData["SuccessMessage"] = $"Unit '{unit.Name}' Deleted";
             return RedirectToAction(nameof(Index));
         }
 
