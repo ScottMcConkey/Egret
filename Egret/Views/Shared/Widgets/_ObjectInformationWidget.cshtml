@@ -1,0 +1,23 @@
+﻿@model ObjectInformationViewModel
+
+<div class='edit-info'>
+    <table>
+        <tr>
+            <td>Added By:</td>
+            <td>@Model?.CreatedBy</td>
+        </tr>
+        <tr>
+            <td>Added On:</td>
+            <td>@(Model.CreatedDate != null ? Model.CreatedDate.Value.ToShortDateString() : "")</td>
+        </tr>
+        <tr>
+            <td>Updated By:</td>
+            <td>@Model?.UpdatedBy</td>
+        </tr>
+        <tr>
+            <td>Updated On:</td>
+            <td>@(Model.UpdatedDate != null ? Model.UpdatedDate.Value.ToShortDateString() : "")</td>
+        </tr>
+    </table>
+</div>
+

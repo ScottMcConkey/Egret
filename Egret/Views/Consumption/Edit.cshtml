@@ -59,11 +59,12 @@
             </div>
 
             <div class="col-md-4">
-                <ui-object-info addedby="@Model.ConsumptionEvent.AddedBy" addedon="@Model.ConsumptionEvent.DateAdded"
-                                updatedby="@Model.ConsumptionEvent.UpdatedBy" updatedon="@Model.ConsumptionEvent.DateUpdated" />
 
-                @*@await Html.PartialAsync("_RelatedObjectsWidget", new RelationshipViewModelInventory((List<InventoryItem>)Model.InventoryItems))
-                *@
+                @await Html.PartialAsync("_ObjectInformationWidget", new ObjectInformationViewModel(@Model.ConsumptionEvent.AddedBy, @Model.ConsumptionEvent.DateAdded,
+                    @Model.ConsumptionEvent.UpdatedBy, @Model.ConsumptionEvent.DateUpdated))
+
+                @await Html.PartialAsync("_RelatedObjectsWidget", new RelationshipViewModelInventory((List<InventoryItem>)Model.InventoryItems))
+                
             </div>
         </div>
     </div>

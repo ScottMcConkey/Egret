@@ -21,6 +21,7 @@
     </environment>
 
     <link rel="stylesheet" asp-href-include="~/css/*.css" />
+    <link rel="stylesheet" asp-href-include="~/css/toggle-switch.css" />
 
     <script asp-src-include="~/scripts/*.js"></script>
 
@@ -43,10 +44,9 @@
                 </ul>
             </div><div id="main">
                       <div id="main-top" class="lead">
-                          @ViewData["PageTitle"]
+                          <div class="pull-left" style="display: inline; margin-top: 9px;">@ViewData["PageTitle"]</div>
                           @if (User?.Identity?.IsAuthenticated ?? false)
                           {
-
                               <a class="btn btn-sm btn-default pull-right" style="margin-top: 15px; margin-right: 15px" asp-action="Logout" asp-area="" asp-controller="Account">Log Out</a>
                               <a class="btn btn-sm btn-default pull-right" style="margin-top: 15px; margin-right: 15px" asp-action="ChangePassword" asp-area="" asp-controller="Account">Change Password</a>
                               <div style="font-size: 15pt; margin-top: 15px; margin-right: 15px" class="pull-right">@User.Identity.Name</div>

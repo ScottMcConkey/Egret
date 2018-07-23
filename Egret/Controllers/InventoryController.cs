@@ -80,6 +80,7 @@ namespace Egret.Controllers
             InventoryItem item = await Context.InventoryItems
                 .Include(i => i.ConsumptionEventsNavigation)
                 .Include(i => i.FabricTestsNavigation)
+                //.Include(i => i.CategoryNavigation)
                 .SingleOrDefaultAsync(m => m.Code == id);
 
             if (item == null)
@@ -89,7 +90,6 @@ namespace Egret.Controllers
 
             ViewData["Buycurrency"] = new SelectList(ActiveCurrencyTypes, "Abbreviation", "Abbreviation", item.BuyCurrency);
             
-
             //Console.WriteLine(ActiveAndCurrentCategories.Count().ToString());
             if (!ActiveInventoryCategories.Any(x => x.Name == item.Category))
             {
@@ -108,6 +108,7 @@ namespace Egret.Controllers
             presentation.Item = item;
             presentation.FabricTests = item.FabricTestsNavigation.OrderBy(x => x.Id).ToList();
             presentation.ConsumptionEvents = item.ConsumptionEventsNavigation.ToList();
+            //presentation.Category = item.CategoryNavigation;
 
             return View(presentation);
         }
@@ -125,14 +126,21 @@ namespace Egret.Controllers
             ViewData["Category"] = new SelectList(ActiveAndCurrentCategories, "Name", "Name", vm.Item.Category);
             ViewData["Unit"] = new SelectList(ActiveUnits, "Abbreviation", "Abbreviation", vm.Item.Unit);
 
-            InventoryItem item = await Context.InventoryItems
-                .Include(i => i.ConsumptionEventsNavigation)
-                //.Include(i => i.FabricTestsNavigation)
-                .SingleOrDefaultAsync(m => m.Code == id);
+            // Scott test
+            SelectList something = new SelectList(ActiveUnits, "Abbreviation", "Abbreviation");
+            //var test = something.Items();
+
+            //InventoryItem item = await Context.InventoryItems
+            //    .Include(i => i.ConsumptionEventsNavigation)
+            //.Include(i => i.CategoryNavigation)
+            //.Include(i => i.FabricTestsNavigation)
+            //    .SingleOrDefaultAsync(m => m.Code == id);
+            List<ConsumptionEvent> events = Context.ConsumptionEvents.Where(x => x.InventoryItemCode == vm.Item.Code).ToList();
 
             // Rebuild the view model since not all values will be passed to this action
-            vm.Item = item;
-            vm.ConsumptionEvents = item.ConsumptionEventsNavigation.OrderBy(x => x.Id).ToList();
+            //vm.Item = item;
+            vm.ConsumptionEvents = events;// item.ConsumptionEventsNavigation.OrderBy(x => x.Id).ToList();
+            //vm.Category = item.CategoryNavigation;
             //vm.FabricTests = vm.FabricTests;// item.FabricTestsNavigation.ToList();
 
             if (ModelState.IsValid)

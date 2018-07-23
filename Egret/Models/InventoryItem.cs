@@ -3,7 +3,9 @@ using System.Collections.Generic;
 using System.ComponentModel;
 using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
+using System.Linq;
 using Microsoft.AspNetCore.Mvc.ModelBinding;
+using Microsoft.Extensions;
 
 namespace Egret.Models
 {
@@ -72,6 +74,58 @@ namespace Egret.Models
         [UIHint("Date")]
         public DateTime? DateArrived { get; set; }
 
+        public string Comment { get; set; }
+
+        [Display(Name = "Quantity Purchased")]
+        public decimal? QtyPurchased { get; set; }
+
+        public string Unit { get; set; }
+
+        [Display(Name = "FOB Cost Or Local Cost no VAT (Nrs)*")]
+        public decimal? FOBCost { get; set; }
+
+        [Display(Name = "Shipping Cost (Nrs)*")]
+        public decimal? ShippingCost { get; set; }
+
+        [Display(Name = "Import/Custom/Delivery Costs/VAT (Nrs)*")]
+        public decimal? ImportCosts { get; set; }
+
+        [Display(Name = "Buy Price")]
+        public decimal? BuyPrice { get; set; }
+
+        [Display(Name = "Buy Currency")]
+        public string BuyCurrency { get; set; }
+
+        public string Category { get; set; }
+
+
+        [Display(Name = "Is Conversion?")]
+        public bool IsConversion { get; set; }
+
+        [Display(Name = "Conversion Source")]
+        [ReadOnly(true)]
+        public string ConversionSource { get; set; }
+        
+
+        public CurrencyType BuyCurrencyNavigation { get; set; }
+        public InventoryCategory CategoryNavigation { get; set; }
+        public Unit UnitNavigation { get; set; }
+        public ICollection<FabricTest> FabricTestsNavigation { get; set; }
+        public ICollection<ConsumptionEvent> ConsumptionEventsNavigation { get; set; }
+
+        [Display(Name = "Quantity in Stock")]
+        [UIHint("text")]
+        [NotMapped]
+        public decimal StockQuantity
+        {
+            get
+            {
+                return (QtyPurchased ?? 0) - (ConsumptionEventsNavigation?.Sum(x => x.QuantityConsumed) ?? 0);
+            }
+
+            private set { }
+        }
+
         [Display(Name = "Days to Confirm Order")]
         [ReadOnly(true)]
         [UIHint("text")]
@@ -104,7 +158,7 @@ namespace Egret.Models
             {
                 if (DateArrived != null && DateShipped != null)
                 {
-                    return (int) ((DateTime)DateArrived - (DateTime) DateShipped).TotalDays;
+                    return (int)((DateTime)DateArrived - (DateTime)DateShipped).TotalDays;
                 }
                 else
                 {
@@ -134,24 +188,6 @@ namespace Egret.Models
             }
             private set { }
         }
-
-        public string Comment { get; set; }
-
-        [Display(Name = "Quantity Purchased")]
-        public decimal? QtyPurchased { get; set; }
-
-        public string Unit { get; set; }
-
-        [Display(Name = "FOB Cost Or Local Cost no VAT (Nrs)*")]
-        public decimal? FOBCost { get; set; }
-
-        [Display(Name = "Shipping Cost (Nrs)*")]
-        public decimal? ShippingCost { get; set; }
-
-        [Display(Name = "Import/Custom/Delivery Costs/VAT (Nrs)*")]
-        public decimal? ImportCosts { get; set; }
-
-
 
         [Display(Name = "Total Cost")]
         [ReadOnly(true)]
@@ -190,7 +226,7 @@ namespace Egret.Models
                 {
                     return null;
                 }
-                
+
             }
             private set { }
         }
@@ -215,30 +251,6 @@ namespace Egret.Models
             }
             private set { }
         }
-
-
-        [Display(Name = "Buy Price")]
-        public decimal? BuyPrice { get; set; }
-
-        [Display(Name = "Buy Currency")]
-        public string BuyCurrency { get; set; }
-
-        public string Category { get; set; }
-
-
-        [Display(Name = "Is Conversion?")]
-        public bool IsConversion { get; set; }
-
-        [Display(Name = "Conversion Source")]
-        [ReadOnly(true)]
-        public string ConversionSource { get; set; }
-        
-
-        public CurrencyType BuyCurrencyNavigation { get; set; }
-        public InventoryCategory CategoryNavigation { get; set; }
-        public Unit UnitNavigation { get; set; }
-        public ICollection<FabricTest> FabricTestsNavigation { get; set; }
-        public ICollection<ConsumptionEvent> ConsumptionEventsNavigation { get; set; }
 
         [NotMapped]
         [DatabaseGenerated(DatabaseGeneratedOption.Computed)]
