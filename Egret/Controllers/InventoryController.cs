@@ -128,7 +128,7 @@ namespace Egret.Controllers
 
             // Scott test
             SelectList something = new SelectList(ActiveUnits, "Abbreviation", "Abbreviation");
-            //var test = something.Items();
+           // var test = something.
 
             //InventoryItem item = await Context.InventoryItems
             //    .Include(i => i.ConsumptionEventsNavigation)
