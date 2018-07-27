@@ -19,5 +19,11 @@ namespace Egret.ViewModels
         public DateTime? DateCreatedEnd { get; set; }
 
         public string Category { get; set; }
+
+        [Display(Name = "Customer Purchased For")]
+        public string CustomerPurchasedFor { get; set; }
+
+        [Display(Name = "Customer Reserved For")]
+        public string CustomerReservedFor { get; set; }
     }
 }

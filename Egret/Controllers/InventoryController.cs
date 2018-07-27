@@ -258,6 +258,14 @@ namespace Egret.Controllers
             if (!String.IsNullOrEmpty(item.Category))
                 results = results.Where(x => x.Category == item.Category);
 
+            // Customer Purchased For
+            if (!String.IsNullOrEmpty(item.CustomerPurchasedFor))
+                results = results.Where(x => x.CustomerPurchasedFor.Contains(item.CustomerPurchasedFor));
+
+            // Customer Reserved For
+            if (!String.IsNullOrEmpty(item.CustomerReservedFor))
+                results = results.Where(x => x.CustomerReservedFor.Contains(item.CustomerReservedFor));
+
 
             return View("Results", results.OrderBy(x => x.Code).ToList());
         }
