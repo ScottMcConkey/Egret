@@ -19,10 +19,16 @@
                 @Html.DisplayNameFor(model => model[0].Description)
             </th>
             <th>
-                @Html.DisplayNameFor(model => model[0].Comment)
+                @Html.DisplayNameFor(model => model[0].Category)
             </th>
             <th>
-                @Html.DisplayNameFor(model => model[0].BuyPrice)
+                @Html.DisplayNameFor(model => model[0].CustomerReservedFor)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model[0].StockQuantity)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model[0].Unit)
             </th>
         </tr>
     </thead>
@@ -45,13 +51,16 @@
                         @Html.DisplayFor(modelItem => item.Description)
                     </td>
                     <td>
-                        @Html.DisplayFor(modelItem => item.Comment)
+                        @Html.DisplayFor(modelItem => item.Category)
                     </td>
                     <td>
-                        @Html.DisplayFor(modelItem => item.BuyPrice)
+                        @Html.DisplayFor(modelItem => item.CustomerReservedFor)
                     </td>
                     <td>
-                        <a class="delete" title="Delete" asp-action="Delete" asp-route-id="@item.Code">&times;</a>
+                        @Html.DisplayFor(modelItem => item.StockQuantity)
+                    </td>
+                    <td>
+                        @Html.DisplayFor(modelItem => item.Unit)
                     </td>
                 </tr>
             }

@@ -5,7 +5,7 @@
     ViewData["PageTitle"] = "Currency Types";
 }
 
-<p class="page-nav-container">
+<p class="page-link">
     <a asp-action="Create">Create New</a>
 </p>
 
@@ -32,6 +32,7 @@
                 <th>
                     @Html.DisplayNameFor(model => model[0].DefaultSelection)
                 </th>
+                <th></th>
             </tr>
         </thead>
         <tbody>
@@ -63,8 +64,8 @@
                     <td>
                         <input class="form-control radio" type="radio" asp-for="@Model[i].DefaultSelection" value="@Model[i].DefaultSelection" />
                     </td>
-                    <td style="text-align: center;">
-                        <a class="delete" asp-action="Delete" asp-route-id="@Model[i].Id" title="Delete">&times;</a>
+                    <td class="delete-box">
+                        <a class="delete" asp-action="Delete" asp-route-id="@Model[i].Id" title="Delete"><span class="glyphicon glyphicon-trash"></span></a>
                     </td>
                 </tr>
                 }

@@ -16,7 +16,6 @@
                     <li class="tab-header"><a style="outline: none;" href="#">Fabric Tests</a></li>
                     <li class="tab-header"><a style="outline: none;" href="#">Accounting</a></li>
                     <li class="tab-header"><a style="outline: none;" href="#">Logistics</a></li>
-                    <li class="tab-header"><a style="outline: none;" href="#">Conversion</a></li>
                 </ul>
 
                 <br />
@@ -145,8 +144,8 @@
                                                         <input asp-for="@Model.FabricTests[i].Result" class="form-control testResult" />
                                                     </div>
                                                 </td>
-                                                <td style="text-align: center;">
-                                                    <a class="delete" title="Delete" href="#">&times;</a>
+                                                <td class="delete-box">
+                                                    <a style="font-size: 1em;" class="delete" title="Delete" href="#"><span class="glyphicon glyphicon-trash"></span></a>
                                                 </td>
                                             </tr>
                                         }
@@ -208,19 +207,6 @@
                                 <label asp-for="Item.DaysToComplete" class="control-label"></label>
                                 <input asp-for="Item.DaysToComplete" class="form-control" style="width: 50%;" readonly="readonly" />
                             </div>
-                        </div>
-                    </div>
-                </div>
-
-                <!-- Conversion -->
-                <div class="row">
-                    <div class="col-md-6">
-                        <div class="tab-content">
-                            <div class="form-group">
-                                <label asp-for="Item.ConversionSource" class="control-label"></label>
-                                <input asp-for="Item.ConversionSource" class="form-control" />
-                            </div>
-
                         </div>
                     </div>
                 </div>

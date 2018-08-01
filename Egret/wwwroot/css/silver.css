@@ -126,26 +126,20 @@ th {
 }
 
 /* Used by main pages */
-.page-nav-container {
+.page-link {
     display: block;
     margin-top: 12px;
     margin-bottom: 12px;
 }
 
-.page-nav-container span {
+.page-link span {
     padding-right: 8px;
 }
 
-.delete, 
-.delete:hover, 
-.delete:active,
-.delete:visited {
-    color: red;
-    font-size: 25px;
-    font-weight: bold;
-    text-decoration: none;
+.page-link-header {
+    border-bottom: 1px solid #000;
+    padding-bottom: 2px;
 }
-
 
 .related-objects {
     border-left: 1px solid #0f0e31;
@@ -190,4 +184,29 @@ th {
     border: 1px solid black;
     padding: 5px;
     margin-bottom: 30px;
+}
+
+.required::after {
+    content: " *";
+    color: red;
+}
+
+.delete,
+.delete:hover,
+.delete:active,
+.delete:visited {
+    color: #000;
+    font-size: 25px;
+    font-size: 1em;
+    text-decoration: none;    
+}
+
+.delete-box {
+    text-align: center;
+}
+
+.delete-box span {
+    margin-top: 10px;
+    font-size: 1em;
+    vertical-align: middle;
 }

@@ -30,6 +30,24 @@ namespace Egret.Controllers
             return View(roleManager.Roles.ToList());
         }
 
+        [HttpPost]
+        //public ViewResult Index(List<Role> roles)
+        //{
+        //    if (ModelState.IsValid)
+        //    {
+        //        for (int i = 0; i < roles.Count(); i++)
+        //        {
+        //            Context.Update(roles[i]);
+        //        }
+        //        Context.SaveChanges();
+        //        TempData["SuccessMessage"] = "Save Complete";
+        //        return RedirectToAction(nameof(Index));
+        //    }
+
+        //    return View(roles);
+
+        //}
+
         [HttpGet]
         public IActionResult Create()
         {

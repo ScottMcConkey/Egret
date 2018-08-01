@@ -298,10 +298,6 @@ namespace Egret.DataAccess
 
                 entity.Property(e => e.ImportCosts).HasColumnName("import_cost");
 
-                entity.Property(e => e.IsConversion).HasColumnName("is_conversion");
-
-                entity.Property(e => e.ConversionSource).HasColumnName("conversion_source");
-
                 entity.Property(e => e.DateAdded).HasColumnName("date_added");
 
                 entity.Property(e => e.AddedBy).HasColumnName("user_added_by");
@@ -405,9 +401,6 @@ namespace Egret.DataAccess
 
                 entity.Property(e => e.PatternNumber)
                     .HasColumnName("pattern_number");
-
-                entity.Property(e => e.ValueConsumed)
-                    .HasColumnName("value_consumed");
 
                 entity.Property(p => p.InventoryItemCode)
                     .HasColumnName("inventory_item_code");

@@ -49,7 +49,7 @@ namespace Egret
                     opts.Password.RequireUppercase = false;
                     opts.Password.RequireDigit = false;
                     opts.User.RequireUniqueEmail = true;
-                    opts.Lockout.DefaultLockoutTimeSpan = TimeSpan.FromMinutes(10);
+                    //opts.Lockout.DefaultLockoutTimeSpan = TimeSpan.FromMinutes(30);
                     opts.Lockout.MaxFailedAccessAttempts = 10;
                 }
             )
@@ -58,8 +58,8 @@ namespace Egret
             services.ConfigureApplicationCookie(options =>
             {
                 options.Cookie.HttpOnly = true;
-                options.ExpireTimeSpan = TimeSpan.FromMinutes(30);
-                options.SlidingExpiration = true;
+                //options.ExpireTimeSpan = TimeSpan.FromMinutes(30);
+                //options.SlidingExpiration = true;
             });
 
             services.Configure<RazorViewEngineOptions>(o =>

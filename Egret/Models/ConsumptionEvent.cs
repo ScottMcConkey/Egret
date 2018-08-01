@@ -25,14 +25,17 @@ namespace Egret.Models
         [Display(Name = "Updated By")]
         public string UpdatedBy { get; set; }
 
+        [Required]
         [Display(Name = "Quantity Consumed")]
         public decimal? QuantityConsumed { get; set; }
 
         public string Unit { get; set; }
 
+        [Required]
         [Display(Name = "Consumed By")]
         public string ConsumedBy { get; set; }
 
+        [Required]
         [Display(Name = "Date Consumed")]
         [UIHint("date")]
         public DateTime? DateOfConsumption { get; set; }
@@ -46,10 +49,6 @@ namespace Egret.Models
         [Display(Name = "Pattern Number")]
         public string PatternNumber { get; set; }
 
-        [Display(Name = "Value Consumed")]
-        public decimal? ValueConsumed { get; set; }
-
-
         public string InventoryItemCode { get; set; }
 
         [NotMapped]
@@ -59,7 +58,7 @@ namespace Egret.Models
             get
             {
                 return (DateOfConsumption != null ? DateOfConsumption.Value.ToShortDateString() + " - " : "") 
-                    + "Units Consumed: " + (QuantityConsumed != null ? QuantityConsumed.ToString() : "0");
+                    + "Quantity Consumed: " + (QuantityConsumed != null ? QuantityConsumed.ToString() : "0");
             }
             private set { }
         }

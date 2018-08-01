@@ -4,13 +4,11 @@
     ViewData["PageTitle"] = "User Roles";
 }
 
-<div class="text-danger" asp-validation-summary="ModelOnly"></div>
+<p class="page-nav-container">
+    <a asp-action="Create">Create New</a>
+</p>
 
-<form asp-action="Index" method="post">
-
-    <p class="page-nav-container">
-        <a asp-action="Create">Create New</a>
-    </p>
+<form asp-action="Index">
 
     <table class="table table-condensed table-bordered">
         <thead>
@@ -35,7 +33,7 @@
                             <input asp-for="@Model[i].Name" class="form-control" />
                         </td>
                         <td identity-role="@Model[i].Id"></td>
-                        <td>
+                        <td style="text-align: center;">
                             <a asp-action="Delete" asp-route-id="@Model[i].Id" asp- style="color: red; font-size: 25px; font-weight: bold; text-decoration: none;" title="Delete">&times;</a>
                         </td>
                     </tr>
@@ -44,8 +42,13 @@
         </tbody>
     </table>
 
+    <div class="form-group">
+        <input type="submit" value="Save" class="btn btn-default" />
+    </div>
 </form>
 
 <div>
     <a asp-area="Admin" asp-controller="Home" asp-action="Index">Back to Admin</a>
 </div>
+
+

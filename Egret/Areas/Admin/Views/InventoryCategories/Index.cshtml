@@ -1,11 +1,10 @@
 ﻿@model List<InventoryCategory>
-
 @{
     ViewData["WindowTitle"] = "Admin - Inventory Categories";
     ViewData["PageTitle"] = "Inventory Categories";
 }
 
-<p class="page-nav-container">
+<p class="page-link">
     <a asp-action="Create">Create New</a>
 </p>
 
@@ -26,6 +25,7 @@
                 <th>
                     @Html.DisplayNameFor(model => model[0].Active)
                 </th>
+                <th></th>
             </tr>
         </thead>
         <tbody>

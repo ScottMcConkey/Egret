@@ -96,16 +96,7 @@ namespace Egret.Models
         [Display(Name = "Buy Currency")]
         public string BuyCurrency { get; set; }
 
-        public string Category { get; set; }
-
-
-        [Display(Name = "Is Conversion?")]
-        public bool IsConversion { get; set; }
-
-        [Display(Name = "Conversion Source")]
-        [ReadOnly(true)]
-        public string ConversionSource { get; set; }
-        
+        public string Category { get; set; }        
 
         public CurrencyType BuyCurrencyNavigation { get; set; }
         public InventoryCategory CategoryNavigation { get; set; }
