@@ -4,9 +4,9 @@ using System.Linq;
 using System.Threading.Tasks;
 using Microsoft.AspNetCore.Mvc;
 
-namespace Egret.Areas.Admin.Controllers
+namespace Egret.Areas.Inventory.Controllers
 {
-    [Area("Admin")]
+    [Area("Inventory")]
     public class HomeController : Controller
     {
         public IActionResult Index()

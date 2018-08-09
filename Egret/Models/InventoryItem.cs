@@ -42,12 +42,6 @@ namespace Egret.Models
         [Display(Name = "Approximate Production Qty")]
         public string ApproxProdQty { get; set; }
 
-        [Display(Name = "Fabric Tests")]
-        public string FabricTests_Conversion { get; set; }
-
-        [Display(Name = "Fabric Test Results")]
-        public string FabricTestResults { get; set; }
-
         [Display(Name = "Needed Before")]
         [UIHint("date")]
         public DateTime? NeededBefore { get; set; }
@@ -81,26 +75,30 @@ namespace Egret.Models
 
         public string Unit { get; set; }
 
-        [Display(Name = "FOB Cost Or Local Cost no VAT (Nrs)*")]
+        [Display(Name = "FOB Cost Or Local Cost no VAT")]
         public decimal? FOBCost { get; set; }
 
-        [Display(Name = "Shipping Cost (Nrs)*")]
+        public string FOBCostCurrency { get; set; }
+
+        [Display(Name = "Shipping Cost")]
         public decimal? ShippingCost { get; set; }
 
-        [Display(Name = "Import/Custom/Delivery Costs/VAT (Nrs)*")]
+        public string ShippingCostCurrency { get; set; }
+
+        [Display(Name = "Import/Custom/Delivery Costs/VAT")]
         public decimal? ImportCosts { get; set; }
 
-        [Display(Name = "Buy Price")]
-        public decimal? BuyPrice { get; set; }
+        public string ImportCostCurrency { get; set; }
 
-        [Display(Name = "Buy Currency")]
-        public string BuyCurrency { get; set; }
+        public string Category { get; set; }
 
-        public string Category { get; set; }        
-
-        public CurrencyType BuyCurrencyNavigation { get; set; }
         public InventoryCategory CategoryNavigation { get; set; }
         public Unit UnitNavigation { get; set; }
+
+        public CurrencyType FOBCostCurrencyNavigation { get; set; }
+        public CurrencyType ShippingCostCurrencyNavigation { get; set; }
+        public CurrencyType ImportCostCurrencyNavigation { get; set; }
+
         public ICollection<FabricTest> FabricTestsNavigation { get; set; }
         public ICollection<ConsumptionEvent> ConsumptionEventsNavigation { get; set; }
 
@@ -249,7 +247,7 @@ namespace Egret.Models
         {
             get
             {
-                return (Code != "" ? "Code: " + Code + " - " : "") + (Description != "" ? Description.Substring(0, 40) : "");
+                return (Code != "" ? "Code: " + Code + " - " : "") + (Description ?? "");
             }
             private set { }
 

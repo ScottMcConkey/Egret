@@ -64,8 +64,9 @@ namespace Egret
 
             services.Configure<RazorViewEngineOptions>(o =>
             {
-                o.ViewLocationFormats.Add("/Views/Shared/Widgets/{0}" + RazorViewEngine.ViewExtension);
+                o.ViewLocationFormats.Add("~/Views/Shared/Widgets/{0}" + RazorViewEngine.ViewExtension);
                 //o.PageViewLocationFormats.Add("/Views/Shared/Widgets");
+                o.AreaViewLocationFormats.Add("~/Views/Shared/Widgets/{0}" + RazorViewEngine.ViewExtension);
             });
         }
 

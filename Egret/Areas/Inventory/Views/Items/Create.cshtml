@@ -15,6 +15,7 @@
                     <textarea asp-for="Description" class="form-control" style="height: 6em;"></textarea>
                     <span asp-validation-for="Description" class="text-danger"></span>
                 </div>
+
                 <div class="form-group">
                     <label asp-for="Category" class="control-label"></label>
                     <select asp-for="Category" class="form-control" asp-items="ViewBag.Category">
@@ -22,87 +23,114 @@
                     </select>
                     <span asp-validation-for="Category" class="text-danger"></span>
                 </div>
-                <div class="form-group">
-                    <div class="form-group">
-                        <label asp-for="QtyPurchased" class="control-label"></label>
-                        <input asp-for="QtyPurchased" style="width: 50%" class="form-control" />
-                        <span asp-validation-for="QtyPurchased" class="text-danger"></span>
-                    </div>
-                    <div class="form-group">
-                        <label asp-for="Unit" class="control-label"></label>
-                        <select asp-for="Unit" class="form-control" style="width: 25%;" asp-items="ViewBag.Unit">
-                            <option value=""></option>
-                        </select>
-                    </div>
-                </div>
-                <label asp-for="BuyPrice" class="control-label"></label>
-                <div class="form-group form-inline" style="width: 100%">
-                    <input asp-for="BuyPrice" class="form-control" style="width: 25%;" />
-                    <select asp-for="BuyCurrency" class="form-control" style="width: 25%;" asp-items="ViewBag.BuyCurrency">
+
+                <label asp-for="QtyPurchased" class="control-label"></label>
+                <div class="form-group form-inline">
+                    <input asp-for="QtyPurchased" style="width: 25%;" class="form-control" />
+                    <select asp-for="Unit" style="width: 25%;" class="form-control" asp-items="ViewBag.Unit">
                         <option value=""></option>
                     </select>
-                    <span asp-validation-for="BuyPrice" class="text-danger"></span>
                 </div>
+
+                <label asp-for="FOBCost" class="control-label"></label>
+                <div class="form-group form-inline" style="width: 100%">
+                    <input asp-for="FOBCost" class="form-control" style="width: 25%;" />
+                    <select asp-for="FOBCostCurrency" class="form-control" style="width: 25%;" asp-items="ViewBag.FOBCostCurrency">
+                        <option value=""></option>
+                    </select>
+                    <span asp-validation-for="FOBCost" class="text-danger"></span>
+                </div>
+
+                <label asp-for="ShippingCost" class="control-label"></label>
+                <div class="form-group form-inline" style="width: 100%">
+                    <input asp-for="ShippingCost" class="form-control" style="width: 25%;" />
+                    <select asp-for="ShippingCostCurrency" class="form-control" style="width: 25%;" asp-items="ViewBag.ShippingCostCurrency">
+                        <option value=""></option>
+                    </select>
+                    <span asp-validation-for="ShippingCost" class="text-danger"></span>
+                </div>
+
+                <label asp-for="ImportCosts" class="control-label"></label>
+                <div class="form-group form-inline" style="width: 100%">
+                    <input asp-for="ImportCosts" class="form-control" style="width: 25%;" />
+                    <select asp-for="ImportCostCurrency" class="form-control" style="width: 25%;" asp-items="ViewBag.ImportCostCurrency">
+                        <option value=""></option>
+                    </select>
+                    <span asp-validation-for="ImportCosts" class="text-danger"></span>
+                </div>
+
                 <div class="form-group">
                     <label asp-for="CustomerPurchasedFor" class="control-label"></label>
                     <input asp-for="CustomerPurchasedFor" class="form-control" />
                     <span asp-validation-for="CustomerPurchasedFor" class="text-danger"></span>
                 </div>
+
                 <div class="form-group">
                     <label asp-for="CustomerReservedFor" class="control-label"></label>
                     <input asp-for="CustomerReservedFor" class="form-control" />
                     <span asp-validation-for="CustomerReservedFor" class="text-danger"></span>
                 </div>
+
                 <div class="form-group">
                     <label asp-for="Supplier" class="control-label"></label>
                     <input asp-for="Supplier" class="form-control" />
                     <span asp-validation-for="Supplier" class="text-danger"></span>
                 </div>
+
                 <div class="form-group">
                     <label asp-for="QtyToPurchaseNow" class="control-label"></label>
                     <input asp-for="QtyToPurchaseNow" class="form-control" />
                     <span asp-validation-for="QtyToPurchaseNow" class="text-danger"></span>
                 </div>
+
                 <div class="form-group">
                     <label asp-for="ApproxProdQty" class="control-label"></label>
                     <input asp-for="ApproxProdQty" class="form-control" />
                     <span asp-validation-for="ApproxProdQty" class="text-danger"></span>
                 </div>
+
                 <div class="form-group">
                     <label asp-for="NeededBefore" class="control-label"></label>
                     <input asp-for="NeededBefore" class="form-control" />
                     <span asp-validation-for="NeededBefore" class="text-danger"></span>
                 </div>
+
                 <div class="form-group">
                     <label asp-for="TargetPrice" class="control-label"></label>
                     <input asp-for="TargetPrice" class="form-control" />
                     <span asp-validation-for="TargetPrice" class="text-danger"></span>
                 </div>
+
                 <div class="form-group">
                     <label asp-for="ShippingCompany" class="control-label"></label>
                     <input asp-for="ShippingCompany" class="form-control" />
                     <span asp-validation-for="ShippingCompany" class="text-danger"></span>
                 </div>
+
                 <div class="form-group">
                     <label asp-for="BondedWarehouse" class="control-label"></label>
                     <input asp-for="BondedWarehouse" class="checkbox" />
                     <span asp-validation-for="BondedWarehouse" class="text-danger"></span>
                 </div>
+
                 <div class="form-group">
                     <label asp-for="Comment" class="control-label"></label>
                     <textarea asp-for="Comment" class="form-control" style="height: 8em;"></textarea>
                     <span asp-validation-for="Comment" class="text-danger"></span>
                 </div>
+
                 <div class="form-group">
                     <label asp-for="FOBCost" class="control-label"></label>
                     <input asp-for="FOBCost" class="form-control" />
                     <span asp-validation-for="FOBCost" class="text-danger"></span>
                 </div>
+
                 <div class="form-group">
                     <label asp-for="ShippingCost" class="control-label"></label>
                     <input asp-for="ShippingCost" class="form-control" />
                     <span asp-validation-for="ShippingCost" class="text-danger"></span>
                 </div>
+
                 <div class="form-group">
                     <label asp-for="ImportCosts" class="control-label"></label>
                     <input asp-for="ImportCosts" class="form-control" />

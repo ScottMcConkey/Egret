@@ -31,7 +31,7 @@ namespace Egret.DataAccess
             // AspNet Identity
             modelBuilder.Entity<IdentityUser>(entity =>
             {
-                entity.ToTable("aspnet_users");
+                //entity.ToTable("aspnet_users");
 
                 entity.Property(p => p.Id)
                     .HasColumnName("id")
@@ -264,13 +264,9 @@ namespace Egret.DataAccess
 
                 entity.Property(e => e.Category).HasColumnName("category");
 
-                entity.Property(e => e.QtyPurchased).HasColumnName("qty+purchased");
+                entity.Property(e => e.QtyPurchased).HasColumnName("qty_purchased");
 
                 entity.Property(e => e.Unit).HasColumnName("unit");
-
-                entity.Property(e => e.BuyPrice).HasColumnName("buy_price");
-
-                entity.Property(e => e.BuyCurrency).HasColumnName("buy_currency");
 
                 entity.Property(e => e.CustomerPurchasedFor).HasColumnName("customer_purchased_for");
 
@@ -294,9 +290,15 @@ namespace Egret.DataAccess
 
                 entity.Property(e => e.FOBCost).HasColumnName("fob_cost");
 
+                entity.Property(e => e.FOBCostCurrency).HasColumnName("fob_cost_currency");
+
                 entity.Property(e => e.ShippingCost).HasColumnName("shipping_cost");
 
+                entity.Property(e => e.ShippingCostCurrency).HasColumnName("shipping_cost_currency");
+
                 entity.Property(e => e.ImportCosts).HasColumnName("import_cost");
+
+                entity.Property(e => e.ImportCostCurrency).HasColumnName("import_cost_currency");
 
                 entity.Property(e => e.DateAdded).HasColumnName("date_added");
 
@@ -311,23 +313,31 @@ namespace Egret.DataAccess
                 entity.Property(e => e.DateShipped).HasColumnName("date_shipped");
 
                 entity.Property(e => e.DateArrived).HasColumnName("date_arrived");
-
-                entity.Property(e => e.FabricTests_Conversion).HasColumnName("fabrictests_conversion");
-
-                entity.Property(e => e.FabricTestResults).HasColumnName("fabrictestresults");
                 
                 // Relationships
-                entity.HasOne(d => d.BuyCurrencyNavigation)
-                    .WithMany()
-                    .HasPrincipalKey(p => p.Abbreviation)
-                    .HasForeignKey(d => d.BuyCurrency)
-                    .HasConstraintName("fk_inventoryitems_buycurrency")
-                    .OnDelete(DeleteBehavior.Restrict);
-
                 entity.HasOne(d => d.UnitNavigation)
                     .WithMany()
                     .HasPrincipalKey(k => k.Abbreviation)
+                    .HasForeignKey(k => k.Unit)
                     .HasConstraintName("fk_inventoryitems_unit");
+
+                entity.HasOne(d => d.FOBCostCurrencyNavigation)
+                    .WithMany()
+                    .HasPrincipalKey(k => k.Abbreviation)
+                    .HasForeignKey(k => k.FOBCostCurrency)
+                    .HasConstraintName("fk_inventoryitems_fobcostunit");
+
+                entity.HasOne(d => d.ShippingCostCurrencyNavigation)
+                    .WithMany()
+                    .HasPrincipalKey(k => k.Abbreviation)
+                    .HasForeignKey(k => k.ShippingCostCurrency)
+                    .HasConstraintName("fk_inventoryitems_shippingcostunit");
+
+                entity.HasOne(d => d.ImportCostCurrencyNavigation)
+                    .WithMany()
+                    .HasPrincipalKey(k => k.Abbreviation)
+                    .HasForeignKey(k => k.ImportCostCurrency)
+                    .HasConstraintName("fk_inventoryitems_importcostunit");
 
                 entity.HasOne(d => d.CategoryNavigation)
                     .WithMany()
@@ -359,6 +369,9 @@ namespace Egret.DataAccess
                 entity.HasIndex(i => i.Id)
                     .HasName("ix_consumptionevents_id")
                     .IsUnique();
+
+                entity.HasIndex(i => i.OrderNumber)
+                    .HasName("ix_consumptionevents_ordernumber");
 
                 // Keys
                 entity.HasKey(k => k.Id)
@@ -393,11 +406,8 @@ namespace Egret.DataAccess
                 entity.Property(e => e.DateOfConsumption)
                     .HasColumnName("date_of_consumption");
 
-                entity.Property(e => e.SampleOrderNumber)
-                    .HasColumnName("sample_order_number");
-
-                entity.Property(e => e.ProductionOrderNumber)
-                    .HasColumnName("production_order_number");
+                entity.Property(e => e.OrderNumber)
+                    .HasColumnName("order_number");
 
                 entity.Property(e => e.PatternNumber)
                     .HasColumnName("pattern_number");
@@ -419,6 +429,28 @@ namespace Egret.DataAccess
                     .HasForeignKey(f => f.Unit)
                     .HasConstraintName("fk_consumptionevents_units")
                     .OnDelete(DeleteBehavior.Restrict);
+
+                entity.HasOne(d => d.OrderNavigation)
+                    .WithMany()
+                    .HasPrincipalKey(k => k.Id)
+                    .HasForeignKey(f => f.OrderNumber)
+                    .HasConstraintName("fk_order_id")
+                    .OnDelete(DeleteBehavior.ClientSetNull);
+            });
+
+            modelBuilder.Entity<Order>(entity =>
+            {
+                // Table
+                entity.ToTable("orders");
+
+                // Indexes
+                entity.HasIndex(e => e.Id)
+                    .HasName("ix_orders_id")
+                    .IsUnique();
+
+                // Properties
+                entity.Property(p => p.Id)
+                    .HasColumnName("id");
             });
 
             modelBuilder.Entity<Supplier>(entity =>
@@ -428,7 +460,7 @@ namespace Egret.DataAccess
 
                 // Indexes
                 entity.HasIndex(e => e.Id)
-                    .HasName("ix_suppliers_pk")
+                    .HasName("ix_suppliers_id")
                     .IsUnique();
 
                 // Properties
@@ -478,9 +510,9 @@ namespace Egret.DataAccess
 
             // Seed Admin Data
             modelBuilder.Entity<CurrencyType>().HasData(
-                                                new { Id = 1, Name = "United States Dollars", Symbol = "$", Abbreviation = "USD", SortOrder = 1, Active = true, DefaultSelection = false },
+                                                new { Id = 1, Name = "United States Dollars", Symbol = "$", Abbreviation = "USD", SortOrder = 1, Active = false, DefaultSelection = false },
                                                 new { Id = 2, Name = "Nepali Rupees", Symbol = "रु", Abbreviation = "NRP", SortOrder = 2, Active = true, DefaultSelection = true },
-                                                new { Id = 3, Name = "Indian Rupees", Symbol = "₹", Abbreviation = "INR", SortOrder = 3, Active = true, DefaultSelection = false });
+                                                new { Id = 3, Name = "Indian Rupees", Symbol = "₹", Abbreviation = "INR", SortOrder = 3, Active = false, DefaultSelection = false });
 
             modelBuilder.Entity<InventoryCategory>().HasData(
                                                 new { Id = 1, Name = "Elastic", Description = "", SortOrder = 1, Active = true },

@@ -167,6 +167,8 @@ th {
 .related-object-div {
     padding: 5px;
     border-bottom: 1px solid black;
+    white-space: nowrap;
+    overflow: hidden;
     color: black;
 }
 

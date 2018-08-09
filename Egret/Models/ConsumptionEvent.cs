@@ -40,16 +40,21 @@ namespace Egret.Models
         [UIHint("date")]
         public DateTime? DateOfConsumption { get; set; }
 
-        [Display(Name = "Sample Order Number")]
-        public string SampleOrderNumber { get; set; }
-
-        [Display(Name = "Production Order Number")]
-        public string ProductionOrderNumber { get; set; }
+        [Display(Name = "Order Number")]
+        public string OrderNumber { get; set; }
 
         [Display(Name = "Pattern Number")]
         public string PatternNumber { get; set; }
 
+        [Required]
         public string InventoryItemCode { get; set; }
+
+
+        public Unit UnitNavigation { get; set; }
+
+        public InventoryItem InventoryItemNavigation { get; set; }
+
+        public Order OrderNavigation { get; set; }
 
         [NotMapped]
         [DatabaseGenerated(DatabaseGeneratedOption.Computed)]
@@ -57,14 +62,10 @@ namespace Egret.Models
         {
             get
             {
-                return (DateOfConsumption != null ? DateOfConsumption.Value.ToShortDateString() + " - " : "") 
+                return (DateOfConsumption != null ? DateOfConsumption.Value.ToShortDateString() + " - " : "")
                     + "Quantity Consumed: " + (QuantityConsumed != null ? QuantityConsumed.ToString() : "0");
             }
             private set { }
         }
-
-
-        public Unit UnitNavigation { get; set; }
-        public InventoryItem InventoryItemNavigation { get; set; }
     }
 }

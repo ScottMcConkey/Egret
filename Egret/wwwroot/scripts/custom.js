@@ -4,14 +4,23 @@
 
 function SetTestsForDelete() {
     $(".delete").on("click", function() {
-        $(this).parent().parent().remove();
-        var manager = new TestManager();
-        manager.reOrder();
-        if ($("tr.fabrictest").length == 0) {
-            $("tr#notests").show();
-        };
+        if (confirm('Are you sure you want to delete this Fabric Test?')) {
+            $(this).parent().parent().remove();
+            console.log($(this));
+            var manager = new TestManager();
+            manager.reOrder();
+
+            if ($("tr.fabrictest").length == 0) {
+                $("tr#notests").show();
+            };
+        }
+        else {
+            return false;
+        }
     });
 }
+
+//if (confirm('Testing')) DeleteFabricTest($(this)); return false
 
 function AddTableRow() {
     var manager = new TestManager();
@@ -29,19 +38,16 @@ class TestManager {
             for (var j = 0; j < this.getCount(); j++) {
                 var testId = $("input.testId")[j];
                 $(testId).attr("name", "FabricTests[" + j + "].Id");
-                console.log(testId);
             };
 
             for (var k = 0; k < this.getCount(); k++) {
                 var testname = $("input.testName")[k];
                 $(testname).attr("name", "FabricTests[" + k + "].Name");
-                console.log(testname);
             };
 
             for (var m = 0; m < this.getCount(); m++) {
                 var testresult = $("input.testResult")[m];
                 $(testresult).attr("name", "FabricTests[" + m + "].Result");
-                console.log(testresult);
             };
         };
     }
@@ -53,7 +59,7 @@ class TestManager {
             "<tr class='fabrictest'>" +
                 "<td><div class='form-group'><input class='form-control testName' type='text' name='FabricTests[" + this.getCount() + "].Name' /></div></td>" +
                 "<td><div class='form-group'><input class='form-control testResult' type='text' name='FabricTests[" + this.getCount() + "].Result' /></div></td>" +
-                "<td style='text-align: center;'><a class='delete' title='Delete' href='#'>&times;</a></td>" +
+                "<td class='delete-box'><a style='font-size: 1em;' class='delete' title='Delete' href='#'><span class='glyphicon glyphicon-trash'></span></a></td>" +
             "</tr>");
 
         SetTestsForDelete();

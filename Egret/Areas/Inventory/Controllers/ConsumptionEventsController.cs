@@ -6,17 +6,19 @@ using System.Threading.Tasks;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.Rendering;
 using Microsoft.EntityFrameworkCore;
+using Egret.Controllers;
 using Egret.DataAccess;
 using Egret.Models;
 using Egret.ViewModels;
 
 namespace Egret.Controllers
 {
-    public class ConsumptionController : ManagedController
+    [Area("Inventory")]
+    public class ConsumptionEventsController : ManagedController
     {
         private IQueryable<Unit> ActiveUnits { get; set; }
 
-        public ConsumptionController(EgretContext context)
+        public ConsumptionEventsController(EgretContext context)
             : base(context)
         {
             ActiveUnits = Context.Units.Where(x => x.Active).OrderBy(x => x.SortOrder);
@@ -43,7 +45,7 @@ namespace Egret.Controllers
                 Context.ConsumptionEvents.Add(consumptionEvent);
                 Context.SaveChanges();
 
-                return RedirectToAction("Edit", "Inventory", new { id = consumptionEvent.InventoryItemCode });
+                return RedirectToAction("Edit", "Items", new { id = consumptionEvent.InventoryItemCode });
             }
 
             return View();

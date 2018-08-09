@@ -18,22 +18,22 @@
                         <label asp-for="@Model.DateOfConsumption" class="control-label required"></label>
                         <input asp-for="@Model.DateOfConsumption" class="form-control" />
                     </div>
+
                     <div class="form-group">
                         <label asp-for="@Model.ConsumedBy" class="control-label required"></label>
                         <input asp-for="@Model.ConsumedBy" class="form-control" />
                     </div>
+
                     <div class="form-group">
-                        <label asp-for="@Model.SampleOrderNumber" class="control-label"></label>
-                        <input asp-for="@Model.SampleOrderNumber" class="form-control" />
+                        <label asp-for="@Model.OrderNumber" class="control-label"></label>
+                        <input asp-for="@Model.OrderNumber" class="form-control" />
                     </div>
-                    <div class="form-group">
-                        <label asp-for="@Model.ProductionOrderNumber" class="control-label"></label>
-                        <input asp-for="@Model.ProductionOrderNumber" class="form-control" />
-                    </div>
+
                     <div class="form-group">
                         <label asp-for="@Model.PatternNumber" class="control-label"></label>
                         <input asp-for="@Model.PatternNumber" class="form-control" />
                     </div>
+
                     <label asp-for="@Model.QuantityConsumed" class="control-label required"></label>
                     <div class="form-group form-inline">
                         <input asp-for="@Model.QuantityConsumed" class="form-control" />
@@ -54,7 +54,7 @@
             <div class="col-md-8">
                 <br />
                 <input type="submit" value="Save and Return to Inventory" class="btn btn-primary" />
-                <a asp-controller="Inventory" asp-action="Edit" asp-route-id="@Context.Request.Query["sourceid"]" class="btn btn-default">Cancel</a>
+                <a asp-controller="Items" asp-action="Edit" asp-route-id="@Context.Request.Query["sourceid"]" class="btn btn-default">Cancel</a>
             </div>
         </div>
     </div>
