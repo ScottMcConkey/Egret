@@ -71,21 +71,25 @@ namespace Egret.Models
         public string Comment { get; set; }
 
         [Display(Name = "Quantity Purchased")]
+        [DisplayFormat(DataFormatString = "{0:0.00##}", ApplyFormatInEditMode = true)]
         public decimal? QtyPurchased { get; set; }
 
         public string Unit { get; set; }
 
         [Display(Name = "FOB Cost Or Local Cost no VAT")]
+        [DisplayFormat(DataFormatString = "{0:0.00##}", ApplyFormatInEditMode = true)]
         public decimal? FOBCost { get; set; }
 
         public string FOBCostCurrency { get; set; }
 
         [Display(Name = "Shipping Cost")]
+        [DisplayFormat(DataFormatString = "{0:0.00##}", ApplyFormatInEditMode = true)]
         public decimal? ShippingCost { get; set; }
 
         public string ShippingCostCurrency { get; set; }
 
         [Display(Name = "Import/Custom/Delivery Costs/VAT")]
+        [DisplayFormat(DataFormatString = "{0:0.00##}", ApplyFormatInEditMode = true)]
         public decimal? ImportCosts { get; set; }
 
         public string ImportCostCurrency { get; set; }
