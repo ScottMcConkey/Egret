@@ -18,8 +18,8 @@ namespace Egret.TagHelpers
 
         public override void Process(TagHelperContext context, TagHelperOutput output)
         {
-            output.TagName = "p";
-            output.TagMode = TagMode.StartTagAndEndTag;
+            //output.TagName = "p";
+            //output.TagMode = TagMode.StartTagAndEndTag;
 
             //(Source.Metadata.ContainerType.FullName.GetType().GetCustomAttribute(typeof(LanguageAttribute)).ToString())
             //LanguageAttribute test = (LanguageAttribute)Source.Metadata.ContainerType.FullName.GetType().GetCustomAttribute(typeof(LanguageAttribute));
@@ -33,8 +33,10 @@ namespace Egret.TagHelpers
             //Type type = asm.GetType(PropertyName);
 
             PropertyInfo info = Source.Metadata.ContainerType.GetProperty(PropertyName);
-
-            output.Content.SetContent(((LanguageAttribute)info.GetCustomAttribute(typeof(LanguageAttribute))).Value);// Source.Metadata.ContainerType.GetProperty(Source.Name).ToString());
+            
+            //output.Content.SetContent(((LanguageAttribute)info.GetCustomAttribute(typeof(LanguageAttribute))).Value);// Source.Metadata.ContainerType.GetProperty(Source.Name).ToString());
+            output.PostElement.AppendHtml("<br>");
+            output.PostElement.AppendHtml($"<label class='control-label' style='font-size: calc(100% - 2px); color: #999'>{((LanguageAttribute)info.GetCustomAttribute(typeof(LanguageAttribute))).Value}</label>");
 
             //(Source.Metadata.ContainerType.GetCustomAttribute(type).ToString()
         }

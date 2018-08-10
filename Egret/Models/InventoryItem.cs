@@ -12,6 +12,7 @@ namespace Egret.Models
 {
     public partial class InventoryItem
     {
+        [Language(Name = "Nepali", Value = "कोड")]
         public string Code { get; set; }
 
         [Display(Name = "Date Added")]
@@ -29,6 +30,34 @@ namespace Egret.Models
         [Required]
         [Language(Name = "Nepali", Value = "वर्णन")]
         public string Description { get; set; }
+
+        [Language(Name = "Nepali", Value = "वर्ग")]
+        public string Category { get; set; }
+
+        [Display(Name = "Quantity Purchased")]
+        [Language(Name = "Nepali", Value = "मात्रा खरिद गरियो")]
+        [DisplayFormat(DataFormatString = "{0:0.00##}", ApplyFormatInEditMode = true)]
+        public decimal? QtyPurchased { get; set; }
+
+        public string Unit { get; set; }
+
+        [Display(Name = "FOB Cost Or Local Cost no VAT")]
+        [DisplayFormat(DataFormatString = "{0:0.00##}", ApplyFormatInEditMode = true)]
+        public decimal? FOBCost { get; set; }
+
+        public string FOBCostCurrency { get; set; }
+
+        [Display(Name = "Shipping Cost")]
+        [DisplayFormat(DataFormatString = "{0:0.00##}", ApplyFormatInEditMode = true)]
+        public decimal? ShippingCost { get; set; }
+
+        public string ShippingCostCurrency { get; set; }
+
+        [Display(Name = "Import/Custom/Delivery Costs/VAT")]
+        [DisplayFormat(DataFormatString = "{0:0.00##}", ApplyFormatInEditMode = true)]
+        public decimal? ImportCosts { get; set; }
+
+        public string ImportCostCurrency { get; set; }
 
         [Display(Name = "Customer Purchased For")]
         public string CustomerPurchasedFor { get; set; }
@@ -71,32 +100,6 @@ namespace Egret.Models
         public DateTime? DateArrived { get; set; }
 
         public string Comment { get; set; }
-
-        [Display(Name = "Quantity Purchased")]
-        [DisplayFormat(DataFormatString = "{0:0.00##}", ApplyFormatInEditMode = true)]
-        public decimal? QtyPurchased { get; set; }
-
-        public string Unit { get; set; }
-
-        [Display(Name = "FOB Cost Or Local Cost no VAT")]
-        [DisplayFormat(DataFormatString = "{0:0.00##}", ApplyFormatInEditMode = true)]
-        public decimal? FOBCost { get; set; }
-
-        public string FOBCostCurrency { get; set; }
-
-        [Display(Name = "Shipping Cost")]
-        [DisplayFormat(DataFormatString = "{0:0.00##}", ApplyFormatInEditMode = true)]
-        public decimal? ShippingCost { get; set; }
-
-        public string ShippingCostCurrency { get; set; }
-
-        [Display(Name = "Import/Custom/Delivery Costs/VAT")]
-        [DisplayFormat(DataFormatString = "{0:0.00##}", ApplyFormatInEditMode = true)]
-        public decimal? ImportCosts { get; set; }
-
-        public string ImportCostCurrency { get; set; }
-
-        public string Category { get; set; }
 
         public InventoryCategory CategoryNavigation { get; set; }
         public Unit UnitNavigation { get; set; }
