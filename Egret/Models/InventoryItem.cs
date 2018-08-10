@@ -13,6 +13,7 @@ namespace Egret.Models
     public partial class InventoryItem
     {
         [Language(Name = "Nepali", Value = "कोड")]
+        [Language(Name = "Russian", Value = "код")]
         public string Code { get; set; }
 
         [Display(Name = "Date Added")]

@@ -10,35 +10,46 @@ using Egret.Attributes;
 
 namespace Egret.TagHelpers
 {
-    [HtmlTargetElement("label", Attributes = "include-language")]
+    
+    [HtmlTargetElement("label", Attributes = "include-languages")]
     public class LanguageTagHelper : TagHelper
     {
         [HtmlAttributeName("asp-for")]
         public ModelExpression Source { get; set; }
 
+        /// <summary>
+        /// Use on Labels to indicate which languages should also appear beneath the main label.
+        /// These languages must be specified on the Model property using the LanguageAttribute.
+        /// Separate multiple values with commas and no spaces.
+        /// </summary>
+        [HtmlAttributeName("include-languages")]
+        public string Languages { get; set; }
+
+        
         public override void Process(TagHelperContext context, TagHelperOutput output)
         {
-            //output.TagName = "p";
-            //output.TagMode = TagMode.StartTagAndEndTag;
+            List<string> LanguageList = Languages.Split(',').ToList();
 
-            //(Source.Metadata.ContainerType.FullName.GetType().GetCustomAttribute(typeof(LanguageAttribute)).ToString())
-            //LanguageAttribute test = (LanguageAttribute)Source.Metadata.ContainerType.FullName.GetType().GetCustomAttribute(typeof(LanguageAttribute));
-            //string value = test?.Value.ToString();
-
-            //var contents = $@"{value}";
-            string PropertyName = Source.Name.Substring(Source.Name.LastIndexOf('.') + 1);
-
-            //Assembly asm = typeof(Egret.DataAccess.EgretContext).Assembly;
-
-            //Type type = asm.GetType(PropertyName);
-
+            string PropertyName = Source.Name.Substring(Source.Name.LastIndexOf('.') + 1) ?? Source.Name;
             PropertyInfo info = Source.Metadata.ContainerType.GetProperty(PropertyName);
-            
-            //output.Content.SetContent(((LanguageAttribute)info.GetCustomAttribute(typeof(LanguageAttribute))).Value);// Source.Metadata.ContainerType.GetProperty(Source.Name).ToString());
-            output.PostElement.AppendHtml("<br>");
-            output.PostElement.AppendHtml($"<label class='control-label' style='font-size: calc(100% - 2px); color: #999'>{((LanguageAttribute)info.GetCustomAttribute(typeof(LanguageAttribute))).Value}</label>");
 
-            //(Source.Metadata.ContainerType.GetCustomAttribute(type).ToString()
+            foreach (string language in LanguageList)
+            {
+                if (info.GetCustomAttributes(typeof(LanguageAttribute)).Any())
+                {
+                    foreach (LanguageAttribute attribute in info.GetCustomAttributes(typeof(LanguageAttribute)))
+                    {
+                        if (language == (attribute.Name))
+                        {
+                            output.PostElement.AppendHtml("<br>");
+                            output.PostElement.AppendHtml($"<label class='control-label' style='font-size: calc(100% - 2px); color: #999'>" +
+                                $"{(attribute).Value}</label>"
+                            );
+                        }
+                    }
+                }
+            }
+
         }
     }
 }

@@ -5,6 +5,7 @@ using System.Threading.Tasks;
 
 namespace Egret.Attributes
 {
+    [AttributeUsage(AttributeTargets.Property, AllowMultiple = true)]
     public class LanguageAttribute : Attribute
     {
         public string Name { get; set; }
