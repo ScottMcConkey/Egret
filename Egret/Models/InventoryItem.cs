@@ -6,6 +6,7 @@ using System.ComponentModel.DataAnnotations.Schema;
 using System.Linq;
 using Microsoft.AspNetCore.Mvc.ModelBinding;
 using Microsoft.Extensions;
+using Egret.Attributes;
 
 namespace Egret.Models
 {
@@ -26,6 +27,7 @@ namespace Egret.Models
         public string UpdatedBy { get; set; }
 
         [Required]
+        [Language(Name = "Nepali", Value = "वर्णन")]
         public string Description { get; set; }
 
         [Display(Name = "Customer Purchased For")]
@@ -186,13 +188,14 @@ namespace Egret.Models
         [ReadOnly(true)]
         [NotMapped]
         [DatabaseGenerated(DatabaseGeneratedOption.Computed)]
+        [DisplayFormat(DataFormatString = "{0:0.00##}", ApplyFormatInEditMode = true)]
         public decimal? TotalCost
         {
             get
             {
-                if (FOBCost != null && FOBCost != 0 && ImportCosts != null && ImportCosts != 0)
+                if (FOBCost != null && FOBCost != 0  && ShippingCost != null && ShippingCost != 0 && ImportCosts != null && ImportCosts != 0)
                 {
-                    return FOBCost + ImportCosts;
+                    return FOBCost + ShippingCost + ImportCosts;
                 }
                 else
                 {
@@ -207,6 +210,7 @@ namespace Egret.Models
         [ReadOnly(true)]
         [NotMapped]
         [DatabaseGenerated(DatabaseGeneratedOption.Computed)]
+        [DisplayFormat(DataFormatString = "{0:0.00##}", ApplyFormatInEditMode = true)]
         public decimal? CostPerUnit
         {
             get
@@ -229,6 +233,7 @@ namespace Egret.Models
         [ReadOnly(true)]
         [NotMapped]
         [DatabaseGenerated(DatabaseGeneratedOption.Computed)]
+        [DisplayFormat(DataFormatString = "{0:0.00##}", ApplyFormatInEditMode = true)]
         public decimal? TotalCostPerUnit
         {
             get
