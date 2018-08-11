@@ -275,12 +275,6 @@ namespace Egret.Models
             }
             private set { }
 
-            //get
-            //{
-            //    return (DateOfConsumption != null ? DateOfConsumption.Value.ToShortDateString() + " - " : "")
-            //        + "Units Consumed: " + (QuantityConsumed != null ? QuantityConsumed.ToString() : "0");
-            //}
-            //private set { }
         }
     }
 }
