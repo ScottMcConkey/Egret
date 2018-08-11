@@ -286,7 +286,7 @@ namespace Egret.DataAccess
 
                 entity.Property(e => e.BondedWarehouse).HasColumnName("bonded_warehouse");
 
-                entity.Property(e => e.Comment).HasColumnName("comment");
+                entity.Property(e => e.Comments).HasColumnName("comments");
 
                 entity.Property(e => e.FOBCost).HasColumnName("fob_cost");
 

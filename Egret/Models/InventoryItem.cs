@@ -48,6 +48,7 @@ namespace Egret.Models
         public string FOBCostCurrency { get; set; }
 
         [Display(Name = "Shipping Cost")]
+        [Language(Name = "Nepali", Value = "ढुवानी खर्च")]
         [DisplayFormat(DataFormatString = "{0:0.00##}", ApplyFormatInEditMode = true)]
         public decimal? ShippingCost { get; set; }
 
@@ -60,30 +61,39 @@ namespace Egret.Models
         public string ImportCostCurrency { get; set; }
 
         [Display(Name = "Customer Purchased For")]
+        [Language(Name = "Nepali", Value = "ग्राहक खरिद गरियो")]
         public string CustomerPurchasedFor { get; set; }
 
         [Display(Name = "Customer Reserved For")]
+        [Language(Name = "Nepali", Value = "ग्राहक आरक्षितको लागी")]
         public string CustomerReservedFor { get; set; }
 
+        [Language(Name = "Nepali", Value = "प्रदायक")]
         public string Supplier { get; set; }
 
         [Display(Name = "Quantity to Purchase Now")]
+        [Language(Name = "Nepali", Value = "अब खरिद गर्न मात्रा")]
         public string QtyToPurchaseNow { get; set; }
 
         [Display(Name = "Approximate Production Qty")]
+        [Language(Name = "Nepali", Value = "अनुमानित उत्पादन मात्रा")]
         public string ApproxProdQty { get; set; }
 
         [Display(Name = "Needed Before")]
+        [Language(Name = "Nepali", Value = "पहिले चाहिन्छ")]
         [UIHint("date")]
         public DateTime? NeededBefore { get; set; }
 
         [Display(Name = "Target Price")]
+        [Language(Name = "Nepali", Value = "लक्षित मुल्य")]
         public string TargetPrice { get; set; }
 
         [Display(Name = "Shipping Company")]
+        [Language(Name = "Nepali", Value = "ढुवानी कम्पनी")]
         public string ShippingCompany { get; set; }
 
         [Display(Name = "Bonded Warehouse?")]
+        [Language(Name = "Nepali", Value = "बंधुआ गोदाम")]
         [UIHint("checkbox")]
         public bool BondedWarehouse { get; set; }
 
@@ -99,15 +109,14 @@ namespace Egret.Models
         [UIHint("Date")]
         public DateTime? DateArrived { get; set; }
 
-        public string Comment { get; set; }
+        [Language(Name = "Nepali", Value = "टिप्पणीहरू")]
+        public string Comments { get; set; }
 
         public InventoryCategory CategoryNavigation { get; set; }
         public Unit UnitNavigation { get; set; }
-
         public CurrencyType FOBCostCurrencyNavigation { get; set; }
         public CurrencyType ShippingCostCurrencyNavigation { get; set; }
         public CurrencyType ImportCostCurrencyNavigation { get; set; }
-
         public ICollection<FabricTest> FabricTestsNavigation { get; set; }
         public ICollection<ConsumptionEvent> ConsumptionEventsNavigation { get; set; }
 
@@ -188,6 +197,7 @@ namespace Egret.Models
         }
 
         [Display(Name = "Total Cost")]
+        [Language(Name = "Nepali", Value = "कुल खर्च")]
         [ReadOnly(true)]
         [NotMapped]
         [DatabaseGenerated(DatabaseGeneratedOption.Computed)]
@@ -210,6 +220,7 @@ namespace Egret.Models
 
         //Cost Per Unit for Accounting
         [Display(Name = "Cost Per Unit")]
+        [Language(Name = "Nepali", Value = "लागत प्रति एकाइ")]
         [ReadOnly(true)]
         [NotMapped]
         [DatabaseGenerated(DatabaseGeneratedOption.Computed)]
@@ -233,6 +244,7 @@ namespace Egret.Models
 
         //Total Cost/Unit for Pricing
         [Display(Name = "Total Cost Per Unit")]
+        [Language(Name = "Nepali", Value = "कुल लागत प्रति इकाई")]
         [ReadOnly(true)]
         [NotMapped]
         [DatabaseGenerated(DatabaseGeneratedOption.Computed)]

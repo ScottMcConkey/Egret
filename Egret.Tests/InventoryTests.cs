@@ -11,7 +11,7 @@ namespace Egret.Tests
         public void ChangeItemName()
         {
             // Arrange
-            var i = new InventoryItem { Description = "Test Item", Comment = "This is a test" };
+            var i = new InventoryItem { Description = "Test Item", Comments = "This is a test" };
 
             // Act
             i.Description = "Modified Test";
