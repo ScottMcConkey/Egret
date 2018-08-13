@@ -10,24 +10,27 @@ a {
     text-decoration: none;
 }
 
-#container {
-    width: 100%;
-}
-
 #titleband {
     font: "verdana" bold;
     font-size: 30pt;
     color: #000;
-    margin-bottom: 20px;
+    padding-top: 20px;
+    padding-bottom: 20px;
 }
 
-.leftnav {
-    padding: 0;
-    margin: 0;
+#container {
+    width: 100%;
     display: inline-block;
 }
 
-.leftnav li {
+nav {
+    padding: 0;
+    margin: 0;
+    display: inline-block;
+    float: left;
+}
+
+nav li {
     text-align: center;
     border-bottom: 1px solid #368798;
     padding: 2px;
@@ -36,21 +39,25 @@ a {
     padding: 0;
 }
 
-.leftnav ul {
+nav > ul > li > a > .glyphicon {
+    display: block;
+}
+
+nav ul {
     text-decoration: none;
     list-style-type: none;
     margin: 0;
     padding: 0;
 }
 
-.leftnav span {
+nav span {
     display: block;
     margin: 0;
     font-size: 25pt;
 }
 
-.leftnav a,
-.leftnav a:hover {
+nav a,
+nav a:hover {
     text-decoration: none;
     color: #fff;
     width: 100%;
@@ -58,32 +65,27 @@ a {
     padding: 5px;
 }
 
-.leftnav a:hover {
+nav a:hover {
     background-color: #254a7d;
 }
 
 
 #main {
     margin: 0;
-    display: inline-block;
     vertical-align: top;
     background-color: #fff;
     width: 90%;
+    float: left;
 }
 
 #main-top {
-    min-width: 700px;
     width: 100%;
-    padding-left: 10px;
     border-bottom: 1px solid #ccc;
     font-size: 30px;
-    display: block;
-    margin: 0;
 }
 
 #main-bottom {
     background-color: transparent;
-    display: block;
     padding: 20px;
     margin: 0;
 }

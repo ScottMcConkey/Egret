@@ -71,7 +71,7 @@ class TestManager {
 
 $(document).ready(function () {
 
-    $("div#main-top").css("height", $("div.leftnav ul li").height() + 1 + "px");
+    $("div#main-top").css("min-height", $("nav.leftnav ul li").height() + 1 + "px");
     SetContentHeight();
     $("table.results tr:even").addClass("shaded");
     $("#main-bottom").css("min-height", $(document).height() - 175 + "px");
