@@ -28,6 +28,11 @@ nav {
     margin: 0;
     display: inline-block;
     float: left;
+    overflow: hidden;
+}
+
+nav .icon {
+    display: none;
 }
 
 nav li {
@@ -39,7 +44,7 @@ nav li {
     padding: 0;
 }
 
-nav > ul > li > a > .glyphicon {
+nav .glyphicon {
     display: block;
 }
 
@@ -67,6 +72,12 @@ nav a:hover {
 
 nav a:hover {
     background-color: #254a7d;
+}
+
+nav a:active,
+nav a:focus {
+    color: #fff;
+    text-decoration: none;
 }
 
 
@@ -215,4 +226,43 @@ th {
     margin-top: 10px;
     font-size: 1em;
     vertical-align: middle;
+}
+
+
+
+
+
+
+
+
+
+@media screen and (max-width: 940px) {
+    nav li {
+        display: none;
+    }
+
+    nav {
+        width: 90%;
+    }
+
+    nav .icon {
+        display: block;
+    }
+}
+
+@media screen and (max-width: 940px) {
+
+    nav {
+        width: 90%;
+    }
+
+    nav ul,
+    nav span {
+        display: inline;
+    }
+
+    nav.responsive li {
+        width: 100%;
+        display: block;
+    }
 }
