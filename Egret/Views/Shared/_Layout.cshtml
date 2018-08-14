@@ -31,7 +31,7 @@
 <body>
     <div id="titleband">Egret</div>
     <div id="container">
-        <nav class="topnav">
+        <nav class="leftnav">
             <ul>
                 <li class="icon"><a href="javascript:void(0);" onclick="myFunction()"><span class="glyphicon glyphicon-menu-hamburger"></span>Menu</a></li>
                 <li><a asp-area="" asp-controller="Home" asp-action="Index"><span class="glyphicon glyphicon-home"></span>Home</a></li>
@@ -75,10 +75,10 @@
     <script>
         function myFunction() {
             var x = document.getElementsByTagName("nav")[0];
-            if (x.className === "topnav") {
+            if (x.className === "leftnav") {
                 x.className += " responsive";
             } else {
-                x.className = "topnav";
+                x.className = "leftnav";
             }
         }
     </script>
