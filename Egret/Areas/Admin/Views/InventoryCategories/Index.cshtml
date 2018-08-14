@@ -1,4 +1,5 @@
 ﻿@model List<InventoryCategory>
+
 @{
     ViewData["WindowTitle"] = "Admin - Inventory Categories";
     ViewData["PageTitle"] = "Inventory Categories";
@@ -51,8 +52,8 @@
                         <td>
                             <input type="checkbox" asp-for="@Model[i].Active" class="form-control" />
                         </td>
-                        <td style="text-align: center;">
-                            <a asp-action="Delete" asp-route-id="@Model[i].Id" style="color: red; font-size: 25px; font-weight: bold; text-decoration: none;" title="Delete">&times;</a>
+                        <td class="delete-box">
+                            <a class="delete" asp-action="Delete" asp-route-id="@Model[i].Id" title="Delete"><span class="glyphicon glyphicon-trash"></span></a>
                         </td>
                     </tr>
                 }

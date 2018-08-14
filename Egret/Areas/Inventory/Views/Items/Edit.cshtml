@@ -239,20 +239,9 @@
                 @await Html.PartialAsync("_ObjectInformationWidget", new ObjectInformationViewModel(@Model.Item.AddedBy, @Model.Item.DateAdded,
                     @Model.Item.UpdatedBy, @Model.Item.DateUpdated))
 
-                <label class="switch-light switch-candy">
-                    <input type="checkbox">
-
-                    <span>
-                        <span>In Stock</span>
-                        <span>Out of Stock</span>
-                        <a></a>
-                    </span>
-                </label><br />
-
-                <div class="form-group">@Model.Item.StockQuantity</div>
-
                 @await Html.PartialAsync("_RelatedObjectsWidget", new RelationshipViewModelConsumption(Model.ConsumptionEvents.OrderBy(x => x.DateOfConsumption).ToList(), Model.Item.Code))
 
+                <br /><div class="form-group">@Model.Item.StockQuantity</div>
             </div>
         </div>
     </div>

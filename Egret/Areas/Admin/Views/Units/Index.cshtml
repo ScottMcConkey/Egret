@@ -25,6 +25,7 @@
                 <th>
                     @Html.DisplayNameFor(model => model[0].Active)
                 </th>
+                <th></th>
             </tr>
         </thead>
         <tbody>
@@ -50,8 +51,8 @@
                         <td>
                             <input type="checkbox" asp-for="@Model[i].Active" class="form-control" />
                         </td>
-                        <td style="text-align: center;">
-                            <a asp-action="Delete" asp-route-id="@Model[i].Id" class="delete" title="Delete">&times;</a>
+                        <td class="delete-box">
+                            <a class="delete" asp-action="Delete" asp-route-id="@Model[i].Id" title="Delete"><span class="glyphicon glyphicon-trash"></span></a>
                         </td>
                     </tr>
                 }
