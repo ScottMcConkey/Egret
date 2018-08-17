@@ -26,5 +26,7 @@ namespace Egret.Controllers
 
             AllInventoryCategories = Context.InventoryCategories.OrderBy(x => x.SortOrder);
         }
+
+        //public IActionResult
     }
 }

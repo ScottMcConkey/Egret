@@ -25,14 +25,14 @@ namespace Egret.Controllers
         }
 
         [HttpGet]
-        public IActionResult Create()
+        public IActionResult CreateFromItem()
         {
             ViewData["Unit"] = new SelectList(ActiveUnits, "Abbreviation", "Abbreviation");
             return View();
         }
 
         [HttpPost]
-        public IActionResult Create(string sourceid, ConsumptionEvent consumptionEvent)
+        public IActionResult CreateFromItem(string sourceid, ConsumptionEvent consumptionEvent)
         {
             ViewData["Unit"] = new SelectList(ActiveUnits, "Abbreviation", "Abbreviation");
 
@@ -48,6 +48,13 @@ namespace Egret.Controllers
                 return RedirectToAction("Edit", "Items", new { id = consumptionEvent.InventoryItemCode });
             }
 
+            return View();
+        }
+
+        [HttpGet]
+        public IActionResult Create()
+        {
+            ViewData["Unit"] = new SelectList(ActiveUnits, "Abbreviation", "Abbreviation");
             return View();
         }
 

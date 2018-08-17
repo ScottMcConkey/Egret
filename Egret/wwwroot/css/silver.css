@@ -203,8 +203,8 @@ th {
     margin-bottom: 30px;
 }
 
-.required::after {
-    content: " *";
+.required::before {
+    content: "* ";
     color: red;
 }
 

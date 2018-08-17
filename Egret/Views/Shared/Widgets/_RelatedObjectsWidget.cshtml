@@ -5,7 +5,7 @@
         @Model.Title
         @if (Model.HasCreateNew == true)
         {
-            <a asp-route-sourceid="@Model.SourceId" asp-area="@Model.Area" asp-controller="@Model.Controller" asp-action="Create">
+            <a asp-route-sourceid="@Model.SourceId" asp-area="@Model.Area" asp-controller="@Model.Controller" asp-action="@Model.CreateAction">
                 <span title="@Model.HelpText" style="float: right; top: -1px;" class="@Model.CssClass" />
             </a>
         }
@@ -21,7 +21,7 @@
         @foreach (var e in Model.RelationshipObjects)
         {
             <a class="related-object-link" target="_blank" asp-area="@Model.Area" 
-               asp-controller="@Model.Controller" asp-action="@Model.Action" asp-route-id="@e.GetType().GetProperty(Model.TargetObjectIdColumn).GetValue(e, null)">
+               asp-controller="@Model.Controller" asp-action="@Model.EditAction" asp-route-id="@e.GetType().GetProperty(Model.TargetObjectIdColumn).GetValue(e, null)">
                 <div class="related-object-div">
                     <span class="glyphicon glyphicon-chevron-right"></span>
 

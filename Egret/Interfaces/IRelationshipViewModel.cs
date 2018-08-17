@@ -13,7 +13,8 @@ namespace Egret.Interfaces
         string SourceId { get; set; }
         string Area { get; set; }
         string Controller { get; set; }
-        string Action { get; set; }
+        string CreateAction { get; set; }
+        string EditAction { get; set; }
         string HelpText { get; set; }
         string ObjectDisplay { get; set; }
         string TargetObjectIdColumn { get; set; }

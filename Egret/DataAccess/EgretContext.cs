@@ -506,6 +506,43 @@ namespace Egret.DataAccess
                 }
             );
 
+            modelBuilder.Entity<PurchaseEvent>(entity =>
+                {
+                    // Table
+                    entity.ToTable("purchase_events");
+
+                    // Indexes
+                    entity.HasIndex(i => i.Id)
+                        .HasName("ix_purchaseevents_id")
+                        .IsUnique();
+
+                    // Keys
+                    entity.HasKey(k => k.Id)
+                        .HasName("pk_purchaseevents_id");
+
+                    // Properties
+                    entity.Property(p => p.Id)
+                        .HasColumnName("id")
+                        .HasDefaultValueSql("nextval('master_seq'::regclass)");
+
+                    entity.Property(e => e.DateAdded).HasColumnName("date_added");
+
+                    entity.Property(e => e.AddedBy).HasColumnName("user_added_by");
+
+                    entity.Property(e => e.DateUpdated).HasColumnName("date_updated");
+
+                    entity.Property(e => e.UpdatedBy).HasColumnName("user_updated_by");
+
+                    entity.Property(e => e.Description).HasColumnName("description");
+
+                    entity.Property(e => e.CustomerPurchasedFor).HasColumnName("customer_purchased_for");
+
+                    entity.Property(e => e.Supplier).HasColumnName("supplier");
+
+                    entity.Property(e => e.CustomerPurchasedFor).HasColumnName("customer_purchased_for");
+                }
+            );
+
 
 
             // Seed Admin Data
@@ -548,5 +585,7 @@ namespace Egret.DataAccess
                 IsActive = true
             });
         }
+
+        public DbSet<Egret.Models.PurchaseEvent> Purchase { get; set; }
     }
 }

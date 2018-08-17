@@ -29,7 +29,8 @@ namespace Egret.ViewModels
         public string SourceId { get; set; }
         public string Area { get; set; } = "Inventory";
         public string Controller { get; set; } = "Items";
-        public string Action { get; set; } = "Edit";
+        public string CreateAction { get; set; } = "Create";
+        public string EditAction { get; set; } = "Edit";
         public string HelpText { get; set; } = "";
         public string ObjectDisplay { get; set; } = "RelationshipDisplay";
         public string TargetObjectIdColumn { get; set; } = "Code";

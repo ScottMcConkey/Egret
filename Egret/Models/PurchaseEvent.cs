@@ -6,7 +6,7 @@ using System.Threading.Tasks;
 
 namespace Egret.Models
 {
-    public partial class Purchase
+    public partial class PurchaseEvent
     {
         public int Id { get; set; }
 
