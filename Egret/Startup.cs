@@ -84,6 +84,8 @@ namespace Egret
 
             app.UseStaticFiles();
             app.UseAuthentication();
+            app.UseCors(options =>
+               options.AllowAnyOrigin().AllowAnyHeader().AllowAnyMethod().AllowCredentials());
             loggerFactory.AddDebug();
             app.UseMvc(routes =>
             {

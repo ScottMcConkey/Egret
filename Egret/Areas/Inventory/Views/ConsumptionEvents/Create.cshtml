@@ -15,18 +15,18 @@
                     <div style="border: 1px solid #000; padding: 10px;">
                         <label asp-for="@Model.InventoryItemCode" class="control-label"></label>
                         <div class="form-group form-inline">
-                            <input asp-for="@Model.InventoryItemCode" class="form-control form-inline" />
-                            <div class="btn btn-success"><span class="glyphicon glyphicon-refresh"></span></div>
+                            <input asp-for="InventoryItemCode" class="form-control form-inline" />
+                            <a id="callApi" class="btn btn-success"><span class="glyphicon glyphicon-refresh"></span></a>
                         </div>
 
                         <div class="form-group">
                             <label class="control-label">Description</label>
-                            <p class="form-control" readonly />
+                            <p id="apiDescription" class="form-control" readonly />
                         </div>
 
                         <div class="form-group">
                             <label class="control-label">Customer Reserved For</label>
-                            <p class="form-control" readonly />
+                            <p id="apiCustomer" class="form-control" readonly />
                         </div>
 
                     </div><br />
@@ -51,12 +51,14 @@
                         <input asp-for="@Model.PatternNumber" class="form-control" />
                     </div>
 
-                    <label asp-for="@Model.QuantityConsumed" class="control-label required"></label>
-                    <div class="form-group form-inline">
+                    <div class="form-group">
+                        <label asp-for="@Model.QuantityConsumed" class="control-label required"></label>
                         <input asp-for="@Model.QuantityConsumed" class="form-control" />
-                        <select asp-for="@Model.Unit" style="width: 25%;" class="form-control" readonly asp-items="ViewBag.Unit">
-                            <option value=""></option>
-                        </select>
+                    </div>
+
+                    <div class="form-group">
+                        <label asp-for="Unit" class="control-label"></label>
+                        <input asp-for="Unit" readonly class="form-control" />
                     </div>
 
                 </div>

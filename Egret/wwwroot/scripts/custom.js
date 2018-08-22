@@ -127,5 +127,21 @@ $(document).ready(function () {
 
     SetTestsForDelete();
 
+    $(function () {
+        $("#callApi").on("click", function () {
+            $.get('/api/Inventory/' + $("#InventoryItemCode").val(), function (data) {
+                $('#apiDescription').empty();
+                $('#apiDescription').html(data.description);
+
+                $('#apiCustomer').empty();
+                $('#apiCustomer').html(data.customerReservedFor);
+
+                $('#Unit').empty();
+                $('#Unit').val(data.unit);
+
+            }, 'json');
+        });
+    });
+
 
 });
