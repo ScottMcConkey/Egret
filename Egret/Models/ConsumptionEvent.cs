@@ -47,6 +47,7 @@ namespace Egret.Models
         public string PatternNumber { get; set; }
 
         [Required]
+        [Display(Name = "Item Code")]
         public string InventoryItemCode { get; set; }
 
 

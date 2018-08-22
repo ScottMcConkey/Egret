@@ -239,7 +239,7 @@ namespace Egret.Controllers
         public IActionResult Search(InventorySearchViewModel item)
         {
             ViewData["Category"] = new SelectList(AllInventoryCategories, "Name", "Name");
-            var results = Context.InventoryItems.AsQueryable();
+            var results = Context.InventoryItems.Include(x => x.ConsumptionEventsNavigation).AsQueryable();
 
             // Code
             if (!String.IsNullOrEmpty(item.Code))
@@ -274,6 +274,22 @@ namespace Egret.Controllers
             // Customer Reserved For
             if (!String.IsNullOrEmpty(item.CustomerReservedFor))
                 results = results.Where(x => x.CustomerReservedFor.Contains(item.CustomerReservedFor));
+
+            // In Stock
+            if (item.InStock == true)
+            {
+                //results = results.Include(i => i.ConsumptionEventsNavigation);
+                results = results.Where(x => x.QtyPurchased - x.ConsumptionEventsNavigation.Select(y => y.QuantityConsumed).Sum() > 0);
+                //decimal summation = results. Sum(x => x.ConsumptionEventsNavigation.
+            }
+
+            //InventoryItem item = await Context.InventoryItems
+            //    .Include(i => i.ConsumptionEventsNavigation)
+            //    .Include(i => i.FabricTestsNavigation)
+            //    //.Include(i => i.CategoryNavigation)
+            //    .SingleOrDefaultAsync(m => m.Code == id);
+
+            // presentation.ConsumptionEvents = item.ConsumptionEventsNavigation.ToList();
 
 
             return View("Results", results.OrderBy(x => x.Code).ToList());

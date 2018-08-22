@@ -271,7 +271,12 @@ namespace Egret.Models
         {
             get
             {
-                return (Code != "" ? "Code: " + Code + " - " : "") + (Description ?? "");
+                string output = (Code != "" ? "Code: " + Code + " - " : "") + (Description ?? "");
+                if (output.Length > 40)
+                {
+                    output = output.Substring(0, 40);
+                }
+                return output;
             }
             private set { }
 
