@@ -129,7 +129,12 @@ $(document).ready(function () {
 
     $(function () {
         $("#callApi").on("click", function () {
+            $(".glyphicon-refresh").addClass("spin");
             $.get('/api/Inventory/' + $("#InventoryItemCode").val(), function (data) {
+
+                
+
+
                 $('#apiDescription').empty();
                 $('#apiDescription').html(data.description);
 
@@ -138,6 +143,8 @@ $(document).ready(function () {
 
                 $('#Unit').empty();
                 $('#Unit').val(data.unit);
+
+                $(".glyphicon-refresh").removeClass("spin");
 
             }, 'json');
         });

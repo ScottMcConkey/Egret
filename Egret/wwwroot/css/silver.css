@@ -266,3 +266,14 @@ th {
         display: block;
     }
 }
+
+
+@keyframes rotate360 {
+    to {
+        transform: rotate(360deg);
+    }
+}
+
+.spin {
+    animation: 2s rotate360 infinite linear;
+}
