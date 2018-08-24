@@ -15,6 +15,12 @@ namespace Egret.TagHelpers
         [HtmlAttributeName("asp-for")]
         public ModelExpression Source { get; set; }
 
+        [HtmlAttributeName("egret-class")]
+        public string ClassName { get; set; }
+
+        [HtmlAttributeName("egret-property")]
+        public string PropertyName { get; set; }
+
         /// <summary>
         /// Use on Labels to indicate which languages should also appear beneath the main label.
         /// These languages must be specified on the Model property using the LanguageAttribute.
@@ -28,8 +34,18 @@ namespace Egret.TagHelpers
         {
             List<string> LanguageList = Languages.Split(',').ToList();
 
-            string PropertyName = Source.Name.Substring(Source.Name.LastIndexOf('.') + 1) ?? Source.Name;
-            PropertyInfo info = Source.Metadata.ContainerType.GetProperty(PropertyName);
+            PropertyInfo info;
+
+            if (Source != null)
+            {
+                string PropertyName = Source.Name.Substring(Source.Name.LastIndexOf('.') + 1) ?? Source.Name;
+                info = Source.Metadata.ContainerType.GetProperty(PropertyName);
+            }
+            else
+            {
+                Type type = Type.GetType($"Egret.Models.{ClassName}, Egret");
+                info = type.GetProperty(PropertyName);
+            }
 
             foreach (string language in LanguageList)
             {

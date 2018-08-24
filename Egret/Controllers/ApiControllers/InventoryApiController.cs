@@ -13,6 +13,13 @@ namespace Egret.Controllers.ApiControllers
     [ApiController]
     public class InventoryController : ManagedController
     {
+        public class Item
+        {
+            public string Description { get; set; }
+            public string CustomerReservedFor { get; set; }
+            public string Unit { get; set; }
+        }
+
         public InventoryController(EgretContext context)
             : base(context) { }
 
@@ -23,7 +30,16 @@ namespace Egret.Controllers.ApiControllers
         }
 
         [HttpGet("{id}")]
-        public InventoryItem Get(string id) => Context.InventoryItems.Where(x => x.Code == id).SingleOrDefault();
+        public Item Get(string id)
+        {
+            Item item = new Item();
+            InventoryItem inventoryTarget = Context.InventoryItems.Where(x => x.Code == id).SingleOrDefault();
+            //Context.InventoryItems.Where(x => x.Code == id).SingleOrDefault();
+            item.Description = inventoryTarget.Description;
+            item.CustomerReservedFor = inventoryTarget.CustomerReservedFor;
+            item.Unit = inventoryTarget.Unit;
+            return item;
+        }
 
     }
 }

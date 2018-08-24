@@ -276,11 +276,15 @@ namespace Egret.Controllers
                 results = results.Where(x => x.CustomerReservedFor.Contains(item.CustomerReservedFor));
 
             // In Stock
-            if (item.InStock == true)
+            if (item.InStock == "Yes")
             {
                 //results = results.Include(i => i.ConsumptionEventsNavigation);
                 results = results.Where(x => x.QtyPurchased - x.ConsumptionEventsNavigation.Select(y => y.QuantityConsumed).Sum() > 0);
                 //decimal summation = results. Sum(x => x.ConsumptionEventsNavigation.
+            }
+            else if (item.InStock == "No")
+            {
+                results = results.Where(x => x.QtyPurchased - x.ConsumptionEventsNavigation.Select(y => y.QuantityConsumed).Sum() == 0);
             }
 
             //InventoryItem item = await Context.InventoryItems

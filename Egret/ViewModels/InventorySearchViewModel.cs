@@ -27,6 +27,6 @@ namespace Egret.ViewModels
         public string CustomerReservedFor { get; set; }
 
         [Display(Name = "In Stock")]
-        public bool InStock { get; set; }
+        public string InStock { get; set; }
     }
 }

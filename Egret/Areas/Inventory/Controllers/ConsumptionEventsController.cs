@@ -42,10 +42,11 @@ namespace Egret.Controllers
                 consumptionEvent.UpdatedBy = User.Identity.Name;
                 consumptionEvent.DateAdded = DateTime.Now;
                 consumptionEvent.DateUpdated = DateTime.Now;
+                consumptionEvent.Unit = Context.InventoryItems.Where(x => x.Code == sourceid).FirstOrDefault().Unit;
                 Context.ConsumptionEvents.Add(consumptionEvent);
                 Context.SaveChanges();
 
-                return RedirectToAction("Edit", "Items", new { id = consumptionEvent.InventoryItemCode });
+                return RedirectToAction("Edit", "Items", new { id = consumptionEvent.Id });
             }
 
             return View();
@@ -55,6 +56,26 @@ namespace Egret.Controllers
         public IActionResult Create()
         {
             ViewData["Unit"] = new SelectList(ActiveUnits, "Abbreviation", "Abbreviation");
+            return View();
+        }
+
+        [HttpPost]
+        public IActionResult Create(ConsumptionEvent consumptionEvent)
+        {
+            ViewData["Unit"] = new SelectList(ActiveUnits, "Abbreviation", "Abbreviation");
+
+            if (ModelState.IsValid)
+            {
+                consumptionEvent.AddedBy = User.Identity.Name;
+                consumptionEvent.UpdatedBy = User.Identity.Name;
+                consumptionEvent.DateAdded = DateTime.Now;
+                consumptionEvent.DateUpdated = DateTime.Now;
+                Context.ConsumptionEvents.Add(consumptionEvent);
+                Context.SaveChanges();
+
+                return RedirectToAction("Edit", new { id = consumptionEvent.Id });
+            }
+
             return View();
         }
 

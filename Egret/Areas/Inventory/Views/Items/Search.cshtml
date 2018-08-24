@@ -55,7 +55,12 @@
             
             <div class="form-group">
                 <label asp-for="InStock" class="control-label"></label>
-                <input asp-for="InStock" class="form-control checkbox" />
+                @*<input asp-for="InStock" class="form-control checkbox" />*@
+                <select asp-for="InStock" class="form-control">
+                    <option value=""></option>
+                    <option value="Yes">Yes</option>
+                    <option value="No">No</option>
+                </select>
             </div><br />
 
             <div class="form-group">
