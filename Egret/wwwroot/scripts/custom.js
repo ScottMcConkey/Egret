@@ -131,10 +131,7 @@ $(document).ready(function () {
         $("#callApi").on("click", function () {
             $(".glyphicon-refresh").addClass("spin");
             $.get('/api/Inventory/' + $("#InventoryItemCode").val(), function (data) {
-
                 
-
-
                 $('#apiDescription').empty();
                 $('#apiDescription').html(data.description);
 

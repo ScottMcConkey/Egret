@@ -39,7 +39,7 @@ nav li {
     text-align: center;
     border-bottom: 1px solid #368798;
     padding: 2px;
-    background-color: #0f0e31;
+    background-color: #282e44; /*#0f0e31;*/
     margin: 0;
     padding: 0;
 }
@@ -71,7 +71,7 @@ nav a:hover {
 }
 
 nav a:hover {
-    background-color: #254a7d;
+    background-color: #368798;/*#254a7d;*/
 }
 
 nav a:active,
@@ -188,7 +188,7 @@ th {
 }
 
 .related-object-div:hover {
-    background-color: lightgray; /*#368798*/
+    background-color: lightgray;
 }
 
 .related-object-blank {
@@ -276,4 +276,10 @@ th {
 
 .spin {
     animation: 2s rotate360 infinite linear;
+}
+
+
+.language-label {
+    font-size: calc(100% - 2px);
+    color: #999;
 }

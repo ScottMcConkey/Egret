@@ -67,7 +67,7 @@ namespace Egret.Controllers
                 Context.Add(inventoryItem);
                 await Context.SaveChangesAsync();
                 TempData["SuccessMessage"] = "Inventory Item Created";
-                return RedirectToAction(nameof(Index), "Home");
+                return RedirectToAction(nameof(Edit), new { Id = inventoryItem.Code });
             }
             
             return View(inventoryItem);
@@ -85,7 +85,6 @@ namespace Egret.Controllers
             InventoryItem item = await Context.InventoryItems
                 .Include(i => i.ConsumptionEventsNavigation)
                 .Include(i => i.FabricTestsNavigation)
-                //.Include(i => i.CategoryNavigation)
                 .SingleOrDefaultAsync(m => m.Code == id);
 
             if (item == null)
@@ -97,7 +96,6 @@ namespace Egret.Controllers
             ViewData["ShippingCostCurrency"] = new SelectList(ActiveCurrencyTypes, "Abbreviation", "Abbreviation", item.ShippingCostCurrency);
             ViewData["ImportCostCurrency"] = new SelectList(ActiveCurrencyTypes, "Abbreviation", "Abbreviation", item.ImportCostCurrency);
 
-            //Console.WriteLine(ActiveAndCurrentCategories.Count().ToString());
             if (!ActiveInventoryCategories.Any(x => x.Name == item.Category))
             {
                 List<InventoryCategory> ActiveAndCurrentCategories = ActiveInventoryCategories.ToList();
@@ -115,7 +113,6 @@ namespace Egret.Controllers
             presentation.Item = item;
             presentation.FabricTests = item.FabricTestsNavigation.OrderBy(x => x.Id).ToList();
             presentation.ConsumptionEvents = item.ConsumptionEventsNavigation.ToList();
-            //presentation.Category = item.CategoryNavigation;
 
             return View(presentation);
         }
@@ -135,22 +132,10 @@ namespace Egret.Controllers
             ViewData["Category"] = new SelectList(ActiveAndCurrentCategories, "Name", "Name", vm.Item.Category);
             ViewData["Unit"] = new SelectList(ActiveUnits, "Abbreviation", "Abbreviation", vm.Item.Unit);
 
-            // Scott test
-            SelectList something = new SelectList(ActiveUnits, "Abbreviation", "Abbreviation");
-           // var test = something.
-
-            //InventoryItem item = await Context.InventoryItems
-            //    .Include(i => i.ConsumptionEventsNavigation)
-            //.Include(i => i.CategoryNavigation)
-            //.Include(i => i.FabricTestsNavigation)
-            //    .SingleOrDefaultAsync(m => m.Code == id);
             List<ConsumptionEvent> events = Context.ConsumptionEvents.Where(x => x.InventoryItemCode == vm.Item.Code).ToList();
 
             // Rebuild the view model since not all values will be passed to this action
-            //vm.Item = item;
-            vm.ConsumptionEvents = events;// item.ConsumptionEventsNavigation.OrderBy(x => x.Id).ToList();
-            //vm.Category = item.CategoryNavigation;
-            //vm.FabricTests = vm.FabricTests;// item.FabricTestsNavigation.ToList();
+            vm.ConsumptionEvents = events;
 
             if (ModelState.IsValid)
             {
@@ -278,23 +263,12 @@ namespace Egret.Controllers
             // In Stock
             if (item.InStock == "Yes")
             {
-                //results = results.Include(i => i.ConsumptionEventsNavigation);
                 results = results.Where(x => x.QtyPurchased - x.ConsumptionEventsNavigation.Select(y => y.QuantityConsumed).Sum() > 0);
-                //decimal summation = results. Sum(x => x.ConsumptionEventsNavigation.
             }
             else if (item.InStock == "No")
             {
                 results = results.Where(x => x.QtyPurchased - x.ConsumptionEventsNavigation.Select(y => y.QuantityConsumed).Sum() == 0);
             }
-
-            //InventoryItem item = await Context.InventoryItems
-            //    .Include(i => i.ConsumptionEventsNavigation)
-            //    .Include(i => i.FabricTestsNavigation)
-            //    //.Include(i => i.CategoryNavigation)
-            //    .SingleOrDefaultAsync(m => m.Code == id);
-
-            // presentation.ConsumptionEvents = item.ConsumptionEventsNavigation.ToList();
-
 
             return View("Results", results.OrderBy(x => x.Code).ToList());
         }
@@ -305,9 +279,5 @@ namespace Egret.Controllers
             return View();
         }
 
-        private bool InventoryItemsExists(string id)
-        {
-            return Context.InventoryItems.Any(e => e.Code == id);
-        }
     }
 }

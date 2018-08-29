@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Reflection;
 using Microsoft.AspNetCore.Mvc.ViewFeatures;
+using Microsoft.AspNetCore.Mvc.Rendering;
 using Microsoft.AspNetCore.Razor.TagHelpers;
 using Egret.Attributes;
 
@@ -55,10 +56,13 @@ namespace Egret.TagHelpers
                     {
                         if (language == (attribute.Name))
                         {
+                            TagBuilder label = new TagBuilder("label");
+                            label.AddCssClass("language-label");
+                            label.AddCssClass("control-label");
+                            
+                            label.InnerHtml.Append(attribute.Value);
                             output.PostElement.AppendHtml("<br>");
-                            output.PostElement.AppendHtml($"<label class='control-label' style='font-size: calc(100% - 2px); color: #999'>" +
-                                $"{(attribute).Value}</label>"
-                            );
+                            output.PostElement.AppendHtml(label);
                         }
                     }
                 }

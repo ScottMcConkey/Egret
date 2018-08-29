@@ -49,6 +49,7 @@ namespace Egret.DataAccess
         }
 
         [HttpPost]
+        [ValidateAntiForgeryToken]
         public async Task<IActionResult> Edit(string id, string email, string password, bool isactive)
         {
             User user = await userManager.FindByIdAsync(id);
@@ -106,6 +107,7 @@ namespace Egret.DataAccess
         }
 
         [HttpPost]
+        [ValidateAntiForgeryToken]
         public async Task<IActionResult> Create(UserViewModel model)
         {
             if (ModelState.IsValid)
@@ -135,6 +137,7 @@ namespace Egret.DataAccess
         }
 
         [HttpPost]
+        [ValidateAntiForgeryToken]
         public async Task<IActionResult> Delete(string id)
         {
             User user = await userManager.FindByIdAsync(id);

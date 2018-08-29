@@ -30,7 +30,8 @@ namespace Egret.Controllers
             return View(roleManager.Roles.ToList());
         }
 
-        [HttpPost]
+        //[HttpPost]
+        //[ValidateAntiForgeryToken]
         //public ViewResult Index(List<Role> roles)
         //{
         //    if (ModelState.IsValid)
@@ -55,6 +56,7 @@ namespace Egret.Controllers
         }
 
         [HttpPost]
+        [ValidateAntiForgeryToken]
         public async Task<IActionResult> Create([Required]string name)
         {
             if (ModelState.IsValid)
@@ -74,6 +76,7 @@ namespace Egret.Controllers
         }
 
         [HttpPost]
+        [ValidateAntiForgeryToken]
         public async Task<IActionResult> Delete(string id)
         {
             IdentityRole role = await roleManager.FindByIdAsync(id);
@@ -119,6 +122,7 @@ namespace Egret.Controllers
         }
 
         [HttpPost]
+        [ValidateAntiForgeryToken]
         public async Task<IActionResult> Edit(RoleModificationModel model)
         {
             IdentityResult result;
