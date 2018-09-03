@@ -25,9 +25,12 @@ namespace Egret.Controllers
         }
 
         [HttpGet]
-        public IActionResult CreateFromItem()
+        public IActionResult CreateFromItem(string sourceid)
         {
-            ViewData["Unit"] = new SelectList(ActiveUnits, "Abbreviation", "Abbreviation");
+            var item = Context.InventoryItems.Where(x => x.Code == sourceid);
+            ViewData["Unit"] = new SelectList(item, "Unit", "Unit", item.FirstOrDefault().Unit);//new SelectList(ActiveUnits, "Abbreviation", "Abbreviation");
+
+
             return View();
         }
 
@@ -35,7 +38,10 @@ namespace Egret.Controllers
         [ValidateAntiForgeryToken]
         public IActionResult CreateFromItem(string sourceid, ConsumptionEvent consumptionEvent)
         {
-            ViewData["Unit"] = new SelectList(ActiveUnits, "Abbreviation", "Abbreviation");
+            string sourceId = sourceid;
+
+            var item = Context.InventoryItems.Where(x => x.Code == consumptionEvent.InventoryItemCode);
+            ViewData["Unit"] = new SelectList(item, "Unit", "Unit", item.FirstOrDefault().Unit);
 
             if (ModelState.IsValid)
             {
@@ -43,14 +49,13 @@ namespace Egret.Controllers
                 consumptionEvent.UpdatedBy = User.Identity.Name;
                 consumptionEvent.DateAdded = DateTime.Now;
                 consumptionEvent.DateUpdated = DateTime.Now;
-                consumptionEvent.Unit = Context.InventoryItems.Where(x => x.Code == sourceid).FirstOrDefault().Unit;
                 Context.ConsumptionEvents.Add(consumptionEvent);
                 Context.SaveChanges();
 
-                return RedirectToAction("Edit", "Items", new { id = consumptionEvent.Id });
+                return RedirectToAction("Edit", "Items", new { id = consumptionEvent.InventoryItemCode });
             }
 
-            return View();
+            return View("CreateFromItem", consumptionEvent);
         }
 
         [HttpGet]
@@ -98,7 +103,6 @@ namespace Egret.Controllers
             }
 
             presentation.ConsumptionEvent = consumptionEvent;
-            //presentation.InventoryItems 
             var test = new List<InventoryItem>();
             test.Add(consumptionEvent.InventoryItemNavigation);
             presentation.InventoryItems = test;

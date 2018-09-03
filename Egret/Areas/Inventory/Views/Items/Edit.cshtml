@@ -55,7 +55,6 @@
                                 <select asp-for="Item.FOBCostCurrency" class="form-control" style="width: 25%;" asp-items="ViewBag.FOBCostCurrency">
                                     <option value=""></option>
                                 </select>
-                                <span asp-validation-for="Item.FOBCost" class="text-danger"></span>
                             </div>
 
                             <label asp-for="Item.ShippingCost" include-languages="Nepali" class="control-label"></label>
@@ -64,7 +63,6 @@
                                 <select asp-for="Item.ShippingCostCurrency" class="form-control" style="width: 25%;" asp-items="ViewBag.ShippingCostCurrency">
                                     <option value=""></option>
                                 </select>
-                                <span asp-validation-for="Item.ShippingCost" class="text-danger"></span>
                             </div>
 
                             <label asp-for="Item.ImportCosts" include-languages="Nepali" class="control-label"></label>
@@ -73,7 +71,6 @@
                                 <select asp-for="Item.ImportCostCurrency" class="form-control" style="width: 25%;" asp-items="ViewBag.ImportCostCurrency">
                                     <option value=""></option>
                                 </select>
-                                <span asp-validation-for="Item.ImportCosts" class="text-danger"></span>
                             </div>
 
                             <div class="form-group">
@@ -143,7 +140,7 @@
                                     </tr>
                                 </thead>
                                 <tbody>
-                                    @if (Model.FabricTests.Count() == 0)
+                                    @if (Model.FabricTests?.Count() == 0)
                                     {
                                         <tr id="notests"><td colspan="3" class="text-center">There are currently no Tests.</td></tr>
                                     }
@@ -151,7 +148,7 @@
                                     {
                                         <tr id="notests" style="display: none;"><td colspan="3" class="text-center">There are currently no Tests.</td></tr>
 
-                                        @for (int i = 0; i < Model.FabricTests.Count(); i++)
+                                        @for (int i = 0; i < Model.FabricTests?.Count(); i++)
                                         {
                                             <tr class="fabrictest">
                                                 <td>
