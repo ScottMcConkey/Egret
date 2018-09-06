@@ -43,12 +43,13 @@ namespace Egret.Controllers
             var item = Context.InventoryItems.Where(x => x.Code == consumptionEvent.InventoryItemCode);
             ViewData["Unit"] = new SelectList(item, "Unit", "Unit", item.FirstOrDefault().Unit);
 
+            consumptionEvent.AddedBy = User.Identity.Name;
+            consumptionEvent.UpdatedBy = User.Identity.Name;
+            consumptionEvent.DateAdded = DateTime.Now;
+            consumptionEvent.DateUpdated = DateTime.Now;
+
             if (ModelState.IsValid)
             {
-                consumptionEvent.AddedBy = User.Identity.Name;
-                consumptionEvent.UpdatedBy = User.Identity.Name;
-                consumptionEvent.DateAdded = DateTime.Now;
-                consumptionEvent.DateUpdated = DateTime.Now;
                 Context.ConsumptionEvents.Add(consumptionEvent);
                 Context.SaveChanges();
 
@@ -71,12 +72,13 @@ namespace Egret.Controllers
         {
             ViewData["Unit"] = new SelectList(ActiveUnits, "Abbreviation", "Abbreviation");
 
+            consumptionEvent.AddedBy = User.Identity.Name;
+            consumptionEvent.UpdatedBy = User.Identity.Name;
+            consumptionEvent.DateAdded = DateTime.Now;
+            consumptionEvent.DateUpdated = DateTime.Now;
+
             if (ModelState.IsValid)
             {
-                consumptionEvent.AddedBy = User.Identity.Name;
-                consumptionEvent.UpdatedBy = User.Identity.Name;
-                consumptionEvent.DateAdded = DateTime.Now;
-                consumptionEvent.DateUpdated = DateTime.Now;
                 Context.ConsumptionEvents.Add(consumptionEvent);
                 Context.SaveChanges();
 
@@ -121,10 +123,11 @@ namespace Egret.Controllers
         {
             ViewData["Unit"] = new SelectList(ActiveUnits, "Abbreviation", "Abbreviation");
 
+            vm.ConsumptionEvent.UpdatedBy = User.Identity.Name;
+            vm.ConsumptionEvent.DateUpdated = DateTime.Now;
+
             if (ModelState.IsValid)
             {
-                vm.ConsumptionEvent.UpdatedBy = User.Identity.Name;
-                vm.ConsumptionEvent.DateUpdated = DateTime.Now;
                 Context.Update(vm.ConsumptionEvent);
                 await Context.SaveChangesAsync();
                 TempData["SuccessMessage"] = "Save Complete";

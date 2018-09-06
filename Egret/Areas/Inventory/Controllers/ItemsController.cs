@@ -58,12 +58,13 @@ namespace Egret.Controllers
             ViewData["Category"] = new SelectList(ActiveInventoryCategories, "Name", "Name", inventoryItem.Category);
             ViewData["Unit"] = new SelectList(ActiveUnits, "Abbreviation", "Abbreviation", inventoryItem.Unit);
 
+            inventoryItem.AddedBy = User.Identity.Name;
+            inventoryItem.UpdatedBy = User.Identity.Name;
+            inventoryItem.DateAdded = DateTime.Now;
+            inventoryItem.DateUpdated = DateTime.Now;
+
             if (ModelState.IsValid)
             {
-                inventoryItem.AddedBy = User.Identity.Name;
-                inventoryItem.UpdatedBy = User.Identity.Name;
-                inventoryItem.DateAdded = DateTime.Now;
-                inventoryItem.DateUpdated = DateTime.Now;
                 Context.Add(inventoryItem);
                 await Context.SaveChangesAsync();
                 TempData["SuccessMessage"] = "Inventory Item Created";
@@ -137,11 +138,18 @@ namespace Egret.Controllers
             // Rebuild the view model since not all values will be passed to this action
             vm.ConsumptionEvents = events;
 
+            InventoryItem temp = Context.InventoryItems.Where(x => x.Code == id).FirstOrDefault();
+            vm.Item.AddedBy = temp.AddedBy;
+            vm.Item.DateAdded = temp.DateAdded;
+            vm.Item.UpdatedBy = temp.UpdatedBy;
+            vm.Item.DateUpdated = temp.DateUpdated;
+
+
             if (ModelState.IsValid)
             {
                 vm.Item.UpdatedBy = User.Identity.Name;
                 vm.Item.DateUpdated = DateTime.Now;
-                
+
                 if (vm.FabricTests != null)
                 {
                     foreach (FabricTest i in vm.FabricTests)
