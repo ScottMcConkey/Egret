@@ -53,6 +53,8 @@ namespace Egret.Models
         [Language(Name = "Nepali", Value = "ढाँचा नम्बर")]
         public string PatternNumber { get; set; }
 
+        public string Comments { get; set; }
+
         [Required]
         [Display(Name = "Item Code")]
         [Language(Name = "Nepali", Value = "वस्तु कोड")]

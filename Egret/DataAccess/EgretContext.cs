@@ -412,6 +412,9 @@ namespace Egret.DataAccess
                 entity.Property(e => e.PatternNumber)
                     .HasColumnName("pattern_number");
 
+                entity.Property(e => e.Comments)
+                    .HasColumnName("comments");
+
                 entity.Property(p => p.InventoryItemCode)
                     .HasColumnName("inventory_item_code");
 
