@@ -1,14 +1,14 @@
-﻿@model ObjectInformationViewModel
+﻿@model IAuditable
 
 <div class='edit-info'>
     <table>
         <tr>
             <td>Added By:</td>
-            <td>@Model?.CreatedBy</td>
+            <td>@Model?.AddedBy</td>
         </tr>
         <tr>
             <td>Added On:</td>
-            <td>@(Model.CreatedDate != null ? Model.CreatedDate.Value.ToShortDateString() : "")</td>
+            <td>@(Model.DateAdded != null ? Model.DateAdded.Value.ToShortDateString() : "")</td>
         </tr>
         <tr>
             <td>Updated By:</td>
@@ -16,7 +16,7 @@
         </tr>
         <tr>
             <td>Updated On:</td>
-            <td>@(Model.UpdatedDate != null ? Model.UpdatedDate.Value.ToShortDateString() : "")</td>
+            <td>@(Model.DateUpdated != null ? Model.DateUpdated.Value.ToShortDateString() : "")</td>
         </tr>
     </table>
 </div>

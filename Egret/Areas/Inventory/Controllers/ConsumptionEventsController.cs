@@ -99,7 +99,7 @@ namespace Egret.Controllers
                 .Include(i => i.InventoryItemNavigation)
                 .SingleOrDefaultAsync(m => m.Id == id);
 
-            if (consumptionEvent == null)
+            if (id == null || consumptionEvent == null)
             {
                 return NotFound();
             }
@@ -109,12 +109,7 @@ namespace Egret.Controllers
             test.Add(consumptionEvent.InventoryItemNavigation);
             presentation.InventoryItems = test;
 
-            if (presentation.ConsumptionEvent != null)
-            {
-                return View(presentation);
-            }
-
-            return View();
+            return View(presentation);
         }
 
         [HttpPost]
@@ -123,15 +118,20 @@ namespace Egret.Controllers
         {
             ViewData["Unit"] = new SelectList(ActiveUnits, "Abbreviation", "Abbreviation");
 
-            vm.ConsumptionEvent.UpdatedBy = User.Identity.Name;
-            vm.ConsumptionEvent.DateUpdated = DateTime.Now;
+            var temp = Context.ConsumptionEvents.Where(x => x.Id == id).FirstOrDefault();
+            vm.ConsumptionEvent.AddedBy = temp.AddedBy;
+            vm.ConsumptionEvent.DateAdded = temp.DateAdded;
+            vm.ConsumptionEvent.UpdatedBy = temp.UpdatedBy;
+            vm.ConsumptionEvent.DateUpdated = temp.DateUpdated;
 
             if (ModelState.IsValid)
             {
+                vm.ConsumptionEvent.UpdatedBy = User.Identity.Name;
+                vm.ConsumptionEvent.DateUpdated = DateTime.Now;
                 Context.Update(vm.ConsumptionEvent);
                 await Context.SaveChangesAsync();
                 TempData["SuccessMessage"] = "Save Complete";
-                return RedirectToAction(nameof(Edit));
+                return RedirectToAction();
             }
             
             return View(vm.ConsumptionEvent);

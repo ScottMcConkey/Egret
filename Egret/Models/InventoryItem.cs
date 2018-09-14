@@ -7,10 +7,11 @@ using System.Linq;
 using Microsoft.AspNetCore.Mvc.ModelBinding;
 using Microsoft.Extensions;
 using Egret.Attributes;
+using Egret.Interfaces;
 
 namespace Egret.Models
 {
-    public partial class InventoryItem
+    public partial class InventoryItem : IAuditable
     {
         [Language(Name = "Nepali", Value = "कोड")]
         public string Code { get; set; }

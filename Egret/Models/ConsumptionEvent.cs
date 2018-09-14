@@ -6,10 +6,11 @@ using System.ComponentModel;
 using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
 using Egret.Attributes;
+using Egret.Interfaces;
 
 namespace Egret.Models
 {
-    public class ConsumptionEvent
+    public class ConsumptionEvent : IAuditable
     {
         [Language(Name = "Nepali", Value = "आईडी")]
         public string Id { get; set; }
@@ -53,6 +54,7 @@ namespace Egret.Models
         [Language(Name = "Nepali", Value = "ढाँचा नम्बर")]
         public string PatternNumber { get; set; }
 
+        [Language(Name = "Nepali", Value = "टिप्पणीहरू")]
         public string Comments { get; set; }
 
         [Required]

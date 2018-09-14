@@ -233,8 +233,7 @@
 
             <div class="col-md-4">
 
-                @await Html.PartialAsync("_ObjectInformationWidget", new ObjectInformationViewModel(@Model.Item.AddedBy, @Model.Item.DateAdded,
-                    @Model.Item.UpdatedBy, @Model.Item.DateUpdated))
+                @await Html.PartialAsync("_ObjectInformationWidget", Model.Item)
 
                 @await Html.PartialAsync("_RelatedObjectsWidget", new RelationshipViewModelConsumption(Model.ConsumptionEvents.OrderBy(x => x.DateOfConsumption).ToList(), Model.Item.Code))
 

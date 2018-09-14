@@ -78,17 +78,13 @@ namespace Egret.Controllers
         public async Task<IActionResult> Edit(string id)
         {
             InventoryItemViewModel presentation = new InventoryItemViewModel();
-            if (id == null)
-            {
-                return NotFound();
-            }
 
             InventoryItem item = await Context.InventoryItems
                 .Include(i => i.ConsumptionEventsNavigation)
                 .Include(i => i.FabricTestsNavigation)
                 .SingleOrDefaultAsync(m => m.Code == id);
 
-            if (item == null)
+            if (item == null || id == null)
             {
                 return NotFound();
             }
@@ -138,11 +134,13 @@ namespace Egret.Controllers
             // Rebuild the view model since not all values will be passed to this action
             vm.ConsumptionEvents = events;
 
-            InventoryItem temp = Context.InventoryItems.Where(x => x.Code == id).FirstOrDefault();
+            InventoryItem temp = Context.InventoryItems.AsNoTracking().Where(x => x.Code == id).FirstOrDefault();
             vm.Item.AddedBy = temp.AddedBy;
             vm.Item.DateAdded = temp.DateAdded;
             vm.Item.UpdatedBy = temp.UpdatedBy;
             vm.Item.DateUpdated = temp.DateUpdated;
+
+
 
 
             if (ModelState.IsValid)
