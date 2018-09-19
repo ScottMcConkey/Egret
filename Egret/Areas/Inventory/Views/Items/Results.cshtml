@@ -43,7 +43,7 @@
             {
                 <tr class="clickable-row" onclick="location.href = '@(Url.Action("Edit", new { id = item.Code }))'; location.target='_blank'">
                     <td>
-                        <a class="test" asp-action="Edit" asp-route-id="@item.Code">
+                        <a class="test" asp-action="Edit" asp-route-id="item.Code">
                             @Html.DisplayFor(modelItem => item.Code)
                         </a>
                     </td>

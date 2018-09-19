@@ -43,35 +43,38 @@
 
                             <label asp-for="Item.QtyPurchased" include-languages="Nepali" class="control-label"></label>
                             <div class="form-group form-inline">
-                                <input asp-for="Item.QtyPurchased" style="width: 25%;" class="form-control" />
-                                <select asp-for="Item.Unit" style="width: 25%;" class="form-control" asp-items="ViewBag.Unit">
+                                <input asp-for="Item.QtyPurchased" class="form-control" />
+                                <select asp-for="Item.Unit" class="form-control" asp-items="ViewBag.Unit">
                                     <option value=""></option>
                                 </select>
                             </div>
 
-                            <label asp-for="Item.FOBCost" include-languages="Nepali" class="control-label"></label>
-                            <div class="form-group form-inline" style="width: 100%">
-                                <input asp-for="Item.FOBCost" class="form-control" style="width: 25%;" />
-                                <select asp-for="Item.FOBCostCurrency" class="form-control" style="width: 25%;" asp-items="ViewBag.FOBCostCurrency">
-                                    <option value=""></option>
-                                </select>
-                            </div>
+                            <label class="control-label">Costs</label>
+                            <div style="border: 1px solid #000; padding: 10px;">
+                                <label asp-for="Item.FOBCost" include-languages="Nepali" class="control-label"></label>
+                                <div class="form-group form-inline">
+                                    <input asp-for="Item.FOBCost" class="form-control" />
+                                    <select asp-for="Item.FOBCostCurrency" class="form-control" asp-items="ViewBag.FOBCostCurrency">
+                                        <option value=""></option>
+                                    </select>
+                                </div>
 
-                            <label asp-for="Item.ShippingCost" include-languages="Nepali" class="control-label"></label>
-                            <div class="form-group form-inline" style="width: 100%">
-                                <input asp-for="Item.ShippingCost" class="form-control" style="width: 25%;" />
-                                <select asp-for="Item.ShippingCostCurrency" class="form-control" style="width: 25%;" asp-items="ViewBag.ShippingCostCurrency">
-                                    <option value=""></option>
-                                </select>
-                            </div>
+                                <label asp-for="Item.ShippingCost" include-languages="Nepali" class="control-label"></label>
+                                <div class="form-group form-inline">
+                                    <input asp-for="Item.ShippingCost" class="form-control" />
+                                    <select asp-for="Item.ShippingCostCurrency" class="form-control" asp-items="ViewBag.ShippingCostCurrency">
+                                        <option value=""></option>
+                                    </select>
+                                </div>
 
-                            <label asp-for="Item.ImportCosts" include-languages="Nepali" class="control-label"></label>
-                            <div class="form-group form-inline" style="width: 100%">
-                                <input asp-for="Item.ImportCosts" class="form-control" style="width: 25%;" />
-                                <select asp-for="Item.ImportCostCurrency" class="form-control" style="width: 25%;" asp-items="ViewBag.ImportCostCurrency">
-                                    <option value=""></option>
-                                </select>
-                            </div>
+                                <label asp-for="Item.ImportCosts" include-languages="Nepali" class="control-label"></label>
+                                <div class="form-group form-inline" style="width: 100%">
+                                    <input asp-for="Item.ImportCosts" class="form-control" />
+                                    <select asp-for="Item.ImportCostCurrency" class="form-control" asp-items="ViewBag.ImportCostCurrency">
+                                        <option value=""></option>
+                                    </select>
+                                </div>
+                            </div><br />
 
                             <div class="form-group">
                                 <label asp-for="Item.CustomerPurchasedFor" include-languages="Nepali" class="control-label"></label>
@@ -153,13 +156,13 @@
                                             <tr class="fabrictest">
                                                 <td>
                                                     <div class="form-group">
-                                                        <input type="hidden" asp-for="@Model.FabricTests[i].Id" class="testId" />
-                                                        <input asp-for="@Model.FabricTests[i].Name" class="form-control testName" />
+                                                        <input type="hidden" asp-for="FabricTests[i].Id" class="testId" />
+                                                        <input asp-for="FabricTests[i].Name" class="form-control testName" />
                                                     </div>
                                                 </td>
                                                 <td>
                                                     <div class="form-group">
-                                                        <input asp-for="@Model.FabricTests[i].Result" class="form-control testResult" />
+                                                        <input asp-for="FabricTests[i].Result" class="form-control testResult" />
                                                     </div>
                                                 </td>
                                                 <td class="delete-box">
@@ -185,10 +188,12 @@
                                 <label asp-for="Item.TotalCost" include-languages="Nepali" class="control-label"></label>
                                 <input asp-for="Item.TotalCost" class="form-control" readonly="readonly" />
                             </div>
+
                             <div class="form-group">
                                 <label asp-for="Item.CostPerUnit" include-languages="Nepali" class="control-label"></label>
                                 <input asp-for="Item.CostPerUnit" class="form-control" readonly="readonly" />
                             </div>
+
                             <div class="form-group">
                                 <label asp-for="Item.TotalCostPerUnit" include-languages="Nepali" class="control-label"></label>
                                 <input asp-for="Item.TotalCostPerUnit" class="form-control" readonly="readonly" />
@@ -205,22 +210,27 @@
                                 <label asp-for="Item.DateConfirmed" class="control-label"></label>
                                 <input asp-for="Item.DateConfirmed" class="form-control" style="width: 50%;" />
                             </div>
+
                             <div class="form-group">
                                 <label asp-for="Item.DateShipped" class="control-label"></label>
                                 <input asp-for="Item.DateShipped" class="form-control" style="width: 50%;" />
                             </div>
+
                             <div class="form-group">
                                 <label asp-for="Item.DateArrived" class="control-label"></label>
                                 <input asp-for="Item.DateArrived" class="form-control" style="width: 50%;" />
                             </div>
+
                             <div class="form-group">
                                 <label asp-for="Item.DaysToConfirm" class="control-label"></label>
                                 <input asp-for="Item.DaysToConfirm" class="form-control" style="width: 50%;" readonly="readonly" />
                             </div>
+
                             <div class="form-group">
                                 <label asp-for="Item.DaysToShip" class="control-label"></label>
                                 <input asp-for="Item.DaysToShip" class="form-control" style="width: 50%;" readonly="readonly" />
                             </div>
+
                             <div class="form-group">
                                 <label asp-for="Item.DaysToComplete" class="control-label"></label>
                                 <input asp-for="Item.DaysToComplete" class="form-control" style="width: 50%;" readonly="readonly" />

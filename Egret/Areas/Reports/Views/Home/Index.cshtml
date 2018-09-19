@@ -1,0 +1,26 @@
+﻿@{
+    ViewData["WindowTitle"] = "Reports";
+    ViewData["PageTitle"] = "Reports";
+}
+
+<div class="row">
+    <div class="col-md-12">
+
+        <p class="page-link-header"><span class="glyphicon glyphicon-barcode"></span> Items</p>
+        <p class="page-link">
+            <span class="glyphicon glyphicon-plus"></span><a asp-controller="Items" asp-action="Create">Stock Take</a>
+        </p><br />
+
+
+        <p class="page-link-header"><span class="glyphicon glyphicon-log-out"></span> Consumption Events</p>
+        <br />
+
+
+        <p class="page-link-header"><span class="glyphicon glyphicon-envelope"></span> Orders</p>
+        <br />
+
+
+        <p class="page-link-header"><span class="glyphicon glyphicon-tag"></span> Purchasing Events</p>
+
+    </div>
+</div>

@@ -157,13 +157,13 @@ th {
 }
 
 .related-objects {
-    border-left: 1px solid #0f0e31;
-    border-right: 1px solid #0f0e31;
+    border-left: 1px solid #282e44;
+    border-right: 1px solid #282e44;
 }
 
 .related-objects-header {
     padding: 10px;
-    background-color: #0f0e31;
+    background-color: #282e44;
     color: white;
 }
 
