@@ -133,9 +133,47 @@ namespace Egret.Controllers
                 TempData["SuccessMessage"] = "Save Complete";
                 return RedirectToAction();
             }
-            
+
             return View(vm.ConsumptionEvent);
         }
 
+        [HttpGet]
+        public IActionResult Search()
+        {
+            return View();
+        }
+
+        [HttpPost]
+        [ValidateAntiForgeryToken]
+        public IActionResult Search(ConsumptionEventSearchModel search)
+        {
+            var results = Context.ConsumptionEvents.AsQueryable();
+
+            // Code
+            if (!String.IsNullOrEmpty(search.Code))
+                results = results.Where(x => x.InventoryItemCode.Contains(search.Code));
+
+            // Date Added
+            if (search.DateCreatedStart != null && search.DateCreatedEnd != null)
+            {
+                results = results.Where(x => x.DateAdded.Value.Date >= search.DateCreatedStart.Value.Date && x.DateAdded.Value.Date <= search.DateCreatedEnd.Value.Date);
+            }
+            else if (search.DateCreatedStart != null && search.DateCreatedEnd == null)
+            {
+                results = results.Where(x => x.DateAdded.Value.Date >= search.DateCreatedStart.Value.Date);
+            }
+            else if (search.DateCreatedStart == null && search.DateCreatedEnd != null)
+            {
+                results = results.Where(x => x.DateAdded.Value.Date <= search.DateCreatedEnd.Value.Date);
+            }
+
+            // Consumed By
+            if (!String.IsNullOrEmpty(search.ConsumedBy))
+                results = results.Where(x => x.ConsumedBy.ToLowerInvariant().Contains(search.ConsumedBy.ToLowerInvariant()));
+
+            return View("Results", results.OrderBy(x => x.InventoryItemCode).ToList());
+        }
+
     }
+
 }

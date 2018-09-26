@@ -140,9 +140,6 @@ namespace Egret.Controllers
             vm.Item.UpdatedBy = temp.UpdatedBy;
             vm.Item.DateUpdated = temp.DateUpdated;
 
-
-
-
             if (ModelState.IsValid)
             {
                 vm.Item.UpdatedBy = User.Identity.Name;

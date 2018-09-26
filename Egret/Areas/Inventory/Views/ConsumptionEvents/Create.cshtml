@@ -78,7 +78,7 @@
             <div class="col-md-8">
                 <br />
                 <input type="submit" value="Save" class="btn btn-primary" />
-                <a asp-controller="Items" asp-action="Edit" asp-route-id="@Context.Request.Query["sourceid"]" class="btn btn-default">Cancel</a>
+                <a asp-area="Inventory" asp-controller="Home" asp-action="Index" asp-route-id="@Context.Request.Query["sourceid"]" class="btn btn-default">Cancel</a>
             </div>
         </div>
     </div>

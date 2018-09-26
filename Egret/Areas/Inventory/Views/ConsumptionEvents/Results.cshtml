@@ -1,0 +1,55 @@
+﻿@model List<ConsumptionEvent>
+
+@{
+    ViewData["WindowTitle"] = "Consumption Events Search Results";
+    ViewData["PageTitle"] = "Consumption Events Results";
+}
+
+<p class="page-link">
+    <a asp-action="Create">Create New</a>
+</p>
+
+<table class="table table-condensed table-bordered">
+    <thead>
+        <tr>
+            <th>
+                @Html.DisplayNameFor(model => model[0].InventoryItemCode)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model[0].DateAdded)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model[0].ConsumedBy)
+            </th>
+        </tr>
+    </thead>
+    <tbody>
+        @if (Model.Count() == 0)
+        {
+            <tr><td colspan="6" class="text-center">There are no Consumption Events matching your search criteria.</td></tr>
+        }
+        else
+        {
+            @foreach (var consumptionEvent in Model)
+            {
+                <tr class="clickable-row" onclick="location.href = '@(Url.Action("Edit", new { id = consumptionEvent.Id }))'; location.target='_blank'">
+                    <td>
+                        <a class="test" asp-action="Edit" asp-route-id="consumtpionEvent.Id">
+                            @Html.DisplayFor(modelItem => consumptionEvent.InventoryItemCode)
+                        </a>
+                    </td>
+                    <td>
+                        @Html.DisplayFor(modelItem => consumptionEvent.DateAdded)
+                    </td>
+                    <td>
+                        @Html.DisplayFor(modelItem => consumptionEvent.ConsumedBy)
+                    </td>
+                </tr>
+            }
+        }
+    </tbody>
+</table>
+
+<div>
+    <a asp-controller="ConsumptionEvents" asp-action="Search">Return to Search</a>
+</div>

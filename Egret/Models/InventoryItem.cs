@@ -17,15 +17,19 @@ namespace Egret.Models
         public string Code { get; set; }
 
         [Display(Name = "Date Added")]
+        [BindNever]
         public DateTime? DateAdded { get; set; }
 
         [Display(Name = "Added By")]
+        [BindNever]
         public string AddedBy { get; set; }
 
         [Display(Name = "Date Updated")]
+        [BindNever]
         public DateTime? DateUpdated { get; set; }
 
         [Display(Name = "Updated By")]
+        [BindNever]
         public string UpdatedBy { get; set; }
 
         [Required]
