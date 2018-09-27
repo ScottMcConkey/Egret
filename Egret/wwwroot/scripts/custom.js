@@ -103,7 +103,11 @@ $(document).ready(function () {
     });
 
     // Autofocus first form input
-    $(":input:enabled:visible:not([readonly]):first").focus();
+    if ($(".validation-summary-errors").length === 0) {
+        $(":input:enabled:visible:not([readonly]):first").focus();
+        console.log("Got here");
+    }
+    
 
     // Manage Multi-Row Radio Selects
     $(".radio[value='False']").removeAttr("checked");
