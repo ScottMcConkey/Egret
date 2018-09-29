@@ -206,19 +206,12 @@ namespace Egret.Models
         [ReadOnly(true)]
         [NotMapped]
         [DatabaseGenerated(DatabaseGeneratedOption.Computed)]
-        [DisplayFormat(DataFormatString = "{0:0.00##}", ApplyFormatInEditMode = true)]
+        [DisplayFormat(DataFormatString = "{0:#,###,##0.00##}", ApplyFormatInEditMode = true)]
         public decimal? TotalCost
         {
             get
             {
-                if (FOBCost != null && FOBCost != 0  && ShippingCost != null && ShippingCost != 0 && ImportCosts != null && ImportCosts != 0)
-                {
-                    return FOBCost + ShippingCost + ImportCosts;
-                }
-                else
-                {
-                    return null;
-                }
+                return (FOBCost ?? 0) + (ShippingCost ?? 0) + (ImportCosts ?? 0);
             }
             private set { }
         }
@@ -229,14 +222,14 @@ namespace Egret.Models
         [ReadOnly(true)]
         [NotMapped]
         [DatabaseGenerated(DatabaseGeneratedOption.Computed)]
-        [DisplayFormat(DataFormatString = "{0:0.00##}", ApplyFormatInEditMode = true)]
+        [DisplayFormat(DataFormatString = "{0:#,###,##0.00##}", ApplyFormatInEditMode = true)]
         public decimal? CostPerUnit
         {
             get
             {
                 if (QtyPurchased != null && QtyPurchased != 0 && FOBCost != null && FOBCost != 0)
                 {
-                    return (int)(FOBCost ?? 0) / (QtyPurchased ?? 0);
+                    return (int)(FOBCost / QtyPurchased);
                 }
                 else
                 {
@@ -253,14 +246,14 @@ namespace Egret.Models
         [ReadOnly(true)]
         [NotMapped]
         [DatabaseGenerated(DatabaseGeneratedOption.Computed)]
-        [DisplayFormat(DataFormatString = "{0:0.00##}", ApplyFormatInEditMode = true)]
+        [DisplayFormat(DataFormatString = "{0:#,###,##0.00##}", ApplyFormatInEditMode = true)]
         public decimal? TotalCostPerUnit
         {
             get
             {
                 if (TotalCost != null && TotalCost != 0 && QtyPurchased != null && QtyPurchased != 0)
                 {
-                    return (int)(TotalCost ?? 0) / (QtyPurchased ?? 0);
+                    return (int)(TotalCost / QtyPurchased);
                 }
                 else
                 {

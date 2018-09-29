@@ -137,8 +137,8 @@
                             <table id="tests" class="table table-bordered table-condensed">
                                 <thead>
                                     <tr>
-                                        <th>Name</th>
-                                        <th>Result</th>
+                                        <th>@Html.DisplayNameFor(model => model.FabricTests[0].Name)</th>
+                                        <th>@Html.DisplayNameFor(model => model.FabricTests[0].Result)</th>
                                         <th></th>
                                     </tr>
                                 </thead>
@@ -247,6 +247,8 @@
 
                 @await Html.PartialAsync("_RelatedObjectsWidget", new RelationshipViewModelConsumption(Model.ConsumptionEvents.OrderBy(x => x.DateOfConsumption).ToList(), Model.Item.Code))
 
+                @await  Html.PartialAsync("_InStockWidget", Model.Item.StockQuantity)
+
                 <br /><div class="form-group">@Model.Item.StockQuantity</div>
             </div>
         </div>
@@ -257,7 +259,7 @@
             <div class="col-md-8">
                 <br />
                 <button type="submit" class="btn btn-primary">Save</button>
-                <a asp-action="Index" class="btn btn-default">Cancel</a>
+                <a asp-controller="Home" asp-action="Index" class="btn btn-default">Cancel</a>
             </div>
         </div>
     </div>
