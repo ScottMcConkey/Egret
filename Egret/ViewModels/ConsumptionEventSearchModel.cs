@@ -21,5 +21,8 @@ namespace Egret.ViewModels
         [Display(Name = "Consumed By")]
         [Language(Name = "Nepali", Value = "द्वारा उपभोग गरियो")]
         public string ConsumedBy { get; set; }
+
+        [Display(Name = "Order Number")]
+        public string OrderNumber { get; set; }
     }
 }

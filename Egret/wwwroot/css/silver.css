@@ -283,3 +283,15 @@ th {
     font-size: calc(100% - 2px);
     color: #999;
 }
+
+table td:last-child {
+    width: 100%;
+}
+
+tr {
+    white-space: nowrap;
+}
+
+.grid {
+    display: grid;
+}

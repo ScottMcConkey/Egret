@@ -11,7 +11,7 @@ using Egret.Interfaces;
 
 namespace Egret.Models
 {
-    public partial class InventoryItem : IAuditable
+    public partial class InventoryItem : IAuditable, IHasStockCount
     {
         [Language(Name = "Nepali", Value = "कोड")]
         public string Code { get; set; }
@@ -47,6 +47,7 @@ namespace Egret.Models
         public string Unit { get; set; }
 
         [Display(Name = "FOB Cost Or Local Cost no VAT")]
+        [Language(Name = "Nepali", Value = "लागत")]
         [DisplayFormat(DataFormatString = "{0:0.00##}", ApplyFormatInEditMode = true)]
         public decimal? FOBCost { get; set; }
 
@@ -60,6 +61,7 @@ namespace Egret.Models
         public string ShippingCostCurrency { get; set; }
 
         [Display(Name = "Import/Custom/Delivery Costs/VAT")]
+        [Language(Name = "Nepali", Value = "आयात लागत")]
         [DisplayFormat(DataFormatString = "{0:0.00##}", ApplyFormatInEditMode = true)]
         public decimal? ImportCosts { get; set; }
 
@@ -128,11 +130,43 @@ namespace Egret.Models
         [Display(Name = "Quantity in Stock")]
         [UIHint("text")]
         [NotMapped]
-        public decimal StockQuantity
+        public decimal? StockQuantity
         {
             get
             {
-                return (QtyPurchased ?? 0) - (ConsumptionEventsNavigation?.Sum(x => x.QuantityConsumed) ?? 0);
+                if (QtyPurchased == null)
+                { return null; }
+
+                return (QtyPurchased - ConsumptionEventsNavigation?.Sum(x => x.QuantityConsumed));
+            }
+
+            private set { }
+        }
+
+        [Display(Name = "Stock Level")]
+        [UIHint("text")]
+        [NotMapped]
+        public string StockLevel
+        {
+            get
+            {
+                if (StockQuantity == null)
+                {
+                    return "Unknown";
+                }
+                else if (StockQuantity == 0)
+                {
+                    return "Out of Stock";
+                }
+                else if (StockQuantity > 0)
+                {
+                    return "In Stock";
+                }
+                else
+                {
+                    return "Error";
+                }
+                
             }
 
             private set { }

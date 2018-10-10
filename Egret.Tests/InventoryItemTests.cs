@@ -1,13 +1,14 @@
 ﻿using System;
-using Xunit;
+using NUnit.Framework;
 using Egret.Models;
 
 namespace Egret.Tests
 {
-    public class InventoryTests
+    [TestFixture]
+    public class InventoryItemTests
     {
 
-        [Fact]
+        [Test]
         public void ChangeItemName()
         {
             // Arrange
@@ -17,7 +18,7 @@ namespace Egret.Tests
             i.Description = "Modified Test";
 
             // Assert
-            Assert.Equal("Modified Test", i.Description);
+            Assert.AreEqual("Modified Test", i.Description);
         }
 
         // Test active dropdowns for create and edit

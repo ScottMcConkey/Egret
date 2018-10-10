@@ -506,8 +506,7 @@ namespace Egret.DataAccess
                         .WithMany(p => p.FabricTestsNavigation)
                         .HasForeignKey(f => f.InventoryItemCode)
                         .HasPrincipalKey(k => k.Code);
-                }
-            );
+                });
 
             modelBuilder.Entity<PurchaseEvent>(entity =>
                 {
@@ -543,8 +542,7 @@ namespace Egret.DataAccess
                     entity.Property(e => e.Supplier).HasColumnName("supplier");
 
                     entity.Property(e => e.CustomerPurchasedFor).HasColumnName("customer_purchased_for");
-                }
-            );
+                });
 
 
 
