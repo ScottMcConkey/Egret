@@ -284,11 +284,11 @@ th {
     color: #999;
 }
 
-table td:last-child {
+.stock-display td:last-child {
     width: 100%;
 }
 
-tr {
+.stock-display tr {
     white-space: nowrap;
 }
 

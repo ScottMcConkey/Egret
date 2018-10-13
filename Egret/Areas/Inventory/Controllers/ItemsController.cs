@@ -174,10 +174,6 @@ namespace Egret.Controllers
                 
                 Context.InventoryItems.Update(vm.Item);
 
-                // Bypass binding to make sure these values are not changed
-                Context.Entry(vm.Item).Property(x => x.AddedBy).IsModified = false;
-                Context.Entry(vm.Item).Property(x => x.DateAdded).IsModified = false;
-
                 await Context.SaveChangesAsync();
                 TempData["SuccessMessage"] = "Save Complete";
 
