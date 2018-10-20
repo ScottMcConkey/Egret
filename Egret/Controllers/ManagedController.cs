@@ -4,6 +4,7 @@ using System.Linq;
 using System.Threading.Tasks;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.Extensions.Logging;
 using Egret.DataAccess;
 
 namespace Egret.Controllers
@@ -14,8 +15,11 @@ namespace Egret.Controllers
     [Authorize]
     public abstract class ManagedController : Controller
     {
-        public ManagedController(EgretContext context)
+        private ILoggerFactory _loggerFactory;
+
+        public ManagedController(EgretContext context, ILoggerFactory loggerFactory)
         {
+            _loggerFactory = loggerFactory;
             Context = context;
         }
 
