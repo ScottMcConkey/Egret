@@ -13,7 +13,7 @@ using System.Diagnostics;
 namespace Egret.Controllers
 {
     [Area("Inventory")]
-    public class ItemsController : ManagedController
+    public class ItemsController : BaseController
     {
         private IQueryable<CurrencyType> ActiveCurrencyTypes { get; set; }
         private IQueryable<Unit> ActiveUnits { get; set; }

@@ -11,7 +11,7 @@ namespace Egret.Controllers.ApiControllers
 {
     [Route("api/[controller]")]
     [ApiController]
-    public class InventoryController : ManagedController
+    public class InventoryController : BaseController
     {
         public class Item
         {

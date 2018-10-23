@@ -11,7 +11,7 @@ using Microsoft.AspNetCore.Http;
 
 namespace Egret.Controllers
 {
-    public class SuppliersController : ManagedController
+    public class SuppliersController : BaseController
     {
 
         public SuppliersController(EgretContext context)

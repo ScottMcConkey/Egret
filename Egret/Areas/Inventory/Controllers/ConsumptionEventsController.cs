@@ -14,7 +14,7 @@ using Egret.ViewModels;
 namespace Egret.Controllers
 {
     [Area("Inventory")]
-    public class ConsumptionEventsController : ManagedController
+    public class ConsumptionEventsController : BaseController
     {
         private IQueryable<Unit> ActiveUnits { get; set; }
 

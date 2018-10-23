@@ -10,7 +10,7 @@ using Egret.ViewModels;
 
 namespace Egret.Controllers
 {
-    public class PurchasesController : ManagedController
+    public class PurchasesController : BaseController
     {
         private IQueryable<CurrencyType> ActiveCurrencyTypes { get; set; }
         private IQueryable<Unit> ActiveUnits { get; set; }

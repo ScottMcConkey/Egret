@@ -7,7 +7,7 @@ using System.Linq;
 namespace Egret.Controllers
 {
     [Area("Admin")]
-    public class UnitsController : ManagedController
+    public class UnitsController : BaseController
     {
         public UnitsController (EgretContext context)
             :base(context) {}

@@ -5,6 +5,7 @@ using System.Threading.Tasks;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Logging;
+using NLog;
 using Egret.DataAccess;
 
 namespace Egret.Controllers
@@ -13,14 +14,19 @@ namespace Egret.Controllers
     /// This controller is used as a base class for managing derived controllers, consistently setting up dbcontext access, and applying uniform authorization requirements.
     /// </summary>
     [Authorize]
-    public abstract class ManagedController : Controller
+    public abstract class BaseController : Controller
     {
-        private ILoggerFactory _loggerFactory;
+        //private static Microsoft.Extensions.Logging.ILogger _logger;// = LogManager.GetCurrentClassLogger();
 
-        public ManagedController(EgretContext context, ILoggerFactory loggerFactory)
+        public BaseController(EgretContext context)
         {
-            _loggerFactory = loggerFactory;
             Context = context;
+
+            //_logger = logger;
+
+           // _logger.LogInformation("Hello people");
+            //_logger.Info("Hello World");
+            //_logger.Error("Oops!");
         }
 
         /// <summary>

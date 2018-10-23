@@ -9,6 +9,7 @@ using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Logging;
+using NLog.Extensions.Logging;
 using System;
 
 namespace Egret
@@ -85,6 +86,7 @@ namespace Egret
             app.UseAuthentication();
             app.UseCors(options =>
                options.AllowAnyOrigin().AllowAnyHeader().AllowAnyMethod().AllowCredentials());
+            loggerFactory.AddNLog();
             loggerFactory.AddDebug();
             app.UseMvc(routes =>
             {

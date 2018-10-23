@@ -8,7 +8,7 @@ using System.Linq;
 namespace Egret.Controllers
 {
     [Area("Admin")]
-    public class CurrencyTypesController : ManagedController
+    public class CurrencyTypesController : BaseController
     {
         public CurrencyTypesController(EgretContext context)
             : base(context) { }
