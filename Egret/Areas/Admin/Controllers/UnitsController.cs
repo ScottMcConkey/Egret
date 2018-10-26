@@ -1,6 +1,7 @@
 ﻿using Egret.DataAccess;
 using Egret.Models;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.Extensions.Logging;
 using System.Collections.Generic;
 using System.Linq;
 
@@ -9,8 +10,13 @@ namespace Egret.Controllers
     [Area("Admin")]
     public class UnitsController : BaseController
     {
-        public UnitsController (EgretContext context)
-            :base(context) {}
+        private static ILogger _logger;
+
+        public UnitsController (EgretContext context, ILogger<UnitsController> logger)
+            :base(context)
+        {
+            _logger = logger;
+        }
 
         [HttpGet]
         public IActionResult Index()

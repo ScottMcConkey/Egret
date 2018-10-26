@@ -4,6 +4,7 @@ using System.Linq;
 using System.Threading.Tasks;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.Extensions.Logging;
 using Egret.Models;
 using Egret.ViewModels;
 
@@ -16,16 +17,19 @@ namespace Egret.DataAccess
         private IUserValidator<User> userValidator;
         private IPasswordValidator<User> passwordValidator;
         private IPasswordHasher<User> passwordHasher;
+        private static ILogger _logger;
 
         public UsersController(UserManager<User> usrMgr,
             IUserValidator<User> userValid,
             IPasswordValidator<User> passValid,
-            IPasswordHasher<User> passwordHash)
+            IPasswordHasher<User> passwordHash,
+            ILogger<UsersController> logger)
         {
             userManager = usrMgr;
             userValidator = userValid;
             passwordValidator = passValid;
             passwordHasher = passwordHash;
+            _logger = logger;
         }
 
         [HttpGet]

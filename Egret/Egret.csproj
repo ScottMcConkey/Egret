@@ -46,8 +46,8 @@
     <Content Update="Areas\Reports\Views\_ViewStart.cshtml">
       <Pack>$(IncludeRazorContentInPack)</Pack>
     </Content>
-    <Content Update="NLog.config">
-      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    <Content Update="nlog.config">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </Content>
   </ItemGroup>
 

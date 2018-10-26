@@ -1,6 +1,7 @@
 ﻿using Egret.DataAccess;
 using Egret.Models;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.Extensions.Logging;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -10,8 +11,13 @@ namespace Egret.Controllers
     [Area("Admin")]
     public class CurrencyTypesController : BaseController
     {
-        public CurrencyTypesController(EgretContext context)
-            : base(context) { }
+        private static ILogger _logger;
+
+        public CurrencyTypesController(EgretContext context, ILogger<CurrencyTypesController> logger)
+            : base(context)
+        {
+            _logger = logger;
+        }
 
         [HttpGet]
         public IActionResult Index()

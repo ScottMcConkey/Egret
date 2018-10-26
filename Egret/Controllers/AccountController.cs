@@ -1,29 +1,26 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Threading.Tasks;
+﻿using Egret.Models;
+using Egret.ViewModels;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Identity;
-using Microsoft.AspNetCore.Authentication;
 using Microsoft.AspNetCore.Mvc;
-using Microsoft.IdentityModel;
-using Microsoft.Extensions;
-using Egret.Models;
-using Egret.ViewModels;
+using Microsoft.Extensions.Logging;
+using System.Threading.Tasks;
 
 namespace Egret.Controllers
 {
     [Authorize]
     public class AccountController : Controller
     {
-        private UserManager<User> userManager;
-        private SignInManager<User> signInManager;
+        private UserManager<User> _userManager;
+        private SignInManager<User> _signInManager;
+        private static ILogger _logger;
 
         public AccountController(UserManager<User> userMgr,
-            SignInManager<User> signinMgr)
+            SignInManager<User> signinMgr, ILogger<AccountController> logger)
         {
-            userManager = userMgr;
-            signInManager = signinMgr;
+            _userManager = userMgr;
+            _signInManager = signinMgr;
+            _logger = logger;
         }
 
         [HttpGet]
@@ -47,7 +44,7 @@ namespace Egret.Controllers
         public async Task<IActionResult> ChangePassword(ChangePasswordModel details)
         {
             //User person = ();
-            //IdentityResult passwordChangeResult = await userManager.ChangePasswordAsync(User.Identity.GetUserId(), details.CurrentPassword, details.NewPassword);
+            //IdentityResult passwordChangeResult = await _userManager.ChangePasswordAsync(User.Identity.GetUserId(), details.CurrentPassword, details.NewPassword);
            
 
             //if (passwordChangeResult.Succeeded)
@@ -66,17 +63,18 @@ namespace Egret.Controllers
         {
             if (ModelState.IsValid)
             {
-                User user = await userManager.FindByEmailAsync(details.Email);
+                User user = await _userManager.FindByEmailAsync(details.Email);
                 if (user != null)
                 {
-                    await signInManager.SignOutAsync();
-                    Microsoft.AspNetCore.Identity.SignInResult result = await signInManager.PasswordSignInAsync(
+                    await _signInManager.SignOutAsync();
+                    Microsoft.AspNetCore.Identity.SignInResult result = await _signInManager.PasswordSignInAsync(
                         user, details.Password, false, false);
                     if (result.Succeeded)
                     {
                         return Redirect(returnUrl ?? "/");
                     }
                 }
+                _logger.LogWarning($"Failed login attempt from {Request.HttpContext.Connection.RemoteIpAddress}");
                 ModelState.AddModelError(nameof(LoginModel.Email), "Invalid user or password");
             }
             return View(details);
@@ -85,7 +83,7 @@ namespace Egret.Controllers
         [Authorize]
         public async Task<IActionResult> Logout()
         {
-            await signInManager.SignOutAsync();
+            await _signInManager.SignOutAsync();
             return RedirectToAction("Index", "Home");
         }
 

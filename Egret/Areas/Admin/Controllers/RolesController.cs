@@ -18,7 +18,7 @@ namespace Egret.Controllers
         private UserManager<User> userManager;
 
         public RolesController(RoleManager<IdentityRole> roleMgr,
-                                   UserManager<User> userMrg)
+                               UserManager<User> userMrg)
         {
             roleManager = roleMgr;
             userManager = userMrg;

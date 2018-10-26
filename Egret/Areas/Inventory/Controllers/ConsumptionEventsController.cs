@@ -6,6 +6,7 @@ using System.Threading.Tasks;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.Rendering;
 using Microsoft.EntityFrameworkCore;
+using Microsoft.Extensions.Logging;
 using Egret.Controllers;
 using Egret.DataAccess;
 using Egret.Models;
@@ -17,11 +18,13 @@ namespace Egret.Controllers
     public class ConsumptionEventsController : BaseController
     {
         private IQueryable<Unit> ActiveUnits { get; set; }
+        private static ILogger _logger;
 
-        public ConsumptionEventsController(EgretContext context)
+        public ConsumptionEventsController(EgretContext context, ILogger<ConsumptionEventsController> logger)
             : base(context)
         {
             ActiveUnits = Context.Units.Where(x => x.Active).OrderBy(x => x.SortOrder);
+            _logger = logger;
         }
 
         [HttpGet]

@@ -16,7 +16,7 @@ namespace Egret.Controllers
     [Authorize]
     public abstract class BaseController : Controller
     {
-        //private static Microsoft.Extensions.Logging.ILogger _logger;// = LogManager.GetCurrentClassLogger();
+        private static Microsoft.Extensions.Logging.ILogger _logger;// = LogManager.GetCurrentClassLogger();
 
         public BaseController(EgretContext context)
         {
@@ -27,6 +27,7 @@ namespace Egret.Controllers
            // _logger.LogInformation("Hello people");
             //_logger.Info("Hello World");
             //_logger.Error("Oops!");
+
         }
 
         /// <summary>

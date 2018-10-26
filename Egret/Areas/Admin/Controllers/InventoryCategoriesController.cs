@@ -1,6 +1,7 @@
 ﻿using Egret.DataAccess;
 using Egret.Models;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.Extensions.Logging;
 using System.Collections.Generic;
 using System.Linq;
 
@@ -9,8 +10,13 @@ namespace Egret.Controllers
     [Area("Admin")]
     public class InventoryCategoriesController : BaseController
     {
-        public InventoryCategoriesController(EgretContext context)
-            : base(context) { }
+        private static ILogger _logger;
+
+        public InventoryCategoriesController(EgretContext context, ILogger<InventoryCategoriesController> logger)
+            : base(context)
+        {
+            _logger = logger;
+        }
 
         
         [HttpGet]

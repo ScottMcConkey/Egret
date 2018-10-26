@@ -1,14 +1,14 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Threading.Tasks;
+﻿using Egret.DataAccess;
+using Egret.Models;
+using Egret.ViewModels;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.Rendering;
 using Microsoft.EntityFrameworkCore;
-using Egret.DataAccess;
-using Egret.Models;
-using Egret.ViewModels;
-using System.Diagnostics;
+using Microsoft.Extensions.Logging;
+using System;
+using System.Collections.Generic;
+using System.Linq;
+using System.Threading.Tasks;
 
 namespace Egret.Controllers
 {
@@ -19,14 +19,16 @@ namespace Egret.Controllers
         private IQueryable<Unit> ActiveUnits { get; set; }
         private IQueryable<InventoryCategory> ActiveInventoryCategories { get; set; }
         private IQueryable<InventoryCategory> AllInventoryCategories { get; set; }
+        private static ILogger _logger;
 
-        public ItemsController(EgretContext context) 
+        public ItemsController(EgretContext context, ILogger<ItemsController> logger) 
             :base(context)
         {
             ActiveCurrencyTypes = Context.CurrencyTypes.Where(x => x.Active == true).OrderBy(x => x.SortOrder);
             ActiveUnits = Context.Units.Where(x => x.Active == true).OrderBy(x => x.SortOrder);
             ActiveInventoryCategories = Context.InventoryCategories.Where(x => x.Active == true).OrderBy(x => x.SortOrder);
             AllInventoryCategories = Context.InventoryCategories.OrderBy(x => x.SortOrder);
+            _logger = logger;
         }
 
         [HttpGet]

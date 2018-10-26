@@ -5,8 +5,7 @@ using Egret.Controllers;
 using Egret.DataAccess;
 using Egret.Models;
 using Egret.ViewModels;
-
-
+using Microsoft.Extensions.Logging;
 
 namespace Egret.Controllers
 {
@@ -16,8 +15,9 @@ namespace Egret.Controllers
         private IQueryable<Unit> ActiveUnits { get; set; }
         private IQueryable<InventoryCategory> ActiveInventoryCategories { get; set; }
         private IQueryable<InventoryCategory> AllInventoryCategories { get; set; }
+        private static ILogger _logger;
 
-        public PurchasesController(EgretContext context)
+        public PurchasesController(EgretContext context, ILogger<PurchasesController> logger)
             : base(context)
         {
             ActiveCurrencyTypes = Context.CurrencyTypes.Where(x => x.Active == true).OrderBy(x => x.SortOrder);
@@ -25,8 +25,8 @@ namespace Egret.Controllers
             ActiveInventoryCategories = Context.InventoryCategories.Where(x => x.Active == true).OrderBy(x => x.SortOrder);
 
             AllInventoryCategories = Context.InventoryCategories.OrderBy(x => x.SortOrder);
-        }
 
-        //public IActionResult
+            _logger = logger;
+        }
     }
 }
