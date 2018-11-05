@@ -42,32 +42,32 @@
                                 </select>
                             </div>
 
-                            <label asp-for="FOBCost" include-languages="Nepali" class="control-label"></label>
-                            <div class="form-group form-inline" style="width: 100%">
-                                <input asp-for="FOBCost" class="form-control" style="width: 25%;" />
-                                <select asp-for="FOBCostCurrency" class="form-control" style="width: 25%;" asp-items="ViewBag.FOBCostCurrency">
-                                    <option value=""></option>
-                                </select>
-                                <span asp-validation-for="FOBCost" class="text-danger"></span>
-                            </div>
+                            <label class="control-label">Costs</label>
+                            <div style="border: 1px solid #000; padding: 10px;">
+                                <label asp-for="FOBCost" include-languages="Nepali" class="control-label"></label>
+                                <div class="form-group form-inline">
+                                    <input asp-for="FOBCost" class="form-control" />
+                                    <select asp-for="FOBCostCurrency" class="form-control" asp-items="ViewBag.FOBCostCurrency">
+                                        <option value=""></option>
+                                    </select>
+                                </div>
 
-                            <label asp-for="ShippingCost" include-languages="Nepali" class="control-label"></label>
-                            <div class="form-group form-inline" style="width: 100%">
-                                <input asp-for="ShippingCost" class="form-control" style="width: 25%;" />
-                                <select asp-for="ShippingCostCurrency" class="form-control" style="width: 25%;" asp-items="ViewBag.ShippingCostCurrency">
-                                    <option value=""></option>
-                                </select>
-                                <span asp-validation-for="ShippingCost" class="text-danger"></span>
-                            </div>
+                                <label asp-for="ShippingCost" include-languages="Nepali" class="control-label"></label>
+                                <div class="form-group form-inline">
+                                    <input asp-for="ShippingCost" class="form-control" />
+                                    <select asp-for="ShippingCostCurrency" class="form-control" asp-items="ViewBag.ShippingCostCurrency">
+                                        <option value=""></option>
+                                    </select>
+                                </div>
 
-                            <label asp-for="ImportCosts" include-languages="Nepali" class="control-label"></label>
-                            <div class="form-group form-inline" style="width: 100%">
-                                <input asp-for="ImportCosts" class="form-control" style="width: 25%;" />
-                                <select asp-for="ImportCostCurrency" class="form-control" style="width: 25%;" asp-items="ViewBag.ImportCostCurrency">
-                                    <option value=""></option>
-                                </select>
-                                <span asp-validation-for="ImportCosts" class="text-danger"></span>
-                            </div>
+                                <label asp-for="ImportCosts" include-languages="Nepali" class="control-label"></label>
+                                <div class="form-group form-inline" style="width: 100%">
+                                    <input asp-for="ImportCosts" class="form-control" />
+                                    <select asp-for="ImportCostCurrency" class="form-control" asp-items="ViewBag.ImportCostCurrency">
+                                        <option value=""></option>
+                                    </select>
+                                </div>
+                            </div><br />
 
                             <div class="form-group">
                                 <label asp-for="CustomerPurchasedFor" include-languages="Nepali" class="control-label"></label>

@@ -1,6 +1,7 @@
 ﻿using Egret.DataAccess;
 using Egret.Models;
 using Egret.ViewModels;
+using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.Rendering;
 using Microsoft.EntityFrameworkCore;
@@ -8,6 +9,7 @@ using Microsoft.Extensions.Logging;
 using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Security.Claims;
 using System.Threading.Tasks;
 
 namespace Egret.Controllers
@@ -15,19 +17,20 @@ namespace Egret.Controllers
     [Area("Inventory")]
     public class ItemsController : BaseController
     {
-        private IQueryable<CurrencyType> ActiveCurrencyTypes { get; set; }
-        private IQueryable<Unit> ActiveUnits { get; set; }
-        private IQueryable<InventoryCategory> ActiveInventoryCategories { get; set; }
-        private IQueryable<InventoryCategory> AllInventoryCategories { get; set; }
+        private IQueryable<CurrencyType> _activeCurrencyTypes { get; set; }
+        private IQueryable<Unit> _activeUnits { get; set; }
+        private IQueryable<InventoryCategory> _activeInventoryCategories { get; set; }
+        private IQueryable<InventoryCategory> _allInventoryCategories { get; set; }
+        private IQueryable<CurrencyType> _currencyDefault { get; set; }
         private static ILogger _logger;
 
         public ItemsController(EgretContext context, ILogger<ItemsController> logger) 
             :base(context)
         {
-            ActiveCurrencyTypes = Context.CurrencyTypes.Where(x => x.Active == true).OrderBy(x => x.SortOrder);
-            ActiveUnits = Context.Units.Where(x => x.Active == true).OrderBy(x => x.SortOrder);
-            ActiveInventoryCategories = Context.InventoryCategories.Where(x => x.Active == true).OrderBy(x => x.SortOrder);
-            AllInventoryCategories = Context.InventoryCategories.OrderBy(x => x.SortOrder);
+            _activeCurrencyTypes = Context.CurrencyTypes.Where(x => x.Active == true).OrderBy(x => x.SortOrder);
+            _activeUnits = Context.Units.Where(x => x.Active == true).OrderBy(x => x.SortOrder);
+            _activeInventoryCategories = Context.InventoryCategories.Where(x => x.Active == true).OrderBy(x => x.SortOrder);
+            _allInventoryCategories = Context.InventoryCategories.OrderBy(x => x.SortOrder);
             _logger = logger;
         }
 
@@ -40,12 +43,12 @@ namespace Egret.Controllers
         [HttpGet]
         public IActionResult Create()
         {
-            var CurrencyDefault = Context.CurrencyTypes.Where(x => x.DefaultSelection == true);
-            ViewData["FOBCostCurrency"] = new SelectList(ActiveCurrencyTypes, "Abbreviation", "Abbreviation", CurrencyDefault.Any() ? CurrencyDefault.First().Abbreviation : "");
-            ViewData["ShippingCostCurrency"] = new SelectList(ActiveCurrencyTypes, "Abbreviation", "Abbreviation", CurrencyDefault.Any() ? CurrencyDefault.First().Abbreviation : "");
-            ViewData["ImportCostCurrency"] = new SelectList(ActiveCurrencyTypes, "Abbreviation", "Abbreviation", CurrencyDefault.Any() ? CurrencyDefault.First().Abbreviation : "");
-            ViewData["Category"] = new SelectList(ActiveInventoryCategories, "Name", "Name");
-            ViewData["Unit"] = new SelectList(ActiveUnits, "Abbreviation", "Abbreviation");
+            _currencyDefault = Context.CurrencyTypes.Where(x => x.DefaultSelection == true);
+            ViewData["FOBCostCurrency"] = new SelectList(_activeCurrencyTypes, "Abbreviation", "Abbreviation", _currencyDefault.Any() ? _currencyDefault.First().Abbreviation : "");
+            ViewData["ShippingCostCurrency"] = new SelectList(_activeCurrencyTypes, "Abbreviation", "Abbreviation", _currencyDefault.Any() ? _currencyDefault.First().Abbreviation : "");
+            ViewData["ImportCostCurrency"] = new SelectList(_activeCurrencyTypes, "Abbreviation", "Abbreviation", _currencyDefault.Any() ? _currencyDefault.First().Abbreviation : "");
+            ViewData["Category"] = new SelectList(_activeInventoryCategories, "Name", "Name");
+            ViewData["Unit"] = new SelectList(_activeUnits, "Abbreviation", "Abbreviation");
             
             return View();
         }
@@ -54,11 +57,11 @@ namespace Egret.Controllers
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> Create(InventoryItem inventoryItem)
         {
-            ViewData["FOBCostCurrency"] = new SelectList(ActiveCurrencyTypes, "Abbreviation", "Abbreviation", inventoryItem.FOBCostCurrency);
-            ViewData["ShippingCostCurrency"] = new SelectList(ActiveCurrencyTypes, "Abbreviation", "Abbreviation", inventoryItem.ShippingCostCurrency);
-            ViewData["ImportCostCurrency"] = new SelectList(ActiveCurrencyTypes, "Abbreviation", "Abbreviation", inventoryItem.ImportCostCurrency);
-            ViewData["Category"] = new SelectList(ActiveInventoryCategories, "Name", "Name", inventoryItem.Category);
-            ViewData["Unit"] = new SelectList(ActiveUnits, "Abbreviation", "Abbreviation", inventoryItem.Unit);
+            ViewData["FOBCostCurrency"] = new SelectList(_activeCurrencyTypes, "Abbreviation", "Abbreviation", inventoryItem.FOBCostCurrency);
+            ViewData["ShippingCostCurrency"] = new SelectList(_activeCurrencyTypes, "Abbreviation", "Abbreviation", inventoryItem.ShippingCostCurrency);
+            ViewData["ImportCostCurrency"] = new SelectList(_activeCurrencyTypes, "Abbreviation", "Abbreviation", inventoryItem.ImportCostCurrency);
+            ViewData["Category"] = new SelectList(_activeInventoryCategories, "Name", "Name", inventoryItem.Category);
+            ViewData["Unit"] = new SelectList(_activeUnits, "Abbreviation", "Abbreviation", inventoryItem.Unit);
 
             inventoryItem.AddedBy = User.Identity.Name;
             inventoryItem.UpdatedBy = User.Identity.Name;
@@ -70,6 +73,10 @@ namespace Egret.Controllers
                 Context.Add(inventoryItem);
                 await Context.SaveChangesAsync();
                 TempData["SuccessMessage"] = "Inventory Item Created";
+
+                var userId = User.FindFirstValue(ClaimTypes.NameIdentifier);
+                _logger.LogInformation($"Item {inventoryItem.Code} created by user {userId}");
+
                 return RedirectToAction(nameof(Edit), new { Id = inventoryItem.Code });
             }
             
@@ -91,23 +98,23 @@ namespace Egret.Controllers
                 return NotFound();
             }
 
-            ViewData["FOBCostCurrency"] = new SelectList(ActiveCurrencyTypes, "Abbreviation", "Abbreviation", item.FOBCostCurrency);
-            ViewData["ShippingCostCurrency"] = new SelectList(ActiveCurrencyTypes, "Abbreviation", "Abbreviation", item.ShippingCostCurrency);
-            ViewData["ImportCostCurrency"] = new SelectList(ActiveCurrencyTypes, "Abbreviation", "Abbreviation", item.ImportCostCurrency);
+            ViewData["FOBCostCurrency"] = new SelectList(_activeCurrencyTypes, "Abbreviation", "Abbreviation", item.FOBCostCurrency);
+            ViewData["ShippingCostCurrency"] = new SelectList(_activeCurrencyTypes, "Abbreviation", "Abbreviation", item.ShippingCostCurrency);
+            ViewData["ImportCostCurrency"] = new SelectList(_activeCurrencyTypes, "Abbreviation", "Abbreviation", item.ImportCostCurrency);
 
-            if (!ActiveInventoryCategories.Any(x => x.Name == item.Category))
+            if (!_activeInventoryCategories.Any(x => x.Name == item.Category))
             {
-                List<InventoryCategory> ActiveAndCurrentCategories = ActiveInventoryCategories.ToList();
+                List<InventoryCategory> ActiveAndCurrentCategories = _activeInventoryCategories.ToList();
                 InventoryCategory something = Context.InventoryCategories.Where(x => x.Name == item.Category).SingleOrDefault();
                 ActiveAndCurrentCategories.Add(something);
                 ViewData["Category"] = new SelectList(ActiveAndCurrentCategories, "Name", "Name", item.Category);
             }
             else
             {
-                ViewData["Category"] = new SelectList(ActiveInventoryCategories, "Name", "Name", item.Category);
+                ViewData["Category"] = new SelectList(_activeInventoryCategories, "Name", "Name", item.Category);
             }
             
-            ViewData["Unit"] = new SelectList(ActiveUnits, "Abbreviation", "Abbreviation", item.Unit);
+            ViewData["Unit"] = new SelectList(_activeUnits, "Abbreviation", "Abbreviation", item.Unit);
 
             presentation.Item = item;
             presentation.FabricTests = item.FabricTestsNavigation.OrderBy(x => x.Id).ToList();
@@ -120,16 +127,16 @@ namespace Egret.Controllers
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> Edit(string id, InventoryItemViewModel vm)
         {
-            ViewData["FOBCostCurrency"] = new SelectList(ActiveCurrencyTypes, "Abbreviation", "Abbreviation", vm.Item.FOBCostCurrency);
-            ViewData["ShippingCostCurrency"] = new SelectList(ActiveCurrencyTypes, "Abbreviation", "Abbreviation", vm.Item.ShippingCostCurrency);
-            ViewData["ImportCostCurrency"] = new SelectList(ActiveCurrencyTypes, "Abbreviation", "Abbreviation", vm.Item.ImportCostCurrency);
-            var ActiveAndCurrentCategories = ActiveInventoryCategories;
-            if (!ActiveInventoryCategories.Any(x => x.Name == vm.Item.Category))
+            ViewData["FOBCostCurrency"] = new SelectList(_activeCurrencyTypes, "Abbreviation", "Abbreviation", vm.Item.FOBCostCurrency);
+            ViewData["ShippingCostCurrency"] = new SelectList(_activeCurrencyTypes, "Abbreviation", "Abbreviation", vm.Item.ShippingCostCurrency);
+            ViewData["ImportCostCurrency"] = new SelectList(_activeCurrencyTypes, "Abbreviation", "Abbreviation", vm.Item.ImportCostCurrency);
+            var ActiveAndCurrentCategories = _activeInventoryCategories;
+            if (!_activeInventoryCategories.Any(x => x.Name == vm.Item.Category))
             {
                 ActiveAndCurrentCategories.Append(Context.InventoryCategories.Where(x => x.Name == vm.Item.Category).SingleOrDefault());
             }
             ViewData["Category"] = new SelectList(ActiveAndCurrentCategories, "Name", "Name", vm.Item.Category);
-            ViewData["Unit"] = new SelectList(ActiveUnits, "Abbreviation", "Abbreviation", vm.Item.Unit);
+            ViewData["Unit"] = new SelectList(_activeUnits, "Abbreviation", "Abbreviation", vm.Item.Unit);
 
             List<ConsumptionEvent> events = Context.ConsumptionEvents.Where(x => x.InventoryItemCode == vm.Item.Code).ToList();
 
@@ -215,7 +222,7 @@ namespace Egret.Controllers
         [HttpGet]
         public IActionResult Search()
         {
-            ViewData["Category"] = new SelectList(AllInventoryCategories, "Name", "Name");
+            ViewData["Category"] = new SelectList(_allInventoryCategories, "Name", "Name");
 
             return View();
         }
@@ -224,7 +231,7 @@ namespace Egret.Controllers
         [ValidateAntiForgeryToken]
         public IActionResult Search(InventorySearchViewModel item)
         {
-            ViewData["Category"] = new SelectList(AllInventoryCategories, "Name", "Name");
+            ViewData["Category"] = new SelectList(_allInventoryCategories, "Name", "Name");
             var results = Context.InventoryItems.Include(x => x.ConsumptionEventsNavigation).AsQueryable();
 
             // Code

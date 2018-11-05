@@ -1,29 +1,27 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Data.Common;
-using System.Linq;
-using System.Threading.Tasks;
+﻿using Egret.DataAccess;
+using Egret.Models;
+using Egret.ViewModels;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.Rendering;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Logging;
-using Egret.Controllers;
-using Egret.DataAccess;
-using Egret.Models;
-using Egret.ViewModels;
+using System;
+using System.Collections.Generic;
+using System.Linq;
+using System.Threading.Tasks;
 
 namespace Egret.Controllers
 {
     [Area("Inventory")]
     public class ConsumptionEventsController : BaseController
     {
-        private IQueryable<Unit> ActiveUnits { get; set; }
+        private IQueryable<Unit> _activeUnits { get; set; }
         private static ILogger _logger;
 
         public ConsumptionEventsController(EgretContext context, ILogger<ConsumptionEventsController> logger)
             : base(context)
         {
-            ActiveUnits = Context.Units.Where(x => x.Active).OrderBy(x => x.SortOrder);
+            _activeUnits = Context.Units.Where(x => x.Active).OrderBy(x => x.SortOrder);
             _logger = logger;
         }
 
@@ -31,8 +29,7 @@ namespace Egret.Controllers
         public IActionResult CreateFromItem(string sourceid)
         {
             var item = Context.InventoryItems.Where(x => x.Code == sourceid);
-            ViewData["Unit"] = new SelectList(item, "Unit", "Unit", item.FirstOrDefault().Unit);//new SelectList(ActiveUnits, "Abbreviation", "Abbreviation");
-
+            ViewData["Unit"] = new SelectList(item, "Unit", "Unit", item.FirstOrDefault().Unit);
 
             return View();
         }
@@ -65,7 +62,7 @@ namespace Egret.Controllers
         [HttpGet]
         public IActionResult Create()
         {
-            ViewData["Unit"] = new SelectList(ActiveUnits, "Abbreviation", "Abbreviation");
+            ViewData["Unit"] = new SelectList(_activeUnits, "Abbreviation", "Abbreviation");
             return View();
         }
 
@@ -73,7 +70,7 @@ namespace Egret.Controllers
         [ValidateAntiForgeryToken]
         public IActionResult Create(ConsumptionEvent consumptionEvent)
         {
-            ViewData["Unit"] = new SelectList(ActiveUnits, "Abbreviation", "Abbreviation");
+            ViewData["Unit"] = new SelectList(_activeUnits, "Abbreviation", "Abbreviation");
 
             consumptionEvent.AddedBy = User.Identity.Name;
             consumptionEvent.UpdatedBy = User.Identity.Name;
@@ -96,7 +93,7 @@ namespace Egret.Controllers
         {
             ConsumptionEventViewModel presentation = new ConsumptionEventViewModel();
 
-            ViewData["Unit"] = new SelectList(ActiveUnits, "Abbreviation", "Abbreviation");
+            ViewData["Unit"] = new SelectList(_activeUnits, "Abbreviation", "Abbreviation");
 
             ConsumptionEvent consumptionEvent = await Context.ConsumptionEvents
                 .Include(i => i.InventoryItemNavigation)
@@ -119,7 +116,7 @@ namespace Egret.Controllers
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> Edit(string id, ConsumptionEventViewModel vm)
         {
-            ViewData["Unit"] = new SelectList(ActiveUnits, "Abbreviation", "Abbreviation");
+            ViewData["Unit"] = new SelectList(_activeUnits, "Abbreviation", "Abbreviation");
 
             var temp = Context.ConsumptionEvents.Where(x => x.Id == id).FirstOrDefault();
             vm.ConsumptionEvent.AddedBy = temp.AddedBy;
