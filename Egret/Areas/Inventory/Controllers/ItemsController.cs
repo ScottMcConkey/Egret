@@ -86,6 +86,11 @@ namespace Egret.Controllers
         [HttpGet]
         public async Task<IActionResult> Edit(string id)
         {
+            if (id == null)
+            {
+                return NotFound();
+            }
+
             InventoryItemViewModel presentation = new InventoryItemViewModel();
 
             InventoryItem item = await Context.InventoryItems

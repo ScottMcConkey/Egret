@@ -13,7 +13,7 @@ namespace Egret.Controllers
     /// <summary>
     /// This controller is used as a base class for managing derived controllers, consistently setting up dbcontext access, and applying uniform authorization requirements.
     /// </summary>
-    [Authorize]
+    //[Authorize]
     public abstract class BaseController : Controller
     {
         private static Microsoft.Extensions.Logging.ILogger _logger;// = LogManager.GetCurrentClassLogger();
