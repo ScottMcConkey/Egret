@@ -1,32 +1,41 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Text;
-using NUnit.Framework;
-using Egret.Controllers;
-using Microsoft.Extensions.Logging;
-using NSubstitute;
-using Microsoft.EntityFrameworkCore;
-using Microsoft.AspNetCore.Mvc;
+﻿using Egret.Controllers;
 using Egret.DataAccess;
-using Egret.Models;
-using System.Threading.Tasks;
-using Npgsql.EntityFrameworkCore;
+using Microsoft.AspNetCore.Mvc;
+using Microsoft.EntityFrameworkCore;
+using Microsoft.Extensions.Logging;
 using Microsoft.Extensions.Configuration;
+using NSubstitute;
+using NUnit.Framework;
+using System;
+using System.Configuration;
+using System.Threading.Tasks;
 
 namespace Egret.Tests
 {
     [TestFixture]
     public class InventoryControllerTests
     {
+        ILogger<ItemsController> _fakeLogger;
+        DbContextOptionsBuilder<EgretContext> _options;
+        EgretContext _context;
+
+        public InventoryControllerTests()
+        {
+            _fakeLogger = Substitute.For<ILogger<ItemsController>>();
+            _options = new DbContextOptionsBuilder<EgretContext>();
+            var config = new ConfigurationBuilder()
+                .AddJsonFile("appsettings.json")
+                .Build();
+            string connection = config["ConnectionString"];
+            _options.UseNpgsql(connection);
+            _context = new EgretContext(_options.Options);
+        }
+
         [TestCase]
         public async Task Edit_Get_NoIdProvided_Throws404()
         {
             //+ Arrange
-            ILogger<ItemsController> fakeLogger = Substitute.For<ILogger<ItemsController>>(); // new ILogger();
-            var optionsBuilder = new DbContextOptionsBuilder<EgretContext>();
-            optionsBuilder.UseNpgsql("Server = localhost; Port = 5432; Database = Egret; User Id = postgres; Password = postgres; Integrated Security = true");
-            EgretContext fakeContext = new EgretContext(optionsBuilder.Options); // Substitute.For<EgretContext>();
-            ItemsController controller = new ItemsController(fakeContext, fakeLogger);
+            ItemsController controller = new ItemsController(_context, _fakeLogger);
 
             //+ Act
             var actionResult = await controller.Edit(String.Empty);
