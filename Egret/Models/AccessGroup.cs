@@ -2,12 +2,17 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
-using Microsoft.AspNetCore.Identity;
 
 namespace Egret.Models
 {
-    public class Role : IdentityRole
+    public class AccessGroup
     {
+        public int Id { get; set; }
+
+        public string Name { get; set; }
+
+        public string Description { get; set; }
+
         public ICollection<AccessGroupRole> AccessGroupRoles { get; set; }
     }
 }

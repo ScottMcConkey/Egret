@@ -1,0 +1,60 @@
+﻿@model List<AccessGroup>
+
+@{
+    ViewData["WindowTitle"] = "Admin - Access Groups";
+    ViewData["PageTitle"] = "Access Groups";
+}
+
+<p class="page-link">
+    <a asp-action="Create">Create New</a>
+</p>
+
+<form asp-action="Index">
+
+    <table class="table table-condensed table-bordered">
+        <thead>
+            <tr>
+                <th>
+                    @Html.DisplayNameFor(model => model[0].Name)
+                </th>
+                <th>
+                    @Html.DisplayNameFor(model => model[0].Description)
+                </th>
+                <th></th>
+            </tr>
+        </thead>
+        <tbody>
+            @if (Model.Count() == 0)
+            {
+                <tr><td colspan="2" class="text-center">There are currently no Access Groups.</td></tr>
+            }
+            else
+            {
+                for (int i = 0; i < Model.Count(); i++)
+                {
+                    <tr>
+                        <td>
+                            <input type="hidden" asp-for="@Model[i].Id" />
+                            <input asp-for="@Model[i].Name" class="form-control" />
+                        </td>
+                        <td>
+                            <input asp-for="@Model[i].Description" class="form-control" />
+                        </td>
+                        <td class="delete-box">
+                            <a class="delete" asp-action="Delete" asp-route-id="@Model[i].Id" title="Delete"><span class="glyphicon glyphicon-trash"></span></a>
+                        </td>
+                    </tr>
+                }
+            }
+        </tbody>
+    </table>
+
+    <div class="form-group">
+        <input type="submit" value="Save" class="btn btn-default" />
+    </div>
+
+</form>
+
+<div>
+    <a asp-area="Admin" asp-controller="Home" asp-action="Index">Back to Admin</a>
+</div>

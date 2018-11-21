@@ -34,6 +34,12 @@
   </ItemGroup>
 
   <ItemGroup>
+    <Content Update="Areas\Admin\Views\AccessGroups\Create.cshtml">
+      <Pack>$(IncludeRazorContentInPack)</Pack>
+    </Content>
+    <Content Update="Areas\Admin\Views\AccessGroups\Index.cshtml">
+      <Pack>$(IncludeRazorContentInPack)</Pack>
+    </Content>
     <Content Update="Areas\Inventory\Views\_ViewImports.cshtml">
       <Pack>$(IncludeRazorContentInPack)</Pack>
     </Content>

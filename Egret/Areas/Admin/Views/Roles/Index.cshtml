@@ -1,4 +1,4 @@
-﻿@model List<IdentityRole>
+﻿@model List<Role>
 @{
     ViewData["WindowTitle"] = "Admin - Roles";
     ViewData["PageTitle"] = "User Roles";
@@ -32,7 +32,8 @@
                         <td>
                             <input asp-for="@Model[i].Name" class="form-control" />
                         </td>
-                        <td identity-role="@Model[i].Id"></td>
+                        <td></td>
+                        @*<td identity-role="@Model[i].Id"></td>*@
                         <td style="text-align: center;">
                             <a asp-action="Delete" asp-route-id="@Model[i].Id" asp- style="color: red; font-size: 25px; font-weight: bold; text-decoration: none;" title="Delete">&times;</a>
                         </td>

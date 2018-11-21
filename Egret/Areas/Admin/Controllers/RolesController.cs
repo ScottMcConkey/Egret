@@ -14,20 +14,20 @@ namespace Egret.Controllers
     //[Authorize(Roles = "Administrator")]
     public class RolesController : Controller
     {
-        private RoleManager<IdentityRole> roleManager;
-        private UserManager<User> userManager;
+        private RoleManager<Role> _roleManager;
+        private UserManager<User> _userManager;
 
-        public RolesController(RoleManager<IdentityRole> roleMgr,
+        public RolesController(RoleManager<Role> roleMgr,
                                UserManager<User> userMrg)
         {
-            roleManager = roleMgr;
-            userManager = userMrg;
+            _roleManager = roleMgr;
+            _userManager = userMrg;
         }
 
         [HttpGet]
         public ViewResult Index()
         {
-            return View(roleManager.Roles.ToList());
+            return View(_roleManager.Roles.ToList());
         }
 
         //[HttpPost]
@@ -57,11 +57,11 @@ namespace Egret.Controllers
 
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Create([Required]string name)
+        public async Task<IActionResult> Create(Role role)
         {
             if (ModelState.IsValid)
             {
-                IdentityResult result = await roleManager.CreateAsync(new IdentityRole(name));
+                IdentityResult result = await _roleManager.CreateAsync(new Role() { Name = role.Name });
                 if (result.Succeeded)
                 {
                     TempData["SuccessMessage"] = "Role Created";
@@ -72,17 +72,17 @@ namespace Egret.Controllers
                     AddErrorsFromResult(result);
                 }
             }
-            return View(name);
+            return View(role);
         }
 
         [HttpPost]
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> Delete(string id)
         {
-            IdentityRole role = await roleManager.FindByIdAsync(id);
+            Role role = await _roleManager.FindByIdAsync(id);
             if (role != null)
             {
-                IdentityResult result = await roleManager.DeleteAsync(role);
+                IdentityResult result = await _roleManager.DeleteAsync(role);
                 if (result.Succeeded)
                 {
                     TempData["SuccessMessage"] = $"Role '{role.Name}' Deleted";
@@ -97,19 +97,19 @@ namespace Egret.Controllers
             {
                 ModelState.AddModelError("", "No role found");
             }
-            return View("Index", roleManager.Roles);
+            return View("Index", _roleManager.Roles);
         }
 
         [HttpGet]
         public async Task<IActionResult> Edit(string id)
         {
 
-            IdentityRole role = await roleManager.FindByIdAsync(id);
+            Role role = await _roleManager.FindByIdAsync(id);
             List<User> members = new List<User>();
             List<User> nonMembers = new List<User>();
-            foreach (User user in userManager.Users)
+            foreach (User user in _userManager.Users)
             {
-                var list = await userManager.IsInRoleAsync(user, role.Name)
+                var list = await _userManager.IsInRoleAsync(user, role.Name)
                     ? members : nonMembers;
                 list.Add(user);
             }
@@ -130,10 +130,10 @@ namespace Egret.Controllers
             {
                 foreach (string userId in model.IdsToAdd ?? new string[] { })
                 {
-                    User user = await userManager.FindByIdAsync(userId);
+                    User user = await _userManager.FindByIdAsync(userId);
                     if (user != null)
                     {
-                        result = await userManager.AddToRoleAsync(user,
+                        result = await _userManager.AddToRoleAsync(user,
                             model.RoleName);
                         if (!result.Succeeded)
                         {
@@ -143,10 +143,10 @@ namespace Egret.Controllers
                 }
                 foreach (string userId in model.IdsToDelete ?? new string[] { })
                 {
-                    User user = await userManager.FindByIdAsync(userId);
+                    User user = await _userManager.FindByIdAsync(userId);
                     if (user != null)
                     {
-                        result = await userManager.RemoveFromRoleAsync(user,
+                        result = await _userManager.RemoveFromRoleAsync(user,
                             model.RoleName);
                         if (!result.Succeeded)
                         {

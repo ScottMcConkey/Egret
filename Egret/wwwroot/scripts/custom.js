@@ -4,7 +4,7 @@
 
 function SetTestsForDelete() {
     $(".delete").on("click", function() {
-        if (confirm('Are you sure you want to delete this Fabric Test?')) {
+        if (confirm('Are you sure you want to delete this?')) {
             $(this).parent().parent().remove();
             console.log($(this));
             var manager = new TestManager();

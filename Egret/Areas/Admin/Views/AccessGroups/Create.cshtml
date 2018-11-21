@@ -1,7 +1,7 @@
-﻿@model InventoryCategory
+﻿@model AccessGroup
 @{
-    ViewData["WindowTitle"] = "Inventory Category - Create";
-    ViewData["PageTitle"] = "Create Inventory Category";
+    ViewData["WindowTitle"] = "Access Group - Create";
+    ViewData["PageTitle"] = "Create Access Group";
 }
 
 <div class="row">
@@ -17,14 +17,6 @@
             <div class="form-group">
                 <label asp-for="Description" class="control-label"></label>
                 <input asp-for="Description" class="form-control" />
-            </div>
-
-            <div class="form-group">
-                <div class="checkbox">
-                    <label>
-                        <input asp-for="Active" checked="checked" /> @Html.DisplayNameFor(model => model.Active)
-                    </label>
-                </div>
             </div>
 
             <div class="form-group">

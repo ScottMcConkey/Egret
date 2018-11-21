@@ -42,7 +42,7 @@ namespace Egret
                 options.AddPolicy("AccessAdmin", policy => policy.RequireClaim("CanAccessAdmin"));
             });
 
-            services.AddIdentity<User, IdentityRole>(opts => 
+            services.AddIdentity<User, Role>(opts => 
                 {
                     opts.Password.RequiredLength = 6;
                     opts.Password.RequireNonAlphanumeric = false;

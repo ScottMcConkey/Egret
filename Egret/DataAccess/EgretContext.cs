@@ -23,38 +23,39 @@ namespace Egret.DataAccess
         public virtual DbSet<Supplier> Suppliers { get; set; }
         public virtual DbSet<FabricTest> FabricTests { get; set; }
         public virtual DbSet<ConsumptionEvent> ConsumptionEvents { get; set; }
+        public virtual DbSet<AccessGroup> AccessGroups { get; set; }
 
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
             base.OnModelCreating(modelBuilder);
 
             // AspNet Identity
-            modelBuilder.Entity<IdentityUser>(entity =>
-            {
-                //entity.ToTable("aspnet_users");
+            //modelBuilder.Entity<IdentityUser>(entity =>
+            //{
+            //    //entity.ToTable("aspnet_users");
 
-                entity.Property(p => p.Id)
-                    .HasColumnName("id")
-                    .HasMaxLength(450);
-            });
+            //    entity.Property(p => p.Id)
+            //        .HasColumnName("id")
+            //        .HasMaxLength(450);
+            //});
 
             modelBuilder.Entity<User>(entity =>
             {
                 entity.ToTable("aspnet_users");
 
                 entity.Property(p => p.Id)
-                    .HasColumnName("Id")
-                    .HasMaxLength(450);
-            });
-
-            modelBuilder.Entity<IdentityRole>(entity =>
-            {
-                entity.ToTable("aspnet_roles");
-
-                entity.Property(p => p.Id)
                     .HasColumnName("id")
                     .HasMaxLength(450);
             });
+
+            //modelBuilder.Entity<IdentityRole>(entity =>
+            //{
+            //    entity.ToTable("aspnet_roles");
+
+            //    entity.Property(p => p.Id)
+            //        .HasColumnName("id")
+            //        .HasMaxLength(450);
+            //});
 
             modelBuilder.Entity<Role>(entity =>
             {
@@ -72,6 +73,7 @@ namespace Egret.DataAccess
 
                 entity.Property(p => p.ConcurrencyStamp)
                     .HasColumnName("concurrency_stamp");
+
             });
 
             // Give all the Identity tables custom names that won't be generated
@@ -92,6 +94,8 @@ namespace Egret.DataAccess
                 ;//.HasIndex("ix_aspnet_roleclaims_roleid");
             modelBuilder.Entity<IdentityUserToken<string>>()
                 .ToTable("aspnet_usertokens");
+            //modelBuilder.Entity<IdentityUser>()
+            //    .ToTable("aspnet_users");
 
             // Sequences
             modelBuilder.HasSequence<long>("master_seq")
@@ -101,6 +105,8 @@ namespace Egret.DataAccess
             modelBuilder.HasSequence<long>("units_id_seq")
                 .StartsAt(100);
             modelBuilder.HasSequence<long>("currencytypes_id_seq")
+                .StartsAt(100);
+            modelBuilder.HasSequence<long>("accessgroups_id_seq")
                 .StartsAt(100);
 
             // PostgreSQL-specific
@@ -313,7 +319,7 @@ namespace Egret.DataAccess
                 entity.Property(e => e.DateShipped).HasColumnName("date_shipped");
 
                 entity.Property(e => e.DateArrived).HasColumnName("date_arrived");
-                
+
                 // Relationships
                 entity.HasOne(d => d.UnitNavigation)
                     .WithMany()
@@ -527,22 +533,90 @@ namespace Egret.DataAccess
                         .HasColumnName("id")
                         .HasDefaultValueSql("nextval('master_seq'::regclass)");
 
-                    entity.Property(e => e.DateAdded).HasColumnName("date_added");
+                    entity.Property(e => e.DateAdded)
+                        .HasColumnName("date_added");
 
-                    entity.Property(e => e.AddedBy).HasColumnName("user_added_by");
+                    entity.Property(e => e.AddedBy)
+                        .HasColumnName("user_added_by");
 
-                    entity.Property(e => e.DateUpdated).HasColumnName("date_updated");
+                    entity.Property(e => e.DateUpdated)
+                        .HasColumnName("date_updated");
 
-                    entity.Property(e => e.UpdatedBy).HasColumnName("user_updated_by");
+                    entity.Property(e => e.UpdatedBy)
+                        .HasColumnName("user_updated_by");
 
-                    entity.Property(e => e.Description).HasColumnName("description");
+                    entity.Property(e => e.Description)
+                        .HasColumnName("description");
 
-                    entity.Property(e => e.CustomerPurchasedFor).HasColumnName("customer_purchased_for");
+                    entity.Property(e => e.CustomerPurchasedFor)
+                        .HasColumnName("customer_purchased_for");
 
-                    entity.Property(e => e.Supplier).HasColumnName("supplier");
+                    entity.Property(e => e.Supplier)
+                        .HasColumnName("supplier");
 
-                    entity.Property(e => e.CustomerPurchasedFor).HasColumnName("customer_purchased_for");
+                    entity.Property(e => e.CustomerPurchasedFor)
+                        .HasColumnName("customer_purchased_for");
                 });
+
+            modelBuilder.Entity<AccessGroup>(entity =>
+            {
+                // Table
+                entity.ToTable("accessgroups");
+
+                // Indexes
+                entity.HasIndex(i => i.Id)
+                    .HasName("ix_accessgroups_id")
+                    .IsUnique();
+
+                // Keys
+                entity.HasKey(k => k.Id)
+                    .HasName("pk_accessgroups_id");
+
+                // Properties
+                entity.Property(p => p.Id)
+                    .HasColumnName("id")
+                    .HasDefaultValueSql("nextval('accessgroups_id_seq'::regclass)"); ;
+
+                entity.Property(p => p.Name)
+                    .HasColumnName("name");
+
+                entity.Property(e => e.Description)
+                    .HasColumnName("description");
+            }
+            );
+
+            modelBuilder.Entity<AccessGroupRole>(entity =>
+            {
+                // Table
+                entity.ToTable("accessgrouproles");
+
+                // Indexes
+                entity.HasIndex(i => i.AccessGroupId)
+                    .HasName("ix_accessgrouproles_accessgroupid");
+
+                entity.HasIndex(i => i.RoleId)
+                    .HasName("ix_accessgrouproles_roleid");
+
+                // Keys
+                entity.HasKey(k => new { k.AccessGroupId, k.RoleId });
+
+                // Properties
+                entity.Property(p => p.AccessGroupId)
+                    .HasColumnName("accessgroupid");
+
+                entity.Property(p => p.RoleId)
+                    .HasColumnName("roleid");
+
+                // Relationships
+                entity.HasOne(p => p.AccessGroup)
+                    .WithMany(c => c.AccessGroupRoles)
+                    .HasForeignKey(k => k.AccessGroupId);
+
+                entity.HasOne(p => p.Role)
+                    .WithMany(c => c.AccessGroupRoles)
+                    .HasForeignKey(k => k.RoleId);
+            }
+            );
 
 
 
@@ -587,6 +661,5 @@ namespace Egret.DataAccess
             });
         }
 
-        public DbSet<Egret.Models.PurchaseEvent> Purchase { get; set; }
     }
 }
