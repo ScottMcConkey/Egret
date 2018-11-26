@@ -37,10 +37,10 @@ namespace Egret
             services.AddMvc();
             services.AddMemoryCache();
             services.AddSession();
-            services.AddAuthorization(options =>
-            {
-                options.AddPolicy("AccessAdmin", policy => policy.RequireClaim("CanAccessAdmin"));
-            });
+            //services.AddAuthorization(options =>
+            //{
+            //    options.AddPolicy("AccessAdmin", policy => policy.RequireClaim("CanAccessAdmin"));
+            //});
 
             services.AddIdentity<User, Role>(opts => 
                 {
@@ -54,7 +54,9 @@ namespace Egret
                     opts.Lockout.MaxFailedAccessAttempts = 10;
                 }
             )
-                .AddEntityFrameworkStores<EgretContext>();
+                .AddEntityFrameworkStores<EgretContext>()
+                //.AddDefaultUI()
+                ;
 
             services.ConfigureApplicationCookie(options =>
             {

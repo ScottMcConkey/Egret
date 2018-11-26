@@ -11,7 +11,7 @@ namespace Egret.DataAccess
     /// <summary>
     /// This class is the DbContext used throughout the project for accessing database stores with Entity Framework.
     /// </summary>
-    public partial class EgretContext : IdentityDbContext<User>
+    public partial class EgretContext : IdentityDbContext<User, Role, string>
     {
         public EgretContext(DbContextOptions<EgretContext> options) 
             : base(options) {}
@@ -29,55 +29,18 @@ namespace Egret.DataAccess
         {
             base.OnModelCreating(modelBuilder);
 
-            // AspNet Identity
-            //modelBuilder.Entity<IdentityUser>(entity =>
-            //{
-            //    //entity.ToTable("aspnet_users");
-
-            //    entity.Property(p => p.Id)
-            //        .HasColumnName("id")
-            //        .HasMaxLength(450);
-            //});
-
+            // Give all the Identity tables custom names that won't be generated
+            // as string literals.
             modelBuilder.Entity<User>(entity =>
             {
                 entity.ToTable("aspnet_users");
-
-                entity.Property(p => p.Id)
-                    .HasColumnName("id")
-                    .HasMaxLength(450);
             });
-
-            //modelBuilder.Entity<IdentityRole>(entity =>
-            //{
-            //    entity.ToTable("aspnet_roles");
-
-            //    entity.Property(p => p.Id)
-            //        .HasColumnName("id")
-            //        .HasMaxLength(450);
-            //});
 
             modelBuilder.Entity<Role>(entity =>
             {
                 entity.ToTable("aspnet_roles");
-
-                entity.Property(u => u.Id)
-                    .HasColumnName("id")
-                    .HasMaxLength(450);
-
-                entity.Property(p => p.Name)
-                    .HasColumnName("name");
-
-                entity.Property(p => p.NormalizedName)
-                    .HasColumnName("normalized_name");
-
-                entity.Property(p => p.ConcurrencyStamp)
-                    .HasColumnName("concurrency_stamp");
-
             });
 
-            // Give all the Identity tables custom names that won't be generated
-            // as string literals.
             modelBuilder.Entity<IdentityUserRole<string>>()
                 .ToTable("aspnet_userroles")
                 .HasIndex(u => u.RoleId)
@@ -659,6 +622,16 @@ namespace Egret.DataAccess
                 TwoFactorEnabled = false,
                 IsActive = true
             });
+
+            modelBuilder.Entity<Role>().HasData(new { Id = Guid.NewGuid().ToString(), Name = "Item_Create" },
+                                                new { Id = Guid.NewGuid().ToString(), Name = "Item_Read" },
+                                                new { Id = Guid.NewGuid().ToString(), Name = "Item_Update" },
+                                                new { Id = Guid.NewGuid().ToString(), Name = "Item_Delete" },
+                                                new { Id = Guid.NewGuid().ToString(), Name = "ConsumptionEvent_Create" },
+                                                new { Id = Guid.NewGuid().ToString(), Name = "ConsumptionEvent_Read" },
+                                                new { Id = Guid.NewGuid().ToString(), Name = "ConsumptionEvent_Update" },
+                                                new { Id = Guid.NewGuid().ToString(), Name = "ConsumptionEvent_Delete" }
+                                                );
         }
 
     }
