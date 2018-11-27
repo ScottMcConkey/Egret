@@ -607,7 +607,7 @@ namespace Egret.DataAccess
 
             modelBuilder.Entity<User>().HasData(new
             {
-                Id = new Guid().GetHashCode().ToString(),
+                Id = Guid.NewGuid().ToString(),
                 UserName = "Bob",
                 NormalizedUserName = "BOB",
                 Email = "bob@example.com",
@@ -623,15 +623,41 @@ namespace Egret.DataAccess
                 IsActive = true
             });
 
-            modelBuilder.Entity<Role>().HasData(new { Id = Guid.NewGuid().ToString(), Name = "Item_Create" },
-                                                new { Id = Guid.NewGuid().ToString(), Name = "Item_Read" },
-                                                new { Id = Guid.NewGuid().ToString(), Name = "Item_Update" },
-                                                new { Id = Guid.NewGuid().ToString(), Name = "Item_Delete" },
-                                                new { Id = Guid.NewGuid().ToString(), Name = "ConsumptionEvent_Create" },
-                                                new { Id = Guid.NewGuid().ToString(), Name = "ConsumptionEvent_Read" },
-                                                new { Id = Guid.NewGuid().ToString(), Name = "ConsumptionEvent_Update" },
-                                                new { Id = Guid.NewGuid().ToString(), Name = "ConsumptionEvent_Delete" }
-                                                );
+            var id1 = Guid.NewGuid().ToString();
+            var id2 = Guid.NewGuid().ToString();
+            var id3 = Guid.NewGuid().ToString();
+            var id4 = Guid.NewGuid().ToString();
+            var id5 = Guid.NewGuid().ToString();
+            var id6 = Guid.NewGuid().ToString();
+            var id7 = Guid.NewGuid().ToString();
+            var id8 = Guid.NewGuid().ToString();
+
+            modelBuilder.Entity<Role>()
+                .HasData(new { Id = id1, Name = "Item_Create" },
+                         new { Id = id2, Name = "Item_Read" },
+                         new { Id = id3, Name = "Item_Update" },
+                         new { Id = id4, Name = "Item_Delete" },
+                         new { Id = id5, Name = "ConsumptionEvent_Create" },
+                         new { Id = id6, Name = "ConsumptionEvent_Read" },
+                         new { Id = id7, Name = "ConsumptionEvent_Update" },
+                         new { Id = id8, Name = "ConsumptionEvent_Delete" }
+                         );
+
+            var adminId = 1;
+
+            modelBuilder.Entity<AccessGroup>()
+                .HasData(new { Id = adminId, Name = "Administrator" });
+
+            modelBuilder.Entity<AccessGroupRole>()
+                .HasData(new { AccessGroupId = adminId, RoleId = id1 },
+                         new { AccessGroupId = adminId, RoleId = id2 },
+                         new { AccessGroupId = adminId, RoleId = id3 },
+                         new { AccessGroupId = adminId, RoleId = id4 },
+                         new { AccessGroupId = adminId, RoleId = id5 },
+                         new { AccessGroupId = adminId, RoleId = id6 },
+                         new { AccessGroupId = adminId, RoleId = id7 },
+                         new { AccessGroupId = adminId, RoleId = id8 }
+                );
         }
 
     }
