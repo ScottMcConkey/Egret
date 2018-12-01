@@ -171,5 +171,13 @@ namespace Egret.DataAccess
                 ModelState.AddModelError("", error.Description);
             }
         }
+
+        public void UpdateUserRoles ()
+        {
+            // UserId
+            // Remove previous Roles
+            // match matrix to new roles
+            // set roles
+        }
     }
 }

@@ -1,0 +1,73 @@
+﻿@model AccessGroupViewModel
+
+@{
+    ViewData["WindowTitle"] = "Access Group Security";
+    ViewData["PageTitle"] = $"Access Group Security - {Model.AccessGroup.Name}";
+}
+
+<form asp-action="Edit">
+
+    <table class="table table-condensed table-bordered">
+        <thead>
+            <tr>
+                <th></th>
+                <th>Create</th>
+                <th>Read</th>
+                <th>Update</th>
+                <th>Delete</th>
+            </tr>
+        </thead>
+        <tbody>
+            @{ foreach (Role role in Model.Roles)
+                {
+                    <p>@role.Name</p>
+                }
+            }
+                    <tr>
+                        <!-- -->
+                        <td>
+                            Inventory Items
+                        </td>
+                        <td>
+                            <input type="checkbox" @(Model.Roles.Where(x => x.Name == "Item_Create").Any() ? "checked='checked'" : "") />
+                        </td>
+                        <td>
+                            <input type="checkbox" @(Model.Roles.Where(x => x.Name == "Item_Read").Any() ? "checked='checked'" : "") />
+                        </td>
+                        <td>
+                            <input type="checkbox" @(Model.Roles.Where(x => x.Name == "Item_Update").Any() ? "checked='checked'" : "") />
+                        </td>
+                        <td>
+                            <input type="checkbox" @(Model.Roles.Where(x => x.Name == "Item_Delete").Any() ? "checked='checked'" : "") />
+                        </td>
+
+                    </tr>
+
+                    <tr>
+
+                        <td>
+                            Consumption Events
+                        </td>
+                        <td>
+                            <input type="checkbox" @(Model.Roles.Where(x => x.Name == "ConsumptionEvent_Create").Any() ? "checked='checked'" : "") />
+                        </td>
+                        <td>
+                            <input type="checkbox" @(Model.Roles.Where(x => x.Name == "ConsumptionEvent_Read").Any() ? "checked='checked'" : "") />
+                        </td>
+                        <td>
+                            <input type="checkbox" @(Model.Roles.Where(x => x.Name == "ConsumptionEvent_Update").Any() ? "checked='checked'" : "") />
+                        </td>
+                        <td>
+                            <input type="checkbox" @(Model.Roles.Where(x => x.Name == "ConsumptionEvent_Delete").Any() ? "checked='checked'" : "") />
+                        </td>
+
+                    </tr>
+        </tbody>
+    </table>
+
+    <div class="form-group">
+        <input type="submit" value="Save" class="btn btn-default" />
+    </div>
+
+</form>
+

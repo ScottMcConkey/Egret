@@ -24,6 +24,7 @@ namespace Egret.DataAccess
         public virtual DbSet<FabricTest> FabricTests { get; set; }
         public virtual DbSet<ConsumptionEvent> ConsumptionEvents { get; set; }
         public virtual DbSet<AccessGroup> AccessGroups { get; set; }
+        public virtual DbSet<AccessGroupRole> AccessGroupRoles { get; set; }
 
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {

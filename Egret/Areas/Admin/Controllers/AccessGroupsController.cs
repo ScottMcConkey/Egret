@@ -78,10 +78,28 @@ namespace Egret.Controllers
         }
 
         [HttpGet]
-        public void Edit(int id)
+        public IActionResult Edit(int id)
         {
-            //var model = Context.AccessGroups.Where(x => x.Id == id)
-            //    .Include
+            var accessGroup = Context.AccessGroups.Where(x => x.Id == id)
+                .Include(group => group.AccessGroupRoles)
+                .ThenInclude(agRoles => agRoles.Role)
+                .SingleOrDefault();
+
+            if (accessGroup == null || id == null)
+            {
+                return NotFound();
+            }
+
+            AccessGroupViewModel presentation = new AccessGroupViewModel();
+
+            presentation.AccessGroup = accessGroup;
+
+            List<AccessGroupRole> accessGroupRoles = accessGroup.AccessGroupRoles.ToList();
+            List<Role> roles = accessGroupRoles.Select(x => x.Role).ToList();
+
+            presentation.Roles = roles;
+
+            return View(presentation);
 
         }
 
