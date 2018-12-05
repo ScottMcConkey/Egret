@@ -3,15 +3,17 @@ using System;
 using Egret.DataAccess;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 using Npgsql.EntityFrameworkCore.PostgreSQL.Metadata;
 
 namespace Egret.Migrations
 {
     [DbContext(typeof(EgretContext))]
-    partial class EgretContextModelSnapshot : ModelSnapshot
+    [Migration("20181204203954_roledisplayname")]
+    partial class roledisplayname
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -90,14 +92,14 @@ namespace Egret.Migrations
                     b.ToTable("accessgrouproles");
 
                     b.HasData(
-                        new { AccessGroupId = 1, RoleId = "d6efd9ba-cfc8-4ce4-9261-858d60f0886f" },
-                        new { AccessGroupId = 1, RoleId = "2c0fe1e8-df87-4394-bf6f-48eb63d10a5c" },
-                        new { AccessGroupId = 1, RoleId = "b2196ec6-2648-4eb2-9d92-005043046bf0" },
-                        new { AccessGroupId = 1, RoleId = "36b8707e-8b64-4f1e-b3e1-88c3f04e3be8" },
-                        new { AccessGroupId = 1, RoleId = "497a9878-9472-4286-9f50-21872e517e56" },
-                        new { AccessGroupId = 1, RoleId = "8040731e-4f61-4b07-a59c-f4167baf4093" },
-                        new { AccessGroupId = 1, RoleId = "10a5f79e-7223-4a53-9647-595ca17f1c54" },
-                        new { AccessGroupId = 1, RoleId = "06444a29-e816-40a2-962e-7d9049199c33" }
+                        new { AccessGroupId = 1, RoleId = "db40cc7c-dcd5-46f2-823d-9eaa180a3a38" },
+                        new { AccessGroupId = 1, RoleId = "6d394fb1-f0f0-40d2-a03a-724010946e12" },
+                        new { AccessGroupId = 1, RoleId = "553aee38-65f6-41b1-93fb-14c8deb3b960" },
+                        new { AccessGroupId = 1, RoleId = "b468d0c3-0d01-4e3e-a5ef-6dc2147e2e2c" },
+                        new { AccessGroupId = 1, RoleId = "91cf1565-2bb2-4cf9-9d77-da811fc0144f" },
+                        new { AccessGroupId = 1, RoleId = "da394bd2-abb0-4d4d-b2d6-655f73ddb6fa" },
+                        new { AccessGroupId = 1, RoleId = "c08e47c0-1cc1-47e5-b88d-5c9754d480be" },
+                        new { AccessGroupId = 1, RoleId = "ef237762-5888-4de5-a35e-27a15fa66792" }
                     );
                 });
 
@@ -489,14 +491,14 @@ namespace Egret.Migrations
                     b.ToTable("aspnet_roles");
 
                     b.HasData(
-                        new { Id = "d6efd9ba-cfc8-4ce4-9261-858d60f0886f", DisplayName = "Item Create", Name = "Item_Create" },
-                        new { Id = "2c0fe1e8-df87-4394-bf6f-48eb63d10a5c", DisplayName = "Item Read", Name = "Item_Read" },
-                        new { Id = "b2196ec6-2648-4eb2-9d92-005043046bf0", DisplayName = "Item Update", Name = "Item_Update" },
-                        new { Id = "36b8707e-8b64-4f1e-b3e1-88c3f04e3be8", DisplayName = "Item Delete", Name = "Item_Delete" },
-                        new { Id = "497a9878-9472-4286-9f50-21872e517e56", DisplayName = "Consumption Event Create", Name = "ConsumptionEvent_Create" },
-                        new { Id = "8040731e-4f61-4b07-a59c-f4167baf4093", DisplayName = "Consumption Event Read", Name = "ConsumptionEvent_Read" },
-                        new { Id = "10a5f79e-7223-4a53-9647-595ca17f1c54", DisplayName = "Consumption Event Update", Name = "ConsumptionEvent_Update" },
-                        new { Id = "06444a29-e816-40a2-962e-7d9049199c33", DisplayName = "Consumption Event Delete", Name = "ConsumptionEvent_Delete" }
+                        new { Id = "db40cc7c-dcd5-46f2-823d-9eaa180a3a38", Name = "Item_Create" },
+                        new { Id = "6d394fb1-f0f0-40d2-a03a-724010946e12", Name = "Item_Read" },
+                        new { Id = "553aee38-65f6-41b1-93fb-14c8deb3b960", Name = "Item_Update" },
+                        new { Id = "b468d0c3-0d01-4e3e-a5ef-6dc2147e2e2c", Name = "Item_Delete" },
+                        new { Id = "91cf1565-2bb2-4cf9-9d77-da811fc0144f", Name = "ConsumptionEvent_Create" },
+                        new { Id = "da394bd2-abb0-4d4d-b2d6-655f73ddb6fa", Name = "ConsumptionEvent_Read" },
+                        new { Id = "c08e47c0-1cc1-47e5-b88d-5c9754d480be", Name = "ConsumptionEvent_Update" },
+                        new { Id = "ef237762-5888-4de5-a35e-27a15fa66792", Name = "ConsumptionEvent_Delete" }
                     );
                 });
 
@@ -597,7 +599,7 @@ namespace Egret.Migrations
                     b.ToTable("aspnet_users");
 
                     b.HasData(
-                        new { Id = "7b4684d7-38bf-4d80-978f-ace6063dffeb", AccessFailedCount = 0, ConcurrencyStamp = "2cebd9d0-694d-4ed3-8dc2-384f41557310", Email = "bob@example.com", EmailConfirmed = false, IsActive = true, LockoutEnabled = false, NormalizedEmail = "BOB@EXAMPLE.COM", NormalizedUserName = "BOB", PasswordHash = "AQAAAAEAACcQAAAAEI4jEmRsUYzL6KnpR2/OjIPvkI9BWNmnnCZYah1GFvB2EOCWkgkk49YqCJBz38N8rg==", PhoneNumberConfirmed = false, SecurityStamp = "3YILVFJYDKC4OK7QLLR4TO4KT6V4ZK5E", TwoFactorEnabled = false, UserName = "Bob" }
+                        new { Id = "450a31a5-9ae7-43ee-8160-b94c1f320637", AccessFailedCount = 0, ConcurrencyStamp = "2cebd9d0-694d-4ed3-8dc2-384f41557310", Email = "bob@example.com", EmailConfirmed = false, IsActive = true, LockoutEnabled = false, NormalizedEmail = "BOB@EXAMPLE.COM", NormalizedUserName = "BOB", PasswordHash = "AQAAAAEAACcQAAAAEI4jEmRsUYzL6KnpR2/OjIPvkI9BWNmnnCZYah1GFvB2EOCWkgkk49YqCJBz38N8rg==", PhoneNumberConfirmed = false, SecurityStamp = "3YILVFJYDKC4OK7QLLR4TO4KT6V4ZK5E", TwoFactorEnabled = false, UserName = "Bob" }
                     );
                 });
 

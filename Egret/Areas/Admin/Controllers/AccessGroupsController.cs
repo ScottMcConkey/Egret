@@ -1,16 +1,14 @@
 ﻿using Egret.DataAccess;
 using Egret.Models;
 using Egret.ViewModels;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
-using Microsoft.AspNetCore.Mvc.Rendering;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Logging;
-using System;
 using System.Collections.Generic;
 using System.Linq;
-using System.Security.Claims;
-using System.Threading.Tasks;
+using System;
 
 namespace Egret.Controllers
 {
@@ -19,36 +17,14 @@ namespace Egret.Controllers
     public class AccessGroupsController : BaseController
     {
         public AccessGroupsController(EgretContext context, ILogger<ItemsController> logger)
-            :base(context)
-        {
-
-        }
+            :base(context) { }
 
         [HttpGet]
-        public ViewResult Index()
+        public IActionResult Index()
         {
-            var egretContext = Context.AccessGroups.OrderBy(x => x.Name);
-            return View(egretContext.ToList());
+            List<AccessGroup> groups = Context.AccessGroups.OrderBy(x => x.Name).ToList();
+            return View(groups);
         }
-
-        //[HttpPost]
-        //[ValidateAntiForgeryToken]
-        //public ViewResult Index(List<Role> roles)
-        //{
-        //    if (ModelState.IsValid)
-        //    {
-        //        for (int i = 0; i < roles.Count(); i++)
-        //        {
-        //            Context.Update(roles[i]);
-        //        }
-        //        Context.SaveChanges();
-        //        TempData["SuccessMessage"] = "Save Complete";
-        //        return RedirectToAction(nameof(Index));
-        //    }
-
-        //    return View(roles);
-
-        //}
 
         [HttpGet]
         public IActionResult Create()
@@ -78,35 +54,85 @@ namespace Egret.Controllers
         }
 
         [HttpGet]
-        public IActionResult Edit(int id)
+        public IActionResult Edit(int? id = null)
         {
+            if (id == null)
+            {
+                return NotFound();
+            }
+
             var accessGroup = Context.AccessGroups.Where(x => x.Id == id)
                 .Include(group => group.AccessGroupRoles)
                 .ThenInclude(agRoles => agRoles.Role)
                 .SingleOrDefault();
 
-            if (accessGroup == null || id == null)
+            List<AccessGroupRole> groupRoles = Context.AccessGroupRoles.AsNoTracking().Where(x => x.AccessGroupId == (int)id).ToList();
+            List<string> roleIds = groupRoles.Select(x => x.RoleId).ToList();
+            List<Role> selectedRoles = Context.Roles.AsNoTracking().Where(y => roleIds.Contains(y.Id)).ToList();
+            List<Role> allRoles = Context.Roles.AsNoTracking().ToList();
+
+            foreach (Role role in allRoles)
             {
-                return NotFound();
+                foreach (Role selectedRole in selectedRoles)
+                {
+                    if (selectedRole.Id == role.Id)
+                    {
+                        role.FlagForAddition = true;
+                    }
+                }
             }
 
-            AccessGroupViewModel presentation = new AccessGroupViewModel();
-
+            var presentation = new AccessGroupViewModel();
             presentation.AccessGroup = accessGroup;
-
-            List<AccessGroupRole> accessGroupRoles = accessGroup.AccessGroupRoles.ToList();
-            List<Role> roles = accessGroupRoles.Select(x => x.Role).ToList();
-
-            presentation.Roles = roles;
+            presentation.Roles = allRoles;
 
             return View(presentation);
 
         }
 
         [HttpPost]
-        [ValidateAntiForgeryToken]
-        public void Edit(RoleModificationModel model)
+        //[ValidateAntiForgeryToken]
+        public IActionResult Edit(int? id, AccessGroupViewModel model)
         {
+            var accessGroup = Context.AccessGroups.Where(x => x.Id == id)
+                .Include(x => x.AccessGroupRoles)
+                    //.ThenInclude(x => x.Roles)
+                .SingleOrDefault();
+
+            model.AccessGroup = accessGroup;
+
+            if (ModelState.IsValid)
+            {
+                // Remove all existing rels
+                foreach (AccessGroupRole groupRole in Context.AccessGroupRoles.Where(x => x.AccessGroupId == (int)id /*model.AccessGroup.Id*/))
+                {
+                    Context.AccessGroupRoles.Remove(groupRole);
+                }
+
+                Context.SaveChanges();
+
+                // Set new rels
+                foreach (Role role in model.Roles.Where(x => x.FlagForAddition == true))
+                {
+                    var localRole = Context.Roles.Where(x => x.Id == role.Id).SingleOrDefault();
+
+                    var newGroupRole = new AccessGroupRole() { Role = localRole, AccessGroup = model.AccessGroup };//, /*Role = role, AccessGroup = model.AccessGroup*/ };
+
+                    //localRole.AccessGroupRoles.Add(newGroupRole);
+                    //localAccessGroup.AccessGroupRoles.Add(newGroupRole);
+
+                    Context.AccessGroupRoles.Add(newGroupRole);
+
+                    //Context.Roles.Update(localRole);
+                    //Context.AccessGroups.Update(localAccessGroup);
+                }
+
+                Context.SaveChanges();
+
+                return RedirectToAction(nameof(Index));
+            }
+
+            return View(model);
             
         }
 

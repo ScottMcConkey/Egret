@@ -11,6 +11,7 @@ namespace Egret.ViewModels
     {
         public AccessGroup AccessGroup { get; set; }
 
-        public List<Role> Roles { get; set; }
+        public List<Role>Roles { get; set; }
+
     }
 }

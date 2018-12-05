@@ -546,6 +546,7 @@ namespace Egret.DataAccess
 
                 entity.Property(e => e.Description)
                     .HasColumnName("description");
+
             }
             );
 
@@ -634,14 +635,14 @@ namespace Egret.DataAccess
             var id8 = Guid.NewGuid().ToString();
 
             modelBuilder.Entity<Role>()
-                .HasData(new { Id = id1, Name = "Item_Create" },
-                         new { Id = id2, Name = "Item_Read" },
-                         new { Id = id3, Name = "Item_Update" },
-                         new { Id = id4, Name = "Item_Delete" },
-                         new { Id = id5, Name = "ConsumptionEvent_Create" },
-                         new { Id = id6, Name = "ConsumptionEvent_Read" },
-                         new { Id = id7, Name = "ConsumptionEvent_Update" },
-                         new { Id = id8, Name = "ConsumptionEvent_Delete" }
+                .HasData(new { Id = id1, Name = "Item_Create", DisplayName = "Item Create" },
+                         new { Id = id2, Name = "Item_Read", DisplayName = "Item Read" },
+                         new { Id = id3, Name = "Item_Update", DisplayName = "Item Update" },
+                         new { Id = id4, Name = "Item_Delete", DisplayName = "Item Delete" },
+                         new { Id = id5, Name = "ConsumptionEvent_Create", DisplayName = "Consumption Event Create" },
+                         new { Id = id6, Name = "ConsumptionEvent_Read", DisplayName = "Consumption Event Read" },
+                         new { Id = id7, Name = "ConsumptionEvent_Update", DisplayName = "Consumption Event Update" },
+                         new { Id = id8, Name = "ConsumptionEvent_Delete", DisplayName = "Consumption Event Delete" }
                          );
 
             var adminId = 1;

@@ -9,6 +9,7 @@
     <Folder Include="Areas\Inventory\Models\" />
     <Folder Include="Areas\Inventory\Views\Shared\" />
     <Folder Include="node_modules\" />
+    <Folder Include="Security\" />
     <Folder Include="wwwroot\lib\" />
   </ItemGroup>
 
