@@ -5,7 +5,7 @@ VisualStudioVersion = 15.0.27130.2010
 MinimumVisualStudioVersion = 10.0.40219.1
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Egret", "Egret\Egret.csproj", "{9F1369A2-FA3A-42FC-8CD0-52B5DEF94B28}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Egret.Tests", "Egret.Tests\Egret.Tests.csproj", "{F9A1B8C5-70DF-40EF-996A-9FB310A75BCE}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Egret.Tests", "Egret.Tests\Egret.Tests.csproj", "{F9A1B8C5-70DF-40EF-996A-9FB310A75BCE}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution

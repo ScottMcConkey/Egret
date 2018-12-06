@@ -17,6 +17,7 @@
             <th>@Html.DisplayNameFor(model => model[0].UserName)</th>
             <th>@Html.DisplayNameFor(model => model[0].Email)</th>
             <th>@Html.DisplayNameFor(model => model[0].IsActive)</th>
+            <th>Access Groups</th>
             <th></th>
         </tr>
     </thead>
@@ -27,19 +28,22 @@
         }
         else
         {
-            foreach (User user in Model)
+            for (int i = 0; i < Model.Count(); i++)
             {
                 <tr>
-                    <td>@user.Id</td>
-                    <td>@user.UserName</td>
-                    <td>@user.Email</td>
+                    <td>@Model[i].Id</td>
+                    <td>@Model[i].UserName</td>
+                    <td>@Model[i].Email</td>
                     <td>
-                        <input type="checkbox" asp-for="@user.IsActive" class="form-control" disabled="disabled" />
+                        <input type="checkbox" asp-for="@Model[i].IsActive" class="form-control" disabled="disabled" />
                     </td>
                     <td>
-                        <form asp-action="Delete" asp-route-id="@user.Id" method="post">
-                            <a class="btn btn-sm btn-primary" asp-action="Edit" asp-route-id="@user.Id">Edit</a>
-                            <button type="submit" class="btn btn-sm btn-danger">Delete</button>
+                        <a class="btn btn-primary" asp-route-id="@Model[i].Id" asp-action="EditAccessGroups">Configure</a>
+                    </td>
+                    <td>
+                        <form asp-action="Delete" asp-route-id="@Model[i].Id" method="post">
+                            <a class="btn btn-sm btn-primary" asp-action="Edit" asp-route-id="@Model[i].Id">Edit</a>
+                            <a type="submit" class="btn btn-sm btn-danger">Delete</a>
                         </form>
                     </td>
                 </tr>

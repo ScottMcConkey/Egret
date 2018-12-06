@@ -25,6 +25,7 @@ namespace Egret.DataAccess
         public virtual DbSet<ConsumptionEvent> ConsumptionEvents { get; set; }
         public virtual DbSet<AccessGroup> AccessGroups { get; set; }
         public virtual DbSet<AccessGroupRole> AccessGroupRoles { get; set; }
+        public virtual DbSet<UserAccessGroup> UserAccessGroups { get; set; }
 
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
@@ -546,7 +547,6 @@ namespace Egret.DataAccess
 
                 entity.Property(e => e.Description)
                     .HasColumnName("description");
-
             }
             );
 
@@ -582,6 +582,39 @@ namespace Egret.DataAccess
                     .HasForeignKey(k => k.RoleId);
             }
             );
+
+            modelBuilder.Entity<UserAccessGroup>(entity =>
+            {
+                // Table
+                entity.ToTable("useraccessgroups");
+
+                // Indexes
+                entity.HasIndex(i => i.AccessGroupId)
+                    .HasName("ix_useraccessgroups_accessgroupid");
+
+                entity.HasIndex(i => i.UserId)
+                    .HasName("ix_useraccessgroups_userid");
+
+                // Keys
+                entity.HasKey(k => new { k.AccessGroupId, k.UserId });
+
+                // Properties
+                entity.Property(p => p.AccessGroupId)
+                    .HasColumnName("accessgroupid");
+
+                entity.Property(p => p.UserId)
+                    .HasColumnName("userid");
+
+                // Relationships
+                entity.HasOne(p => p.AccessGroup)
+                    .WithMany(c => c.UserAccessGroups)
+                    .HasForeignKey(k => k.AccessGroupId);
+
+                entity.HasOne(p => p.User)
+                    .WithMany(c => c.UserAccessGroups)
+                    .HasForeignKey(k => k.UserId);
+            }
+);
 
 
 

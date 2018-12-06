@@ -1,5 +1,6 @@
 ﻿using Microsoft.AspNetCore.Identity;
 using System.ComponentModel.DataAnnotations;
+using System.Collections.Generic;
 
 namespace Egret.Models
 {
@@ -7,5 +8,7 @@ namespace Egret.Models
     {
         [Display(Name = "Is Active?")]
         public bool IsActive { get; set; }
+
+        public ICollection<UserAccessGroup> UserAccessGroups { get; set; }
     }
 }

@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
+using System.ComponentModel.DataAnnotations.Schema;
 
 namespace Egret.Models
 {
@@ -14,5 +15,10 @@ namespace Egret.Models
         public string Description { get; set; }
 
         public ICollection<AccessGroupRole> AccessGroupRoles { get; set; }
+
+        public ICollection<UserAccessGroup> UserAccessGroups { get; set; }
+
+        [NotMapped]
+        public bool FlagForAddition { get; set; }
     }
 }

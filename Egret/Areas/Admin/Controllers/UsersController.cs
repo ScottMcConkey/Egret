@@ -4,14 +4,16 @@ using System.Linq;
 using System.Threading.Tasks;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Logging;
 using Egret.Models;
 using Egret.ViewModels;
+using Egret.Controllers;
 
 namespace Egret.DataAccess
 {
     [Area("Admin")]
-    public class UsersController : Controller
+    public class UsersController : BaseController
     {
         private UserManager<User> userManager;
         private IUserValidator<User> userValidator;
@@ -19,11 +21,13 @@ namespace Egret.DataAccess
         private IPasswordHasher<User> passwordHasher;
         private static ILogger _logger;
 
-        public UsersController(UserManager<User> usrMgr,
+        public UsersController(EgretContext context,
+            UserManager<User> usrMgr,
             IUserValidator<User> userValid,
             IPasswordValidator<User> passValid,
             IPasswordHasher<User> passwordHash,
             ILogger<UsersController> logger)
+                : base(context)
         {
             userManager = usrMgr;
             userValidator = userValid;
@@ -136,6 +140,83 @@ namespace Egret.DataAccess
                     }
                 }
             }
+            return View(model);
+
+        }
+
+        [HttpGet]
+        public IActionResult EditAccessGroups(string id)
+        {
+            if (id == null)
+            {
+                return NotFound();
+            }
+
+            List<UserAccessGroup> userAccessGroups = Context.UserAccessGroups.AsNoTracking().Where(x => x.UserId == id).ToList();
+            List<int> accessGroupdIds = userAccessGroups.Select(x => x.AccessGroupId).ToList();
+            List<AccessGroup> selectedAccessGroups = Context.AccessGroups.AsNoTracking().Where(y => accessGroupdIds.Contains(y.Id)).ToList();
+            List<AccessGroup> allAccessGroups = Context.AccessGroups.AsNoTracking().ToList();
+
+            foreach (AccessGroup ag in allAccessGroups)
+            {
+                foreach (AccessGroup selecedtAg in selectedAccessGroups)
+                {
+                    if (selecedtAg.Id == ag.Id)
+                    {
+                        ag.FlagForAddition = true;
+                    }
+                }
+            }
+
+            var presentation = new UserGroupViewModel();
+
+            var user = Context.Users.Where(x => x.Id == id).Where(x => x.Id == id).SingleOrDefault();
+
+            presentation.UserName = user.UserName;
+            presentation.AccessGroups = allAccessGroups;
+
+            //var selectedAccessGroups = Context.A
+            // Must create UserAccessGroups table!!!
+
+            return View(presentation);
+        }
+
+        [HttpPost]
+        [ValidateAntiForgeryToken]
+        public IActionResult EditAccessGroups(string id, UserGroupViewModel model)
+        {
+            var user = Context.Users.Where(x => x.Id == id)
+                .Include(x => x.UserAccessGroups)
+                //.ThenInclude(x => x.Roles)
+                .SingleOrDefault();
+
+            model.UserName = user.UserName;
+
+            if (ModelState.IsValid)
+            {
+                // Remove all existing rels
+                foreach (UserAccessGroup userGroup in Context.UserAccessGroups.Where(x => x.UserId == id /*model.AccessGroup.Id*/))
+                {
+                    Context.UserAccessGroups.Remove(userGroup);
+                }
+
+                Context.SaveChanges();
+
+                // Set new rels
+                foreach (AccessGroup group in model.AccessGroups.Where(x => x.FlagForAddition == true))
+                {
+                    var localAccessGroup = Context.AccessGroups.Where(x => x.Id == group.Id).SingleOrDefault();
+
+                    var newUserGroup = new UserAccessGroup() { AccessGroup = localAccessGroup, User = user };//, /*Role = role, AccessGroup = model.AccessGroup*/ };
+
+                    Context.UserAccessGroups.Add(newUserGroup);
+                }
+
+                Context.SaveChanges();
+
+                return RedirectToAction(nameof(Index));
+            }
+
             return View(model);
 
         }

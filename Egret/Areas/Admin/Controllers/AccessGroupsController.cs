@@ -87,7 +87,6 @@ namespace Egret.Controllers
             presentation.Roles = allRoles;
 
             return View(presentation);
-
         }
 
         [HttpPost]
@@ -118,13 +117,7 @@ namespace Egret.Controllers
 
                     var newGroupRole = new AccessGroupRole() { Role = localRole, AccessGroup = model.AccessGroup };//, /*Role = role, AccessGroup = model.AccessGroup*/ };
 
-                    //localRole.AccessGroupRoles.Add(newGroupRole);
-                    //localAccessGroup.AccessGroupRoles.Add(newGroupRole);
-
                     Context.AccessGroupRoles.Add(newGroupRole);
-
-                    //Context.Roles.Update(localRole);
-                    //Context.AccessGroups.Update(localAccessGroup);
                 }
 
                 Context.SaveChanges();
