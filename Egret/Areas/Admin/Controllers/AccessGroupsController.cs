@@ -26,6 +26,17 @@ namespace Egret.Controllers
             return View(groups);
         }
 
+        [HttpPost]
+        public IActionResult Index(List<AccessGroup> groups)
+        {
+            if (ModelState.IsValid)
+            {
+
+            }
+
+            return RedirectToAction("Index", groups);
+        }
+
         [HttpGet]
         public IActionResult Create()
         {

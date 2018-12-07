@@ -183,11 +183,13 @@ namespace Egret.DataAccess
 
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public IActionResult EditAccessGroups(string id, UserGroupViewModel model)
+        public async Task<IActionResult> EditAccessGroups(string id, UserGroupViewModel model)
         {
-            var user = Context.Users.Where(x => x.Id == id)
+            User user = Context.Users.Where(x => x.Id == id)
                 .Include(x => x.UserAccessGroups)
-                //.ThenInclude(x => x.Roles)
+                    //.ThenInclude(y => y.AccessGroup)
+                    //    .ThenInclude(a => a.AccessGroupRoles)
+                    //        .ThenInclude(gr => gr.Role)
                 .SingleOrDefault();
 
             model.UserName = user.UserName;
@@ -195,21 +197,37 @@ namespace Egret.DataAccess
             if (ModelState.IsValid)
             {
                 // Remove all existing rels
-                foreach (UserAccessGroup userGroup in Context.UserAccessGroups.Where(x => x.UserId == id /*model.AccessGroup.Id*/))
+                foreach (UserAccessGroup userGroup in Context.UserAccessGroups.Where(x => x.UserId == id))
                 {
                     Context.UserAccessGroups.Remove(userGroup);
                 }
 
                 Context.SaveChanges();
 
+                IdentityResult result;
+
                 // Set new rels
                 foreach (AccessGroup group in model.AccessGroups.Where(x => x.FlagForAddition == true))
                 {
-                    var localAccessGroup = Context.AccessGroups.Where(x => x.Id == group.Id).SingleOrDefault();
+                    var localAccessGroup = Context.AccessGroups.Where(x => x.Id == group.Id)
+                        .Include(x => x.AccessGroupRoles)
+                            .ThenInclude(y => y.Role)
+                        .SingleOrDefault();
 
-                    var newUserGroup = new UserAccessGroup() { AccessGroup = localAccessGroup, User = user };//, /*Role = role, AccessGroup = model.AccessGroup*/ };
+                    var roleNames = localAccessGroup.AccessGroupRoles.Select(x => x.Role.Name).ToList();
 
+                    User user1 = await userManager.FindByIdAsync(user.Id);
+                    if (user1 != null)
+                    {
+                        foreach (string name in roleNames)
+                        {
+                            result = await userManager.AddToRoleAsync(user1, name);
+                        } 
+                    }
+
+                    var newUserGroup = new UserAccessGroup() { AccessGroup = localAccessGroup, User = user };
                     Context.UserAccessGroups.Add(newUserGroup);
+
                 }
 
                 Context.SaveChanges();
@@ -220,6 +238,10 @@ namespace Egret.DataAccess
             return View(model);
 
         }
+
+
+
+
 
         [HttpPost]
         [ValidateAntiForgeryToken]
