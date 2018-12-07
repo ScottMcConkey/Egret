@@ -8,7 +8,7 @@ namespace Egret.DataAccess
 {
     // Please notice, if no primary key is specified for a table, EF Core defaults to the [id] field or the
     // [<entity name>id] property. The following code reflects a reliance on this convention and does not
-    // manually specify primary keys except when the primary key is a composite of two or more properties.
+    // manually specify primary keys except where necessary.
 
 
 
@@ -35,7 +35,11 @@ namespace Egret.DataAccess
         {
             base.OnModelCreating(modelBuilder);
 
-            // Customize Identity Table Names
+            #region PostgreSQL-Specific
+            modelBuilder.HasPostgresExtension("adminpack");
+            #endregion
+
+            #region Identity Tables
             modelBuilder.Entity<User>(entity =>
             {
                 entity.ToTable("aspnet_users");
@@ -70,8 +74,9 @@ namespace Egret.DataAccess
             {
                 entity.ToTable("aspnet_usertokens");
             });
+            #endregion
 
-            // Sequences
+            #region Sequences
             modelBuilder.HasSequence<long>("master_seq")
                 .StartsAt(1000);
             modelBuilder.HasSequence<long>("inventorycategories_id_seq")
@@ -82,11 +87,9 @@ namespace Egret.DataAccess
                 .StartsAt(100);
             modelBuilder.HasSequence<long>("accessgroups_id_seq")
                 .StartsAt(100);
+            #endregion
 
-            // PostgreSQL-specific
-            modelBuilder.HasPostgresExtension("adminpack");
-
-            // Entities
+            #region Entities
             modelBuilder.Entity<CurrencyType>(entity =>
             {
                 // Table
@@ -170,8 +173,7 @@ namespace Egret.DataAccess
                 entity.Property(e => e.Code)
                     .HasDefaultValueSql("nextval('master_seq'::regclass)");
 
-                entity.Property(e => e.Description)
-                    .IsRequired();
+                entity.Property(e => e.Description).IsRequired();
 
                 entity.Property(e => e.Category);
 
@@ -268,9 +270,6 @@ namespace Egret.DataAccess
             {
                 // Table
                 entity.ToTable("consumption_events");
-
-                // Indexes
-                entity.HasIndex(i => i.OrderNumber);
 
                 // Properties
                 entity.Property(e => e.Id)
@@ -409,11 +408,9 @@ namespace Egret.DataAccess
                 entity.ToTable("accessgroup_roles");
 
                 // Indexes
-                entity.HasIndex(i => i.AccessGroupId)
-                    .HasName("ix_accessgrouproles_accessgroupid");
+                //entity.HasIndex(i => i.AccessGroupId);
 
-                entity.HasIndex(i => i.RoleId)
-                    .HasName("ix_accessgrouproles_roleid");
+                //entity.HasIndex(i => i.RoleId);
 
                 // Keys
                 entity.HasKey(k => new { k.AccessGroupId, k.RoleId });
@@ -434,11 +431,11 @@ namespace Egret.DataAccess
                 entity.ToTable("useraccessgroups");
 
                 // Indexes
-                entity.HasIndex(i => i.AccessGroupId)
-                    .HasName("ix_useraccessgroups_accessgroupid");
+                //entity.HasIndex(i => i.AccessGroupId)
+                //    .HasName("ix_useraccessgroups_accessgroupid");
 
-                entity.HasIndex(i => i.UserId)
-                    .HasName("ix_useraccessgroups_userid");
+                //entity.HasIndex(i => i.UserId)
+                //    .HasName("ix_useraccessgroups_userid");
 
                 // Keys
                 entity.HasKey(k => new { k.AccessGroupId, k.UserId });
@@ -457,8 +454,9 @@ namespace Egret.DataAccess
                     .WithMany(c => c.UserAccessGroups)
                     .HasForeignKey(k => k.UserId);
             });
+            #endregion
 
-            // Lowercase the Names
+            #region Lowercase Names
             foreach(var entity in modelBuilder.Model.GetEntityTypes())
             {
                 // Replace Table Names
@@ -488,9 +486,9 @@ namespace Egret.DataAccess
                     index.Relational().Name = index.Relational().Name.ToLower();
                 }
             }
+            #endregion
 
-
-            // Seed Admin Data
+            #region Seed Data
             modelBuilder.Entity<CurrencyType>().HasData(
                                                 new { Id = 1, Name = "United States Dollars", Symbol = "$", Abbreviation = "USD", SortOrder = 1, Active = false, DefaultSelection = false },
                                                 new { Id = 2, Name = "Nepali Rupees", Symbol = "रु", Abbreviation = "NRP", SortOrder = 2, Active = true, DefaultSelection = true },
@@ -565,6 +563,7 @@ namespace Egret.DataAccess
                          new { AccessGroupId = adminId, RoleId = id7 },
                          new { AccessGroupId = adminId, RoleId = id8 }
                 );
+            #endregion
         }
 
     }
