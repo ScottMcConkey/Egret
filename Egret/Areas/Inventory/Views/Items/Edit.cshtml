@@ -1,6 +1,7 @@
 ﻿@model InventoryItemViewModel
 
 @{
+    Layout = "_CrudDoubleColumn";
     ViewData["WindowTitle"] = "Inventory - Edit";
     ViewData["PageTitle"] = "Edit Inventory Item: " + @Model?.Item.Code;
 }

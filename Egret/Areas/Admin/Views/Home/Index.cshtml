@@ -1,30 +1,25 @@
 ﻿@{
+    Layout = "_IndexTemplate";
     ViewData["WindowTitle"] = "Administration";
     ViewData["PageTitle"] = "Administration";
 }
 
-<div class="row">
-    <div class="col-md-12">
-
-        <p class="page-link">
-            <span class="glyphicon glyphicon-usd"></span><a asp-controller="AccessGroups" asp-action="Index">Access Groups</a>
-        </p>
+<p class="page-link">
+    <span class="fas fa-band-aid" style="font-size: 24px;"></span><a asp-controller="AccessGroups" asp-action="Index">Access Groups</a>
+</p>
         
-        <p class="page-link">
-            <span class="glyphicon glyphicon-usd"></span><a asp-controller="CurrencyTypes" asp-action="Index">Currency Types</a>
-        </p>
-        <p class="page-link">
-            <span class="glyphicon glyphicon-list-alt"></span><a asp-controller="InventoryCategories" asp-action="Index">Inventory Categories</a>
-        </p>
-        <p class="page-link">
-            <span class="glyphicon glyphicon-tower"></span><a asp-controller="Roles" asp-action="Index">Roles</a>
-        </p>
-        <p class="page-link">
-            <span class="glyphicon glyphicon-bookmark"></span><a asp-controller="Units" asp-action="Index">Units</a>
-        </p>
-        <p class="page-link">
-            <span class="glyphicon glyphicon-user"></span><a asp-controller="Users" asp-action="Index">Users</a>
-        </p>
-
-    </div>
-</div>
+<p class="page-link">
+    <span class="glyphicon glyphicon-usd"></span><a asp-controller="CurrencyTypes" asp-action="Index">Currency Types</a>
+</p>
+<p class="page-link">
+    <span class="glyphicon glyphicon-list-alt"></span><a asp-controller="InventoryCategories" asp-action="Index">Inventory Categories</a>
+</p>
+<p class="page-link">
+    <span class="glyphicon glyphicon-tower"></span><a asp-controller="Roles" asp-action="Index">Roles</a>
+</p>
+<p class="page-link">
+    <span class="glyphicon glyphicon-bookmark"></span><a asp-controller="Units" asp-action="Index">Units</a>
+</p>
+<p class="page-link">
+    <span class="glyphicon glyphicon-user"></span><a asp-controller="Users" asp-action="Index">Users</a>
+</p>
