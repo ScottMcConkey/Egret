@@ -6,6 +6,7 @@ using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.Rendering;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Logging;
+using Microsoft.AspNetCore.Authorization;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -15,6 +16,7 @@ using System.Threading.Tasks;
 namespace Egret.Controllers
 {
     [Area("Inventory")]
+    [Authorize(Roles = "Item_Read")]
     public class ItemsController : BaseController
     {
         private IQueryable<CurrencyType> _activeCurrencyTypes { get; set; }
@@ -35,12 +37,14 @@ namespace Egret.Controllers
         }
 
         [HttpGet]
+        [Authorize(Roles = "Item_Read")]
         public IActionResult Index()
         {
             return View();
         }
 
         [HttpGet]
+        [Authorize(Roles = "Item_Create")]
         public IActionResult Create()
         {
             _currencyDefault = Context.CurrencyTypes.Where(x => x.DefaultSelection == true);
@@ -54,6 +58,7 @@ namespace Egret.Controllers
         }
 
         [HttpPost]
+        [Authorize(Roles = "Item_Create")]
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> Create(InventoryItem inventoryItem)
         {
@@ -84,6 +89,7 @@ namespace Egret.Controllers
         }
 
         [HttpGet]
+        [Authorize(Roles = "Item_Edit")]
         public async Task<IActionResult> Edit(string id)
         {
             if (id == null)
@@ -129,6 +135,7 @@ namespace Egret.Controllers
         }
 
         [HttpPost]
+        [Authorize(Roles = "Item_Edit")]
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> Edit(string id, InventoryItemViewModel vm)
         {
@@ -198,6 +205,7 @@ namespace Egret.Controllers
         }
 
         [HttpGet]
+        [Authorize(Roles = "Item_Delete")]
         public async Task<IActionResult> Delete(string id)
         {
             if (id == null)
@@ -215,6 +223,7 @@ namespace Egret.Controllers
         }
 
         [HttpPost, ActionName("Delete")]
+        [Authorize(Roles = "Item_Delete")]
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> DeleteConfirmed(string id)
         {
@@ -225,6 +234,7 @@ namespace Egret.Controllers
         }
 
         [HttpGet]
+        [Authorize(Roles = "Item_Read")]
         public IActionResult Search()
         {
             ViewData["Category"] = new SelectList(_allInventoryCategories, "Name", "Name");
@@ -233,6 +243,7 @@ namespace Egret.Controllers
         }
 
         [HttpPost]
+        [Authorize(Roles = "Item_Read")]
         [ValidateAntiForgeryToken]
         public IActionResult Search(InventorySearchViewModel item)
         {
@@ -287,6 +298,7 @@ namespace Egret.Controllers
         }
 
         [HttpGet]
+        [Authorize(Roles = "Item_Read")]
         public IActionResult Results(List<InventoryItem> results)
         {
             return View();

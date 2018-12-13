@@ -1,0 +1,35 @@
+﻿<!DOCTYPE html>
+
+<html>
+<head>
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <link rel="stylesheet" asp-href-include="~/lib/css/reset.css" />
+    @*<link rel="stylesheet" asp-href-include="~/lib/fontawesome/web-fonts-with-css/css/*.min.css" />*@
+    <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.5.0/css/all.css" integrity="sha384-B4dIYHKNBt8Bc12p+WXckhzcICo0wtJAoU8YZTY5qE0Id1GSseTk6S+L3BlXeVIU" crossorigin="anonymous">
+
+    <environment names="production">
+        <link rel="stylesheet" asp-href-include="~/lib/bootstrap/dist/css/bootstrap-theme.min.css" />
+        <link rel="stylesheet" asp-href-include="~/lib/bootstrap/dist/css/bootstrap.min.css" />
+        <script asp-src-include="~/lib/jquery/dist/jquery.min.js"></script>
+        <script asp-src-include="~/lib/jquery-validation/dist/jquery.*.min.js"></script>
+        <script asp-src-include="~/lib/jquery-validation-unobtrusive/dist/*.min.js"></script>
+    </environment>
+    <environment names="development">
+        <link rel="stylesheet" asp-href-include="~/lib/bootstrap/dist/css/bootstrap-theme.css" />
+        <link rel="stylesheet" asp-href-include="~/lib/bootstrap/dist/css/bootstrap.css" />
+        <script asp-src-include="~/lib/jquery/dist/jquery.js"></script>
+        <script asp-src-include="~/lib/jquery-validation/dist/jquery.*.js"></script>
+        <script asp-src-include="~/lib/jquery-validation-unobtrusive/dist/*.js"></script>
+    </environment>
+
+    <link rel="stylesheet" asp-href-include="~/css/*.css" />
+    <script asp-src-include="~/scripts/*.js"></script>
+
+    <title>@ViewData["WindowTitle"]</title>
+</head>
+<body>
+
+    @RenderBody()
+
+</body>
+</html>

@@ -1,39 +1,40 @@
 ﻿@model CurrencyType
 @{
+    Layout = "_CrudSingleColumn";
     ViewData["WindowTitle"] = "Currency Type - Create";
     ViewData["PageTitle"] = "Create Currency Type";
 }
 
-<div class="row">
-    <div class="col-md-4">
-        <form asp-action="Create">
-            <div asp-validation-summary="ModelOnly" class="text-danger"></div>
-            <div class="form-group">
-                <label asp-for="Name" class="control-label"></label>
-                <input asp-for="Name" class="form-control" />
-                <span asp-validation-for="Name" class="text-danger"></span>
-            </div>
-            <div class="form-group">
-                <label asp-for="Abbreviation" class="control-label"></label>
-                <input asp-for="Abbreviation" class="form-control" />
-                <span asp-validation-for="Abbreviation" class="text-danger"></span>
-            </div>
-            <div class="form-group">
-                <label asp-for="Symbol" class="control-label"></label>
-                <input asp-for="Symbol" class="form-control" />
-                <span asp-validation-for="Symbol" class="text-danger"></span>
-            </div>
-            <div class="form-group">
-                <div class="checkbox">
-                    <label>
-                        <input asp-for="Active" checked="checked" />@Html.DisplayNameFor(model => model.Active)
-                    </label>
-                </div>
-            </div>
-            <div class="form-group">
-                <input type="submit" value="Save" class="btn btn-primary" />
-                <a asp-action="Index" class="btn btn-default">Cancel</a>
-            </div>
-        </form>
+<form asp-action="Create">
+    <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+    <div class="form-group">
+        <label asp-for="Name" class="control-label"></label>
+        <input asp-for="Name" class="form-control" />
+        <span asp-validation-for="Name" class="text-danger"></span>
     </div>
-</div>
+
+    <div class="form-group">
+        <label asp-for="Abbreviation" class="control-label"></label>
+        <input asp-for="Abbreviation" class="form-control" />
+        <span asp-validation-for="Abbreviation" class="text-danger"></span>
+    </div>
+
+    <div class="form-group">
+        <label asp-for="Symbol" class="control-label"></label>
+        <input asp-for="Symbol" class="form-control" />
+        <span asp-validation-for="Symbol" class="text-danger"></span>
+    </div>
+
+    <div class="form-group">
+        <div class="checkbox">
+            <label>
+                <input asp-for="Active" checked="checked" />@Html.DisplayNameFor(model => model.Active)
+            </label>
+        </div>
+    </div>
+
+    <div class="form-group">
+        <input type="submit" value="Save" class="btn btn-primary" />
+        <a asp-action="Index" class="btn btn-default">Cancel</a>
+    </div>
+</form>

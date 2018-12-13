@@ -1,32 +1,29 @@
 ﻿@model Unit
 
 @{
+    Layout = "_CrudSingleColumn";
     ViewData["WindowTitle"] = "Unit - Create";
     ViewData["PageTitle"] = "Create Unit";
 }
 
-<div class="row">
-    <div class="col-md-4">
-        <form asp-action="Create">
-            <div class="form-group">
-                <label asp-for="Name" class="control-label"></label>
-                <input asp-for="Name" class="form-control" />
-            </div>
-            <div class="form-group">
-                <label asp-for="Abbreviation" class="control-label"></label>
-                <input asp-for="Abbreviation" class="form-control" />
-            </div>
-            <div class="form-group">
-                <div class="checkbox">
-                    <label>
-                        <input asp-for="Active" checked="checked" />@Html.DisplayNameFor(model => model.Active)
-                    </label>
-                </div>
-            </div>
-            <div class="form-group">
-                <button type="submit" class="btn btn-primary">Save</button>
-                <a asp-action="Index" class="btn btn-default">Cancel</a>
-            </div>
-        </form>
+<form asp-action="Create">
+    <div class="form-group">
+        <label asp-for="Name" class="control-label"></label>
+        <input asp-for="Name" class="form-control" />
     </div>
-</div>
+    <div class="form-group">
+        <label asp-for="Abbreviation" class="control-label"></label>
+        <input asp-for="Abbreviation" class="form-control" />
+    </div>
+    <div class="form-group">
+        <div class="checkbox">
+            <label>
+                <input asp-for="Active" checked="checked" />@Html.DisplayNameFor(model => model.Active)
+            </label>
+        </div>
+    </div>
+    <div class="form-group">
+        <button type="submit" class="btn btn-primary">Save</button>
+        <a asp-action="Index" class="btn btn-default">Cancel</a>
+    </div>
+</form>

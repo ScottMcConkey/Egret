@@ -1,24 +1,23 @@
 ﻿@model LoginModel
 
 @{ 
-    Layout = "_Default";
+    Layout = "_LoginTemplate";
     ViewData["WindowTitle"] = "Login";
     ViewData["PageTitle"] = "Login";
 }
 
-<div class="row">
-    <div class="col-md-4">
-        <form asp-action="Login">
-            <input type="hidden" name="returnUrl" value="@ViewBag.returnUrl" />
-            <div class="form-group">
-                <label asp-for="Email"></label>
-                <input asp-for="Email" class="form-control" />
-            </div>
-            <div class="form-group">
-                <label asp-for="Password"></label>
-                <input asp-for="Password" class="form-control" />
-            </div>
-            <button class="btn btn-primary" type="submit">Log In</button>
-        </form>
+<br />
+<form asp-action="Login">
+    <input type="hidden" name="returnUrl" value="@ViewBag.returnUrl" />
+    <div class="form-group">
+        <label asp-for="Email"></label>
+        <input asp-for="Email" class="form-control" />
     </div>
-</div>
+
+    <div class="form-group">
+        <label asp-for="Password"></label>
+        <input asp-for="Password" class="form-control" />
+    </div>
+
+    <button class="btn btn-primary" type="submit">Log In</button>
+</form>

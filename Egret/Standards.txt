@@ -1,6 +1,0 @@
-﻿// If a form exists with a table, the table should be wholely nested inside the form.
-
-// A <th> element should exist for every row of a table grid, including the delete column at the end if it exists.
-
-// Form groups should be separated by a space. This aides the clarity of seeing and making changes to individual groups
-// especially if the label has been placed outside the group for multi-item lines

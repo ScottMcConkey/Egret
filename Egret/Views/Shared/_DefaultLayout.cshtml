@@ -1,0 +1,60 @@
+﻿@{
+    Layout = "_MasterLayout";
+}
+
+<div id="titleband">Egret</div>
+<div id="container">
+    <nav class="leftnav">
+        <ul>
+            <li class="icon"><a href="javascript:void(0);" onclick="myFunction()"><span class="fas fa-bars"></span>Menu</a></li>
+            <li><a asp-area="" asp-controller="Home" asp-action="Index"><span class="fas fa-home"></span>Home</a></li>
+            <li><a asp-area="Inventory" asp-controller="Home" asp-action="Index"><span class="fas fa-barcode"></span>Inventory</a></li>
+            <li><a asp-area="" asp-controller="" asp-action="Projects"><span class="fas fa-folder-open"></span>Projects</a></li>
+            <li><a asp-area="" asp-controller="Suppliers" asp-action="Index"><span class="fas fa-user"></span>Suppliers</a></li>
+            <li><a asp-area="Reports" asp-controller="Home" asp-action="Index"><span class="fas fa-chart-bar"></span>Reports</a></li>
+            <li><a asp-area="Admin" asp-controller="Home" asp-action="Index"><span class="fas fa-cogs"></span>Admin</a></li>
+        </ul>
+    </nav><div id="main">
+        <div id="main-top">
+
+            <div class="col-md-6">@ViewData["PageTitle"]</div>
+            <div class="col-md-3 col-md-offset-3">
+                @if (User?.Identity?.IsAuthenticated ?? false)
+                {
+                    <div style="font-size: 14pt; display: inline-block; vertical-align: middle;">@User.Identity.Name</div>
+                    <a class="btn btn-sm btn-default" asp-action="Logout" asp-area="" asp-controller="Account">Log Out</a>
+                    <a class="btn btn-sm btn-default" asp-action="ChangePassword" asp-area="" asp-controller="Account">Change Password</a>
+                }
+            </div>
+
+        </div>
+        <div id="main-bottom">
+            @if (TempData["SuccessMessage"] != null)
+            {
+                <div id="success" class="alert alert-success">
+                    <span class="fas fa-check"></span> @TempData["SuccessMessage"]
+                </div>
+            }
+            @if (!Html.ViewData.ModelState.IsValid)
+            {
+                <div class="alert alert-danger" asp-validation-summary="All"></div>
+            }
+
+            @RenderBody()
+        </div>
+    </div>
+
+</div>
+<script>
+    function myFunction() {
+        var x = document.getElementsByTagName("nav")[0];
+        if (x.className === "leftnav") {
+            x.className += " responsive";
+        } else {
+            x.className = "leftnav";
+        }
+    }
+</script>
+
+
+

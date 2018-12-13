@@ -1,13 +1,12 @@
 ﻿@model  UserGroupViewModel
 
 @{
+    Layout = "_CrudSingleColumn";
     ViewData["WindowTitle"] = "User Access Groups - Edit";
-    ViewData["PageTitle"] = $"Edit Access Groups - {Model?.UserName}";
+    ViewData["PageTitle"] = $"User {Model?.UserName} - Edit Access Groups";
 }
 
-<div asp-validation-summary="All" class="text-danger"></div>
-
-<form asp-action="EditAccessGroups" method="post">
+<form asp-action="EditAccessGroups">
     <table class="table table-condensed table-bordered">
         <thead>
             <tr>
@@ -34,7 +33,7 @@
                             <input asp-for="@Model.AccessGroups[i].FlagForAddition" type="checkbox" class="form-control" />
                         </td>
                         <td class="delete-box">
-                            <a class="delete" asp-action="Delete" asp-route-id="@Model.AccessGroups[i].Id" title="Delete"><span class="glyphicon glyphicon-trash"></span></a>
+                            <a class="delete" asp-action="Delete" asp-route-id="@Model.AccessGroups[i].Id" title="Delete"><span class="fas fa-trash-alt"></span></a>
                         </td>
                     </tr>
                 }
@@ -48,6 +47,6 @@
 </form>
 
 <div>
-    <a asp-area="Admin" asp-controller="Users" asp-action="Index">Back to Users</a>
+    <a asp-controller="Users" asp-action="Index">Back to Users</a>
 </div>
 

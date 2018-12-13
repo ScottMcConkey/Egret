@@ -1,10 +1,9 @@
 ﻿@model List<User>
 @{
+    Layout = "_CrudFullPage";
     ViewData["WindowTitle"] = "Admin - Users";
     ViewData["PageTitle"] = "Users";
 }
-
-<div class="text-danger" asp-validation-summary="ModelOnly"></div>
 
 <p class="page-link">
     <a asp-action="Create">Create New</a>
@@ -53,5 +52,5 @@
 </table>
 
 <div>
-    <a asp-area="Admin" asp-controller="Home" asp-action="Index">Back to Admin</a>
+    <a asp-controller="Home" asp-action="Index">Back to Admin</a>
 </div>

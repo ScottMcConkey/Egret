@@ -1,12 +1,9 @@
 ﻿@model List<Role>
 @{
+    Layout = "_CrudFullPage";
     ViewData["WindowTitle"] = "Admin - Roles";
     ViewData["PageTitle"] = "User Roles";
 }
-
-<p class="page-nav-container">
-    <a asp-action="Create">Create New</a>
-</p>
 
 <form asp-action="Index">
 
@@ -15,7 +12,6 @@
             <tr>
                 <th>@Html.DisplayNameFor(model => model[0].Name)</th>
                 <th>Users</th>
-                <th></th>
             </tr>
         </thead>
 
@@ -30,22 +26,14 @@
                 {
                     <tr>
                         <td>
-                            <input asp-for="@Model[i].Name" class="form-control" />
+                            <p class="form-control">@Model[i].Name</p>
                         </td>
                         <td></td>
-                        @*<td identity-role="@Model[i].Id"></td>*@
-                        <td style="text-align: center;">
-                            <a asp-action="Delete" asp-route-id="@Model[i].Id" asp- style="color: red; font-size: 25px; font-weight: bold; text-decoration: none;" title="Delete">&times;</a>
-                        </td>
                     </tr>
                 }
             }
         </tbody>
     </table>
-
-    <div class="form-group">
-        <input type="submit" value="Save" class="btn btn-default" />
-    </div>
 </form>
 
 <div>

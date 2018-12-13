@@ -8,8 +8,6 @@
 
 <form asp-action="Create">
 
-
-
         <label class="control-label">Inventory Item</label>
         <div style="border: 1px solid #000; padding: 10px;">
             <label asp-for="@Model.InventoryItemCode" include-languages="Nepali" class="control-label required"></label>
@@ -68,8 +66,6 @@
         <br />
         <input type="submit" value="Save" class="btn btn-primary" />
         <a asp-area="Inventory" asp-controller="Home" asp-action="Index" asp-route-id="@Context.Request.Query["sourceid"]" class="btn btn-default">Cancel</a>
-
-
 
 </form>
 

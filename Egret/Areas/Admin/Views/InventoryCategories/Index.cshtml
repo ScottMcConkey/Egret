@@ -1,6 +1,7 @@
 ﻿@model List<InventoryCategory>
 
 @{
+    Layout = "_CrudFullPage";
     ViewData["WindowTitle"] = "Admin - Inventory Categories";
     ViewData["PageTitle"] = "Inventory Categories";
 }
@@ -53,7 +54,7 @@
                             <input type="checkbox" asp-for="@Model[i].Active" class="form-control" />
                         </td>
                         <td class="delete-box">
-                            <a class="delete" asp-action="Delete" asp-route-id="@Model[i].Id" title="Delete"><span class="glyphicon glyphicon-trash"></span></a>
+                            <a class="delete" asp-action="Delete" asp-route-id="@Model[i].Id" title="Delete"><span class="fas fa-trash-alt"></span></a>
                         </td>
                     </tr>
                 }

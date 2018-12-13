@@ -10,6 +10,26 @@ a {
     text-decoration: none;
 }
 
+.login-box {
+    margin-top: 200px;
+    width: 400px;
+    padding: 10px;
+    margin-left: auto;
+    margin-right: auto;
+}
+
+.login-title {
+    padding: 10px;
+    font-size: 20pt;
+    background-color: #282e44;
+    color: #fff;
+}
+
+.login-form {
+    padding: 10px;
+    background-color: #fff;
+}
+
 #titleband {
     font: "verdana" bold;
     font-size: 30pt;
@@ -44,7 +64,7 @@ nav li {
     padding: 0;
 }
 
-nav .glyphicon {
+nav .fas, nav .fa, nav .glyphicon {
     display: block;
 }
 
@@ -143,6 +163,10 @@ th {
     display: block;
     margin-top: 12px;
     margin-bottom: 12px;
+}
+
+.page-link span {
+    font-size: 24px;
 }
 
 .page-link span {

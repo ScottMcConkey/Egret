@@ -1,5 +1,6 @@
 ﻿@model List<Unit>
 @{
+    Layout = "_CrudFullPage";
     ViewData["WindowTitle"] = "Admin - Units";
     ViewData["PageTitle"] = "Units";
 }
@@ -52,7 +53,7 @@
                             <input type="checkbox" asp-for="@Model[i].Active" class="form-control" />
                         </td>
                         <td class="delete-box">
-                            <a class="delete" asp-action="Delete" asp-route-id="@Model[i].Id" title="Delete"><span class="glyphicon glyphicon-trash"></span></a>
+                            <a class="delete" asp-action="Delete" asp-route-id="@Model[i].Id" title="Delete"><span class="fas fa-trash-alt"></span></a>
                         </td>
                     </tr>
                 }
@@ -68,5 +69,5 @@
 </form>
 
 <div>
-    <a asp-area="Admin" asp-controller="Home" asp-action="Index">Return to Admin</a>
+    <a asp-controller="Home" asp-action="Index">Return to Admin</a>
 </div>
