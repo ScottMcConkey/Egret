@@ -1,0 +1,248 @@
+body {
+  width: 80%;
+  margin-left: auto;
+  margin-right: auto;
+  background-color: #ccc;
+  padding-bottom: 40px; }
+
+a {
+  text-decoration: none; }
+
+.login-box {
+  margin-top: 200px;
+  width: 400px;
+  padding: 10px;
+  margin-left: auto;
+  margin-right: auto; }
+
+.login-title {
+  padding: 10px;
+  font-size: 20pt;
+  background-color: #282e44;
+  color: #fff; }
+
+.login-form {
+  padding: 10px;
+  background-color: #fff; }
+
+#titleband {
+  font: "verdana" bold;
+  font-size: 30pt;
+  color: #000;
+  padding-top: 20px;
+  padding-bottom: 20px; }
+
+#container {
+  width: 100%;
+  display: inline-block; }
+
+nav {
+  padding: 0;
+  margin: 0;
+  display: inline-block;
+  float: left;
+  overflow: hidden; }
+
+nav .icon {
+  display: none; }
+
+nav li {
+  text-align: center;
+  border-bottom: 1px solid #368798;
+  padding: 2px;
+  background-color: #282e44;
+  /*#0f0e31;*/
+  margin: 0;
+  padding: 0; }
+
+nav .fas, nav .fa, nav .glyphicon {
+  display: block; }
+
+nav ul {
+  text-decoration: none;
+  list-style-type: none;
+  margin: 0;
+  padding: 0; }
+
+nav span {
+  display: block;
+  margin: 0;
+  font-size: 25pt; }
+
+nav a,
+nav a:hover {
+  text-decoration: none;
+  color: #fff;
+  width: 100%;
+  display: block;
+  padding: 5px; }
+
+nav a:hover {
+  background-color: #368798;
+  /*#254a7d;*/ }
+
+nav a:active,
+nav a:focus {
+  color: #fff;
+  text-decoration: none; }
+
+#main {
+  margin: 0;
+  vertical-align: top;
+  background-color: #fff;
+  width: 90%;
+  float: left; }
+
+#main-top {
+  width: 100%;
+  border-bottom: 1px solid #ccc;
+  font-size: 30px; }
+
+#main-bottom {
+  background-color: transparent;
+  padding: 20px;
+  margin: 0; }
+
+td, th {
+  padding-left: 10px; }
+
+table, td {
+  vertical-align: top;
+  padding-bottom: 5px; }
+
+th {
+  font-weight: bold;
+  background-color: #ccc;
+  padding-bottom: 10px;
+  border-right: 1px solid #fff; }
+
+.shaded {
+  background-color: #eee; }
+
+.clickable-row:hover {
+  background-color: #eee;
+  cursor: pointer; }
+
+/* Manage tabs */
+.tab-content {
+  display: none; }
+
+.validation-summary-errors ul {
+  padding-left: 10px;
+  list-style-type: disc; }
+
+/* Used by main pages */
+.page-link {
+  display: block;
+  margin-top: 12px;
+  margin-bottom: 12px; }
+
+.page-link span {
+  font-size: 24px; }
+
+.page-link span {
+  padding-right: 8px;
+  padding-left: 30px; }
+
+.page-link-header {
+  border-bottom: 1px solid #000;
+  padding-bottom: 2px;
+  font-size: 18pt; }
+
+.related-objects {
+  border-left: 1px solid #282e44;
+  border-right: 1px solid #282e44; }
+
+.related-objects-header {
+  padding: 10px;
+  background-color: #282e44;
+  color: white; }
+
+.related-object-link,
+.related-object-link:hover,
+.related-object-link:active,
+.related-object-link:focus {
+  text-decoration: none;
+  color: black; }
+
+.related-object-link:hover {
+  background-color: #368798; }
+
+.related-object-div {
+  padding: 5px;
+  border-bottom: 1px solid black;
+  white-space: nowrap;
+  overflow: hidden;
+  color: black; }
+
+.related-object-div:hover {
+  background-color: lightgray; }
+
+.related-object-blank {
+  padding: 5px;
+  border-bottom: 1px solid black;
+  color: black; }
+
+.edit-info {
+  border: 1px solid black;
+  padding: 5px;
+  margin-bottom: 30px; }
+
+.required::before {
+  content: "* ";
+  color: red; }
+
+.delete,
+.delete:hover,
+.delete:active,
+.delete:visited {
+  color: #000;
+  font-size: 25px;
+  font-size: 1em;
+  text-decoration: none; }
+
+.delete-box {
+  text-align: center; }
+
+.delete-box span {
+  margin-top: 10px;
+  font-size: 1em;
+  vertical-align: middle; }
+
+@media screen and (max-width: 940px) {
+  nav li {
+    display: none; }
+  nav {
+    width: 90%; }
+  nav .icon {
+    display: block; } }
+
+@media screen and (max-width: 940px) {
+  nav {
+    width: 90%; }
+  nav ul,
+  nav span {
+    display: inline; }
+  nav.responsive li {
+    width: 100%;
+    display: block; } }
+
+@keyframes rotate360 {
+  to {
+    transform: rotate(360deg); } }
+
+.spin {
+  animation: 2s rotate360 infinite linear; }
+
+.language-label {
+  font-size: calc(100% - 2px);
+  color: #999; }
+
+.stock-display td:last-child {
+  width: 100%; }
+
+.stock-display tr {
+  white-space: nowrap; }
+
+.grid {
+  display: grid; }

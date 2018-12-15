@@ -1,6 +1,8 @@
 *.vs
 bin/
 obj/
+node_modules/
+npm-debug.log
 Project_Readme.html
 project.lock.json
 *.png
