@@ -3,13 +3,20 @@
 @{
     Layout = "_CrudDoubleColumn";
     ViewData["WindowTitle"] = "Consumption Event - Edit";
-    ViewData["PageTitle"] = "Consumption Event: " + @Model.ConsumptionEvent.Id;
+    ViewData["PageTitle"] = "Edit Consumption Event: " + @Model.ConsumptionEvent.Id;
 }
 
 <form asp-action="Edit">
     <div class="row">
-        <div class="col-md-12">
-            <div class="col-md-8">
+        <div class="col-md-8">
+
+            <ul class="nav nav-tabs">
+                <li class="nav-item"><a class="nav-link active" href="#">Details</a></li>
+            </ul>
+
+            <br />
+
+            <div class="row">
                 <div class="col-md-6">
 
                     <div class="form-group">
@@ -51,26 +58,25 @@
                         <textarea asp-for="ConsumptionEvent.Comments" class="form-control"></textarea>
                     </div>
 
+                    <div>
+                        <br />
+                        <button type="submit" class="btn btn-primary">Save</button>
+                        <a asp-action="Index" class="btn btn-default">Cancel</a>
+                    </div>
+
+                    <br />
+
                 </div>
             </div>
 
-            <div class="col-md-4">
-
-                @await Html.PartialAsync("_ObjectInformationWidget", Model.ConsumptionEvent)
-
-                @await Html.PartialAsync("_RelatedObjectsWidget", new RelationshipViewModelInventory((List<InventoryItem>)Model.InventoryItems))
-                
-            </div>
         </div>
-    </div>
 
-    <div class="row">
-        <div class="col-md-12">
-            <div class="col-md-8">
-                <br />
-                <button type="submit" class="btn btn-primary">Save</button>
-                <a asp-action="Index" class="btn btn-default">Cancel</a>
-            </div>
+        <div class="col-md-4">
+
+            @await Html.PartialAsync("_ObjectInformationWidget", Model.ConsumptionEvent)
+
+            @await Html.PartialAsync("_RelatedObjectsWidget", new RelationshipViewModelInventory((List<InventoryItem>)Model.InventoryItems))
+                
         </div>
     </div>
 
