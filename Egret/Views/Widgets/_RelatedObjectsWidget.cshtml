@@ -6,7 +6,7 @@
         @if (Model.HasCreateNew == true)
         {
             <a asp-route-sourceid="@Model.SourceId" asp-area="@Model.Area" asp-controller="@Model.Controller" asp-action="@Model.CreateAction">
-                <span title="@Model.HelpText" style="float: right; top: -1px;" class="@Model.CssClass" />
+                <span title="@Model.HelpText" style="float: right;" class="@Model.CssClass"></span>
             </a>
         }
 
@@ -23,7 +23,7 @@
             <a class="related-object-link" asp-area="@Model.Area" 
                asp-controller="@Model.Controller" asp-action="@Model.EditAction" asp-route-id="@e.GetType().GetProperty(Model.TargetObjectIdColumn).GetValue(e, null)">
                 <div class="related-object-div">
-                    <span class="glyphicon glyphicon-chevron-right"></span>
+                    <span class="fas fa-chevron-right"></span>
 
                     @if (e.GetType().GetProperty(Model.ObjectDisplay) != null)
                     {

@@ -541,11 +541,11 @@ namespace Egret.DataAccess
             modelBuilder.Entity<Role>()
                 .HasData(new { Id = id1, Name = "Item_Create", DisplayName = "Item Create", NormalizedName = "ITEM_CREATE" },
                          new { Id = id2, Name = "Item_Read", DisplayName = "Item Read", NormalizedName = "ITEM_READ" },
-                         new { Id = id3, Name = "Item_Update", DisplayName = "Item Update", NormalizedName = "ITEM_EDIT" },
+                         new { Id = id3, Name = "Item_Edit", DisplayName = "Item Update", NormalizedName = "ITEM_EDIT" },
                          new { Id = id4, Name = "Item_Delete", DisplayName = "Item Delete", NormalizedName = "ITEM_DELETE" },
                          new { Id = id5, Name = "ConsumptionEvent_Create", DisplayName = "Consumption Event Create", NormalizedName = "CONSUMPTIONEVENT_CREATE" },
                          new { Id = id6, Name = "ConsumptionEvent_Read", DisplayName = "Consumption Event Read", NormalizedName = "CONSUMPTIONEVENT_READ" },
-                         new { Id = id7, Name = "ConsumptionEvent_Update", DisplayName = "Consumption Event Update", NormalizedName = "CONSUMPTIONEVENT_UPDATE" },
+                         new { Id = id7, Name = "ConsumptionEvent_Edit", DisplayName = "Consumption Event Update", NormalizedName = "CONSUMPTIONEVENT_EDIT" },
                          new { Id = id8, Name = "ConsumptionEvent_Delete", DisplayName = "Consumption Event Delete", NormalizedName = "CONSUMPTIONEVENT_DELETE" },
                          new { Id = id9, Name = "Admin_Access", DisplayName = "Administrator Access", NormalizedName = "ADMIN_ACCESS" }
                          );

@@ -1,9 +1,90 @@
-﻿function SetContentHeight() {
+﻿function AddTableRow() {
+    var manager = new TestManager();
+    manager.addOne();
+}
+
+function AutoFocusFirstFormInput() {
+    if ($(".validation-summary-errors").length === 0) {
+        $(":input:enabled:visible:not([readonly]):first").focus();
+    }
+}
+
+function FadeOutSuccessMessages() {
+    $(function () {
+        $("#success").delay(2000).fadeOut(5000, function () {
+            $(this).css({ "visibility": "hidden", display: 'block' }).slideUp();
+        });
+    });
+}
+
+function ManageMultiRowRadioSelects() {
+    $(".radio[value='False']").removeAttr("checked");
+    $(".radio").on("click", function () {
+
+        if ($(this).attr("checked") == "checked") {
+            $(this).prop("checked", false).attr("checked", false).attr("value", false);
+        }
+        else {
+            $(".radio").prop("checked", false).attr("checked", false).attr("value", false);
+            $(this).prop("checked", true).attr("checked", true).attr("value", true);
+        }
+    });
+}
+
+function ManageTabs() {
+    $(".nav-link").removeClass("active");
+    $(".nav-link:first").addClass("active");
+    $(".tab-content").css("display", "none");
+    $(".tab-content:first").css("display", "block");
+    $("li.nav-link").on("click", function () {
+        $("li.nav-link").removeClass("active");
+        $(this).addClass("active");
+        var idx = $(".nav-link").index(this);
+        $(".tab-content").css("display", "none");
+        $(".tab-content").eq(idx).css("display", "block");
+        SetContentHeight();
+    });
+}
+
+function ManageValidationErrors() {
+    $("input.input-validation-error").closest(".form-group").addClass("has-error");
+    $(".input-validation-error").on("focus", function () {
+        $(this).closest(".form-group").find("input.input-validation-error").val("");
+        $(this).closest(".form-group").removeClass("has-error");
+        $(this).closest(".form-group").find("span.field-validation-error").remove();
+    });
+}
+
+function PrepApiController() {
+    $(function () {
+        $("#callApi").on("click", function () {
+            $(".glyphicon-refresh").addClass("spin");
+            $.get('/api/Inventory/' + $("#InventoryItemCode").val(), function (data) {
+
+                $('#apiDescription').empty();
+                $('#apiDescription').html(data.description);
+
+                $('#apiCustomer').empty();
+                $('#apiCustomer').html(data.customerReservedFor);
+
+                $('#Unit').empty();
+                $('#Unit').val(data.unit);
+
+                $(".glyphicon-refresh").removeClass("spin");
+
+            }, 'json');
+        });
+    });
+}
+
+function SetContentHeights() {
+    $("div#main-top").css("min-height", $("nav.leftnav ul li").height() + 1 + "px");
     $("div#main").css("min-height", $("div.leftnav").height() + "px");
+    $("#main-bottom").css("min-height", $(document).height() - 175 + "px");
 }
 
 function SetTestsForDelete() {
-    $(".delete").on("click", function() {
+    $(".delete").on("click", function () {
         if (confirm('Are you sure you want to delete this?')) {
             $(this).parent().parent().remove();
             console.log($(this));
@@ -18,13 +99,6 @@ function SetTestsForDelete() {
             return false;
         }
     });
-}
-
-//if (confirm('Testing')) DeleteFabricTest($(this)); return false
-
-function AddTableRow() {
-    var manager = new TestManager();
-    manager.addOne();
 }
 
 class TestManager {
@@ -71,85 +145,20 @@ class TestManager {
 
 $(document).ready(function () {
 
-    $("div#main-top").css("min-height", $("nav.leftnav ul li").height() + 1 + "px");
-    SetContentHeight();
-    $("table.results tr:even").addClass("shaded");
-    $("#main-bottom").css("min-height", $(document).height() - 175 + "px");
-
-    // Manage Validation Errors
-    $("input.input-validation-error").closest(".form-group").addClass("has-error");
-    $(".input-validation-error").on("focus", function () {
-        $(this).closest(".form-group").find("input.input-validation-error").val("");
-        $(this).closest(".form-group").removeClass("has-error");
-        $(this).closest(".form-group").find("span.field-validation-error").remove();
-    });
-
-    // Special Form Fields
-    //$("input[type='date']").parent().css("width", "50%");
-
-
-    // Manage Tabs
-    $(".tab-header").removeClass("active");
-    $(".tab-header:first").addClass("active");
-    $(".tab-content").css("display", "none");
-    $(".tab-content:first").css("display", "block");
-    $("li.tab-header").on("click", function () {
-        $("li.tab-header").removeClass("active");
-        $(this).addClass("active");
-        var idx = $(".tab-header").index(this);
-        $(".tab-content").css("display", "none");
-        $(".tab-content").eq(idx).css("display", "block");
-        SetContentHeight();
-    });
-
-    // Autofocus first form input
-    if ($(".validation-summary-errors").length === 0) {
-        $(":input:enabled:visible:not([readonly]):first").focus();
-        console.log("Got here");
-    }
+    SetContentHeights();
     
+    ManageValidationErrors();
 
-    // Manage Multi-Row Radio Selects
-    $(".radio[value='False']").removeAttr("checked");
-    $(".radio").on("click", function () {
+    ManageTabs();
 
-        if ($(this).attr("checked") == "checked") {
-            $(this).prop("checked", false).attr("checked", false).attr("value", false);
-        }
-        else {
-            $(".radio").prop("checked", false).attr("checked", false).attr("value", false);
-            $(this).prop("checked", true).attr("checked", true).attr("value", true);
-        }
-    });
+    AutoFocusFirstFormInput();
+    
+    ManageMultiRowRadioSelects();
 
-    // Fade Out Success Messages
-    $(function () {
-        $("#success").delay(2000).fadeOut(5000, function () {
-            $(this).css({ "visibility": "hidden", display: 'block' }).slideUp();
-        });
-    });
+    FadeOutSuccessMessages();
 
     SetTestsForDelete();
 
-    $(function () {
-        $("#callApi").on("click", function () {
-            $(".glyphicon-refresh").addClass("spin");
-            $.get('/api/Inventory/' + $("#InventoryItemCode").val(), function (data) {
-                
-                $('#apiDescription').empty();
-                $('#apiDescription').html(data.description);
-
-                $('#apiCustomer').empty();
-                $('#apiCustomer').html(data.customerReservedFor);
-
-                $('#Unit').empty();
-                $('#Unit').val(data.unit);
-
-                $(".glyphicon-refresh").removeClass("spin");
-
-            }, 'json');
-        });
-    });
-
+    PrepApiController();
 
 });

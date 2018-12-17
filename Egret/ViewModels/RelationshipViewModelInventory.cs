@@ -34,7 +34,7 @@ namespace Egret.ViewModels
         public string HelpText { get; set; } = "";
         public string ObjectDisplay { get; set; } = "RelationshipDisplay";
         public string TargetObjectIdColumn { get; set; } = "Code";
-        public string CssClass { get; set; } = "glyphicon glyphicon-plus";
+        public string CssClass { get; set; } = "fas fa-plus";
         public ICollection RelationshipObjects { get; set; }
     }
 }
