@@ -239,6 +239,14 @@
                 </div>
             </div>
 
+            <div>
+                <br />
+                <button type="submit" class="btn btn-primary">Save</button>
+                <a asp-controller="Home" asp-action="Index" class="btn btn-default">Cancel</a>
+            </div>
+
+            <br />
+
         </div>
 
         <div class="col-md-4">
@@ -249,14 +257,6 @@
 
             @await Html.PartialAsync("_RelatedObjectsWidget", new RelationshipViewModelConsumption(Model.ConsumptionEvents.OrderBy(x => x.DateOfConsumption).ToList(), Model.Item.Code))
 
-        </div>
-    </div>
-
-    <div class="row">
-        <div class="col-md-8">
-            <br />
-            <button type="submit" class="btn btn-primary">Save</button>
-            <a asp-controller="Home" asp-action="Index" class="btn btn-default">Cancel</a>
         </div>
     </div>
 </form>
