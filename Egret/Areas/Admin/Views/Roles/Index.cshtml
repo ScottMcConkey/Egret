@@ -1,6 +1,6 @@
 ﻿@model List<Role>
 @{
-    Layout = "_CrudFullPage";
+    Layout = "_CrudSingleColumn";
     ViewData["WindowTitle"] = "Admin - Roles";
     ViewData["PageTitle"] = "User Roles";
 }
@@ -11,7 +11,6 @@
         <thead>
             <tr>
                 <th>@Html.DisplayNameFor(model => model[0].Name)</th>
-                <th>Users</th>
             </tr>
         </thead>
 
@@ -28,7 +27,6 @@
                         <td>
                             <p class="form-control">@Model[i].Name</p>
                         </td>
-                        <td></td>
                     </tr>
                 }
             }
