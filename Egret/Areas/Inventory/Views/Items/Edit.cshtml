@@ -11,19 +11,28 @@
         <div class="col-md-8">
 
             <!-- Tab Links -->
-            <ul class="nav nav-tabs">
-                <li class="nav-item"><a class="nav-link active" href="#">Details</a></li>
-                <li class="nav-item"><a class="nav-link" href="#">Fabric Tests</a></li>
-                <li class="nav-item"><a class="nav-link" href="#">Accounting</a></li>
-                <li class="nav-item"><a class="nav-link" href="#">Logistics</a></li>
+            <ul class="nav nav-tabs" id="ItemTab" role="tablist">
+                <li class="nav-item">
+                    <a class="nav-link active" id="details-tab" data-toggle="tab" href="#details" role="tab" aria-controls="details" aria-selected="true">Details</a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link" id="tests-tab" data-toggle="tab" href="#tests" role="tab" aria-controls="tests" aria-selected="false">Fabric Tests</a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link" id="accounting-tab" data-toggle="tab" href="#accounting" role="tab" aria-controls="accounting" aria-selected="false">Accounting</a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link" id="logistics-tab" data-toggle="tab" href="#logistics" role="tab" aria-controls="logistics" aria-selected="false">Logistics</a>
+                </li>
             </ul>
 
             <br />
 
             <!-- Details -->
-            <div class="row">
-                <div class="col-md-6">
-                    <div class="tab-content">
+            <div class="tab-content" id="myTabContent">
+                <div class="tab-pane fade show active" id="details" role="tabpanel" aria-labeledby="details-tab">
+                    <div class="col-md-6">
+
                         <div class="form-group">
                             <label asp-for="Item.Code" include-languages="Nepali" class="control-label"></label>
                             <input asp-for="Item.Code" class="form-control" readonly />
@@ -128,12 +137,11 @@
 
                     </div>
                 </div>
-            </div>
 
-            <!-- Fabric Tests -->
-            <div class="row">
-                <div class="col-md-12">
-                    <div class="tab-content">
+                <!-- Fabric Tests -->
+                <div class="tab-pane fade show" id="tests" role="tabpanel" aria-labeledby="tests-tab">
+                    <div class="col-md-12">
+
                         <table id="tests" class="table table-bordered table-condensed">
                             <thead>
                                 <tr>
@@ -176,14 +184,14 @@
                         </table>
 
                         <a onclick="AddTableRow()" class="btn btn-default"><span style="color: green;" class="glyphicon glyphicon-plus"></span>Add Test</a>
+
                     </div>
                 </div>
-            </div>
 
-            <!-- Accounting -->
-            <div class="row">
-                <div class="col-md-4">
-                    <div class="tab-content">
+                <!-- Accounting -->
+                <div class="tab-pane fade show" id="accounting" role="tabpanel" aria-labeledby="accounting-tab">
+                    <div class="col-md-4">
+
                         <div class="form-group">
                             <label asp-for="Item.TotalCost" include-languages="Nepali" class="control-label"></label>
                             <input asp-for="Item.TotalCost" class="form-control" readonly="readonly" />
@@ -198,14 +206,14 @@
                             <label asp-for="Item.TotalCostPerUnit" include-languages="Nepali" class="control-label"></label>
                             <input asp-for="Item.TotalCostPerUnit" class="form-control" readonly="readonly" />
                         </div>
+
                     </div>
                 </div>
-            </div>
 
-            <!-- Logistics -->
-            <div class="row">
-                <div class="col-md-6">
-                    <div class="tab-content">
+                <!-- Logistics -->
+                <div class="tab-pane fade show" id="logistics" role="tabpanel" aria-labeledby="logistics-tab">
+                    <div class="col-md-6">
+
                         <div class="form-group">
                             <label asp-for="Item.DateConfirmed" class="control-label"></label>
                             <input asp-for="Item.DateConfirmed" class="form-control" style="width: 50%;" />
@@ -235,8 +243,10 @@
                             <label asp-for="Item.DaysToComplete" class="control-label"></label>
                             <input asp-for="Item.DaysToComplete" class="form-control" style="width: 50%;" readonly="readonly" />
                         </div>
+
                     </div>
                 </div>
+
             </div>
 
             <div>

@@ -4,6 +4,7 @@ using System.Linq;
 using System.Threading.Tasks;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.EntityFrameworkCore;
 using Egret.DataAccess;
 using Egret.Models;
@@ -11,6 +12,7 @@ using Egret.Models;
 namespace Egret.Controllers.ApiControllers
 {
     [Route("api/[controller]")]
+    [Authorize(Roles = "Item_Read")]
     [ApiController]
     public class FabricTestsController : ControllerBase
     {

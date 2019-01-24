@@ -13,7 +13,7 @@ using System;
 namespace Egret.Controllers
 {
     [Area("Admin")]
-    [Authorize(Roles = "Administrator")]
+    [Authorize(Roles = "Admin_Access")]
     public class AccessGroupsController : BaseController
     {
         public AccessGroupsController(EgretContext context, ILogger<ItemsController> logger)

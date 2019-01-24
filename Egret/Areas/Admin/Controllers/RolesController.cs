@@ -11,7 +11,7 @@ using Egret.ViewModels;
 namespace Egret.Controllers
 {
     [Area("Admin")]
-    //[Authorize(Roles = "Administrator")]
+    [Authorize(Roles = "Admin_Access")]
     public class RolesController : Controller
     {
         private RoleManager<Role> _roleManager;

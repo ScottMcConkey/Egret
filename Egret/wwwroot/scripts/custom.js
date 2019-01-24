@@ -32,14 +32,18 @@ function ManageMultiRowRadioSelects() {
 }
 
 function ManageTabs() {
-    $(".nav-link").removeClass("active");
-    $(".nav-link:first").addClass("active");
+    $(".nav-link").on("click", function () {
+        $(this).blur();
+    });
+    $(".nav-item").removeClass("active");
+    $(".nav-item:first").addClass("active");
     $(".tab-content").css("display", "none");
     $(".tab-content:first").css("display", "block");
     $("li.nav-link").on("click", function () {
-        $("li.nav-link").removeClass("active");
+        $("li.nav-item").removeClass("active");
+        $(this).preventDefault();
         $(this).addClass("active");
-        var idx = $(".nav-link").index(this);
+        var idx = $(".nav-item").index(this);
         $(".tab-content").css("display", "none");
         $(".tab-content").eq(idx).css("display", "block");
         SetContentHeight();
@@ -58,7 +62,7 @@ function ManageValidationErrors() {
 function PrepApiController() {
     $(function () {
         $("#callApi").on("click", function () {
-            $(".glyphicon-refresh").addClass("spin");
+            $(".fas .fa-redo").addClass("spin");
             $.get('/api/Inventory/' + $("#InventoryItemCode").val(), function (data) {
 
                 $('#apiDescription').empty();
@@ -80,7 +84,7 @@ function PrepApiController() {
 function SetContentHeights() {
     $("div#main-top").css("min-height", $("nav.leftnav ul li").height() + 1 + "px");
     $("div#main").css("min-height", $("div.leftnav").height() + "px");
-    $("#main-bottom").css("min-height", $(document).height() - 175 + "px");
+    $("#main-bottom").css("min-height", $(document).height() - 250 + "px");
 }
 
 function SetTestsForDelete() {

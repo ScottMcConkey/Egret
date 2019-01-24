@@ -1,6 +1,7 @@
 ﻿using Egret.DataAccess;
 using Egret.Models;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.Extensions.Logging;
 using System;
 using System.Collections.Generic;
@@ -9,6 +10,7 @@ using System.Linq;
 namespace Egret.Controllers
 {
     [Area("Admin")]
+    [Authorize(Roles = "Admin_Access")]
     public class CurrencyTypesController : BaseController
     {
         private static ILogger _logger;
