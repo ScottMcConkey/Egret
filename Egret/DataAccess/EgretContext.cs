@@ -490,29 +490,35 @@ namespace Egret.DataAccess
 
             #region Seed Data
             modelBuilder.Entity<CurrencyType>().HasData(
-                                                new { Id = 1, Name = "United States Dollars", Symbol = "$", Abbreviation = "USD", SortOrder = 1, Active = false, DefaultSelection = false },
-                                                new { Id = 2, Name = "Nepali Rupees", Symbol = "रु", Abbreviation = "NRP", SortOrder = 2, Active = true, DefaultSelection = true },
-                                                new { Id = 3, Name = "Indian Rupees", Symbol = "₹", Abbreviation = "INR", SortOrder = 3, Active = false, DefaultSelection = false });
+                new { Id = 1, Name = "United States Dollars", Symbol = "$", Abbreviation = "USD", SortOrder = 1, Active = false, DefaultSelection = false },
+                new { Id = 2, Name = "Nepali Rupees", Symbol = "रु", Abbreviation = "NRP", SortOrder = 2, Active = true, DefaultSelection = true },
+                new { Id = 3, Name = "Indian Rupees", Symbol = "₹", Abbreviation = "INR", SortOrder = 3, Active = false, DefaultSelection = false }
+            );
 
             modelBuilder.Entity<InventoryCategory>().HasData(
-                                                new { Id = 1, Name = "Elastic", Description = "", SortOrder = 1, Active = true },
-                                                new { Id = 2, Name = "Fastener", Description = "", SortOrder = 2, Active = true },
-                                                new { Id = 3, Name = "Knit", Description = "", SortOrder = 3, Active = true },
-                                                new { Id = 4, Name = "Labels and Tags", Description = "", SortOrder = 4, Active = true },
-                                                new { Id = 5, Name = "Leather", Description = "", SortOrder = 5, Active = true },
-                                                new { Id = 6, Name = "Other", Description = "", SortOrder = 6, Active = true },
-                                                new { Id = 7, Name = "Thread", Description = "", SortOrder = 7, Active = true },
-                                                new { Id = 8, Name = "Woven", Description = "", SortOrder = 8, Active = true },
-                                                new { Id = 9, Name = "Zipper", Description = "", SortOrder = 9, Active = true });
+                new { Id = 1, Name = "Elastic", Description = "", SortOrder = 1, Active = true },
+                new { Id = 2, Name = "Fastener", Description = "", SortOrder = 2, Active = true },
+                new { Id = 3, Name = "Knit", Description = "", SortOrder = 3, Active = true },
+                new { Id = 4, Name = "Labels and Tags", Description = "", SortOrder = 4, Active = true },
+                new { Id = 5, Name = "Leather", Description = "", SortOrder = 5, Active = true },
+                new { Id = 6, Name = "Other", Description = "", SortOrder = 6, Active = true },
+                new { Id = 7, Name = "Thread", Description = "", SortOrder = 7, Active = true },
+                new { Id = 8, Name = "Woven", Description = "", SortOrder = 8, Active = true },
+                new { Id = 9, Name = "Zipper", Description = "", SortOrder = 9, Active = true }
+            );
 
-            modelBuilder.Entity<Unit>().HasData(new { Id = 1, Name = "kilogram", Abbreviation = "kg", SortOrder = 1, Active = true },
-                                                new { Id = 2, Name = "meter", Abbreviation = "meter", SortOrder = 2, Active = true },
-                                                new { Id = 3, Name = "piece", Abbreviation = "piece", SortOrder = 3, Active = true },
-                                                new { Id = 4, Name = "set", Abbreviation = "set", SortOrder = 4, Active = true });
+            modelBuilder.Entity<Unit>().HasData(
+                new { Id = 1, Name = "kilogram", Abbreviation = "kg", SortOrder = 1, Active = true },
+                new { Id = 2, Name = "meter", Abbreviation = "meter", SortOrder = 2, Active = true },
+                new { Id = 3, Name = "piece", Abbreviation = "piece", SortOrder = 3, Active = true },
+                new { Id = 4, Name = "set", Abbreviation = "set", SortOrder = 4, Active = true }
+            );
+
+            var userId = Guid.NewGuid().ToString();
 
             modelBuilder.Entity<User>().HasData(new
             {
-                Id = Guid.NewGuid().ToString(),
+                Id = userId,
                 UserName = "Bob",
                 NormalizedUserName = "BOB",
                 Email = "bob@example.com",
@@ -565,6 +571,11 @@ namespace Egret.DataAccess
                          new { AccessGroupId = adminId, RoleId = id7 },
                          new { AccessGroupId = adminId, RoleId = id8 }
                 );
+
+            modelBuilder.Entity<UserAccessGroup>()
+                .HasData(new { UserId = userId, AccessGroupId = adminId });
+
+            //modelBuilder.Entity<UserR>
             #endregion
         }
 
