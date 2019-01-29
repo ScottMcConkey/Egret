@@ -18,12 +18,12 @@
         <div id="main-top">
             <div class="row" style="margin: auto">
                 <div class="col-md-6">@ViewData["PageTitle"]</div>
-                <div class="col-md-3 offset-md-3">
+                <div class="col-md-4 offset-md-2">
                     @if (User?.Identity?.IsAuthenticated ?? false)
                     {
                         <div style="font-size: 14pt; display: inline-block; vertical-align: middle;">@User.Identity.Name</div>
-                        <a class="btn btn-sm btn-default" asp-action="Logout" asp-area="" asp-controller="Account">Log Out</a>
                         <a class="btn btn-sm btn-default" asp-action="ChangePassword" asp-area="" asp-controller="Account">Change Password</a>
+                        <a class="btn btn-sm btn-default" asp-action="Logout" asp-area="" asp-controller="Account">Log Out</a>
                     }
                 </div>
             </div>

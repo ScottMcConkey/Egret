@@ -4,7 +4,7 @@ const bundleFileName = 'bundle';
 
 module.exports = {
     mode: "development",
-    entry: ['./wwwroot/src/index.js', './wwwroot/src/sass/index.scss'],
+    entry: ['./wwwroot/src/index.js', './wwwroot/src/sass/main.scss'],
     output: {
         filename: bundleFileName + '.js',
         path: path.resolve(__dirname, 'wwwroot/dist')
@@ -27,7 +27,12 @@ module.exports = {
                         loader: 'sass-loader'
                     }
                 ]
-            }
+            },
+            { test: /\.svg(\?v=\d+\.\d+\.\d+)?$/, loader: 'file-loader?mimetype=image/svg+xml' },
+            { test: /\.woff(\?v=\d+\.\d+\.\d+)?$/, loader: "file-loader?mimetype=application/font-woff" },
+            { test: /\.woff2(\?v=\d+\.\d+\.\d+)?$/, loader: "file-loader?mimetype=application/font-woff" },
+            { test: /\.ttf(\?v=\d+\.\d+\.\d+)?$/, loader: "file-loader?mimetype=application/octet-stream" },
+            { test: /\.eot(\?v=\d+\.\d+\.\d+)?$/, loader: "file-loader" }
         ]
     }
 };
