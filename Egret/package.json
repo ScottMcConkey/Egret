@@ -13,6 +13,7 @@
     "node-sass": "^4.11.0",
     "npm": "^6.5.0",
     "postcss-loader": "file:node_modules/postcss-loader",
+    "reset-css": "^4.0.1",
     "resolve-url-loader": "^3.0.0",
     "sass": "^1.16.1",
     "sass-loader": "^7.1.0",

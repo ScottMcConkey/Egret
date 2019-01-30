@@ -6,7 +6,8 @@ module.exports = {
     mode: "development",
     entry: './wwwroot/src/index.js',
     output: {
-        filename: 'main.js',
+        filename: 'bundle.js',
+        publicPath: '/dist',
         path: path.resolve(__dirname, 'wwwroot/dist')
     },
     module: {
@@ -27,7 +28,7 @@ module.exports = {
                     options: {
                         name: '[name].[ext]',
                         limit: 50,
-                        outputPath: '/dist/fonts'
+                        outputPath: '/fonts'
                     }
                 }]
             }
@@ -35,7 +36,7 @@ module.exports = {
     },
     plugins: [
         new MiniCssExtractPlugin({
-            filename: "css/[name].css",
+            filename: "css/styles.css",
             chunkFilename: "[id].css"
         })
     ]

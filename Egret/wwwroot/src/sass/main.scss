@@ -1,9 +1,9 @@
-﻿@import "~bootstrap/dist/css/bootstrap.min.css";
+﻿@import "~reset-css/sass/_reset.scss";
+@import "~bootstrap/dist/css/bootstrap.min.css";
 @import "common.scss";
 @import "~@fortawesome/fontawesome-free/scss/fontawesome.scss";
 $fa-font-path: "../../dist/fonts" !default;
 @import "~@fortawesome/fontawesome-free/scss/solid.scss";
-@import "~@fortawesome/fontawesome-free/css/solid.css";
 
 
 
