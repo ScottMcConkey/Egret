@@ -10,7 +10,7 @@
     <Folder Include="ViewComponents\" />
     <Folder Include="node_modules\" />
     <Folder Include="Views\Shared\Components\" />
-    <Folder Include="wwwroot\dist\css\" />
+    <Folder Include="wwwroot\dist\" />
 
   </ItemGroup>
 

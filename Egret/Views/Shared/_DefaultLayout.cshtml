@@ -7,23 +7,30 @@
     <nav class="leftnav">
         <ul>
             <li class="icon"><a href="javascript:void(0);" onclick="TriggerResponsiveNavigation()"><span class="fas fa-bars"></span>Menu</a></li>
-            <li><a asp-area="" asp-controller="Home" asp-action="Index"><span class="fas fa-home"></span>Home</a></li>
-            <li><a asp-area="Inventory" asp-controller="Home" asp-action="Index"><span class="fas fa-barcode"></span>Inventory</a></li>
-            <li><a asp-area="" asp-controller="" asp-action="Projects"><span class="fas fa-folder-open"></span>Projects</a></li>
-            <li><a asp-area="" asp-controller="Suppliers" asp-action="Index"><span class="fas fa-user"></span>Suppliers</a></li>
-            <li><a asp-area="Reports" asp-controller="Home" asp-action="Index"><span class="fas fa-chart-bar"></span>Reports</a></li>
-            <li><a asp-area="Admin" asp-controller="Home" asp-action="Index"><span class="fas fa-cogs"></span>Admin</a></li>
+            <li><a asp-action="Index" asp-controller="Home" asp-area=""><span class="fas fa-home"></span>Home</a></li>
+            <li><a asp-action="Index" asp-controller="Home" asp-area="Inventory"><span class="fas fa-barcode"></span>Inventory</a></li>
+            <li><a asp-action="Index" asp-controller="Home" asp-area=""><span class="fas fa-folder-open"></span>Projects</a></li>
+            <li><a asp-action="Index" asp-controller="Home" asp-area=""><span class="fas fa-user"></span>Suppliers</a></li>
+            <li><a asp-action="Index" asp-controller="Home" asp-area="Reports"><span class="fas fa-chart-bar"></span>Reports</a></li>
+            <li><a asp-action="Index" asp-controller="Home" asp-area="Admin"><span class="fas fa-cogs"></span>Admin</a></li>
         </ul>
     </nav><div id="main">
-        <div id="main-top">
-            <div class="row" style="margin: auto">
+        <div id="main-top" style="padding: 10px;">
+            <div class="row">
                 <div class="col-md-6">@ViewData["PageTitle"]</div>
-                <div class="col-md-4 offset-md-2">
+                <div class="col-md-2 offset-md-4">
                     @if (User?.Identity?.IsAuthenticated ?? false)
                     {
-                        <div style="font-size: 14pt; display: inline-block; vertical-align: middle;">@User.Identity.Name</div>
-                        <a class="btn btn-sm btn-default" asp-action="ChangePassword" asp-area="" asp-controller="Account">Change Password</a>
-                        <a class="btn btn-sm btn-default" asp-action="Logout" asp-area="" asp-controller="Account">Log Out</a>
+                        <div class="dropdown">
+                            <button class="btn btn-info dropdown-toggle" type="button" id="dropdownMenuButton" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                                Welcome, @User.Identity.Name
+                            </button>
+                            <div class="dropdown-menu" aria-labelledby="dropdownMenuButton">
+                                <a class="dropdown-item" asp-action="ChangePassword" asp-area="" asp-controller="Account">Change Password</a>
+                                <div class="dropdown-divider"></div>
+                                <a class="dropdown-item" asp-action="Logout" asp-area="" asp-controller="Account">Log Out</a>
+                            </div>
+                        </div>
                     }
                 </div>
             </div>

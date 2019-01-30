@@ -3,7 +3,6 @@
 <html>
 <head>
     <meta name="viewport" content="width=device-width, initial-scale=1">
-    <script asp-src-include="~/dist/bundle.js"></script>
     <link rel="stylesheet" href="~/dist/css/styles.css" />
 
     <environment names="production">
@@ -13,7 +12,7 @@
         <script asp-src-include="~/test/jquery/dist/jquery.js"></script>
     </environment>
 
-    <script asp-src-include="~/scripts/*.js"></script>
+    <script asp-src-include="~/dist/bundle.js"></script>
 
 
     <title>@ViewData["WindowTitle"]</title>

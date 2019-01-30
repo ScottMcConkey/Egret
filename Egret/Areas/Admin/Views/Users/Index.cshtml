@@ -37,7 +37,7 @@
                         <input type="checkbox" asp-for="@Model[i].IsActive" class="form-control" disabled="disabled" />
                     </td>
                     <td>
-                        <a class="btn btn-primary" asp-route-id="@Model[i].Id" asp-action="EditAccessGroups">Configure</a>
+                        <a class="btn btn-secondary" asp-route-id="@Model[i].Id" asp-action="EditAccessGroups">Configure</a>
                     </td>
                     <td>
                         <form asp-action="Delete" asp-route-id="@Model[i].Id" method="post">
