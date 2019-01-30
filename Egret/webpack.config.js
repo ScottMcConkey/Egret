@@ -1,38 +1,41 @@
 ﻿"use strict";
 const path = require('path');
-const bundleFileName = 'bundle';
+const MiniCssExtractPlugin = require("mini-css-extract-plugin");
 
 module.exports = {
     mode: "development",
-    entry: ['./wwwroot/src/index.js', './wwwroot/src/sass/main.scss'],
+    entry: './wwwroot/src/index.js',
     output: {
-        filename: bundleFileName + '.js',
+        filename: 'main.js',
         path: path.resolve(__dirname, 'wwwroot/dist')
     },
     module: {
         rules: [
+
             {
-                test: /\.(scss)$/,
+                test: /\.s?css$/,
                 use: [
-                    {
-                        // Adds CSS to the DOM by injecting a `<style>` tag
-                        loader: 'style-loader'
-                    },
-                    {
-                        // Interprets `@import` and `url()` like `import/require()` and will resolve them
-                        loader: 'css-loader'
-                    },
-                    {
-                        // Loads a SASS/SCSS file and compiles it to CSS
-                        loader: 'sass-loader'
-                    }
+                    MiniCssExtractPlugin.loader,
+                    "css-loader",
+                    "sass-loader"
                 ]
             },
-            { test: /\.svg(\?v=\d+\.\d+\.\d+)?$/, loader: 'file-loader?mimetype=image/svg+xml' },
-            { test: /\.woff(\?v=\d+\.\d+\.\d+)?$/, loader: "file-loader?mimetype=application/font-woff" },
-            { test: /\.woff2(\?v=\d+\.\d+\.\d+)?$/, loader: "file-loader?mimetype=application/font-woff" },
-            { test: /\.ttf(\?v=\d+\.\d+\.\d+)?$/, loader: "file-loader?mimetype=application/octet-stream" },
-            { test: /\.eot(\?v=\d+\.\d+\.\d+)?$/, loader: "file-loader" }
+            {
+                test: /\.(woff(2)?|ttf|eot|svg)(\?v=\d+\.\d+\.\d+)?$/,
+                use: [{
+                    loader: 'file-loader',
+                    options: {
+                        name: '[name].[ext]',
+                        publicPath: '/fonts'
+                    }
+                }]
+            }
         ]
-    }
+    },
+    plugins: [
+        new MiniCssExtractPlugin({
+            filename: "css/[name].css",
+            chunkFilename: "[id].css"
+        })
+    ]
 };
