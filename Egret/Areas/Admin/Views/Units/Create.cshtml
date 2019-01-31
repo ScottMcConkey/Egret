@@ -18,15 +18,13 @@
     </div>
 
     <div class="form-group">
-        <div class="checkbox">
-            <label>
-                <input asp-for="Active" checked="checked" />@Html.DisplayNameFor(model => model.Active)
-            </label>
-        </div>
+        <label asp-for="Active"></label>
+        <input asp-for="Active" type="checkbox" checked="checked" class="form-control" style="width: 50px;" />
     </div>
 
     <div class="form-group">
         <button type="submit" class="btn btn-primary">Save</button>
         <a asp-action="Index" class="btn btn-default">Cancel</a>
     </div>
+
 </form>

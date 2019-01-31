@@ -44,3 +44,11 @@
 .egret-add:before {
     content: fa-content($fa-var-plus);
 }
+
+.egret-refresh:before {
+    content: fa-content($fa-var-sync-alt);
+}
+
+.egret-linkto:before {
+    content: fa-content($fa-var-chevron-right);
+}

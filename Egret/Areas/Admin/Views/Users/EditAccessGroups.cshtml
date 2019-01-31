@@ -18,7 +18,7 @@
         <tbody>
             @if (Model?.AccessGroups.Count() == 0)
             {
-                <tr><td colspan="2" class="text-center">There are currently no Access Groups.</td></tr>
+                <tr><td colspan="3" class="text-center">There are currently no Access Groups.</td></tr>
             }
             else
             {
@@ -33,7 +33,7 @@
                             <input asp-for="@Model.AccessGroups[i].FlagForAddition" type="checkbox" class="form-control" />
                         </td>
                         <td class="delete-box">
-                            <a class="delete" asp-action="Delete" asp-route-id="@Model.AccessGroups[i].Id" title="Delete"><span class="fas fa-trash-alt"></span></a>
+                            <a class="delete" asp-action="Delete" asp-route-id="@Model.AccessGroups[i].Id" title="Delete"><span class="egret egret-trash"></span></a>
                         </td>
                     </tr>
                 }
@@ -42,11 +42,11 @@
     </table>
 
     <div class="form-group">
-        <input type="submit" value="Save" class="btn btn-default" />
+        <input type="submit" value="Save" class="btn btn-primary" />
     </div>
 </form>
 
 <div>
-    <a asp-controller="Users" asp-action="Index">Back to Users</a>
+    <a asp-controller="Users" asp-action="Index">Back to User</a>
 </div>
 

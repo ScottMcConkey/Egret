@@ -4338,6 +4338,12 @@ readers do not read off random characters that represent icons */
 .egret-add:before {
   content: "\f067"; }
 
+.egret-refresh:before {
+  content: "\f2f1"; }
+
+.egret-linkto:before {
+  content: "\f054"; }
+
 body {
   width: 80%;
   margin-left: auto;
@@ -4547,7 +4553,8 @@ th {
 .delete-box span {
   margin-top: 10px;
   font-size: 1em;
-  vertical-align: middle; }
+  vertical-align: middle;
+  display: inline-block; }
 
 @media screen and (max-width: 940px) {
   nav li {
