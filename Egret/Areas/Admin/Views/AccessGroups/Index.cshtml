@@ -39,16 +39,16 @@
                     <tr>
                         <td>
                             <input type="hidden" asp-for="@Model[i].Id" />
-                            <input asp-for="@Model[i].Name" class="form-control" />
+                            <input class="form-control" asp-for="@Model[i].Name" />
                         </td>
                         <td>
-                            <input asp-for="@Model[i].Description" class="form-control" />
+                            <input class="form-control" asp-for="@Model[i].Description" />
                         </td>
                         <td>
                             <a class="btn btn-secondary" asp-action="Edit" asp-route-id="@Model[i].Id">Configure</a>
                         </td>
                         <td class="delete-box">
-                            <a class="delete" asp-action="Delete" asp-route-id="@Model[i].Id" title="Delete"><span class="glyphicon glyphicon-trash"></span></a>
+                            <a class="delete" asp-action="Delete" asp-route-id="@Model[i].Id" title="Delete"><span class="egret egret-trash"></span></a>
                         </td>
                     </tr>
                 }
@@ -63,5 +63,5 @@
 </form>
 
 <div>
-    <a asp-area="Admin" asp-controller="Home" asp-action="Index">Back to Admin</a>
+    <a asp-controller="Home" asp-action="Index">Back to Admin</a>
 </div>

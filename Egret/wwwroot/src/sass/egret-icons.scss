@@ -1,0 +1,46 @@
+﻿.egret {
+    font-family: 'Font Awesome 5 Free';
+    font-weight: 900;
+}
+
+/* Navigational Icons */
+/* see _icons.scss in @fortawesome/fontawesome */
+.egret-home:before {
+    content: fa-content($fa-var-home);
+}
+
+.egret-inventory:before {
+    content: fa-content($fa-var-barcode);
+}
+
+.egret-projects:before {
+    content: fa-content($fa-var-folder-open);
+}
+
+.egret-suppliers:before {
+    content: fa-content($fa-var-user);
+}
+
+.egret-reports:before {
+    content: fa-content($fa-var-chart-bar);
+}
+
+.egret-admin:before {
+    content: fa-content($fa-var-cogs);
+}
+
+
+
+/* Common Usage Icons */
+
+.egret-trash:before {
+    content: fa-content($fa-var-trash-alt);
+}
+
+.egret-search:before {
+    content: fa-content($fa-var-search);
+}
+
+.egret-add:before {
+    content: fa-content($fa-var-plus);
+}

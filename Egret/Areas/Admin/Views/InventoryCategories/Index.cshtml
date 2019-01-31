@@ -54,7 +54,7 @@
                             <input type="checkbox" asp-for="@Model[i].Active" class="form-control" />
                         </td>
                         <td class="delete-box">
-                            <a class="delete" asp-action="Delete" asp-route-id="@Model[i].Id" title="Delete"><span class="fas fa-trash-alt"></span></a>
+                            <a class="delete" asp-action="Delete" asp-route-id="@Model[i].Id" title="Delete"><span class="egret egret-trash"></span></a>
                         </td>
                     </tr>
                 }
@@ -63,7 +63,7 @@
     </table>
 
     <div class="form-group">
-        <input type="submit" value="Save" class="btn btn-default" />
+        <input type="submit" value="Save" class="btn btn-primary" />
     </div>
 
 </form>
