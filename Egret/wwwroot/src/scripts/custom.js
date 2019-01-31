@@ -1,13 +1,8 @@
-﻿function AddTableRow() {
-    var manager = new TestManager();
-    manager.addOne();
-}
-
 function AutoFocusFirstFormInput() {
     if ($(".validation-summary-errors").length === 0) {
         $(":input:enabled:visible:not([readonly]):first").focus();
     }
-}
+};
 
 function FadeOutSuccessMessages() {
     $(function () {
@@ -15,7 +10,7 @@ function FadeOutSuccessMessages() {
             $(this).css({ "visibility": "hidden", display: 'block' }).slideUp();
         });
     });
-}
+};
 
 function ManageMultiRowRadioSelects() {
     $(".radio[value='False']").removeAttr("checked");
@@ -29,7 +24,7 @@ function ManageMultiRowRadioSelects() {
             $(this).prop("checked", true).attr("checked", true).attr("value", true);
         }
     });
-}
+};
 
 function ManageTabs() {
     $(".nav-link").on("click", function () {
@@ -48,7 +43,7 @@ function ManageTabs() {
         $(".tab-content").eq(idx).css("display", "block");
         SetContentHeight();
     });
-}
+};
 
 function ManageValidationErrors() {
     $("input.input-validation-error").closest(".form-group").addClass("has-error");
@@ -57,12 +52,12 @@ function ManageValidationErrors() {
         $(this).closest(".form-group").removeClass("has-error");
         $(this).closest(".form-group").find("span.field-validation-error").remove();
     });
-}
+};
 
 function PrepApiController() {
     $(function () {
         $("#callApi").on("click", function () {
-            $(".fas .fa-redo").addClass("spin");
+            $(".egret .egret-refresh").addClass("spin");
             $.get('/api/Inventory/' + $("#InventoryItemCode").val(), function (data) {
 
                 $('#apiDescription').empty();
@@ -79,13 +74,13 @@ function PrepApiController() {
             }, 'json');
         });
     });
-}
+};
 
 function SetContentHeights() {
     $("div#main-top").css("min-height", $("nav.leftnav ul li").height() + 1 + "px");
     $("div#main").css("min-height", $("div.leftnav").height() + "px");
     $("#main-bottom").css("min-height", $(document).height() - 250 + "px");
-}
+};
 
 function SetTestsForDelete() {
     $(".delete").on("click", function () {
@@ -103,7 +98,7 @@ function SetTestsForDelete() {
             return false;
         }
     });
-}
+};
 
 function TriggerResponsiveNavigation() {
     var x = document.getElementsByTagName("nav")[0];
@@ -112,7 +107,7 @@ function TriggerResponsiveNavigation() {
     } else {
         x.className = "leftnav";
     }
-}
+};
 
 class TestManager {
 
@@ -146,13 +141,18 @@ class TestManager {
             "<tr class='fabrictest'>" +
                 "<td><div class='form-group'><input class='form-control testName' type='text' name='FabricTests[" + this.getCount() + "].Name' /></div></td>" +
                 "<td><div class='form-group'><input class='form-control testResult' type='text' name='FabricTests[" + this.getCount() + "].Result' /></div></td>" +
-                "<td class='delete-box'><a style='font-size: 1em;' class='delete' title='Delete' href='#'><span class='fas fa-trash-alt'></span></a></td>" +
+                "<td class='delete-box'><a style='font-size: 1em;' class='delete' title='Delete' href='#'><span class='egret egret-trash'></span></a></td>" +
             "</tr>");
 
         SetTestsForDelete();
     }
 
-}
+};
+
+function AddTableRow() {
+    var manager = new TestManager();
+    manager.addOne();
+};
 
 
 

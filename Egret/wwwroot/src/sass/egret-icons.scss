@@ -1,10 +1,11 @@
-﻿.egret {
+﻿/* see _icons.scss in @fortawesome/fontawesome */
+
+.egret {
     font-family: 'Font Awesome 5 Free';
     font-weight: 900;
 }
 
 /* Navigational Icons */
-/* see _icons.scss in @fortawesome/fontawesome */
 .egret-home:before {
     content: fa-content($fa-var-home);
 }

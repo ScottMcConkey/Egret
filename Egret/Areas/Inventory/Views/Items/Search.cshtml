@@ -7,13 +7,6 @@
 
 <form asp-action="Search">
 
-    @if (!Html.ViewData.ModelState.IsValid)
-    {
-        <div class="alert alert-danger">@Html.ValidationSummary()</div>
-    }
-
-    <br />
-
     <div class="form-group">
         <label asp-for="Code" class="control-label"></label>
         <input asp-for="Code" class="form-control" />

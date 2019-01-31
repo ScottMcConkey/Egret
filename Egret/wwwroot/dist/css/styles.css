@@ -4304,12 +4304,12 @@ readers do not read off random characters that represent icons */
   font-family: 'Font Awesome 5 Free';
   font-weight: 900; }
 
+/* see _icons.scss in @fortawesome/fontawesome */
 .egret {
   font-family: 'Font Awesome 5 Free';
   font-weight: 900; }
 
 /* Navigational Icons */
-/* see _icons.scss in @fortawesome/fontawesome */
 .egret-home:before {
   content: "\f015"; }
 

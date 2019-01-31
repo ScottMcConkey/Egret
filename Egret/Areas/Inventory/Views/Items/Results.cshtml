@@ -13,24 +13,12 @@
 <table class="table table-condensed table-bordered table-striped">
     <thead>
         <tr>
-            <th>
-                @Html.DisplayNameFor(model => model[0].Code)
-            </th>
-            <th>
-                @Html.DisplayNameFor(model => model[0].Description)
-            </th>
-            <th>
-                @Html.DisplayNameFor(model => model[0].Category)
-            </th>
-            <th>
-                @Html.DisplayNameFor(model => model[0].CustomerReservedFor)
-            </th>
-            <th>
-                @Html.DisplayNameFor(model => model[0].StockQuantity)
-            </th>
-            <th>
-                @Html.DisplayNameFor(model => model[0].Unit)
-            </th>
+            <th>@Html.DisplayNameFor(model => model[0].Code)</th>
+            <th>@Html.DisplayNameFor(model => model[0].Description)</th>
+            <th>@Html.DisplayNameFor(model => model[0].Category)</th>
+            <th>@Html.DisplayNameFor(model => model[0].CustomerReservedFor)</th>
+            <th>@Html.DisplayNameFor(model => model[0].StockQuantity)</th>
+            <th>@Html.DisplayNameFor(model => model[0].Unit)</th>
         </tr>
     </thead>
     <tbody>
@@ -48,21 +36,11 @@
                             @Html.DisplayFor(modelItem => item.Code)
                         </a>
                     </td>
-                    <td>
-                        @Html.DisplayFor(modelItem => item.Description)
-                    </td>
-                    <td>
-                        @Html.DisplayFor(modelItem => item.Category)
-                    </td>
-                    <td>
-                        @Html.DisplayFor(modelItem => item.CustomerReservedFor)
-                    </td>
-                    <td>
-                        @Html.DisplayFor(modelItem => item.StockQuantity)
-                    </td>
-                    <td>
-                        @Html.DisplayFor(modelItem => item.Unit)
-                    </td>
+                    <td>@Html.DisplayFor(modelItem => item.Description)</td>
+                    <td>@Html.DisplayFor(modelItem => item.Category)</td>
+                    <td>@Html.DisplayFor(modelItem => item.CustomerReservedFor)</td>
+                    <td>@Html.DisplayFor(modelItem => item.StockQuantity)</td>
+                    <td>@Html.DisplayFor(modelItem => item.Unit)</td>
                 </tr>
             }
         }
