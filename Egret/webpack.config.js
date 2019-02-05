@@ -12,7 +12,6 @@ module.exports = {
     },
     module: {
         rules: [
-
             {
                 test: /\.s?css$/,
                 use: [
@@ -30,6 +29,13 @@ module.exports = {
                         limit: 50,
                         outputPath: '/fonts'
                     }
+                }]
+            },
+            {
+                test: require.resolve('jquery'),
+                use: [{
+                    loader: 'expose-loader',
+                    options: '$'
                 }]
             }
         ]

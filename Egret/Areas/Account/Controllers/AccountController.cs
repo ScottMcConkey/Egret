@@ -8,6 +8,7 @@ using System.Threading.Tasks;
 
 namespace Egret.Controllers
 {
+    [Area("Admin")]
     [Authorize]
     public class AccountController : Controller
     {

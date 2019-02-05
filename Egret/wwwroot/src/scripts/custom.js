@@ -1,8 +1,9 @@
+
 function AutoFocusFirstFormInput() {
     if ($(".validation-summary-errors").length === 0) {
         $(":input:enabled:visible:not([readonly]):first").focus();
     }
-};
+}
 
 function FadeOutSuccessMessages() {
     $(function () {
@@ -10,7 +11,7 @@ function FadeOutSuccessMessages() {
             $(this).css({ "visibility": "hidden", display: 'block' }).slideUp();
         });
     });
-};
+}
 
 function ManageMultiRowRadioSelects() {
     $(".radio[value='False']").removeAttr("checked");
@@ -24,7 +25,7 @@ function ManageMultiRowRadioSelects() {
             $(this).prop("checked", true).attr("checked", true).attr("value", true);
         }
     });
-};
+}
 
 function ManageTabs() {
     $(".nav-link").on("click", function () {
@@ -43,7 +44,7 @@ function ManageTabs() {
         $(".tab-content").eq(idx).css("display", "block");
         SetContentHeight();
     });
-};
+}
 
 function ManageValidationErrors() {
     $("input.input-validation-error").closest(".form-group").addClass("has-error");
@@ -52,7 +53,7 @@ function ManageValidationErrors() {
         $(this).closest(".form-group").removeClass("has-error");
         $(this).closest(".form-group").find("span.field-validation-error").remove();
     });
-};
+}
 
 function PrepApiController() {
     $(function () {
@@ -74,13 +75,13 @@ function PrepApiController() {
             }, 'json');
         });
     });
-};
+}
 
 function SetContentHeights() {
     $("div#main-top").css("min-height", $("nav.leftnav ul li").height() + 1 + "px");
     $("div#main").css("min-height", $("div.leftnav").height() + "px");
     $("#main-bottom").css("min-height", $(document).height() - 250 + "px");
-};
+}
 
 function SetTestsForDelete() {
     $(".delete").on("click", function () {
@@ -98,7 +99,7 @@ function SetTestsForDelete() {
             return false;
         }
     });
-};
+}
 
 function TriggerResponsiveNavigation() {
     var x = document.getElementsByTagName("nav")[0];
@@ -107,7 +108,7 @@ function TriggerResponsiveNavigation() {
     } else {
         x.className = "leftnav";
     }
-};
+}
 
 class TestManager {
 
@@ -147,12 +148,12 @@ class TestManager {
         SetTestsForDelete();
     }
 
-};
+}
 
 function AddTableRow() {
     var manager = new TestManager();
     manager.addOne();
-};
+}
 
 
 
@@ -174,4 +175,7 @@ $(document).ready(function () {
 
     PrepApiController();
 
-});
+})
+
+
+
