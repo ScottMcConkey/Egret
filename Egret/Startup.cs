@@ -37,10 +37,6 @@ namespace Egret
             services.AddMvc();
             services.AddMemoryCache();
             services.AddSession();
-            //services.AddAuthorization(options =>
-            //{
-            //    options.AddPolicy("AccessAdmin", policy => policy.RequireClaim("CanAccessAdmin"));
-            //});
 
             services.AddIdentity<User, Role>(opts => 
                 {
@@ -61,6 +57,8 @@ namespace Egret
             services.ConfigureApplicationCookie(options =>
             {
                 options.Cookie.HttpOnly = true;
+                options.AccessDeniedPath = "/Account/Home/AccessDenied";
+                options.LoginPath = "/Account/Home/Login";
                 //options.ExpireTimeSpan = TimeSpan.FromMinutes(30);
                 //options.SlidingExpiration = true;
             });

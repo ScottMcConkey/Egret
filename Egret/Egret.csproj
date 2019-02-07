@@ -36,7 +36,7 @@
   </ItemGroup>
 
   <ItemGroup>
-    <Content Update="Areas\Account\Views\_ViewImports.cshtml">
+    <Content Update="Areas\Account\Views\Home\_ViewImports.cshtml">
       <Pack>$(IncludeRazorContentInPack)</Pack>
     </Content>
     <Content Update="nlog.config">

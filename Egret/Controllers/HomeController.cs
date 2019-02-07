@@ -15,13 +15,13 @@ namespace Egret.Controllers
 {
     public class HomeController : Controller
     {
-        [Authorize]
+        //[Authorize]
         public IActionResult Index()
         {
             return View();
         }
 
-        [Authorize]
+        //[Authorize]
         public IActionResult OtherAction() => View("Index",
             GetData(nameof(OtherAction)));
 

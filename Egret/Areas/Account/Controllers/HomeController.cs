@@ -6,18 +6,17 @@ using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Logging;
 using System.Threading.Tasks;
 
-namespace Egret.Controllers
+namespace Egret.Areas.Account.Controllers
 {
-    [Area("Admin")]
-    [Authorize]
-    public class AccountController : Controller
+    [Area("Account")]
+    public class HomeController : Controller
     {
         private UserManager<User> _userManager;
         private SignInManager<User> _signInManager;
         private static ILogger _logger;
 
-        public AccountController(UserManager<User> userMgr,
-            SignInManager<User> signinMgr, ILogger<AccountController> logger)
+        public HomeController(UserManager<User> userMgr,
+            SignInManager<User> signinMgr, ILogger<HomeController> logger)
         {
             _userManager = userMgr;
             _signInManager = signinMgr;
