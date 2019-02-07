@@ -64,7 +64,6 @@
             <textarea asp-for="Comments" class="form-control"></textarea>
         </div>
 
-        <br />
         <input type="submit" value="Save" class="btn btn-primary" />
         <a asp-controller="Home" asp-action="Index" asp-route-id="@Context.Request.Query["sourceid"]" class="btn btn-default">Cancel</a>
 

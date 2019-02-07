@@ -36,6 +36,9 @@
   </ItemGroup>
 
   <ItemGroup>
+    <Content Update="Areas\Account\Views\_ViewImports.cshtml">
+      <Pack>$(IncludeRazorContentInPack)</Pack>
+    </Content>
     <Content Update="nlog.config">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </Content>

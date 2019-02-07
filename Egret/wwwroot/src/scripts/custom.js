@@ -1,7 +1,7 @@
 
 function AutoFocusFirstFormInput() {
     if ($(".validation-summary-errors").length === 0) {
-        $(":input:enabled:visible:not([readonly]):first").focus();
+        $(":input:enabled:visible:not(':button'):not([readonly]):first").focus();
     }
 }
 

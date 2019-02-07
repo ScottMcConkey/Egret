@@ -10,64 +10,71 @@
     <div class="row">
         <div class="col-md-8">
 
+            <!-- Tab Links -->
             <ul class="nav nav-tabs">
-                <li class="nav-item"><a class="nav-link active" href="#">Details</a></li>
+                <li class="nav-item"><a id="details-tab" class="nav-link active" href="#details">Details</a></li>
             </ul>
 
             <br />
 
-            <div class="row">
-                <div class="col-md-6">
+            <!-- Details -->
+            <div class="tab-content" id="tabContent">
+                <div class="tab-pane fade show active" id="details" role="tabpanel" aria-labeledby="details-tab">
+                    <div class="col-md-6">
 
-                    <div class="form-group">
-                        <input type="hidden" asp-for="ConsumptionEvent.InventoryItemCode" />
-                        <label asp-for="ConsumptionEvent.Id" include-languages="Nepali" class="control-label"></label>
-                        <input asp-for="ConsumptionEvent.Id" class="form-control" disabled />
-                    </div>
+                        <div class="form-group">
+                            <input type="hidden" asp-for="ConsumptionEvent.InventoryItemCode" />
+                            <label asp-for="ConsumptionEvent.Id" include-languages="Nepali" class="control-label"></label>
+                            <input asp-for="ConsumptionEvent.Id" class="form-control" disabled />
+                        </div>
 
-                    <div class="form-group">
-                        <label asp-for="ConsumptionEvent.DateOfConsumption" include-languages="Nepali" class="control-label required"></label>
-                        <input asp-for="ConsumptionEvent.DateOfConsumption" class="form-control" />
-                    </div>
+                        <div class="form-group">
+                            <label asp-for="ConsumptionEvent.DateOfConsumption" include-languages="Nepali" class="control-label required"></label>
+                            <input asp-for="ConsumptionEvent.DateOfConsumption" class="form-control" />
+                        </div>
 
-                    <div class="form-group">
-                        <label asp-for="ConsumptionEvent.ConsumedBy" include-languages="Nepali" class="control-label required"></label>
-                        <input asp-for="ConsumptionEvent.ConsumedBy" class="form-control" />
-                    </div>
+                        <div class="form-group">
+                            <label asp-for="ConsumptionEvent.ConsumedBy" include-languages="Nepali" class="control-label required"></label>
+                            <input asp-for="ConsumptionEvent.ConsumedBy" class="form-control" />
+                        </div>
 
-                    <div class="form-group">
-                        <label asp-for="ConsumptionEvent.OrderNumber" include-languages="Nepali" class="control-label"></label>
-                        <input asp-for="ConsumptionEvent.OrderNumber" class="form-control" />
-                    </div>
+                        <div class="form-group">
+                            <label asp-for="ConsumptionEvent.OrderNumber" include-languages="Nepali" class="control-label"></label>
+                            <input asp-for="ConsumptionEvent.OrderNumber" class="form-control" />
+                        </div>
 
-                    <div class="form-group">
-                        <label asp-for="ConsumptionEvent.PatternNumber" include-languages="Nepali" class="control-label"></label>
-                        <input asp-for="ConsumptionEvent.PatternNumber" class="form-control" />
-                    </div>
+                        <div class="form-group">
+                            <label asp-for="ConsumptionEvent.PatternNumber" include-languages="Nepali" class="control-label"></label>
+                            <input asp-for="ConsumptionEvent.PatternNumber" class="form-control" />
+                        </div>
 
-                    <label asp-for="ConsumptionEvent.QuantityConsumed" include-languages="Nepali" class="control-label required"></label>
-                    <div class="form-group form-inline">
-                        <input asp-for="ConsumptionEvent.QuantityConsumed" class="form-control mr-2" />
-                        <select asp-for="ConsumptionEvent.Unit" class="form-control" asp-items="ViewBag.Unit">
-                            <option value=""></option>
-                        </select>
-                    </div>
+                        <label asp-for="ConsumptionEvent.QuantityConsumed" include-languages="Nepali" class="control-label required"></label>
+                        <div class="form-group form-inline">
+                            <input asp-for="ConsumptionEvent.QuantityConsumed" class="form-control mr-2" />
+                            <select asp-for="ConsumptionEvent.Unit" class="form-control" asp-items="ViewBag.Unit">
+                                <option value=""></option>
+                            </select>
+                        </div>
 
-                    <div class="form-group">
-                        <label asp-for="ConsumptionEvent.Comments" include-languages="Nepali" class="control-label"></label>
-                        <textarea asp-for="ConsumptionEvent.Comments" class="form-control"></textarea>
-                    </div>
+                        <div class="form-group">
+                            <label asp-for="ConsumptionEvent.Comments" include-languages="Nepali" class="control-label"></label>
+                            <textarea asp-for="ConsumptionEvent.Comments" class="form-control"></textarea>
+                        </div>
 
-                    <div>
+                        <div>
+                            <button type="submit" class="btn btn-primary">Save</button>
+                            <a asp-controller="Home" asp-action="Index" class="btn btn-default">Cancel</a>
+                        </div>
+
                         <br />
-                        <button type="submit" class="btn btn-primary">Save</button>
-                        <a asp-action="Index" class="btn btn-default">Cancel</a>
+
                     </div>
-
-                    <br />
-
                 </div>
+
             </div>
+
+
+           
 
         </div>
 

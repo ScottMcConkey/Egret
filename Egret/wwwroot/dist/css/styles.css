@@ -4344,6 +4344,9 @@ readers do not read off random characters that represent icons */
 .egret-linkto:before {
   content: "\f054"; }
 
+.egret-check:before {
+  content: "\f00c"; }
+
 body {
   width: 80%;
   margin-left: auto;
@@ -4445,7 +4448,8 @@ nav a:focus {
 #main-top {
   width: 100%;
   border-bottom: 1px solid #ccc;
-  font-size: 30px; }
+  font-size: 30px;
+  padding: 10px; }
 
 #main-bottom {
   background-color: transparent;

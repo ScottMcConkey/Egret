@@ -9,13 +9,13 @@
             <li class="icon"><a href="javascript:void(0);" onclick="TriggerResponsiveNavigation()"><span class="fas fa-bars"></span>Menu</a></li>
             <li><a asp-action="Index" asp-controller="Home" asp-area=""><span class="egret egret-home"></span>Home</a></li>
             <li><a asp-action="Index" asp-controller="Home" asp-area="Inventory"><span class="egret egret-inventory"></span>Inventory</a></li>
-            <li><a asp-action="Index" asp-controller="Home" asp-area="Projects"><span class="egret egret-projects"></span>Projects</a></li>
-            <li><a asp-action="Index" asp-controller="Home" asp-area="Suppliers"><span class="egret egret-suppliers"></span>Suppliers</a></li>
+            @*<li><a asp-action="Index" asp-controller="Home" asp-area="Projects"><span class="egret egret-projects"></span>Projects</a></li>*@
+            @*<li><a asp-action="Index" asp-controller="Home" asp-area="Suppliers"><span class="egret egret-suppliers"></span>Suppliers</a></li>*@
             <li><a asp-action="Index" asp-controller="Home" asp-area="Reports"><span class="egret egret-reports"></span>Reports</a></li>
             <li><a asp-action="Index" asp-controller="Home" asp-area="Admin"><span class="egret egret-admin"></span>Admin</a></li>
         </ul>
     </nav><div id="main">
-        <div id="main-top" style="padding: 10px;">
+        <div id="main-top">
             <div class="row">
                 <div class="col-md-6">@ViewData["PageTitle"]</div>
                 <div class="col-md-2 offset-md-4">
@@ -26,9 +26,9 @@
                                 Welcome, @User.Identity.Name
                             </button>
                             <div class="dropdown-menu" aria-labelledby="dropdownMenuButton">
-                                <a class="dropdown-item" asp-action="ChangePassword" asp-area="Account" asp-controller="Account">Change Password</a>
+                                <a class="dropdown-item" asp-area="Account" asp-controller="Account" asp-action="ChangePassword">Change Password</a>
                                 <div class="dropdown-divider"></div>
-                                <a class="dropdown-item" asp-action="Logout" asp-area="Account" asp-controller="Account">Log Out</a>
+                                <a class="dropdown-item" asp-area="Account" asp-controller="Account" asp-action="Logout">Log Out</a>
                             </div>
                         </div>
                     }
@@ -41,7 +41,7 @@
             @if (TempData["SuccessMessage"] != null)
             {
                 <div id="success" class="alert alert-success">
-                    <span class="fas fa-check"></span> @TempData["SuccessMessage"]
+                    <span class="egret egret-check"></span> @TempData["SuccessMessage"]
                 </div>
             }
             @if (!Html.ViewData.ModelState.IsValid)

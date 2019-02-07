@@ -80,7 +80,7 @@ namespace Egret.Controllers
             List<AccessGroupRole> groupRoles = Context.AccessGroupRoles.AsNoTracking().Where(x => x.AccessGroupId == (int)id).ToList();
             List<string> roleIds = groupRoles.Select(x => x.RoleId).ToList();
             List<Role> selectedRoles = Context.Roles.AsNoTracking().Where(y => roleIds.Contains(y.Id)).ToList();
-            List<Role> allRoles = Context.Roles.AsNoTracking().ToList();
+            List<Role> allRoles = Context.Roles.AsNoTracking().OrderBy(x => x.Name).ToList();
 
             foreach (Role role in allRoles)
             {
