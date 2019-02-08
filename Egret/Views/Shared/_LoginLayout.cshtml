@@ -7,7 +7,16 @@
 <div class="login-box">
     <div id="titleband">Egret</div>
     <div class="login-title">Login</div>
+    
     <div class="login-form">
+        <div>
+            @if (!Html.ViewData.ModelState.IsValid)
+            {
+                <div class="alert alert-danger" asp-validation-summary="All"></div>
+            }
+
+            @RenderBody()
+        </div>
         @RenderBody()
     </div>
 </div>

@@ -9,7 +9,7 @@ using Egret.Models;
 namespace Egret.ViewModels
 {
     /// <summary>
-    /// The View Model used for displaying related Inventory Item objects.
+    /// The View Model is used for displaying related Inventory Item objects.
     /// </summary>
     public class RelationshipViewModelInventory : IRelationshipViewModel
     {
@@ -34,7 +34,7 @@ namespace Egret.ViewModels
         public string HelpText { get; set; } = "";
         public string ObjectDisplay { get; set; } = "RelationshipDisplay";
         public string TargetObjectIdColumn { get; set; } = "Code";
-        public string CssClass { get; set; } = "fas fa-plus";
+        public string CssClass { get; set; } = "egret egret-add";
         public ICollection RelationshipObjects { get; set; }
     }
 }

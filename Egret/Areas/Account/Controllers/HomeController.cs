@@ -43,15 +43,17 @@ namespace Egret.Areas.Account.Controllers
         [Authorize]
         public async Task<IActionResult> ChangePassword(ChangePasswordModel details)
         {
-            //User person = ();
-            //IdentityResult passwordChangeResult = await _userManager.ChangePasswordAsync(User.Identity.GetUserId(), details.CurrentPassword, details.NewPassword);
-           
+            User user = await _userManager.FindByNameAsync(HttpContext.User.Identity.Name);
 
-            //if (passwordChangeResult.Succeeded)
-            //{
-            //    ViewData["SuccessMessage"] = "User Password Updated";
-            //    return RedirectToAction("Index", "Home");
-            //}
+            //User person = User.Identity;
+            IdentityResult passwordChangeResult = await _userManager.ChangePasswordAsync(user, details.CurrentPassword, details.NewPassword);
+
+
+            if (passwordChangeResult.Succeeded)
+            {
+                TempData["SuccessMessage"] = "User Password Updated";
+                return RedirectToAction("Index", "Home", new { area = "" } );
+            }
             return View(details);
 
         }
@@ -75,7 +77,7 @@ namespace Egret.Areas.Account.Controllers
                     }
                 }
                 _logger.LogWarning($"Failed login attempt from {Request.HttpContext.Connection.RemoteIpAddress}");
-                ModelState.AddModelError(nameof(LoginModel.Email), "Invalid user or password");
+                ModelState.AddModelError(nameof(LoginModel.Email), "Invalid email or password");
             }
             return View(details);
         }
@@ -84,7 +86,7 @@ namespace Egret.Areas.Account.Controllers
         public async Task<IActionResult> Logout()
         {
             await _signInManager.SignOutAsync();
-            return RedirectToAction("Index", "Home");
+            return RedirectToAction("Index", "Home", new { area = "" } );
         }
 
         [AllowAnonymous]
