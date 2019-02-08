@@ -100,6 +100,7 @@ namespace Egret.Controllers
             InventoryItemViewModel presentation = new InventoryItemViewModel();
 
             InventoryItem item = await Context.InventoryItems
+                .Where(i => i.Code == id)
                 .Include(i => i.ConsumptionEventsNavigation)
                 .Include(i => i.FabricTestsNavigation)
                 .SingleOrDefaultAsync(m => m.Code == id);
