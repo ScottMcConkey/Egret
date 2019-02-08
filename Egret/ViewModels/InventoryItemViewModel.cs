@@ -8,7 +8,5 @@ namespace Egret.ViewModels
         public List<FabricTest> FabricTests { get; set; }
         public List<ConsumptionEvent> ConsumptionEvents { get; set; }
         public InventoryItem Item { get; set; }
-
-        //public InventoryCategory Category { get; set; }
     }
 }

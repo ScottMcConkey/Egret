@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 
-namespace Egret.Models
+namespace Egret.ViewModels
 {
     public class PagingInfo
     {
