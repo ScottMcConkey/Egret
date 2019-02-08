@@ -24,7 +24,6 @@ namespace Egret.DataAccess
         public virtual DbSet<InventoryCategory> InventoryCategories { get; set; }
         public virtual DbSet<InventoryItem> InventoryItems { get; set; }
         public virtual DbSet<Unit> Units { get; set; }
-        public virtual DbSet<Supplier> Suppliers { get; set; }
         public virtual DbSet<FabricTest> FabricTests { get; set; }
         public virtual DbSet<ConsumptionEvent> ConsumptionEvents { get; set; }
         public virtual DbSet<AccessGroup> AccessGroups { get; set; }
@@ -326,18 +325,6 @@ namespace Egret.DataAccess
 
                 // Properties
                 entity.Property(p => p.Id);
-            });
-
-            modelBuilder.Entity<Supplier>(entity =>
-            {
-                // Table
-                entity.ToTable("suppliers");
-
-                // Properties
-                entity.Property(e => e.Id);
-
-                entity.Property(e => e.Name).IsRequired();
-
             });
 
             modelBuilder.Entity<FabricTest>(entity =>
