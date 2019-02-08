@@ -7,21 +7,18 @@
     "@fortawesome/fontawesome-free": "^5.7.0",
     "autoprefixer": "^9.4.7",
     "css-loader": "^2.0.1",
-    "extract-loader": "file:node_modules/extract-loader",
     "file-loader": "^2.0.0",
     "lodash": "^4.17.11",
     "node-sass": "^4.11.0",
     "npm": "^6.5.0",
-    "postcss-loader": "file:node_modules/postcss-loader",
     "reset-css": "^4.0.1",
     "resolve-url-loader": "^3.0.0",
     "sass": "^1.16.1",
     "sass-loader": "^7.1.0",
-    "style-loader": "^0.23.1",
-    "webpack": "^4.29.0"
+    "style-loader": "^0.23.1"
   },
   "devDependencies": {
-    "babel": "^6.23.0",
+    "babel-cli": "^6.26.0",
     "babel-core": "^6.26.3",
     "babel-loader": "^8.0.5",
     "babel-preset-es2015": "^6.24.1",
@@ -32,9 +29,9 @@
     "jquery": "^3.3.1",
     "mini-css-extract-plugin": "^0.5.0",
     "popper.js": "^1.14.6",
-    "provide-always-loader": "^1.1.1",
     "tether": "^1.4.5",
     "url-loader": "^1.1.2",
+    "webpack": "^4.29.3",
     "webpack-cli": "^3.1.2"
   },
   "scripts": {
