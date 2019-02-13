@@ -4560,6 +4560,12 @@ th {
   vertical-align: middle;
   display: inline-block; }
 
+.add-button {
+  border: 1px solid #000; }
+
+.add-button:hover {
+  background-color: #ccc; }
+
 @media screen and (max-width: 940px) {
   nav li {
     display: none; }

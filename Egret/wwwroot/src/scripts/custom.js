@@ -56,24 +56,18 @@ function ManageValidationErrors() {
 }
 
 function PrepApiController() {
-    $(function () {
-        $("#callApi").on("click", function () {
-            $(".egret .egret-refresh").addClass("spin");
-            $.get('/api/Inventory/' + $("#InventoryItemCode").val(), function (data) {
+    $("#callApi").on("click", function () {
+        $('#apiDescription').empty();
+        $('#apiCustomer').empty();
+        $('#Unit').val("");
 
-                $('#apiDescription').empty();
-                $('#apiDescription').html(data.description);
-
-                $('#apiCustomer').empty();
-                $('#apiCustomer').html(data.customerReservedFor);
-
-                $('#Unit').empty();
-                $('#Unit').val(data.unit);
-
-                $(".glyphicon-refresh").removeClass("spin");
-
-            }, 'json');
-        });
+        $(".egret .egret-refresh").addClass("spin");
+        $.get('/api/Inventory/' + $("#InventoryItemCode").val(), function (data) {
+            $('#apiDescription').html(data.description);
+            $('#apiCustomer').html(data.customerReservedFor);
+            $('#Unit').val(data.unit);
+        }, 'json');
+        $(".egret-refresh").removeClass("spin");
     });
 }
 
