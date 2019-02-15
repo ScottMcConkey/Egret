@@ -47,11 +47,10 @@ function ManageTabs() {
 }
 
 function ManageValidationErrors() {
-    $("input.input-validation-error").closest(".form-group").addClass("has-error");
+    $("input.input-validation-error").addClass("is-invalid");
     $(".input-validation-error").on("focus", function () {
-        $(this).closest(".form-group").find("input.input-validation-error").val("");
-        $(this).closest(".form-group").removeClass("has-error");
-        $(this).closest(".form-group").find("span.field-validation-error").remove();
+        $(this).find("input.input-validation-error").val("");
+        $(this).removeClass("is-invalid");
     });
 }
 
@@ -154,10 +153,10 @@ function AddTableRow() {
 $(document).ready(function () {
 
     SetContentHeights();
-    
-    ManageValidationErrors();
 
     ManageTabs();
+
+    ManageValidationErrors();
 
     AutoFocusFirstFormInput();
     

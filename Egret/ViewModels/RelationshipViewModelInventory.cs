@@ -24,7 +24,7 @@ namespace Egret.ViewModels
             RelationshipObjects = relObjects;
         }
 
-        public string Title { get; set; } = "Inventory Items";
+        public string Title { get; set; } = "Inventory Item";
         public bool HasCreateNew { get; set; } = false;
         public string SourceId { get; set; }
         public string Area { get; set; } = "Inventory";

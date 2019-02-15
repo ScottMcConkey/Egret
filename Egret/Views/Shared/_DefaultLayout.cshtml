@@ -8,11 +8,19 @@
         <ul>
             <li class="icon"><a href="javascript:void(0);" onclick="TriggerResponsiveNavigation()"><span class="fas fa-bars"></span>Menu</a></li>
             <li><a asp-action="Index" asp-controller="Home" asp-area=""><span class="egret egret-home"></span>Home</a></li>
-            <li><a asp-action="Index" asp-controller="Home" asp-area="Inventory"><span class="egret egret-inventory"></span>Inventory</a></li>
+            @if (User.Identity.IsAuthenticated && User.IsInRole("Item_Read"))
+            {
+                <li><a asp-action="Index" asp-controller="Home" asp-area="Inventory"><span class="egret egret-inventory"></span>Inventory</a></li>
+            }
+
             @*<li><a asp-action="Index" asp-controller="Home" asp-area="Projects"><span class="egret egret-projects"></span>Projects</a></li>*@
             @*<li><a asp-action="Index" asp-controller="Home" asp-area="Suppliers"><span class="egret egret-suppliers"></span>Suppliers</a></li>*@
             <li><a asp-action="Index" asp-controller="Home" asp-area="Reports"><span class="egret egret-reports"></span>Reports</a></li>
-            <li><a asp-action="Index" asp-controller="Home" asp-area="Admin"><span class="egret egret-admin"></span>Admin</a></li>
+            @if (User.Identity.IsAuthenticated && User.IsInRole("Admin_Access"))
+            {
+                <li><a asp-action="Index" asp-controller="Home" asp-area="Admin"><span class="egret egret-admin"></span>Admin</a></li>
+            }
+            
         </ul>
     </nav><div id="main">
         <div id="main-top">

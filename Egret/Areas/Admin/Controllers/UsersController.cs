@@ -216,7 +216,7 @@ namespace Egret.DataAccess
                             .ThenInclude(y => y.Role)
                         .SingleOrDefault();
 
-                    var roleNames = localAccessGroup.AccessGroupRoles.Select(x => x.Role.Name).ToList();
+                    var roleNames = localAccessGroup.AccessGroupRoles.Select(x => x.Role.NormalizedName).ToList();
 
                     User user1 = await userManager.FindByIdAsync(user.Id);
                     if (user1 != null)

@@ -28,8 +28,9 @@
 
             <br />
 
-            <!-- Details -->
+            <!-- Tabs -->
             <div class="tab-content" id="tabContent">
+                <!-- Details -->
                 <div class="tab-pane fade show active" id="details" role="tabpanel" aria-labeledby="details-tab">
                     <div class="col-md-6">
 
@@ -77,7 +78,7 @@
                             </div>
 
                             <label asp-for="Item.ImportCosts" include-languages="Nepali" class="control-label"></label>
-                            <div class="form-group form-inline" style="width: 100%">
+                            <div class="form-group form-inline">
                                 <input asp-for="Item.ImportCosts" class="form-control mr-2" />
                                 <select asp-for="Item.ImportCostCurrency" class="form-control" asp-items="ViewBag.ImportCostCurrency">
                                     <option value=""></option>

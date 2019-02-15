@@ -1,6 +1,7 @@
 ﻿using Egret.DataAccess;
 using Egret.Models;
 using Egret.ViewModels;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.Rendering;
 using Microsoft.EntityFrameworkCore;
@@ -13,6 +14,7 @@ using System.Threading.Tasks;
 namespace Egret.Controllers
 {
     [Area("Inventory")]
+    [Authorize(Roles = "ConsumptionEvent_Read")]
     public class ConsumptionEventsController : BaseController
     {
         private IQueryable<Unit> _activeUnits { get; set; }
@@ -26,6 +28,7 @@ namespace Egret.Controllers
         }
 
         [HttpGet]
+        [Authorize(Roles = "Item_Read, ConsumptionEvent_Create")]
         public IActionResult CreateFromItem(string sourceid)
         {
             var item = Context.InventoryItems.Where(x => x.Code == sourceid);
@@ -36,6 +39,7 @@ namespace Egret.Controllers
 
         [HttpPost]
         [ValidateAntiForgeryToken]
+        [Authorize(Roles = "Item_Read, ConsumptionEvent_Create")]
         public IActionResult CreateFromItem(string sourceid, ConsumptionEvent consumptionEvent)
         {
             string sourceId = sourceid;
@@ -60,6 +64,7 @@ namespace Egret.Controllers
         }
 
         [HttpGet]
+        [Authorize(Roles = "ConsumptionEvent_Create")]
         public IActionResult Create()
         {
             ViewData["Unit"] = new SelectList(_activeUnits, "Abbreviation", "Abbreviation");
@@ -68,6 +73,7 @@ namespace Egret.Controllers
 
         [HttpPost]
         [ValidateAntiForgeryToken]
+        [Authorize(Roles = "ConsumptionEvent_Create")]
         public IActionResult Create(ConsumptionEvent consumptionEvent)
         {
             ViewData["Unit"] = new SelectList(_activeUnits, "Abbreviation", "Abbreviation");
@@ -89,6 +95,7 @@ namespace Egret.Controllers
         }
 
         [HttpGet]
+        [Authorize(Roles = "ConsumptionEvent_Update")]
         public async Task<IActionResult> Edit(string id)
         {
             ConsumptionEventViewModel presentation = new ConsumptionEventViewModel();
@@ -113,6 +120,7 @@ namespace Egret.Controllers
         }
 
         [HttpPost]
+        [Authorize(Roles = "ConsumptionEvent_Update")]
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> Edit(string id, ConsumptionEventViewModel vm)
         {

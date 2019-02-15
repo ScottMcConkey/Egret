@@ -194,53 +194,6 @@ th {
     font-size: 18pt;
 }
 
-.related-objects {
-    border-left: 1px solid $primary;
-    border-right: 1px solid $primary;
-}
-
-.related-objects-header {
-    padding: 10px;
-    background-color: $primary;
-    color: white;
-}
-
-.related-object-link,
-.related-object-link:hover,
-.related-object-link:active,
-.related-object-link:focus {
-    text-decoration: none;
-    color: black;
-}
-
-.related-object-link:hover {
-    background-color: $accent;
-}
-
-.related-object-div {
-    padding: 5px;
-    border-bottom: 1px solid black;
-    white-space: nowrap;
-    overflow: hidden;
-    color: black;
-}
-
-.related-object-div:hover {
-    background-color: lightgray;
-}
-
-.related-object-blank {
-    padding: 5px;
-    border-bottom: 1px solid black;
-    color: black;
-}
-
-.edit-info {
-    border: 1px solid black;
-    padding: 5px;
-    margin-bottom: 30px;
-}
-
 .required::before {
     content: "* ";
     color: red;
@@ -275,8 +228,50 @@ th {
     background-color: #ccc;
 }
 
+.widget-boundary {
+    border: 1px solid #000;
+    padding: 5px;
+    margin-bottom: 30px;
+}
 
+.related-objects {
+    border-left: 1px solid #000;
+    border-right: 1px solid #000;
+}
 
+.related-objects-header {
+    padding: 10px;
+    background-color: $primary;
+    color: #fff;
+}
+
+.related-object-link,
+.related-object-link:hover,
+.related-object-link:active,
+.related-object-link:focus {
+    text-decoration: none;
+    color: black;
+}
+
+.related-object-div {
+    padding: 5px;
+    padding-left: 10px;
+    border-bottom: 1px solid #000;
+    white-space: nowrap;
+    overflow: hidden;
+    color: black;
+}
+
+.related-object-div:hover {
+    background-color: #d3d3d3;
+}
+
+.related-object-blank {
+    padding: 5px;
+    padding-left: 10px;
+    border-bottom: 1px solid #000;
+    color: black;
+}
 
 
 

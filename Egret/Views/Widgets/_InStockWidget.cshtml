@@ -1,6 +1,6 @@
 ﻿@model IHasStockCount
 
-<div style="display: grid; border: 1px solid #000; padding: 5px;">
+<div class="widget-boundary">
     <table class="stock-display">
         <tr>
             <td>Stock Quantity:</td>
@@ -13,13 +13,13 @@
                         <td style="text-align: center; background-color: lightgray;"><div>@Model.StockLevel</div></td>
                         break;
                     case "In Stock":
-                        <td style="text-align: center; background-color: green;"><div>@Model.StockLevel</div></td>
+                        <td style="text-align: center; background-color: #d4edda;"><div>@Model.StockLevel</div></td>
                         break;
                     case "Out of Stock":
                         <td style="text-align: center; background-color: lightgray;"><div>@Model.StockLevel</div></td>
                         break;
                     default:
-                        <td style="text-align: center; background-color: red;"><div>@Model.StockLevel</div></td>
+                        <td style="text-align: center; background-color: #f8d7da;"><div>@Model.StockLevel</div></td>
                         break;
 
                 }
@@ -27,8 +27,3 @@
         </tr>
     </table>
 </div>
-
-<br />
-
-
-
