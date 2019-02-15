@@ -8,10 +8,8 @@
         <ul>
             <li class="icon"><a href="javascript:void(0);" onclick="TriggerResponsiveNavigation()"><span class="fas fa-bars"></span>Menu</a></li>
             <li><a asp-action="Index" asp-controller="Home" asp-area=""><span class="egret egret-home"></span>Home</a></li>
-            @if (User.Identity.IsAuthenticated && User.IsInRole("Item_Read"))
-            {
+
                 <li><a asp-action="Index" asp-controller="Home" asp-area="Inventory"><span class="egret egret-inventory"></span>Inventory</a></li>
-            }
 
             @*<li><a asp-action="Index" asp-controller="Home" asp-area="Projects"><span class="egret egret-projects"></span>Projects</a></li>*@
             @*<li><a asp-action="Index" asp-controller="Home" asp-area="Suppliers"><span class="egret egret-suppliers"></span>Suppliers</a></li>*@

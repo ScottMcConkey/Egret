@@ -3,6 +3,7 @@ using Egret.Models;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.Identity;
+using Microsoft.AspNetCore.Mvc.Infrastructure;
 using Microsoft.AspNetCore.Mvc.Razor;
 using Microsoft.AspNetCore.Routing;
 using Microsoft.EntityFrameworkCore;
@@ -34,6 +35,7 @@ namespace Egret
             services.AddEntityFrameworkNpgsql();
             services.AddDbContext<EgretContext>(options =>
                 options.UseNpgsql(Configuration["ConnectionStrings:DefaultConnection"]));
+            services.AddSingleton<IActionContextAccessor, ActionContextAccessor>();
             services.AddMvc();
             services.AddMemoryCache();
             services.AddSession();

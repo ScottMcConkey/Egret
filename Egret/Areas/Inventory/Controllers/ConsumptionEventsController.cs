@@ -14,7 +14,6 @@ using System.Threading.Tasks;
 namespace Egret.Controllers
 {
     [Area("Inventory")]
-    [Authorize(Roles = "ConsumptionEvent_Read")]
     public class ConsumptionEventsController : BaseController
     {
         private IQueryable<Unit> _activeUnits { get; set; }
@@ -95,7 +94,7 @@ namespace Egret.Controllers
         }
 
         [HttpGet]
-        [Authorize(Roles = "ConsumptionEvent_Update")]
+        [Authorize(Roles = "ConsumptionEvent_Edit")]
         public async Task<IActionResult> Edit(string id)
         {
             ConsumptionEventViewModel presentation = new ConsumptionEventViewModel();
@@ -120,7 +119,7 @@ namespace Egret.Controllers
         }
 
         [HttpPost]
-        [Authorize(Roles = "ConsumptionEvent_Update")]
+        [Authorize(Roles = "ConsumptionEvent_Edit")]
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> Edit(string id, ConsumptionEventViewModel vm)
         {

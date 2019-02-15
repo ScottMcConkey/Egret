@@ -16,7 +16,6 @@ using System.Threading.Tasks;
 namespace Egret.Controllers
 {
     [Area("Inventory")]
-    [Authorize(Roles = "Item_Read")]
     public class ItemsController : BaseController
     {
         private IQueryable<CurrencyType> _activeCurrencyTypes { get; set; }
@@ -34,13 +33,6 @@ namespace Egret.Controllers
             _activeInventoryCategories = Context.InventoryCategories.Where(x => x.Active == true).OrderBy(x => x.SortOrder);
             _allInventoryCategories = Context.InventoryCategories.OrderBy(x => x.SortOrder);
             _logger = logger;
-        }
-
-        [HttpGet]
-        [Authorize(Roles = "Item_Read")]
-        public IActionResult Index()
-        {
-            return View();
         }
 
         [HttpGet]
@@ -231,7 +223,7 @@ namespace Egret.Controllers
             var inventoryItems = await Context.InventoryItems.SingleOrDefaultAsync(m => m.Code == id);
             Context.InventoryItems.Remove(inventoryItems);
             await Context.SaveChangesAsync();
-            return RedirectToAction(nameof(Index));
+            return RedirectToAction("Index","Home");
         }
 
         [HttpGet]

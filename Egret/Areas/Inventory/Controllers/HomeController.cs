@@ -4,7 +4,7 @@ using Microsoft.AspNetCore.Mvc;
 namespace Egret.Areas.Inventory.Controllers
 {
     [Area("Inventory")]
-    [Authorize(Roles = "Item_Create")]
+    [Authorize]
     public class HomeController : Controller
     {
         public IActionResult Index()
