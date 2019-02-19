@@ -63,6 +63,31 @@ namespace Egret.Controllers
         }
 
         [HttpGet]
+        [Authorize(Roles = "ConsumptionEvent_Read")]
+        public async Task<IActionResult> Details(string id)
+        {
+            ConsumptionEventViewModel presentation = new ConsumptionEventViewModel();
+
+            ViewData["Unit"] = new SelectList(_activeUnits, "Abbreviation", "Abbreviation");
+
+            ConsumptionEvent consumptionEvent = await Context.ConsumptionEvents
+                .Include(i => i.InventoryItemNavigation)
+                .SingleOrDefaultAsync(m => m.Id == id);
+
+            if (id == null || consumptionEvent == null)
+            {
+                return NotFound();
+            }
+
+            presentation.ConsumptionEvent = consumptionEvent;
+            var test = new List<InventoryItem>();
+            test.Add(consumptionEvent.InventoryItemNavigation);
+            presentation.InventoryItems = test;
+
+            return View(presentation);
+        }
+
+        [HttpGet]
         [Authorize(Roles = "ConsumptionEvent_Create")]
         public IActionResult Create()
         {

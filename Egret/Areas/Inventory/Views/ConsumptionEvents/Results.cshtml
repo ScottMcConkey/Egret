@@ -13,15 +13,9 @@
 <table class="table table-condensed table-bordered">
     <thead>
         <tr>
-            <th>
-                @Html.DisplayNameFor(model => model[0].InventoryItemCode)
-            </th>
-            <th>
-                @Html.DisplayNameFor(model => model[0].DateAdded)
-            </th>
-            <th>
-                @Html.DisplayNameFor(model => model[0].ConsumedBy)
-            </th>
+            <th>@Html.DisplayNameFor(model => model[0].InventoryItemCode)</th>
+            <th>@Html.DisplayNameFor(model => model[0].DateAdded)</th>
+            <th>@Html.DisplayNameFor(model => model[0].ConsumedBy)</th>
         </tr>
     </thead>
     <tbody>
@@ -31,11 +25,12 @@
         }
         else
         {
-            @foreach (var consumptionEvent in Model)
+            var isEditOrDetails = User.IsInRole("ConsumptionEvent_Edit") ? "Edit" : "Details";
+            foreach (var consumptionEvent in Model)
             {
-                <tr class="clickable-row" onclick="location.href = '@(Url.Action("Edit", new { id = consumptionEvent.Id }))'; location.target='_blank'">
+                <tr class="clickable-row" onclick="location.href = '@(Url.Action(isEditOrDetails, new { id = consumptionEvent.Id }))'; location.target='_blank'">
                     <td>
-                        <a class="test" asp-action="Edit" asp-route-id="consumtpionEvent.Id">
+                        <a class="test" asp-action="@isEditOrDetails" asp-route-id="consumptionEvent.Id">
                             @Html.DisplayFor(modelItem => consumptionEvent.InventoryItemCode)
                         </a>
                     </td>

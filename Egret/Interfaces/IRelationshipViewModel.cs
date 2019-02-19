@@ -14,7 +14,8 @@ namespace Egret.Interfaces
         string Area { get; set; }
         string Controller { get; set; }
         string CreateAction { get; set; }
-        string EditAction { get; set; }
+        string EditRole { get; set; }
+        string ReadOnlyRole { get; set; }
         string HelpText { get; set; }
         string ObjectDisplay { get; set; }
         string TargetObjectIdColumn { get; set; }

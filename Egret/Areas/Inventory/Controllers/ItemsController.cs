@@ -36,6 +36,7 @@ namespace Egret.Controllers
         }
 
         [HttpGet]
+        [Authorize(Roles = "Item_Read")]
         public async Task<IActionResult> Details(string id)
         {
             if (id == null)
