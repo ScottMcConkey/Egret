@@ -36,6 +36,34 @@ namespace Egret.Controllers
         }
 
         [HttpGet]
+        public async Task<IActionResult> Details(string id)
+        {
+            if (id == null)
+            {
+                return NotFound();
+            }
+
+            InventoryItemViewModel presentation = new InventoryItemViewModel();
+
+            InventoryItem item = await Context.InventoryItems
+                .Where(i => i.Code == id)
+                .Include(i => i.ConsumptionEventsNavigation)
+                .Include(i => i.FabricTestsNavigation)
+                .SingleOrDefaultAsync(m => m.Code == id);
+
+            if (item == null || id == null)
+            {
+                return NotFound();
+            }
+
+            presentation.Item = item;
+            presentation.FabricTests = item.FabricTestsNavigation.OrderBy(x => x.Id).ToList();
+            presentation.ConsumptionEvents = item.ConsumptionEventsNavigation.ToList();
+
+            return View(presentation);
+        }
+
+        [HttpGet]
         [Authorize(Roles = "Item_Create")]
         public IActionResult Create()
         {
