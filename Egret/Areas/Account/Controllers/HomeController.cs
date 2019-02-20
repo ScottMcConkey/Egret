@@ -44,18 +44,19 @@ namespace Egret.Areas.Account.Controllers
         public async Task<IActionResult> ChangePassword(ChangePasswordModel details)
         {
             User user = await _userManager.FindByNameAsync(HttpContext.User.Identity.Name);
-
-            //User person = User.Identity;
             IdentityResult passwordChangeResult = await _userManager.ChangePasswordAsync(user, details.CurrentPassword, details.NewPassword);
-
 
             if (passwordChangeResult.Succeeded)
             {
                 TempData["SuccessMessage"] = "User Password Updated";
                 return RedirectToAction("Index", "Home", new { area = "" } );
             }
-            return View(details);
+            else
+            {
+                ModelState.AddModelError("", "Invalid Password.");
+            }
 
+            return View(details);
         }
 
         [HttpPost]

@@ -172,13 +172,10 @@ namespace Egret.DataAccess
 
             var presentation = new UserGroupViewModel();
 
-            var user = Context.Users.Where(x => x.Id == id).Where(x => x.Id == id).SingleOrDefault();
+            var user = Context.Users.Where(x => x.Id == id).SingleOrDefault();
 
             presentation.UserName = user.UserName;
             presentation.AccessGroups = allAccessGroups;
-
-            //var selectedAccessGroups = Context.A
-            // Must create UserAccessGroups table!!!
 
             return View(presentation);
         }
@@ -238,11 +235,7 @@ namespace Egret.DataAccess
             }
 
             return View(model);
-
         }
-
-
-
 
 
         [HttpPost]

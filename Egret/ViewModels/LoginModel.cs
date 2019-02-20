@@ -2,16 +2,14 @@
 
 namespace Egret.ViewModels
 {
-    public class UserViewModel
+    public class LoginModel
     {
         [Required]
-        public string Name { get; set; }
-
-        [Required]
+        [UIHint("email")]
         public string Email { get; set; }
 
         [Required]
+        [UIHint("password")]
         public string Password { get; set; }
     }
-
 }
