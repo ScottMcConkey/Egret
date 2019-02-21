@@ -7,7 +7,7 @@ using Microsoft.AspNetCore.Mvc.ModelBinding;
 
 namespace Egret.ViewModels
 {
-    public class InventorySearchViewModel
+    public class ItemSearchModel
     {
         public string Code { get; set; }
         public string Description { get; set; }

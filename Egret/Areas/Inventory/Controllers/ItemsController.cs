@@ -44,7 +44,7 @@ namespace Egret.Controllers
                 return NotFound();
             }
 
-            InventoryItemViewModel presentation = new InventoryItemViewModel();
+            ItemModel presentation = new ItemModel();
 
             InventoryItem item = await Context.InventoryItems
                 .Where(i => i.Code == id)
@@ -118,7 +118,7 @@ namespace Egret.Controllers
                 return NotFound();
             }
 
-            InventoryItemViewModel presentation = new InventoryItemViewModel();
+            ItemModel presentation = new ItemModel();
 
             InventoryItem item = await Context.InventoryItems
                 .Where(i => i.Code == id)
@@ -159,7 +159,7 @@ namespace Egret.Controllers
         [HttpPost]
         [Authorize(Roles = "Item_Edit")]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Edit(string id, InventoryItemViewModel vm)
+        public async Task<IActionResult> Edit(string id, ItemModel vm)
         {
             ViewData["FOBCostCurrency"] = new SelectList(_activeCurrencyTypes, "Abbreviation", "Abbreviation", vm.Item.FOBCostCurrency);
             ViewData["ShippingCostCurrency"] = new SelectList(_activeCurrencyTypes, "Abbreviation", "Abbreviation", vm.Item.ShippingCostCurrency);
@@ -267,7 +267,7 @@ namespace Egret.Controllers
         [HttpPost]
         [Authorize(Roles = "Item_Read")]
         [ValidateAntiForgeryToken]
-        public IActionResult Search(InventorySearchViewModel item)
+        public IActionResult Search(ItemSearchModel item)
         {
             ViewData["Category"] = new SelectList(_allInventoryCategories, "Name", "Name");
             var results = Context.InventoryItems.Include(x => x.ConsumptionEventsNavigation).AsQueryable();

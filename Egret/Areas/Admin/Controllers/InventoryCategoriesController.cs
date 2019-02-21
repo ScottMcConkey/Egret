@@ -92,7 +92,6 @@ namespace Egret.Controllers
             return View(category);
         }
 
-        [ActionName("Delete")]
         public ActionResult Delete(int id)
         {
             var category = Context.InventoryCategories.SingleOrDefault(m => m.Id == id);

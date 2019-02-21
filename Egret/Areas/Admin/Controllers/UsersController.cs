@@ -184,10 +184,15 @@ namespace Egret.DataAccess
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> EditAccessGroups(string id, UserGroupViewModel model)
         {
+            if (id == null)
+            {
+                return NotFound();
+            }
+
             User user = Context.Users.Where(x => x.Id == id)
                 .Include(x => x.UserAccessGroups)
-                    //.ThenInclude(y => y.AccessGroup)
-                    //    .ThenInclude(a => a.AccessGroupRoles)
+                    .ThenInclude(y => y.AccessGroup)
+                        .ThenInclude(a => a.AccessGroupRoles)
                     //        .ThenInclude(gr => gr.Role)
                 .SingleOrDefault();
 
@@ -248,6 +253,7 @@ namespace Egret.DataAccess
                 IdentityResult result = await userManager.DeleteAsync(user);
                 if (result.Succeeded)
                 {
+                    TempData["SuccessMessage"] = "User Deleted";
                     return RedirectToAction("Index");
                 }
                 else

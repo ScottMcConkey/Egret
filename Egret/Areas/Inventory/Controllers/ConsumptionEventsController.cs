@@ -66,7 +66,7 @@ namespace Egret.Controllers
         [Authorize(Roles = "ConsumptionEvent_Read")]
         public async Task<IActionResult> Details(string id)
         {
-            ConsumptionEventViewModel presentation = new ConsumptionEventViewModel();
+            ConsumptionEventModel presentation = new ConsumptionEventModel();
 
             ViewData["Unit"] = new SelectList(_activeUnits, "Abbreviation", "Abbreviation");
 
@@ -122,7 +122,7 @@ namespace Egret.Controllers
         [Authorize(Roles = "ConsumptionEvent_Edit")]
         public async Task<IActionResult> Edit(string id)
         {
-            ConsumptionEventViewModel presentation = new ConsumptionEventViewModel();
+            ConsumptionEventModel presentation = new ConsumptionEventModel();
 
             ViewData["Unit"] = new SelectList(_activeUnits, "Abbreviation", "Abbreviation");
 
@@ -146,7 +146,7 @@ namespace Egret.Controllers
         [HttpPost]
         [Authorize(Roles = "ConsumptionEvent_Edit")]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Edit(string id, ConsumptionEventViewModel vm)
+        public async Task<IActionResult> Edit(string id, ConsumptionEventModel vm)
         {
             ViewData["Unit"] = new SelectList(_activeUnits, "Abbreviation", "Abbreviation");
 

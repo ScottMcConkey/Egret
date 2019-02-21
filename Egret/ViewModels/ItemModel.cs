@@ -3,7 +3,7 @@ using System.Collections.Generic;
 
 namespace Egret.ViewModels
 {
-    public class InventoryItemViewModel
+    public class ItemModel
     {
         public List<FabricTest> FabricTests { get; set; }
         public List<ConsumptionEvent> ConsumptionEvents { get; set; }

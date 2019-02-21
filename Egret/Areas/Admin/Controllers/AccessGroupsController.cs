@@ -27,14 +27,28 @@ namespace Egret.Controllers
         }
 
         [HttpPost]
-        public IActionResult Index(List<AccessGroup> groups)
+        public IActionResult Index(List<AccessGroup> groups, string action, int? id)
         {
-            if (ModelState.IsValid)
+            switch( action )
             {
-
+                case "delete":
+                    Delete(id);
+                    break;
+                case "save":
+                    break;
             }
 
-            return RedirectToAction("Index", groups);
+            if (ModelState.IsValid)
+            {
+                for (int i = 0; i < groups.Count(); i++)
+                {
+                    Context.Update(groups[i]);
+                }
+                Context.SaveChanges();
+                TempData["SuccessMessage"] = "Access Groups Saved";
+                return RedirectToAction(nameof(Index));
+            }
+            return View(groups);
         }
 
         [HttpGet]
@@ -57,11 +71,25 @@ namespace Egret.Controllers
             return View(group);
         }
 
-        [HttpPost]
-        [ValidateAntiForgeryToken]
-        public void Delete(string id)
+        [HttpGet]
+        //[ValidateAntiForgeryToken]
+        public ActionResult Delete(int? id)
         {
-            
+            if (id == null)
+            {
+                return NotFound();
+            }
+
+            var group = Context.AccessGroups.Where(x => x.Id == id).SingleOrDefault();
+
+            if (ModelState.IsValid)
+            {
+                Context.AccessGroups.Remove(group);
+                Context.SaveChanges();
+                TempData["SuccessMessage"] = $"Access Group '{group.Name}' Deleted";
+                return RedirectToAction(nameof(Index));
+            }
+            return View(nameof(Index));
         }
 
         [HttpGet]
@@ -101,7 +129,7 @@ namespace Egret.Controllers
         }
 
         [HttpPost]
-        //[ValidateAntiForgeryToken]
+        [ValidateAntiForgeryToken]
         public IActionResult Edit(int? id, AccessGroupViewModel model)
         {
             var accessGroup = Context.AccessGroups.Where(x => x.Id == id)

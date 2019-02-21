@@ -1,9 +1,9 @@
-﻿@model InventoryItemViewModel
+﻿@model ItemModel
 
 @{
     Layout = "_CrudDoubleColumn";
-    ViewData["WindowTitle"] = "Inventory - Edit";
-    ViewData["PageTitle"] = "Edit Inventory Item: " + @Model?.Item.Code;
+    ViewData["WindowTitle"] = "Item - Edit";
+    ViewData["PageTitle"] = "Edit Item: " + @Model?.Item.Code;
 }
 
 <form asp-action="Edit">

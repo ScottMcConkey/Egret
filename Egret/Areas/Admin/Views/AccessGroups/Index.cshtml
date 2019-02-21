@@ -43,6 +43,9 @@
                         </td>
                         <td class="delete-box">
                             <a class="delete" asp-action="Delete" asp-route-id="@Model[i].Id" title="Delete"><span class="egret egret-trash"></span></a>
+                            @*<button name="action" value="delete" class="delete" asp-action="Delete" asp-route-id="@Model[i].Id" title="Delete">
+                                <span class="egret egret-trash"></span>
+                            </button>*@
                         </td>
                     </tr>
                 }
@@ -52,6 +55,7 @@
 
     <div class="form-group">
         <input type="submit" value="Save" class="btn btn-primary" />
+        @*<button name="action" value="save" class="btn btn-primary">Save</button>*@
     </div>
 
 </form>
