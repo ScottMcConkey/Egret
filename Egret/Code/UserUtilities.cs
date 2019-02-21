@@ -6,6 +6,7 @@ using Microsoft.Extensions.Logging;
 using System.Linq;
 using System;
 using Egret.DataAccess;
+using Egret.Models;
 
 namespace Egret.Code
 {
@@ -20,9 +21,6 @@ namespace Egret.Code
             _context = context;
         }
 
-        public void RebuildUserRoles(IdentityDbContext context, User user)
-        {
-            User _user = _context.Users.Where(x => x.Id == user.Id).SingleOrDefault();
-        }
+
     }
 }

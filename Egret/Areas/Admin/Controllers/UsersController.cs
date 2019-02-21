@@ -147,7 +147,7 @@ namespace Egret.DataAccess
         }
 
         [HttpGet]
-        public IActionResult EditAccessGroups(string id)
+        public async Task<IActionResult> EditAccessGroups(string id)
         {
             if (id == null)
             {
@@ -172,7 +172,7 @@ namespace Egret.DataAccess
 
             var presentation = new UserGroupViewModel();
 
-            var user = Context.Users.Where(x => x.Id == id).SingleOrDefault();
+            var user = await Context.Users.Where(x => x.Id == id).SingleOrDefaultAsync();
 
             presentation.UserName = user.UserName;
             presentation.AccessGroups = allAccessGroups;
@@ -268,6 +268,7 @@ namespace Egret.DataAccess
             return View("Index", userManager.Users);
         }
 
+        [NonAction]
         private void AddErrorsFromResult(IdentityResult result)
         {
             foreach (IdentityError error in result.Errors)
@@ -276,12 +277,15 @@ namespace Egret.DataAccess
             }
         }
 
-        public void UpdateUserRoles ()
+        [NonAction]
+        public void RebuildUserRoles(User user)
         {
-            // UserId
-            // Remove previous Roles
-            // match matrix to new roles
-            // set roles
+            User _user = Context.Users.Where(x => x.Id == user.Id)
+                            .Include(x => x.UserAccessGroups)
+                                .ThenInclude(y => y.AccessGroup)
+                                    .ThenInclude(a => a.AccessGroupRoles)
+                                        .ThenInclude(gr => gr.Role).SingleOrDefault();
+            //List<Role> roles = _user
         }
     }
 }

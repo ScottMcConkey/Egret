@@ -38,40 +38,40 @@ namespace Egret.DataAccess
             modelBuilder.HasPostgresExtension("adminpack");
             #endregion
 
-            #region Identity Tables
+            #region Identity Table Names
             modelBuilder.Entity<User>(entity =>
             {
-                entity.ToTable("aspnet_users");
+                entity.ToTable("users");
             });
 
             modelBuilder.Entity<Role>(entity =>
             {
-                entity.ToTable("aspnet_roles");
+                entity.ToTable("roles");
             });
 
             modelBuilder.Entity<IdentityUserRole<string>>(entity =>
             {
-                entity.ToTable("aspnet_userroles");
+                entity.ToTable("user_roles");
             });
 
             modelBuilder.Entity<IdentityUserClaim<string>>(entity =>
             {
-                entity.ToTable("aspnet_userclaims");
+                entity.ToTable("user_claims");
             });
 
             modelBuilder.Entity<IdentityUserLogin<string>>(entity =>
             {
-                entity.ToTable("aspnet_userlogins");
+                entity.ToTable("user_logins");
             });
 
             modelBuilder.Entity<IdentityRoleClaim<string>>(entity =>
             {
-                entity.ToTable("aspnet_roleclaims");
+                entity.ToTable("role_claims");
             });
 
             modelBuilder.Entity<IdentityUserToken<string>>(entity =>
             {
-                entity.ToTable("aspnet_usertokens");
+                entity.ToTable("user_tokens");
             });
             #endregion
 
@@ -415,14 +415,7 @@ namespace Egret.DataAccess
             modelBuilder.Entity<UserAccessGroup>(entity =>
             {
                 // Table
-                entity.ToTable("useraccessgroups");
-
-                // Indexes
-                //entity.HasIndex(i => i.AccessGroupId)
-                //    .HasName("ix_useraccessgroups_accessgroupid");
-
-                //entity.HasIndex(i => i.UserId)
-                //    .HasName("ix_useraccessgroups_userid");
+                entity.ToTable("user_accessgroups");
 
                 // Keys
                 entity.HasKey(k => new { k.AccessGroupId, k.UserId });
@@ -441,10 +434,12 @@ namespace Egret.DataAccess
                     .WithMany(c => c.UserAccessGroups)
                     .HasForeignKey(k => k.UserId);
             });
+
+
             #endregion
 
             #region Lowercase Names
-            foreach(var entity in modelBuilder.Model.GetEntityTypes())
+            foreach (var entity in modelBuilder.Model.GetEntityTypes())
             {
                 // Replace Table Names
                 entity.Relational().TableName = entity.Relational().TableName.ToLower();
@@ -502,6 +497,16 @@ namespace Egret.DataAccess
             );
 
             var userId = Guid.NewGuid().ToString();
+            var role_id1 = Guid.NewGuid().ToString();
+            var role_id2 = Guid.NewGuid().ToString();
+            var role_id3 = Guid.NewGuid().ToString();
+            var role_id4 = Guid.NewGuid().ToString();
+            var role_id5 = Guid.NewGuid().ToString();
+            var role_id6 = Guid.NewGuid().ToString();
+            var role_id7 = Guid.NewGuid().ToString();
+            var role_id8 = Guid.NewGuid().ToString();
+            var role_id9 = Guid.NewGuid().ToString();
+            var accessgroup_id1 = 1;
 
             modelBuilder.Entity<User>().HasData(new
             {
@@ -521,48 +526,38 @@ namespace Egret.DataAccess
                 IsActive = true
             });
 
-            var id1 = Guid.NewGuid().ToString();
-            var id2 = Guid.NewGuid().ToString();
-            var id3 = Guid.NewGuid().ToString();
-            var id4 = Guid.NewGuid().ToString();
-            var id5 = Guid.NewGuid().ToString();
-            var id6 = Guid.NewGuid().ToString();
-            var id7 = Guid.NewGuid().ToString();
-            var id8 = Guid.NewGuid().ToString();
-            var id9 = Guid.NewGuid().ToString();
-
             modelBuilder.Entity<Role>()
-                .HasData(new { Id = id1, Name = "Item_Create", DisplayName = "Item Create", NormalizedName = "ITEM_CREATE" },
-                         new { Id = id2, Name = "Item_Read", DisplayName = "Item Read", NormalizedName = "ITEM_READ" },
-                         new { Id = id3, Name = "Item_Edit", DisplayName = "Item Update", NormalizedName = "ITEM_EDIT" },
-                         new { Id = id4, Name = "Item_Delete", DisplayName = "Item Delete", NormalizedName = "ITEM_DELETE" },
-                         new { Id = id5, Name = "ConsumptionEvent_Create", DisplayName = "Consumption Event Create", NormalizedName = "CONSUMPTIONEVENT_CREATE" },
-                         new { Id = id6, Name = "ConsumptionEvent_Read", DisplayName = "Consumption Event Read", NormalizedName = "CONSUMPTIONEVENT_READ" },
-                         new { Id = id7, Name = "ConsumptionEvent_Edit", DisplayName = "Consumption Event Update", NormalizedName = "CONSUMPTIONEVENT_EDIT" },
-                         new { Id = id8, Name = "ConsumptionEvent_Delete", DisplayName = "Consumption Event Delete", NormalizedName = "CONSUMPTIONEVENT_DELETE" },
-                         new { Id = id9, Name = "Admin_Access", DisplayName = "Administrator Access", NormalizedName = "ADMIN_ACCESS" }
-                         );
-
-            var adminId = 1;
+                .HasData(new { Id = role_id1, Name = "Item_Create", DisplayName = "Item Create", NormalizedName = "ITEM_CREATE" },
+                         new { Id = role_id2, Name = "Item_Read", DisplayName = "Item Read", NormalizedName = "ITEM_READ" },
+                         new { Id = role_id3, Name = "Item_Edit", DisplayName = "Item Update", NormalizedName = "ITEM_EDIT" },
+                         new { Id = role_id4, Name = "Item_Delete", DisplayName = "Item Delete", NormalizedName = "ITEM_DELETE" },
+                         new { Id = role_id5, Name = "ConsumptionEvent_Create", DisplayName = "Consumption Event Create", NormalizedName = "CONSUMPTIONEVENT_CREATE" },
+                         new { Id = role_id6, Name = "ConsumptionEvent_Read", DisplayName = "Consumption Event Read", NormalizedName = "CONSUMPTIONEVENT_READ" },
+                         new { Id = role_id7, Name = "ConsumptionEvent_Edit", DisplayName = "Consumption Event Update", NormalizedName = "CONSUMPTIONEVENT_EDIT" },
+                         new { Id = role_id8, Name = "ConsumptionEvent_Delete", DisplayName = "Consumption Event Delete", NormalizedName = "CONSUMPTIONEVENT_DELETE" },
+                         new { Id = role_id9, Name = "Admin_Access", DisplayName = "Administrator Access", NormalizedName = "ADMIN_ACCESS" } );
 
             modelBuilder.Entity<AccessGroup>()
-                .HasData(new { Id = adminId, Name = "Administrator" });
+                .HasData(new { Id = accessgroup_id1, Name = "Administrator" });
 
             modelBuilder.Entity<AccessGroupRole>()
-                .HasData(new { AccessGroupId = adminId, RoleId = id1 },
-                         new { AccessGroupId = adminId, RoleId = id2 },
-                         new { AccessGroupId = adminId, RoleId = id3 },
-                         new { AccessGroupId = adminId, RoleId = id4 },
-                         new { AccessGroupId = adminId, RoleId = id5 },
-                         new { AccessGroupId = adminId, RoleId = id6 },
-                         new { AccessGroupId = adminId, RoleId = id7 },
-                         new { AccessGroupId = adminId, RoleId = id8 }
+                .HasData(new { AccessGroupId = accessgroup_id1, RoleId = role_id1 },
+                         new { AccessGroupId = accessgroup_id1, RoleId = role_id2 },
+                         new { AccessGroupId = accessgroup_id1, RoleId = role_id3 },
+                         new { AccessGroupId = accessgroup_id1, RoleId = role_id4 },
+                         new { AccessGroupId = accessgroup_id1, RoleId = role_id5 },
+                         new { AccessGroupId = accessgroup_id1, RoleId = role_id6 },
+                         new { AccessGroupId = accessgroup_id1, RoleId = role_id7 },
+                         new { AccessGroupId = accessgroup_id1, RoleId = role_id8 },
+                         new { AccessGroupId = accessgroup_id1, RoleId = role_id9 }
                 );
 
             modelBuilder.Entity<UserAccessGroup>()
-                .HasData(new { UserId = userId, AccessGroupId = adminId });
+                .HasData(new { UserId = userId, AccessGroupId = accessgroup_id1 });
 
-            //modelBuilder.Entity<UserR>
+            modelBuilder.Entity<IdentityUserRole<string>>()
+                .HasData(new { UserId = userId, RoleId = role_id9 });
+
             #endregion
         }
 
