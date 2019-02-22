@@ -1,7 +1,9 @@
 ﻿using Egret.Controllers;
 using Egret.DataAccess;
+using Egret.Models;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
+using Microsoft.AspNetCore.Identity;
 using Microsoft.Extensions.Logging;
 using Microsoft.Extensions.Configuration;
 using NSubstitute;
@@ -18,10 +20,12 @@ namespace Egret.Tests
         ILogger<ItemsController> _fakeLogger;
         DbContextOptionsBuilder<EgretContext> _options;
         EgretContext _context;
+        UserManager<User> _userManager;
 
         public AccessGroupsControllerTests()
         {
             _fakeLogger = Substitute.For<ILogger<ItemsController>>();
+            _userManager = Substitute.For <UserManager<User>>();
             _options = new DbContextOptionsBuilder<EgretContext>();
             var config = new ConfigurationBuilder()
                 .AddJsonFile("appsettings.json")
@@ -32,13 +36,13 @@ namespace Egret.Tests
         }
 
         [TestCase]
-        public async Task Edit_Get_NoIdProvided_Throws404()
+        public void Edit_Get_NoIdProvided_Throws404()
         {
             //+ Arrange
-            AccessGroupsController controller = new AccessGroupsController(_context, _fakeLogger);
+            AccessGroupsController controller = new AccessGroupsController(_context, _fakeLogger, _userManager);
 
             //+ Act
-            var actionResult = controller.Edit();
+            var actionResult = controller.EditPermissions(1);
 
             //+ Assert
             Assert.IsInstanceOf<NotFoundResult>(actionResult);

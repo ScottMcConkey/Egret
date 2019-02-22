@@ -16,8 +16,13 @@ namespace Egret.Controllers
     [Authorize(Roles = "Admin_Access")]
     public class AccessGroupsController : BaseController
     {
-        public AccessGroupsController(EgretContext context, ILogger<ItemsController> logger)
-            :base(context) { }
+        private UserManager<User> _userManager;
+
+        public AccessGroupsController(EgretContext context, ILogger<ItemsController> logger, UserManager<User> usrMgr)
+            :base(context)
+        {
+            _userManager = usrMgr;
+        }
 
         [HttpGet]
         public async Task<IActionResult> Index()
@@ -115,21 +120,20 @@ namespace Egret.Controllers
         {
             var accessGroup = Context.AccessGroups.Where(x => x.Id == id)
                 .Include(x => x.AccessGroupRoles)
-                    //.ThenInclude(x => x.Roles)
                 .SingleOrDefault();
 
             model.AccessGroup = accessGroup;
 
             if (ModelState.IsValid)
             {
-                // Remove all existing rels
+                // Remove rels Access Groups to Roles
                 foreach (AccessGroupRole groupRole in Context.AccessGroupRoles.Where(x => x.AccessGroupId == (int)id))
                 {
                     Context.AccessGroupRoles.Remove(groupRole);
                 }
                 Context.SaveChanges();
 
-                // Set new rels
+                // Create new rels Access Groups to Roles
                 foreach (Role role in model.Roles.Where(x => x.FlagForAddition == true))
                 {
                     var localRole = Context.Roles.Where(x => x.Id == role.Id).SingleOrDefault();
@@ -173,6 +177,29 @@ namespace Egret.Controllers
             {
                 ModelState.AddModelError("", error.Description);
             }
+        }
+
+        [NonAction]
+        private async Task<IdentityResult> RemoveUserRoles(User user)
+        {
+            var rolesToRemoveUserFrom = await _userManager.GetRolesAsync(user);
+            IdentityResult result = await _userManager.RemoveFromRolesAsync(user, rolesToRemoveUserFrom.ToArray());
+            return result;
+        }
+
+        [NonAction]
+        private async Task<IdentityResult> AddUserRoles(User user)
+        {
+            var roles = Context.Roles.FromSql(
+                          "select agr.roleid" +
+                          "  from user_accessgroups uag" +
+                          "  join accessgroup_roles agr" +
+                          "    on agr.accessgroupid = uag.accessgroupid" +
+                          " where uag.userid = @userid", user.Id)
+                      .Select(x => x.Id).ToList();
+
+            IdentityResult result = await _userManager.AddToRolesAsync(user, roles);
+            return result;
         }
     }
 }

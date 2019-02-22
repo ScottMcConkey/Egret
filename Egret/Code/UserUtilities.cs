@@ -1,12 +1,5 @@
-﻿using Egret.Models;
-using Microsoft.AspNetCore.Identity;
-using Microsoft.AspNetCore.Identity.EntityFrameworkCore;
-using Microsoft.EntityFrameworkCore;
+﻿using Egret.DataAccess;
 using Microsoft.Extensions.Logging;
-using System.Linq;
-using System;
-using Egret.DataAccess;
-using Egret.Models;
 
 namespace Egret.Code
 {

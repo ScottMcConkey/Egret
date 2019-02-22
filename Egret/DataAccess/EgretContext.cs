@@ -556,8 +556,15 @@ namespace Egret.DataAccess
                 .HasData(new { UserId = userId, AccessGroupId = accessgroup_id1 });
 
             modelBuilder.Entity<IdentityUserRole<string>>()
-                .HasData(new { UserId = userId, RoleId = role_id9 });
-
+                .HasData(new { UserId = userId, RoleId = role_id1 },
+                         new { UserId = userId, RoleId = role_id2 },
+                         new { UserId = userId, RoleId = role_id3 },
+                         new { UserId = userId, RoleId = role_id4 },
+                         new { UserId = userId, RoleId = role_id5 },
+                         new { UserId = userId, RoleId = role_id6 },
+                         new { UserId = userId, RoleId = role_id7 },
+                         new { UserId = userId, RoleId = role_id8 },
+                         new { UserId = userId, RoleId = role_id9 });
             #endregion
         }
 
