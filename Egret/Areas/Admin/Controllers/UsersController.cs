@@ -197,7 +197,7 @@ namespace Egret.DataAccess
                 {
                     var localAccessGroup = Context.AccessGroups.AsNoTracking().Where(x => x.Id == group.Id).SingleOrDefault();
 
-                    var newUserGroup = new UserAccessGroup() { AccessGroup = localAccessGroup, User = user };
+                    var newUserGroup = new UserAccessGroup() { AccessGroupId = localAccessGroup.Id, UserId = user.Id };
                     Context.UserAccessGroups.Add(newUserGroup);
                 }
                 Context.SaveChanges();
