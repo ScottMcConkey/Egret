@@ -168,8 +168,6 @@ namespace Egret.Controllers
             return View(nameof(Index));
         }
 
-
-
         [NonAction]
         private void AddErrorsFromResult(IdentityResult result)
         {
@@ -179,27 +177,6 @@ namespace Egret.Controllers
             }
         }
 
-        [NonAction]
-        private async Task<IdentityResult> RemoveUserRoles(User user)
-        {
-            var rolesToRemoveUserFrom = await _userManager.GetRolesAsync(user);
-            IdentityResult result = await _userManager.RemoveFromRolesAsync(user, rolesToRemoveUserFrom.ToArray());
-            return result;
-        }
 
-        [NonAction]
-        private async Task<IdentityResult> AddUserRoles(User user)
-        {
-            var roles = Context.Roles.FromSql(
-                          "select agr.roleid" +
-                          "  from user_accessgroups uag" +
-                          "  join accessgroup_roles agr" +
-                          "    on agr.accessgroupid = uag.accessgroupid" +
-                          " where uag.userid = @userid", user.Id)
-                      .Select(x => x.Id).ToList();
-
-            IdentityResult result = await _userManager.AddToRolesAsync(user, roles);
-            return result;
-        }
     }
 }

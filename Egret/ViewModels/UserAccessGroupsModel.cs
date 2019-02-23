@@ -6,7 +6,7 @@ using Egret.Models;
 
 namespace Egret.ViewModels
 {
-    public class UserGroupViewModel
+    public class UserAccessGroupsModel
     {
 		public string UserName { get; set; }
 

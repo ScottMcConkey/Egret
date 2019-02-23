@@ -20,15 +20,16 @@ namespace Egret.DataAccess
         public EgretContext(DbContextOptions<EgretContext> options) 
             : base(options) {}
 
+        public virtual DbSet<AccessGroup> AccessGroups { get; set; }
+        public virtual DbSet<AccessGroupRole> AccessGroupRoles { get; set; }
+        public virtual DbSet<ConsumptionEvent> ConsumptionEvents { get; set; }
         public virtual DbSet<CurrencyType> CurrencyTypes { get; set; }
+        public virtual DbSet<FabricTest> FabricTests { get; set; }
         public virtual DbSet<InventoryCategory> InventoryCategories { get; set; }
         public virtual DbSet<InventoryItem> InventoryItems { get; set; }
         public virtual DbSet<Unit> Units { get; set; }
-        public virtual DbSet<FabricTest> FabricTests { get; set; }
-        public virtual DbSet<ConsumptionEvent> ConsumptionEvents { get; set; }
-        public virtual DbSet<AccessGroup> AccessGroups { get; set; }
-        public virtual DbSet<AccessGroupRole> AccessGroupRoles { get; set; }
         public virtual DbSet<UserAccessGroup> UserAccessGroups { get; set; }
+
 
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
@@ -89,6 +90,97 @@ namespace Egret.DataAccess
             #endregion
 
             #region Entities
+
+            modelBuilder.Entity<AccessGroup>(entity =>
+            {
+                // Table
+                entity.ToTable("accessgroups");
+
+                // Properties
+                entity.Property(p => p.Id)
+                    .HasDefaultValueSql("nextval('accessgroups_id_seq'::regclass)"); ;
+
+                entity.Property(p => p.Name);
+
+                entity.Property(e => e.Description);
+            });
+
+            modelBuilder.Entity<AccessGroupRole>(entity =>
+            {
+                // Table
+                entity.ToTable("accessgroup_roles");
+
+                // Indexes
+                //entity.HasIndex(i => i.AccessGroupId);
+
+                //entity.HasIndex(i => i.RoleId);
+
+                // Keys
+                entity.HasKey(k => new { k.AccessGroupId, k.RoleId });
+
+                // Relationships
+                entity.HasOne(p => p.AccessGroup)
+                    .WithMany(c => c.AccessGroupRoles)
+                    .HasForeignKey(k => k.AccessGroupId);
+
+                entity.HasOne(p => p.Role)
+                    .WithMany(c => c.AccessGroupRoles)
+                    .HasForeignKey(k => k.RoleId);
+            });
+
+            modelBuilder.Entity<ConsumptionEvent>(entity =>
+            {
+                // Table
+                entity.ToTable("consumption_events");
+
+                // Properties
+                entity.Property(e => e.Id)
+                    .HasDefaultValueSql("nextval('master_seq'::regclass)");
+
+                entity.Property(e => e.DateAdded);
+
+                entity.Property(e => e.AddedBy);
+
+                entity.Property(e => e.DateUpdated);
+
+                entity.Property(e => e.UpdatedBy);
+
+                entity.Property(e => e.Unit);
+
+                entity.Property(e => e.QuantityConsumed);
+
+                entity.Property(e => e.ConsumedBy);
+
+                entity.Property(e => e.DateOfConsumption);
+
+                entity.Property(e => e.OrderNumber);
+
+                entity.Property(e => e.PatternNumber);
+
+                entity.Property(e => e.Comments);
+
+                entity.Property(p => p.InventoryItemCode);
+
+                // Relationships
+                entity.HasOne(d => d.InventoryItemNavigation)
+                    .WithMany(p => p.ConsumptionEventsNavigation)
+                    .HasPrincipalKey(p => p.Code)
+                    .HasForeignKey(f => f.InventoryItemCode)
+                    .OnDelete(DeleteBehavior.Cascade);
+
+                entity.HasOne(d => d.UnitNavigation)
+                    .WithMany()
+                    .HasPrincipalKey(p => p.Abbreviation)
+                    .HasForeignKey(f => f.Unit)
+                    .OnDelete(DeleteBehavior.Restrict);
+
+                entity.HasOne(d => d.OrderNavigation)
+                    .WithMany()
+                    .HasPrincipalKey(k => k.Id)
+                    .HasForeignKey(f => f.OrderNumber)
+                    .OnDelete(DeleteBehavior.ClientSetNull);
+            });
+
             modelBuilder.Entity<CurrencyType>(entity =>
             {
                 // Table
@@ -114,6 +206,28 @@ namespace Egret.DataAccess
                 entity.Property(e => e.SortOrder);
             });
 
+            modelBuilder.Entity<FabricTest>(entity =>
+            {
+                // Table
+                entity.ToTable("fabric_tests");
+
+                // Properties
+                entity.Property(e => e.Id)
+                    .HasDefaultValueSql("nextval('master_seq'::regclass)");
+
+                entity.Property(e => e.Name);
+
+                entity.Property(e => e.Result);
+
+                entity.Property(p => p.InventoryItemCode);
+
+                // Relationships
+                entity.HasOne(e => e.InventoryItem)
+                    .WithMany(p => p.FabricTestsNavigation)
+                    .HasForeignKey(f => f.InventoryItemCode)
+                    .HasPrincipalKey(k => k.Code);
+            });
+
             modelBuilder.Entity<InventoryCategory>(entity =>
             {
                 // Table
@@ -131,31 +245,6 @@ namespace Egret.DataAccess
                 entity.Property(e => e.Description);
 
                 entity.Property(e => e.SortOrder).IsRequired();
-
-                entity.Property(e => e.Active);
-            });
-
-            modelBuilder.Entity<Unit>(entity =>
-            {
-                // Table
-                entity.ToTable("units");
-
-                // Keys
-                entity.HasAlternateKey(k => k.Abbreviation);
-
-                // Indexes
-                entity.HasIndex(e => e.SortOrder)
-                    .IsUnique();
-
-                // Properties
-                entity.Property(e => e.Id)
-                    .HasDefaultValueSql("nextval('units_id_seq'::regclass)");
-
-                entity.Property(e => e.Name).IsRequired();
-
-                entity.Property(e => e.Abbreviation).IsRequired();
-
-                entity.Property(e => e.SortOrder);
 
                 entity.Property(e => e.Active);
             });
@@ -265,59 +354,6 @@ namespace Egret.DataAccess
                     .OnDelete(DeleteBehavior.Cascade);
             });
 
-            modelBuilder.Entity<ConsumptionEvent>(entity =>
-            {
-                // Table
-                entity.ToTable("consumption_events");
-
-                // Properties
-                entity.Property(e => e.Id)
-                    .HasDefaultValueSql("nextval('master_seq'::regclass)");
-
-                entity.Property(e => e.DateAdded);
-
-                entity.Property(e => e.AddedBy);
-
-                entity.Property(e => e.DateUpdated);
-
-                entity.Property(e => e.UpdatedBy);
-
-                entity.Property(e => e.Unit);
-
-                entity.Property(e => e.QuantityConsumed);
-
-                entity.Property(e => e.ConsumedBy);
-
-                entity.Property(e => e.DateOfConsumption);
-
-                entity.Property(e => e.OrderNumber);
-
-                entity.Property(e => e.PatternNumber);
-
-                entity.Property(e => e.Comments);
-
-                entity.Property(p => p.InventoryItemCode);
-
-                // Relationships
-                entity.HasOne(d => d.InventoryItemNavigation)
-                    .WithMany(p => p.ConsumptionEventsNavigation)
-                    .HasPrincipalKey(p => p.Code)
-                    .HasForeignKey(f => f.InventoryItemCode)
-                    .OnDelete(DeleteBehavior.Cascade);
-
-                entity.HasOne(d => d.UnitNavigation)
-                    .WithMany()
-                    .HasPrincipalKey(p => p.Abbreviation)
-                    .HasForeignKey(f => f.Unit)
-                    .OnDelete(DeleteBehavior.Restrict);
-
-                entity.HasOne(d => d.OrderNavigation)
-                    .WithMany()
-                    .HasPrincipalKey(k => k.Id)
-                    .HasForeignKey(f => f.OrderNumber)
-                    .OnDelete(DeleteBehavior.ClientSetNull);
-            });
-
             modelBuilder.Entity<Order>(entity =>
             {
                 // Table
@@ -326,28 +362,6 @@ namespace Egret.DataAccess
                 // Properties
                 entity.Property(p => p.Id);
             });
-
-            modelBuilder.Entity<FabricTest>(entity =>
-                {
-                    // Table
-                    entity.ToTable("fabric_tests");
-
-                    // Properties
-                    entity.Property(e => e.Id)
-                        .HasDefaultValueSql("nextval('master_seq'::regclass)");
-
-                    entity.Property(e => e.Name);
-
-                    entity.Property(e => e.Result);
-
-                    entity.Property(p => p.InventoryItemCode);
-
-                    // Relationships
-                    entity.HasOne(e => e.InventoryItem)
-                        .WithMany(p => p.FabricTestsNavigation)
-                        .HasForeignKey(f => f.InventoryItemCode)
-                        .HasPrincipalKey(k => k.Code);
-                });
 
             modelBuilder.Entity<PurchaseEvent>(entity =>
                 {
@@ -375,41 +389,29 @@ namespace Egret.DataAccess
                     entity.Property(e => e.CustomerPurchasedFor);
                 });
 
-            modelBuilder.Entity<AccessGroup>(entity =>
+            modelBuilder.Entity<Unit>(entity =>
             {
                 // Table
-                entity.ToTable("accessgroups");
-
-                // Properties
-                entity.Property(p => p.Id)
-                    .HasDefaultValueSql("nextval('accessgroups_id_seq'::regclass)"); ;
-
-                entity.Property(p => p.Name);
-
-                entity.Property(e => e.Description);
-            });
-
-            modelBuilder.Entity<AccessGroupRole>(entity =>
-            {
-                // Table
-                entity.ToTable("accessgroup_roles");
-
-                // Indexes
-                //entity.HasIndex(i => i.AccessGroupId);
-
-                //entity.HasIndex(i => i.RoleId);
+                entity.ToTable("units");
 
                 // Keys
-                entity.HasKey(k => new { k.AccessGroupId, k.RoleId });
+                entity.HasAlternateKey(k => k.Abbreviation);
 
-                // Relationships
-                entity.HasOne(p => p.AccessGroup)
-                    .WithMany(c => c.AccessGroupRoles)
-                    .HasForeignKey(k => k.AccessGroupId);
+                // Indexes
+                entity.HasIndex(e => e.SortOrder)
+                    .IsUnique();
 
-                entity.HasOne(p => p.Role)
-                    .WithMany(c => c.AccessGroupRoles)
-                    .HasForeignKey(k => k.RoleId);
+                // Properties
+                entity.Property(e => e.Id)
+                    .HasDefaultValueSql("nextval('units_id_seq'::regclass)");
+
+                entity.Property(e => e.Name).IsRequired();
+
+                entity.Property(e => e.Abbreviation).IsRequired();
+
+                entity.Property(e => e.SortOrder);
+
+                entity.Property(e => e.Active);
             });
 
             modelBuilder.Entity<UserAccessGroup>(entity =>
@@ -434,7 +436,6 @@ namespace Egret.DataAccess
                     .WithMany(c => c.UserAccessGroups)
                     .HasForeignKey(k => k.UserId);
             });
-
 
             #endregion
 

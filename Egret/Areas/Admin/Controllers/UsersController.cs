@@ -17,10 +17,10 @@ namespace Egret.DataAccess
     [Authorize(Roles = "Admin_Access")]
     public class UsersController : BaseController
     {
-        private UserManager<User> userManager;
-        private IUserValidator<User> userValidator;
-        private IPasswordValidator<User> passwordValidator;
-        private IPasswordHasher<User> passwordHasher;
+        private UserManager<User> _userManager;
+        private IUserValidator<User> _userValidator;
+        private IPasswordValidator<User> _passwordValidator;
+        private IPasswordHasher<User> _passwordHasher;
         private static ILogger _logger;
 
         public UsersController(EgretContext context,
@@ -31,23 +31,23 @@ namespace Egret.DataAccess
             ILogger<UsersController> logger)
                 : base(context)
         {
-            userManager = usrMgr;
-            userValidator = userValid;
-            passwordValidator = passValid;
-            passwordHasher = passwordHash;
+            _userManager = usrMgr;
+            _userValidator = userValid;
+            _passwordValidator = passValid;
+            _passwordHasher = passwordHash;
             _logger = logger;
         }
 
         [HttpGet]
         public ViewResult Index()
         {
-            return View(userManager.Users.ToList());
+            return View(_userManager.Users.ToList());
         }
 
         [HttpGet]
         public async Task<IActionResult> Edit(string id)
         {
-            User user = await userManager.FindByIdAsync(id);
+            User user = await _userManager.FindByIdAsync(id);
             if (user != null)
             {
                 return View(user);
@@ -62,13 +62,13 @@ namespace Egret.DataAccess
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> Edit(string id, string email, string password, bool isactive)
         {
-            User user = await userManager.FindByIdAsync(id);
+            User user = await _userManager.FindByIdAsync(id);
 
             if (user != null)
             {
                 user.Email = email;
                 user.IsActive = isactive;
-                IdentityResult validEmail = await userValidator.ValidateAsync(userManager, user);
+                IdentityResult validEmail = await _userValidator.ValidateAsync(_userManager, user);
                 if (!validEmail.Succeeded)
                 {
                     AddErrorsFromResult(validEmail);
@@ -76,11 +76,11 @@ namespace Egret.DataAccess
                 IdentityResult validPass = null;
                 if (!string.IsNullOrEmpty(password))
                 {
-                    validPass = await passwordValidator.ValidateAsync(userManager,
+                    validPass = await _passwordValidator.ValidateAsync(_userManager,
                         user, password);
                     if (validPass.Succeeded)
                     {
-                        user.PasswordHash = passwordHasher.HashPassword(user,
+                        user.PasswordHash = _passwordHasher.HashPassword(user,
                             password);
                     }
                     else
@@ -92,7 +92,7 @@ namespace Egret.DataAccess
                         || (validEmail.Succeeded
                         && password != string.Empty && validPass.Succeeded))
                 {
-                    IdentityResult result = await userManager.UpdateAsync(user);
+                    IdentityResult result = await _userManager.UpdateAsync(user);
                     if (result.Succeeded)
                     {
                         return RedirectToAction("Index");
@@ -125,10 +125,11 @@ namespace Egret.DataAccess
                 User user = new User
                 {
                     UserName = model.Name,
-                    Email = model.Email
+                    Email = model.Email,
+                    IsActive = true
                 };
 
-                IdentityResult result = await userManager.CreateAsync(user, model.Password);
+                IdentityResult result = await _userManager.CreateAsync(user, model.Password);
 
                 if (result.Succeeded)
                 {
@@ -154,35 +155,24 @@ namespace Egret.DataAccess
                 return NotFound();
             }
 
-            List<UserAccessGroup> userAccessGroups = Context.UserAccessGroups.AsNoTracking().Where(x => x.UserId == id).ToList();
-            List<int> accessGroupdIds = userAccessGroups.Select(x => x.AccessGroupId).ToList();
-            List<AccessGroup> selectedAccessGroups = Context.AccessGroups.AsNoTracking().Where(y => accessGroupdIds.Contains(y.Id)).ToList();
-            List<AccessGroup> allAccessGroups = Context.AccessGroups.AsNoTracking().ToList();
-
-            foreach (AccessGroup ag in allAccessGroups)
-            {
-                foreach (AccessGroup selecedtAg in selectedAccessGroups)
-                {
-                    if (selecedtAg.Id == ag.Id)
-                    {
-                        ag.FlagForAddition = true;
-                    }
-                }
-            }
-
-            var presentation = new UserGroupViewModel();
-
             var user = await Context.Users.Where(x => x.Id == id).SingleOrDefaultAsync();
+            var accessGroups = Context.AccessGroups.AsNoTracking().ToList();
+            var relatedAccessGroups = Context.UserAccessGroups.AsNoTracking().Where(x => x.UserId == id).Select(x => x.AccessGroupId).ToList();
 
-            presentation.UserName = user.UserName;
-            presentation.AccessGroups = allAccessGroups;
+            accessGroups.Where(x => relatedAccessGroups.Contains(x.Id)).ToList().ForEach(y => y.RelationshipPresent = true);
+
+            var presentation = new UserAccessGroupsModel
+            {
+                UserName = user.UserName,
+                AccessGroups = accessGroups
+            };
 
             return View(presentation);
         }
 
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> EditAccessGroups(string id, UserGroupViewModel model)
+        public async Task<IActionResult> EditAccessGroups(string id, UserAccessGroupsModel model)
         {
             if (id == null)
             {
@@ -211,7 +201,7 @@ namespace Egret.DataAccess
                 IdentityResult result;
 
                 // Set new rels
-                foreach (AccessGroup group in model.AccessGroups.Where(x => x.FlagForAddition == true))
+                foreach (AccessGroup group in model.AccessGroups.Where(x => x.RelationshipPresent == true))
                 {
                     var localAccessGroup = Context.AccessGroups.Where(x => x.Id == group.Id)
                         .Include(x => x.AccessGroupRoles)
@@ -220,12 +210,12 @@ namespace Egret.DataAccess
 
                     var roleNames = localAccessGroup.AccessGroupRoles.Select(x => x.Role.NormalizedName).ToList();
 
-                    User user1 = await userManager.FindByIdAsync(user.Id);
+                    User user1 = await _userManager.FindByIdAsync(user.Id);
                     if (user1 != null)
                     {
                         foreach (string name in roleNames)
                         {
-                            result = await userManager.AddToRoleAsync(user1, name);
+                            result = await _userManager.AddToRoleAsync(user1, name);
                         } 
                     }
 
@@ -247,10 +237,10 @@ namespace Egret.DataAccess
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> Delete(string id)
         {
-            User user = await userManager.FindByIdAsync(id);
+            User user = await _userManager.FindByIdAsync(id);
             if (user != null)
             {
-                IdentityResult result = await userManager.DeleteAsync(user);
+                IdentityResult result = await _userManager.DeleteAsync(user);
                 if (result.Succeeded)
                 {
                     TempData["SuccessMessage"] = "User Deleted";
@@ -265,7 +255,7 @@ namespace Egret.DataAccess
             {
                 ModelState.AddModelError("", "User Not Found");
             }
-            return View("Index", userManager.Users);
+            return View("Index", _userManager.Users);
         }
 
         [NonAction]
@@ -278,14 +268,26 @@ namespace Egret.DataAccess
         }
 
         [NonAction]
-        public void RebuildUserRoles(User user)
+        private async Task<IdentityResult> RemoveUserRoles(User user)
         {
-            User _user = Context.Users.Where(x => x.Id == user.Id)
-                            .Include(x => x.UserAccessGroups)
-                                .ThenInclude(y => y.AccessGroup)
-                                    .ThenInclude(a => a.AccessGroupRoles)
-                                        .ThenInclude(gr => gr.Role).SingleOrDefault();
-            //List<Role> roles = _user
+            var rolesToRemoveUserFrom = await _userManager.GetRolesAsync(user);
+            IdentityResult result = await _userManager.RemoveFromRolesAsync(user, rolesToRemoveUserFrom.ToArray());
+            return result;
+        }
+
+        [NonAction]
+        private async Task<IdentityResult> AddUserRoles(User user)
+        {
+            var roles = Context.Roles.FromSql(
+                          "select agr.roleid" +
+                          "  from user_accessgroups uag" +
+                          "  join accessgroup_roles agr" +
+                          "    on agr.accessgroupid = uag.accessgroupid" +
+                          " where uag.userid = @userid", user.Id)
+                      .Select(x => x.Id).ToList();
+
+            IdentityResult result = await _userManager.AddToRolesAsync(user, roles);
+            return result;
         }
     }
 }

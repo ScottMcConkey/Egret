@@ -31,6 +31,37 @@ namespace Egret.Areas.Account.Controllers
             return View();
         }
 
+        [HttpPost]
+        [AllowAnonymous]
+        [ValidateAntiForgeryToken]
+        public async Task<IActionResult> Login(LoginModel details, string returnUrl)
+        {
+            if (ModelState.IsValid)
+            {
+                User user = await _userManager.FindByEmailAsync(details.Email);
+                if (user != null)
+                {
+                    if (user.IsActive)
+                    {
+                        await _signInManager.SignOutAsync();
+                        Microsoft.AspNetCore.Identity.SignInResult result = await _signInManager.PasswordSignInAsync(
+                            user, details.Password, false, false);
+                        if (result.Succeeded)
+                        {
+                            return Redirect(returnUrl ?? "/");
+                        }
+                    }
+                    else
+                    {
+                        _logger.LogWarning($"Failed login attempt from inactive user {Request.HttpContext.User.Identity.Name}");
+                    }
+                }
+                _logger.LogWarning($"Failed login attempt from address {Request.HttpContext.Connection.RemoteIpAddress}");
+                ModelState.AddModelError(nameof(LoginModel.Email), "Invalid email or password");
+            }
+            return View(details);
+        }
+
         [HttpGet]
         [Authorize]
         public IActionResult ChangePassword()
@@ -56,30 +87,6 @@ namespace Egret.Areas.Account.Controllers
                 ModelState.AddModelError("", "Invalid Password.");
             }
 
-            return View(details);
-        }
-
-        [HttpPost]
-        [AllowAnonymous]
-        [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Login(LoginModel details, string returnUrl)
-        {
-            if (ModelState.IsValid)
-            {
-                User user = await _userManager.FindByEmailAsync(details.Email);
-                if (user != null)
-                {
-                    await _signInManager.SignOutAsync();
-                    Microsoft.AspNetCore.Identity.SignInResult result = await _signInManager.PasswordSignInAsync(
-                        user, details.Password, false, false);
-                    if (result.Succeeded)
-                    {
-                        return Redirect(returnUrl ?? "/");
-                    }
-                }
-                _logger.LogWarning($"Failed login attempt from {Request.HttpContext.Connection.RemoteIpAddress}");
-                ModelState.AddModelError(nameof(LoginModel.Email), "Invalid email or password");
-            }
             return View(details);
         }
 

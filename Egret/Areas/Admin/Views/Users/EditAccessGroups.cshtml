@@ -1,4 +1,4 @@
-﻿@model  UserGroupViewModel
+﻿@model  UserAccessGroupsModel
 
 @{
     Layout = "_CrudSingleColumn";
@@ -30,7 +30,7 @@
                             <input asp-for="@Model.AccessGroups[i].Name" class="form-control" />
                         </td>
                         <td>
-                            <input asp-for="@Model.AccessGroups[i].FlagForAddition" type="checkbox" class="form-control" />
+                            <input asp-for="@Model.AccessGroups[i].RelationshipPresent" type="checkbox" class="form-control" />
                         </td>
                         <td class="delete-box">
                             <a class="delete" asp-action="Delete" asp-route-id="@Model.AccessGroups[i].Id" title="Delete"><span class="egret egret-trash"></span></a>

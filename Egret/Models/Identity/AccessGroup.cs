@@ -19,6 +19,6 @@ namespace Egret.Models
         public ICollection<UserAccessGroup> UserAccessGroups { get; set; }
 
         [NotMapped]
-        public bool FlagForAddition { get; set; }
+        public bool RelationshipPresent { get; set; }
     }
 }
