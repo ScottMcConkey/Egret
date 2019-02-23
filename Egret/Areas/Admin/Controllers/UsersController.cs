@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Data.Common;
 using System.Linq;
 using System.Threading.Tasks;
 using Microsoft.AspNetCore.Identity;
@@ -172,64 +173,46 @@ namespace Egret.DataAccess
 
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> EditAccessGroups(string id, UserAccessGroupsModel model)
+        public async Task<IActionResult> EditAccessGroups(string id, UserAccessGroupsModel presentation)
         {
             if (id == null)
             {
                 return NotFound();
             }
 
-            User user = Context.Users.Where(x => x.Id == id)
-                .Include(x => x.UserAccessGroups)
-                    .ThenInclude(y => y.AccessGroup)
-                        .ThenInclude(a => a.AccessGroupRoles)
-                    //        .ThenInclude(gr => gr.Role)
-                .SingleOrDefault();
+            User user = Context.Users.Where(x => x.Id == id).SingleOrDefault();
 
-            model.UserName = user.UserName;
+            presentation.UserName = user.UserName;
 
             if (ModelState.IsValid)
             {
-                // Remove all existing rels
+                // Remove all User Access Group rels
                 foreach (UserAccessGroup userGroup in Context.UserAccessGroups.Where(x => x.UserId == id))
                 {
                     Context.UserAccessGroups.Remove(userGroup);
                 }
 
-                Context.SaveChanges();
-
-                IdentityResult result;
-
-                // Set new rels
-                foreach (AccessGroup group in model.AccessGroups.Where(x => x.RelationshipPresent == true))
+                // Set all User Access Group rels
+                foreach (AccessGroup group in presentation.AccessGroups.Where(x => x.RelationshipPresent == true))
                 {
-                    var localAccessGroup = Context.AccessGroups.Where(x => x.Id == group.Id)
-                        .Include(x => x.AccessGroupRoles)
-                            .ThenInclude(y => y.Role)
-                        .SingleOrDefault();
-
-                    var roleNames = localAccessGroup.AccessGroupRoles.Select(x => x.Role.NormalizedName).ToList();
-
-                    User user1 = await _userManager.FindByIdAsync(user.Id);
-                    if (user1 != null)
-                    {
-                        foreach (string name in roleNames)
-                        {
-                            result = await _userManager.AddToRoleAsync(user1, name);
-                        } 
-                    }
+                    var localAccessGroup = Context.AccessGroups.AsNoTracking().Where(x => x.Id == group.Id).SingleOrDefault();
 
                     var newUserGroup = new UserAccessGroup() { AccessGroup = localAccessGroup, User = user };
                     Context.UserAccessGroups.Add(newUserGroup);
-
                 }
-
                 Context.SaveChanges();
 
+                // Remove all existing rels
+                IdentityResult removeRoles = await RemoveUserRoles(user);
+
+                // Set new rels
+                IdentityResult addRoles = await AddUserRoles(user);
+
+                TempData["SuccessMessage"] = $"Access Groups Updated for User {user.UserName}";
                 return RedirectToAction(nameof(Index));
             }
 
-            return View(model);
+            return View(presentation);
         }
 
 
@@ -278,13 +261,15 @@ namespace Egret.DataAccess
         [NonAction]
         private async Task<IdentityResult> AddUserRoles(User user)
         {
-            var roles = Context.Roles.FromSql(
-                          "select agr.roleid" +
+            var roles = Context.Roles.AsNoTracking().FromSql(
+                          "select r.name" +
                           "  from user_accessgroups uag" +
                           "  join accessgroup_roles agr" +
                           "    on agr.accessgroupid = uag.accessgroupid" +
-                          " where uag.userid = @userid", user.Id)
-                      .Select(x => x.Id).ToList();
+                          "  join roles r" +
+                          "    on r.id = agr.roleid" +
+                          " where uag.userid = {0}", user.Id)
+                          .Select(x => x.Name).ToList();
 
             IdentityResult result = await _userManager.AddToRolesAsync(user, roles);
             return result;
