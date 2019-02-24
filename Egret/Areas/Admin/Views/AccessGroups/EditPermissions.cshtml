@@ -1,4 +1,4 @@
-﻿@model AccessGroupViewModel
+﻿@model AccessGroupPermissionsModel
 
 @{
     Layout = "_CrudSingleColumn";
@@ -18,14 +18,13 @@
         <tbody>
             @for (int i = 0; i < Model.Roles.Count(); i++)
             {
-
                 <tr>
                     <td>
                         @Model.Roles[i].DisplayName
                     </td>
                     <td>
                         <input type="hidden" asp-for="@Model.Roles[i].Id" />
-                        <input asp-for="@Model.Roles[i].FlagForAddition" type="checkbox" class="checkbox" />
+                        <input asp-for="@Model.Roles[i].RelationshipPresent" type="checkbox" class="checkbox" />
                     </td>
                 </tr>
             }
@@ -39,6 +38,6 @@
 </form>
 
 <div>
-    <a asp-controller="AccessGroups" asp-action="Index">Back to Admin</a>
+    <a asp-controller="AccessGroups" asp-action="Index">Back to Access Groups</a>
 </div>
 

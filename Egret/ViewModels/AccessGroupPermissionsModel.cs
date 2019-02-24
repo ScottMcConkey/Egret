@@ -7,7 +7,7 @@ using Egret.DataAccess;
 
 namespace Egret.ViewModels
 {
-    public class AccessGroupViewModel
+    public class AccessGroupPermissionsModel
     {
         public AccessGroup AccessGroup { get; set; }
 

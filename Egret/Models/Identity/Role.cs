@@ -25,7 +25,7 @@ namespace Egret.Models
         public string DisplayName { get; set; }
 
         [NotMapped]
-        public bool FlagForAddition { get; set; }
+        public bool RelationshipPresent { get; set; }
 
         public ICollection<AccessGroupRole> AccessGroupRoles { get; set; }
     }

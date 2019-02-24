@@ -64,7 +64,7 @@ namespace Egret.Controllers
 
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public IActionResult Create(AccessGroup group)
+        public async Task<IActionResult> Create(AccessGroup group)
         {
             if (ModelState.IsValid)
             {
@@ -77,38 +77,23 @@ namespace Egret.Controllers
         }
 
         [HttpGet]
-        public IActionResult EditPermissions(int? id)
+        public async Task<IActionResult> EditPermissions(int? id)
         {
             if (id == null)
             {
                 return NotFound();
             }
 
-            var accessGroup = Context.AccessGroups.Where(x => x.Id == id)
-                .Include(group => group.AccessGroupRoles)
-                    .ThenInclude(agRoles => agRoles.Role)
-                .SingleOrDefault();
+            var accessGroup = await Context.AccessGroups.Where(x => x.Id == id).SingleOrDefaultAsync();
 
-            List<AccessGroupRole> groupRoles = Context.AccessGroupRoles.AsNoTracking().Where(x => x.AccessGroupId == (int)id).ToList();
-            List<string> roleIds = groupRoles.Select(x => x.RoleId).ToList();
-            List<Role> selectedRoles = Context.Roles.AsNoTracking().Where(y => roleIds.Contains(y.Id)).ToList();
-            List<Role> allRoles = Context.Roles.AsNoTracking().OrderBy(x => x.Name).ToList();
+            var roles = Context.Roles.AsNoTracking().OrderBy(x => x.Name).ToList();
+            var relatedRoles = Context.AccessGroupRoles.AsNoTracking().Where(x => x.AccessGroupId == id).Select(x => x.RoleId).ToList();
+            roles.Where(x => relatedRoles.Contains(x.Id)).ToList().ForEach(y => y.RelationshipPresent = true);
 
-            foreach (Role role in allRoles)
-            {
-                foreach (Role selectedRole in selectedRoles)
-                {
-                    if (selectedRole.Id == role.Id)
-                    {
-                        role.FlagForAddition = true;
-                    }
-                }
-            }
-
-            var presentation = new AccessGroupViewModel
+            var presentation = new AccessGroupPermissionsModel
             {
                 AccessGroup = accessGroup,
-                Roles = allRoles
+                Roles = roles
             };
 
             return View(presentation);
@@ -116,7 +101,7 @@ namespace Egret.Controllers
 
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public IActionResult EditPermissions(int? id, AccessGroupViewModel model)
+        public IActionResult EditPermissions(int? id, AccessGroupPermissionsModel model)
         {
             var accessGroup = Context.AccessGroups.Where(x => x.Id == id)
                 .Include(x => x.AccessGroupRoles)
@@ -134,7 +119,7 @@ namespace Egret.Controllers
                 Context.SaveChanges();
 
                 // Create new rels Access Groups to Roles
-                foreach (Role role in model.Roles.Where(x => x.FlagForAddition == true))
+                foreach (Role role in model.Roles.Where(x => x.RelationshipPresent == true))
                 {
                     var localRole = Context.Roles.Where(x => x.Id == role.Id).SingleOrDefault();
                     var newGroupRole = new AccessGroupRole() { Role = localRole, AccessGroup = model.AccessGroup };
