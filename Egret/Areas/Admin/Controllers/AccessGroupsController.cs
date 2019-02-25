@@ -68,8 +68,8 @@ namespace Egret.Controllers
         {
             if (ModelState.IsValid)
             {
-                Context.AccessGroups.Add(group);
-                Context.SaveChanges();
+                await Context.AccessGroups.AddAsync(group);
+                await Context.SaveChangesAsync();
                 TempData["SuccessMessage"] = "Access Group Added";
                 return RedirectToAction(nameof(Index));
             }
@@ -101,7 +101,7 @@ namespace Egret.Controllers
 
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public IActionResult EditPermissions(int? id, AccessGroupPermissionsModel model)
+        public async Task<IActionResult> EditPermissions(int? id, AccessGroupPermissionsModel model)
         {
             var accessGroup = Context.AccessGroups.Where(x => x.Id == id)
                 .Include(x => x.AccessGroupRoles)
@@ -111,14 +111,14 @@ namespace Egret.Controllers
 
             if (ModelState.IsValid)
             {
-                // Remove rels Access Groups to Roles
+                // Remove rels from Access Group to Roles
                 foreach (AccessGroupRole groupRole in Context.AccessGroupRoles.Where(x => x.AccessGroupId == (int)id))
                 {
                     Context.AccessGroupRoles.Remove(groupRole);
                 }
                 Context.SaveChanges();
 
-                // Create new rels Access Groups to Roles
+                // Create new rels from Access Group to Roles
                 foreach (Role role in model.Roles.Where(x => x.RelationshipPresent == true))
                 {
                     var localRole = Context.Roles.Where(x => x.Id == role.Id).SingleOrDefault();
@@ -126,6 +126,35 @@ namespace Egret.Controllers
                     Context.AccessGroupRoles.Add(newGroupRole);
                 }
                 Context.SaveChanges();
+
+
+                // Loop through every user assigned to this access group
+                var users = Context.UserAccessGroups.AsNoTracking().Where(x => x.AccessGroupId == id).Select(y => y.User).ToList();
+                var roles = Context.Roles.AsNoTracking().Select(y => y.Name);
+                //var selectedRoles = model.Roles.Where(x => x.RelationshipPresent == true).Select(y => y.Name).ToList();
+
+                foreach (User user in users)
+                {
+                    // Remove all Roles from each of those users
+                    IdentityResult result = await _userManager.RemoveFromRolesAsync(user, roles);
+
+                    // what about roles duplicated among 2+ AccessGroups???
+                    // also, this isn't retoring Roles from those other access groups!
+
+                    var rolesToAdd = Context.Roles.AsNoTracking().FromSql(
+                        "select r.name" +
+                        "  from user_accessgroups uag" +
+                        "  join accessgroup_roles agr" +
+                        "    on agr.accessgroupid = uag.accessgroupid" +
+                        "  join roles r" +
+                        "    on r.id = agr.roleid" +
+                        " where uag.userid = {0}", user.Id)
+                        .Select(x => x.Name).ToList();
+
+                    // Rebuild all Roles based on new specifications
+                    IdentityResult result2 = await _userManager.AddToRolesAsync(user, rolesToAdd);
+                }
+                
                 TempData["SuccessMessage"] = "Access Group Permissions Updated";
                 return RedirectToAction(nameof(Index));
             }
