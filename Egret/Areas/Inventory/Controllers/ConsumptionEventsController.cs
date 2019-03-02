@@ -203,7 +203,7 @@ namespace Egret.Controllers
             if (!String.IsNullOrEmpty(search.ConsumedBy))
                 results = results.Where(x => x.ConsumedBy.ToLowerInvariant().Contains(search.ConsumedBy.ToLowerInvariant()));
 
-            return View("Results", results.OrderBy(x => x.InventoryItemCode).ToList());
+            return View("Results", results.OrderBy(x => x.DateOfConsumption).ToList());
         }
 
     }
