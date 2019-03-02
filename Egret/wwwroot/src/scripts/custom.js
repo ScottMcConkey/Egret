@@ -47,9 +47,9 @@ function ManageTabs() {
 }
 
 function ManageValidationErrors() {
-    $("input.input-validation-error").addClass("is-invalid");
+    $(".input-validation-error").addClass("is-invalid");
     $(".input-validation-error").on("focus", function () {
-        $(this).find("input.input-validation-error").val("");
+        $(this).find(".input-validation-error").val("");
         $(this).removeClass("is-invalid");
     });
 }

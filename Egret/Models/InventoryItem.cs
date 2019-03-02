@@ -36,9 +36,11 @@ namespace Egret.Models
         [Language(Name = "Nepali", Value = "वर्णन")]
         public string Description { get; set; }
 
+        [Required]
         [Language(Name = "Nepali", Value = "वर्ग")]
         public string Category { get; set; }
 
+        [Required]
         [Display(Name = "Quantity Purchased")]
         [Language(Name = "Nepali", Value = "मात्रा खरिद गरियो")]
         [DisplayFormat(DataFormatString = "{0:0.00##}", ApplyFormatInEditMode = true)]
@@ -67,10 +69,12 @@ namespace Egret.Models
 
         public string ImportCostCurrency { get; set; }
 
+        [Required]
         [Display(Name = "Customer Purchased For")]
         [Language(Name = "Nepali", Value = "ग्राहक खरिद गरियो")]
         public string CustomerPurchasedFor { get; set; }
 
+        [Required]
         [Display(Name = "Customer Reserved For")]
         [Language(Name = "Nepali", Value = "ग्राहक आरक्षितको लागी")]
         public string CustomerReservedFor { get; set; }

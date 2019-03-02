@@ -19,18 +19,18 @@
     <div class="tab-content">
 
         <div class="form-group">
-            <label asp-for="Description" include-languages="Nepali" class="control-label"></label>
+            <label asp-for="Description" include-languages="Nepali" class="control-label required"></label>
             <textarea asp-for="Description" class="form-control" style="height: 6em;"></textarea>
         </div>
 
         <div class="form-group">
-            <label asp-for="Category" include-languages="Nepali" class="control-label"></label>
+            <label asp-for="Category" include-languages="Nepali" class="control-label required"></label>
             <select asp-for="Category" class="form-control" asp-items="ViewBag.Category">
                 <option value=""></option>
             </select>
         </div>
 
-        <label asp-for="QtyPurchased" include-languages="Nepali" class="control-label"></label>
+        <label asp-for="QtyPurchased" include-languages="Nepali" class="control-label required"></label>
         <div class="form-group form-inline">
             <input asp-for="QtyPurchased" style="width: 25%;" class="form-control mr-2" />
             <select asp-for="Unit" style="width: 25%;" class="form-control" asp-items="ViewBag.Unit">
@@ -66,12 +66,12 @@
         </div><br />
 
         <div class="form-group">
-            <label asp-for="CustomerPurchasedFor" include-languages="Nepali" class="control-label"></label>
+            <label asp-for="CustomerPurchasedFor" include-languages="Nepali" class="control-label required"></label>
             <input asp-for="CustomerPurchasedFor" class="form-control" />
         </div>
 
         <div class="form-group">
-            <label asp-for="CustomerReservedFor" include-languages="Nepali" class="control-label"></label>
+            <label asp-for="CustomerReservedFor" include-languages="Nepali" class="control-label required"></label>
             <input asp-for="CustomerReservedFor" class="form-control" />
         </div>
 
