@@ -135,18 +135,22 @@ namespace Egret.Controllers
             ViewData["ShippingCostCurrency"] = new SelectList(_activeCurrencyTypes, "Abbreviation", "Abbreviation", item.ShippingCostCurrency);
             ViewData["ImportCostCurrency"] = new SelectList(_activeCurrencyTypes, "Abbreviation", "Abbreviation", item.ImportCostCurrency);
 
-            if (!_activeInventoryCategories.Any(x => x.Name == item.Category))
+            // If the selected Category is not currently Active, include it anyway
+            if (!String.IsNullOrEmpty(item.Category))
             {
-                List<InventoryCategory> ActiveAndCurrentCategories = _activeInventoryCategories.ToList();
-                InventoryCategory something = Context.InventoryCategories.Where(x => x.Name == item.Category).SingleOrDefault();
-                ActiveAndCurrentCategories.Add(something);
-                ViewData["Category"] = new SelectList(ActiveAndCurrentCategories, "Name", "Name", item.Category);
+                if (!_activeInventoryCategories.Any(x => x.Name == item.Category))
+                {
+                    List<InventoryCategory> ActiveAndCurrentCategories = _activeInventoryCategories.ToList();
+                    InventoryCategory currentCategory = Context.InventoryCategories.Where(x => x.Name == item.Category).SingleOrDefault();
+                    ActiveAndCurrentCategories.Add(currentCategory);
+                    ViewData["Category"] = new SelectList(ActiveAndCurrentCategories, "Name", "Name", item.Category);
+                }
             }
             else
             {
                 ViewData["Category"] = new SelectList(_activeInventoryCategories, "Name", "Name", item.Category);
             }
-            
+
             ViewData["Unit"] = new SelectList(_activeUnits, "Abbreviation", "Abbreviation", item.Unit);
 
             presentation.Item = item;

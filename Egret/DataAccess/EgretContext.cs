@@ -263,7 +263,7 @@ namespace Egret.DataAccess
 
                 entity.Property(e => e.Description).IsRequired();
 
-                entity.Property(e => e.Category);
+                entity.Property(e => e.Category).IsRequired();
 
                 entity.Property(e => e.QtyPurchased);
 

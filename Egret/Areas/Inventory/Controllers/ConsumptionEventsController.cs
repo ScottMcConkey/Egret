@@ -136,9 +136,11 @@ namespace Egret.Controllers
             }
 
             presentation.ConsumptionEvent = consumptionEvent;
-            var test = new List<InventoryItem>();
-            test.Add(consumptionEvent.InventoryItemNavigation);
-            presentation.InventoryItems = test;
+            var listOfOne = new List<InventoryItem>
+            {
+                consumptionEvent.InventoryItemNavigation
+            };
+            presentation.InventoryItems = listOfOne;
 
             return View(presentation);
         }
@@ -156,11 +158,14 @@ namespace Egret.Controllers
             vm.ConsumptionEvent.UpdatedBy = temp.UpdatedBy;
             vm.ConsumptionEvent.DateUpdated = temp.DateUpdated;
 
+            List<InventoryItem> items = Context.InventoryItems.Where(x => x.ConsumptionEventsNavigation == temp).ToList();
+            vm.InventoryItems = items;
+
             if (ModelState.IsValid)
             {
                 vm.ConsumptionEvent.UpdatedBy = User.Identity.Name;
                 vm.ConsumptionEvent.DateUpdated = DateTime.Now;
-                Context.Update(vm.ConsumptionEvent);
+                Context.ConsumptionEvents.Update(vm.ConsumptionEvent);
                 await Context.SaveChangesAsync();
                 TempData["SuccessMessage"] = "Save Complete";
                 return RedirectToAction();
