@@ -40,18 +40,18 @@
                         </div>
 
                         <div class="form-group">
-                            <label asp-for="Item.Description" include-languages="Nepali" class="control-label"></label>
+                            <label asp-for="Item.Description" include-languages="Nepali" class="control-label required"></label>
                             <textarea asp-for="Item.Description" class="form-control" style="height: 6em;"></textarea>
                         </div>
 
                         <div class="form-group">
-                            <label asp-for="Item.Category" include-languages="Nepali" class="control-label"></label>
+                            <label asp-for="Item.Category" include-languages="Nepali" class="control-label required"></label>
                             <select asp-for="Item.Category" class="form-control" asp-items="ViewBag.Category">
                                 <option value=""></option>
                             </select>
                         </div>
 
-                        <label asp-for="Item.QtyPurchased" include-languages="Nepali" class="control-label"></label>
+                        <label asp-for="Item.QtyPurchased" include-languages="Nepali" class="control-label required"></label>
                         <div class="form-group form-inline">
                             <input asp-for="Item.QtyPurchased" class="form-control mr-2" />
                             <select asp-for="Item.Unit" class="form-control" asp-items="ViewBag.Unit">
@@ -87,12 +87,12 @@
                         </div><br />
 
                         <div class="form-group">
-                            <label asp-for="Item.CustomerPurchasedFor" include-languages="Nepali" class="control-label"></label>
+                            <label asp-for="Item.CustomerPurchasedFor" include-languages="Nepali" class="control-label required"></label>
                             <input asp-for="Item.CustomerPurchasedFor" class="form-control" />
                         </div>
 
                         <div class="form-group">
-                            <label asp-for="Item.CustomerReservedFor" include-languages="Nepali" class="control-label"></label>
+                            <label asp-for="Item.CustomerReservedFor" include-languages="Nepali" class="control-label required"></label>
                             <input asp-for="Item.CustomerReservedFor" class="form-control" />
                         </div>
 

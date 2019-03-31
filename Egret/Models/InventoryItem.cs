@@ -46,6 +46,7 @@ namespace Egret.Models
         [DisplayFormat(DataFormatString = "{0:0.00##}", ApplyFormatInEditMode = true)]
         public decimal? QtyPurchased { get; set; }
 
+        [Required]
         public string Unit { get; set; }
 
         [Display(Name = "FOB Cost Or Local Cost no VAT")]

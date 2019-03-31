@@ -56,17 +56,18 @@ function ManageValidationErrors() {
 
 function PrepApiController() {
     $("#callApi").on("click", function () {
+        $(".egret-refresh").addClass("fa fa-spin");
         $('#apiDescription').empty();
         $('#apiCustomer').empty();
-        $('#Unit').val("");
+        $('#apiUnit').empty();
 
-        $(".egret .egret-refresh").addClass("spin");
         $.get('/api/Inventory/' + $("#InventoryItemCode").val(), function (data) {
             $('#apiDescription').html(data.description);
             $('#apiCustomer').html(data.customerReservedFor);
-            $('#Unit').val(data.unit);
+            $('#apiUnit').html(data.unit);
         }, 'json');
-        $(".egret-refresh").removeClass("spin");
+
+        $(".egret-refresh").removeClass("fa-spin").removeClass("fa");
     });
 }
 
@@ -148,6 +149,20 @@ function AddTableRow() {
     manager.addOne();
 }
 
+function AllowEditCode() {
+    $("#editCode").change(function () {
+        var ischecked = $(this).is(':checked');
+
+        if (ischecked) {
+            $("#ConsumptionEvent_InventoryItemCode").removeAttr("readonly");
+        }
+        else if (!ischecked) {
+            $("#ConsumptionEvent_InventoryItemCode").attr("readonly", "readonly");
+        }
+
+    });
+}
+
 
 
 $(document).ready(function () {
@@ -167,6 +182,8 @@ $(document).ready(function () {
     SetTestsForDelete();
 
     PrepApiController();
+
+    AllowEditCode();
 
 })
 

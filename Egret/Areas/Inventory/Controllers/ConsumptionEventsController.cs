@@ -27,42 +27,6 @@ namespace Egret.Controllers
         }
 
         [HttpGet]
-        [Authorize(Roles = "Item_Read, ConsumptionEvent_Create")]
-        public IActionResult CreateFromItem(string sourceid)
-        {
-            var item = Context.InventoryItems.Where(x => x.Code == sourceid);
-            ViewData["Unit"] = new SelectList(item, "Unit", "Unit", item.FirstOrDefault().Unit);
-
-            return View();
-        }
-
-        [HttpPost]
-        [ValidateAntiForgeryToken]
-        [Authorize(Roles = "Item_Read, ConsumptionEvent_Create")]
-        public IActionResult CreateFromItem(string sourceid, ConsumptionEvent consumptionEvent)
-        {
-            string sourceId = sourceid;
-
-            var item = Context.InventoryItems.Where(x => x.Code == consumptionEvent.InventoryItemCode);
-            ViewData["Unit"] = new SelectList(item, "Unit", "Unit", item.FirstOrDefault().Unit);
-
-            consumptionEvent.AddedBy = User.Identity.Name;
-            consumptionEvent.UpdatedBy = User.Identity.Name;
-            consumptionEvent.DateAdded = DateTime.Now;
-            consumptionEvent.DateUpdated = DateTime.Now;
-
-            if (ModelState.IsValid)
-            {
-                Context.ConsumptionEvents.Add(consumptionEvent);
-                Context.SaveChanges();
-
-                return RedirectToAction("Edit", "Items", new { id = consumptionEvent.InventoryItemCode });
-            }
-
-            return View("CreateFromItem", consumptionEvent);
-        }
-
-        [HttpGet]
         [Authorize(Roles = "ConsumptionEvent_Read")]
         public async Task<IActionResult> Details(string id)
         {
@@ -88,19 +52,29 @@ namespace Egret.Controllers
         }
 
         [HttpGet]
-        [Authorize(Roles = "ConsumptionEvent_Create")]
-        public IActionResult Create()
+        [Authorize(Roles = "Item_Read, ConsumptionEvent_Create")]
+        public IActionResult CreateFromItem(string sourceid)
         {
-            ViewData["Unit"] = new SelectList(_activeUnits, "Abbreviation", "Abbreviation");
-            return View();
+            var item = Context.InventoryItems.Where(x => x.Code == sourceid);
+
+            // Set Defaults
+            var consumptionEvent = new ConsumptionEvent()
+            {
+                DateOfConsumption = DateTime.Now,
+                ConsumedBy = User.Identity.Name
+            };
+
+            return View(consumptionEvent);
         }
 
         [HttpPost]
         [ValidateAntiForgeryToken]
-        [Authorize(Roles = "ConsumptionEvent_Create")]
-        public IActionResult Create(ConsumptionEvent consumptionEvent)
+        [Authorize(Roles = "Item_Read, ConsumptionEvent_Create")]
+        public IActionResult CreateFromItem(string sourceid, ConsumptionEvent consumptionEvent)
         {
-            ViewData["Unit"] = new SelectList(_activeUnits, "Abbreviation", "Abbreviation");
+            string sourceId = sourceid;
+
+            var item = Context.InventoryItems.Where(x => x.Code == consumptionEvent.InventoryItemCode);
 
             consumptionEvent.AddedBy = User.Identity.Name;
             consumptionEvent.UpdatedBy = User.Identity.Name;
@@ -111,9 +85,58 @@ namespace Egret.Controllers
             {
                 Context.ConsumptionEvents.Add(consumptionEvent);
                 Context.SaveChanges();
+                TempData["SuccessMessage"] = "Consumption Event Created";
+
+                return RedirectToAction("Edit", "Items", new { id = consumptionEvent.InventoryItemCode });
+            }
+
+            ViewData["Unit"] = new SelectList(item, "Unit", "Unit", item.FirstOrDefault().Unit);
+
+            // Set Defaults
+            consumptionEvent.DateOfConsumption = DateTime.Now;
+            consumptionEvent.ConsumedBy = User.Identity.Name;
+
+            return View("CreateFromItem", consumptionEvent);
+        }
+
+        [HttpGet]
+        [Authorize(Roles = "ConsumptionEvent_Create")]
+        public IActionResult Create()
+        {
+            // Set Defaults
+            var consumptionEvent = new ConsumptionEvent()
+            {
+                DateOfConsumption = DateTime.Now,
+                ConsumedBy = User.Identity.Name
+            };
+
+            return View(consumptionEvent);
+        }
+
+        [HttpPost]
+        [ValidateAntiForgeryToken]
+        [Authorize(Roles = "ConsumptionEvent_Create")]
+        public IActionResult Create(ConsumptionEvent consumptionEvent)
+        {
+            consumptionEvent.AddedBy = User.Identity.Name;
+            consumptionEvent.UpdatedBy = User.Identity.Name;
+            consumptionEvent.DateAdded = DateTime.Now;
+            consumptionEvent.DateUpdated = DateTime.Now;
+
+            if (ModelState.IsValid)
+            {
+                Context.ConsumptionEvents.Add(consumptionEvent);
+                Context.SaveChanges();
+                TempData["SuccessMessage"] = "Consumption Event Created";
 
                 return RedirectToAction("Edit", new { id = consumptionEvent.Id });
             }
+
+            ViewData["Unit"] = new SelectList(_activeUnits, "Abbreviation", "Abbreviation");
+
+            // Set Defaults
+            consumptionEvent.DateOfConsumption = DateTime.Now;
+            consumptionEvent.ConsumedBy = User.Identity.Name;
 
             return View();
         }
@@ -150,17 +173,6 @@ namespace Egret.Controllers
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> Edit(string id, ConsumptionEventModel vm)
         {
-            ViewData["Unit"] = new SelectList(_activeUnits, "Abbreviation", "Abbreviation");
-
-            var temp = Context.ConsumptionEvents.Where(x => x.Id == id).FirstOrDefault();
-            vm.ConsumptionEvent.AddedBy = temp.AddedBy;
-            vm.ConsumptionEvent.DateAdded = temp.DateAdded;
-            vm.ConsumptionEvent.UpdatedBy = temp.UpdatedBy;
-            vm.ConsumptionEvent.DateUpdated = temp.DateUpdated;
-
-            List<InventoryItem> items = Context.InventoryItems.Where(x => x.ConsumptionEventsNavigation == temp).ToList();
-            vm.InventoryItems = items;
-
             if (ModelState.IsValid)
             {
                 vm.ConsumptionEvent.UpdatedBy = User.Identity.Name;
@@ -171,7 +183,17 @@ namespace Egret.Controllers
                 return RedirectToAction();
             }
 
-            return View(vm.ConsumptionEvent);
+            var temp = Context.ConsumptionEvents
+                .Include(y => y.InventoryItemNavigation)
+                .Where(x => x.Id == id).FirstOrDefault();
+
+            vm.ConsumptionEvent.AddedBy = vm.ConsumptionEvent.AddedBy;
+            vm.ConsumptionEvent.DateAdded = vm.ConsumptionEvent.DateAdded;
+            vm.ConsumptionEvent.UpdatedBy = vm.ConsumptionEvent.UpdatedBy;
+            vm.ConsumptionEvent.DateUpdated = vm.ConsumptionEvent.DateUpdated;
+            vm.InventoryItems = new List<InventoryItem>() { temp.InventoryItemNavigation };
+
+            return View(vm);
         }
 
         [HttpGet]
@@ -208,7 +230,7 @@ namespace Egret.Controllers
             if (!String.IsNullOrEmpty(search.ConsumedBy))
                 results = results.Where(x => x.ConsumedBy.ToLowerInvariant().Contains(search.ConsumedBy.ToLowerInvariant()));
 
-            return View("Results", results.OrderBy(x => x.DateOfConsumption).ToList());
+            return View("Results", results.OrderByDescending(x => x.DateOfConsumption).ToList());
         }
 
     }
