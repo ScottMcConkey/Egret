@@ -85,7 +85,6 @@ namespace Egret.Controllers
             }
 
             var accessGroup = await Context.AccessGroups.Where(x => x.Id == id).SingleOrDefaultAsync();
-
             var roles = Context.Roles.AsNoTracking().OrderBy(x => x.Name).ToList();
             var relatedRoles = Context.AccessGroupRoles.AsNoTracking().Where(x => x.AccessGroupId == id).Select(x => x.RoleId).ToList();
             roles.Where(x => relatedRoles.Contains(x.Id)).ToList().ForEach(y => y.RelationshipPresent = true);
@@ -103,16 +102,14 @@ namespace Egret.Controllers
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> EditPermissions(int? id, AccessGroupPermissionsModel model)
         {
-            var accessGroup = Context.AccessGroups.Where(x => x.Id == id)
-                .Include(x => x.AccessGroupRoles)
-                .SingleOrDefault();
+            var accessGroup = Context.AccessGroups.Where(x => x.Id == id).SingleOrDefault();
 
             model.AccessGroup = accessGroup;
 
             if (ModelState.IsValid)
             {
                 // Remove rels from Access Group to Roles
-                foreach (AccessGroupRole groupRole in Context.AccessGroupRoles.Where(x => x.AccessGroupId == (int)id))
+                foreach (AccessGroupRole groupRole in Context.AccessGroupRoles.Where(x => x.AccessGroupId == id))
                 {
                     Context.AccessGroupRoles.Remove(groupRole);
                 }
@@ -131,15 +128,11 @@ namespace Egret.Controllers
                 // Loop through every user assigned to this access group
                 var users = Context.UserAccessGroups.AsNoTracking().Where(x => x.AccessGroupId == id).Select(y => y.User).ToList();
                 var roles = Context.Roles.AsNoTracking().Select(y => y.Name);
-                //var selectedRoles = model.Roles.Where(x => x.RelationshipPresent == true).Select(y => y.Name).ToList();
 
                 foreach (User user in users)
                 {
                     // Remove all Roles from each of those users
                     IdentityResult result = await _userManager.RemoveFromRolesAsync(user, roles);
-
-                    // what about roles duplicated among 2+ AccessGroups???
-                    // also, this isn't retoring Roles from those other access groups!
 
                     var rolesToAdd = Context.Roles.AsNoTracking().FromSql(
                         "select r.name" +
