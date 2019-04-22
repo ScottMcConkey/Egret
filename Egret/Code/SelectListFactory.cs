@@ -19,13 +19,13 @@ namespace Egret.Code
             _egretContext = context;
         }
 
-        public SelectList CategoriesAll(string selected = null)
+        public virtual SelectList CategoriesAll(string selected = null)
         {
             return new SelectList(_egretContext.InventoryCategories
                             .OrderBy(x => x.SortOrder), "Name", "Name", selected);
         }
 
-        public SelectList CategoriesActive(string selected = null)
+        public virtual SelectList CategoriesActive(string selected = null)
         {
             return new SelectList(_egretContext.InventoryCategories
                             .Where(x => x.Active == true)
@@ -38,7 +38,7 @@ namespace Egret.Code
         /// </summary>
         /// <param name="inactiveSelected"></param>
         /// <returns></returns>
-        public SelectList CategoriesActivePlusCurrent(InventoryCategory inactiveSelected)
+        public virtual SelectList CategoriesActivePlusCurrent(InventoryCategory inactiveSelected)
         {
             var all = _egretContext.InventoryCategories.AsNoTracking();
             var actives = _egretContext.InventoryCategories.AsNoTracking().OrderBy(x => x.SortOrder).Where(x => x.Active == true);
@@ -56,6 +56,48 @@ namespace Egret.Code
                 List <InventoryCategory> orderedList = list.OrderBy(x => x.Name).ToList();
 
                 return new SelectList(orderedList, "Name", "Name", inactiveSelected.Name);
+            }
+
+            return defaultSelectList;
+        }
+
+        public virtual SelectList UnitsAll(string selected = null)
+        {
+            return new SelectList(_egretContext.Units
+                            .OrderBy(x => x.SortOrder), "Abbreviation", "Abbreviation", selected);
+        }
+
+        public virtual SelectList UnitsActive(string selected = null)
+        {
+            return new SelectList(_egretContext.Units
+                            .Where(x => x.Active == true)
+                            .OrderBy(x => x.SortOrder), "Abbreviation", "Abbreviation", selected);
+        }
+
+        /// <summary>
+        /// Returns a SelectList containing all active Units
+        /// plus any current Units that happens to be inactive
+        /// </summary>
+        /// <param name="inactiveSelected"></param>
+        /// <returns></returns>
+        public virtual SelectList UnitsActivePlusCurrent(Unit inactiveSelected)
+        {
+            var all = _egretContext.Units.AsNoTracking();
+            var actives = _egretContext.Units.AsNoTracking().OrderBy(x => x.SortOrder).Where(x => x.Active == true);
+            var defaultSelectList = new SelectList(actives, "Abbreviation", "Abbreviation");
+
+            if (inactiveSelected != null)
+            {
+                if (!all.Any(x => x.Name == inactiveSelected.Name))
+                {
+                    return defaultSelectList;
+                }
+
+                var list = actives.ToList();
+                list.Add(inactiveSelected);
+                List<Unit> orderedList = list.OrderBy(x => x.Name).Distinct().ToList();
+
+                return new SelectList(orderedList, "Abbreviation", "Abbreviation", inactiveSelected.Name);
             }
 
             return defaultSelectList;

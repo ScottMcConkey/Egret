@@ -120,6 +120,7 @@ namespace Egret.Controllers
             InventoryItem item = await Context.InventoryItems
                 .Where(i => i.Code == id)
                 .Include(i => i.CategoryNavigation)
+                .Include(i => i.UnitNavigation)
                 .Include(i => i.ConsumptionEventsNavigation)
                 .Include(i => i.FabricTestsNavigation)
                 .SingleOrDefaultAsync(m => m.Code == id);
@@ -130,7 +131,7 @@ namespace Egret.Controllers
             }
 
             ViewData["Category"] = new SelectListFactory(Context).CategoriesActivePlusCurrent(item.CategoryNavigation);
-            ViewData["Unit"] = new SelectList(_activeUnits, "Abbreviation", "Abbreviation", item.Unit);
+            ViewData["Unit"] = new SelectListFactory(Context).UnitsActivePlusCurrent(item.UnitNavigation);
             ViewData["FOBCostCurrency"] = new SelectList(_activeCurrencyTypes, "Abbreviation", "Abbreviation", item.FOBCostCurrency);
             ViewData["ShippingCostCurrency"] = new SelectList(_activeCurrencyTypes, "Abbreviation", "Abbreviation", item.ShippingCostCurrency);
             ViewData["ImportCostCurrency"] = new SelectList(_activeCurrencyTypes, "Abbreviation", "Abbreviation", item.ImportCostCurrency);
@@ -147,8 +148,14 @@ namespace Egret.Controllers
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> Edit(string id, ItemModel vm)
         {
+            if (id == null)
+            {
+                return NotFound();
+            }
+
             InventoryItem temp = Context.InventoryItems
                 .Include(y => y.CategoryNavigation)
+                .Include(y => y.UnitNavigation)
                 .Include(y => y.FabricTestsNavigation)
                 .Include(y => y.ConsumptionEventsNavigation)
                 .AsNoTracking()
@@ -163,6 +170,7 @@ namespace Egret.Controllers
             {
                 if (vm.FabricTests != null)
                 {
+                    // Set item Code on tests
                     foreach (FabricTest i in vm.FabricTests)
                     {
                         i.InventoryItemCode = vm.Item.Code;
@@ -181,10 +189,11 @@ namespace Egret.Controllers
                 }
                 else
                 {
+                    // Remove all tests - model is authority
                     List<FabricTest> DbTests = Context.FabricTests.Where(x => x.InventoryItemCode == vm.Item.Code).ToList();
-                    foreach (FabricTest ft in DbTests)
+                    foreach (FabricTest test in DbTests)
                     {
-                        Context.FabricTests.Remove(ft);
+                        Context.FabricTests.Remove(test);
                     }
                 }
 
@@ -201,8 +210,8 @@ namespace Egret.Controllers
             ViewData["FOBCostCurrency"] = new SelectList(_activeCurrencyTypes, "Abbreviation", "Abbreviation", vm.Item.FOBCostCurrency);
             ViewData["ShippingCostCurrency"] = new SelectList(_activeCurrencyTypes, "Abbreviation", "Abbreviation", vm.Item.ShippingCostCurrency);
             ViewData["ImportCostCurrency"] = new SelectList(_activeCurrencyTypes, "Abbreviation", "Abbreviation", vm.Item.ImportCostCurrency);
-            ViewData["Unit"] = new SelectList(_activeUnits, "Abbreviation", "Abbreviation", vm.Item.Unit);
-            
+            ViewData["Unit"] = new SelectListFactory(Context).UnitsActivePlusCurrent(vm.Item.UnitNavigation);
+
             vm.FabricTests = temp.FabricTestsNavigation.ToList();
             vm.ConsumptionEvents = temp.ConsumptionEventsNavigation.ToList();
 
@@ -219,6 +228,7 @@ namespace Egret.Controllers
             }
 
             var inventoryItems = await Context.InventoryItems.SingleOrDefaultAsync(m => m.Code == id);
+
             if (inventoryItems == null)
             {
                 return NotFound();
@@ -253,6 +263,7 @@ namespace Egret.Controllers
         public IActionResult Search(ItemSearchModel item)
         {
             ViewData["Category"] = new SelectListFactory(Context).CategoriesAll();
+
             var results = Context.InventoryItems.Include(x => x.ConsumptionEventsNavigation).AsQueryable();
 
             // Code
