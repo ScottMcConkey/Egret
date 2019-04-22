@@ -1,4 +1,5 @@
-﻿using Egret.DataAccess;
+﻿using Egret.Code;
+using Egret.DataAccess;
 using Egret.Models;
 using Egret.ViewModels;
 using Microsoft.AspNetCore.Identity;
@@ -23,6 +24,7 @@ namespace Egret.Controllers
         private IQueryable<InventoryCategory> _activeInventoryCategories { get; set; }
         private IQueryable<InventoryCategory> _allInventoryCategories { get; set; }
         private IQueryable<CurrencyType> _currencyDefault { get; set; }
+
         private static ILogger _logger;
 
         public ItemsController(EgretContext context, ILogger<ItemsController> logger) 
@@ -121,6 +123,7 @@ namespace Egret.Controllers
             ItemModel presentation = new ItemModel();
             InventoryItem item = await Context.InventoryItems
                 .Where(i => i.Code == id)
+                .Include(i => i.CategoryNavigation)
                 .Include(i => i.ConsumptionEventsNavigation)
                 .Include(i => i.FabricTestsNavigation)
                 .SingleOrDefaultAsync(m => m.Code == id);
@@ -130,19 +133,7 @@ namespace Egret.Controllers
                 return NotFound();
             }
 
-            List<InventoryCategory> ActiveAndCurrentCategories = _activeInventoryCategories.ToList();
-
-            // If the selected Category is not currently Active, include it anyway
-            if (!String.IsNullOrEmpty(item.Category))
-            {
-                if (!_activeInventoryCategories.Any(x => x.Name == item.Category))
-                {
-                    InventoryCategory currentCategory = Context.InventoryCategories.Where(x => x.Name == item.Category).SingleOrDefault();
-                }
-            }
-
-            ViewData["Category"] = new SelectList(ActiveAndCurrentCategories, "Name", "Name", item.Category);
-            ViewData["Category"] = new SelectList(_activeInventoryCategories, "Name", "Name", item.Category);
+            ViewData["Category"] = new SelectListFactory(Context).CategoriesActivePlusCurrent(item.CategoryNavigation);
             ViewData["Unit"] = new SelectList(_activeUnits, "Abbreviation", "Abbreviation", item.Unit);
             ViewData["FOBCostCurrency"] = new SelectList(_activeCurrencyTypes, "Abbreviation", "Abbreviation", item.FOBCostCurrency);
             ViewData["ShippingCostCurrency"] = new SelectList(_activeCurrencyTypes, "Abbreviation", "Abbreviation", item.ShippingCostCurrency);
@@ -160,6 +151,13 @@ namespace Egret.Controllers
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> Edit(string id, ItemModel vm)
         {
+            InventoryItem temp = Context.InventoryItems
+                .Include(y => y.FabricTestsNavigation)
+                .Include(y => y.ConsumptionEventsNavigation)
+                .AsNoTracking().Where(x => x.Code == id).FirstOrDefault();
+            vm.Item.AddedBy = temp.AddedBy;
+            vm.Item.DateAdded = temp.DateAdded;
+
             if (ModelState.IsValid)
             {
                 if (vm.FabricTests != null)
@@ -202,29 +200,13 @@ namespace Egret.Controllers
             // Rebuild viewmodel
             List<InventoryCategory> ActiveAndCurrentCategories = _activeInventoryCategories.ToList();
 
-            // If the selected Category is not currently Active, include it anyway
-            if (!String.IsNullOrEmpty(vm.Item.Category))
-            {
-                if (!_activeInventoryCategories.Any(x => x.Name == vm.Item.Category))
-                {
-                    InventoryCategory currentCategory = Context.InventoryCategories.Where(x => x.Name == vm.Item.Category).SingleOrDefault();
-                    ActiveAndCurrentCategories.Add(currentCategory);
-                }
-            }
-
-            ViewData["Category"] = new SelectList(_activeInventoryCategories, "Name", "Name", vm.Item.Category);
+            ViewData["Category"] = new SelectListFactory(Context).CategoriesActivePlusCurrent(vm.Item.CategoryNavigation);
             ViewData["FOBCostCurrency"] = new SelectList(_activeCurrencyTypes, "Abbreviation", "Abbreviation", vm.Item.FOBCostCurrency);
             ViewData["ShippingCostCurrency"] = new SelectList(_activeCurrencyTypes, "Abbreviation", "Abbreviation", vm.Item.ShippingCostCurrency);
             ViewData["ImportCostCurrency"] = new SelectList(_activeCurrencyTypes, "Abbreviation", "Abbreviation", vm.Item.ImportCostCurrency);
             ViewData["Category"] = new SelectList(ActiveAndCurrentCategories, "Name", "Name", vm.Item.Category);
             ViewData["Unit"] = new SelectList(_activeUnits, "Abbreviation", "Abbreviation", vm.Item.Unit);
             
-            InventoryItem temp = Context.InventoryItems
-                .Include(y => y.FabricTestsNavigation)
-                .Include(y => y.ConsumptionEventsNavigation)
-                .AsNoTracking().Where(x => x.Code == id).FirstOrDefault();
-            vm.Item.AddedBy = temp.AddedBy;
-            vm.Item.DateAdded = temp.DateAdded;
             vm.Item.UpdatedBy = temp.UpdatedBy;
             vm.Item.DateUpdated = temp.DateUpdated;
             vm.FabricTests = temp.FabricTestsNavigation.ToList();
