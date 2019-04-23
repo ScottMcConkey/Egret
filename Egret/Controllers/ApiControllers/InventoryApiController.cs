@@ -6,6 +6,7 @@ using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using Egret.Models;
 using Egret.DataAccess;
+using Microsoft.AspNetCore.Authorization;
 
 namespace Egret.Controllers.ApiControllers
 {
@@ -24,17 +25,18 @@ namespace Egret.Controllers.ApiControllers
             : base(context) { }
 
         [HttpGet]
+        [Authorize]
         public IEnumerable<InventoryItem> Get()
         {
             return Context.InventoryItems.ToList();
         }
 
         [HttpGet("{id}")]
+        [Authorize]
         public Item Get(string id)
         {
             Item item = new Item();
             InventoryItem inventoryTarget = Context.InventoryItems.Where(x => x.Code == id).SingleOrDefault();
-            //Context.InventoryItems.Where(x => x.Code == id).SingleOrDefault();
             item.Description = inventoryTarget.Description;
             item.CustomerReservedFor = inventoryTarget.CustomerReservedFor;
             item.Unit = inventoryTarget.Unit;
