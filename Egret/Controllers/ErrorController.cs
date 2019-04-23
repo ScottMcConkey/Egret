@@ -26,6 +26,10 @@ namespace Egret.Controllers
                     ViewBag.ErrorMessage = "Sorry, something went wrong on the server.";
                     ViewBag.RouteOfException = statusCodeData.OriginalPath;
                     break;
+                default:
+                    ViewBag.ErrorMessage = "Sorry, something went wrong.";
+                    ViewBag.RouteOfException = statusCodeData.OriginalPath;
+                    break;
             }
 
             return View();
