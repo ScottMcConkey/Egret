@@ -69,7 +69,6 @@ namespace Egret.Areas.Account.Controllers
             return View();
         }
 
-
         [HttpPost]
         [Authorize]
         public async Task<IActionResult> ChangePassword(ChangePasswordModel details)
