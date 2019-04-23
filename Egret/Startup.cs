@@ -82,7 +82,8 @@ namespace Egret
             }
             else
             {
-                app.UseExceptionHandler("/Home/Error");
+                app.UseStatusCodePagesWithReExecute("/Error/{0}");
+                //app.UseExceptionHandler("/home/error");
             }
 
             app.UseStaticFiles();
@@ -94,8 +95,8 @@ namespace Egret
             app.UseMvc(routes =>
             {
                 routes.MapRoute(
-                name: "areas",
-                template: "{area:exists}/{controller=Home}/{action=Index}/{id?}");
+                    name: "areas",
+                    template: "{area:exists}/{controller=Home}/{action=Index}/{id?}");
 
                 routes.MapRoute(
                     name: "default",
