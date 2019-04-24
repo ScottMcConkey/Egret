@@ -42,7 +42,7 @@ namespace Egret.Tests
             AccessGroupsController controller = new AccessGroupsController(_context, _fakeLogger, _userManager);
 
             //+ Act
-            var actionResult = controller.EditPermissions(1);
+            var actionResult = controller.EditPermissions(null);
 
             //+ Assert
             Assert.IsInstanceOf<NotFoundResult>(actionResult);
