@@ -142,6 +142,9 @@ namespace Egret.Models
                 if (QtyPurchased == null)
                 { return null; }
 
+                if (QtyPurchased < 0)
+                { return QtyPurchased; }
+
                 return (QtyPurchased - (ConsumptionEventsNavigation?.Sum(x => x.QuantityConsumed) ?? 0));
             }
 
