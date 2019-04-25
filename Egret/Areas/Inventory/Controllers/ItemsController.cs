@@ -20,7 +20,6 @@ namespace Egret.Controllers
     public class ItemsController : BaseController
     {
         private IQueryable<CurrencyType> _activeCurrencyTypes { get; set; }
-        private IQueryable<Unit> _activeUnits { get; set; }
         private IQueryable<CurrencyType> _currencyDefault { get; set; }
 
         private static ILogger _logger;
@@ -29,7 +28,6 @@ namespace Egret.Controllers
             :base(context)
         {
             _activeCurrencyTypes = Context.CurrencyTypes.Where(x => x.Active == true).OrderBy(x => x.SortOrder);
-            _activeUnits = Context.Units.Where(x => x.Active == true).OrderBy(x => x.SortOrder);
             _currencyDefault = Context.CurrencyTypes.Where(x => x.DefaultSelection == true);
             _logger = logger;
         }
@@ -71,8 +69,8 @@ namespace Egret.Controllers
             ViewData["ShippingCostCurrency"] = new SelectList(_activeCurrencyTypes, "Abbreviation", "Abbreviation", _currencyDefault.Any() ? _currencyDefault.First().Abbreviation : "");
             ViewData["ImportCostCurrency"] = new SelectList(_activeCurrencyTypes, "Abbreviation", "Abbreviation", _currencyDefault.Any() ? _currencyDefault.First().Abbreviation : "");
             ViewData["Category"] = new SelectListFactory(Context).CategoriesActive();
-            ViewData["Unit"] = new SelectList(_activeUnits, "Abbreviation", "Abbreviation");
-            
+            ViewData["Unit"] = new SelectListFactory(Context).UnitsActive();
+
             return View();
         }
 
@@ -102,7 +100,7 @@ namespace Egret.Controllers
             ViewData["ShippingCostCurrency"] = new SelectList(_activeCurrencyTypes, "Abbreviation", "Abbreviation", inventoryItem.ShippingCostCurrency);
             ViewData["ImportCostCurrency"] = new SelectList(_activeCurrencyTypes, "Abbreviation", "Abbreviation", inventoryItem.ImportCostCurrency);
             ViewData["Category"] = new SelectListFactory(Context).CategoriesActive(inventoryItem.Category);
-            ViewData["Unit"] = new SelectList(_activeUnits, "Abbreviation", "Abbreviation", inventoryItem.Unit);
+            ViewData["Unit"] = new SelectListFactory(Context).UnitsActive(inventoryItem.Unit);
 
             return View(inventoryItem);
         }
@@ -161,6 +159,7 @@ namespace Egret.Controllers
                 .AsNoTracking()
                 .Where(x => x.Code == id)
                 .FirstOrDefault();
+
             vm.Item.AddedBy = temp.AddedBy;
             vm.Item.DateAdded = temp.DateAdded;
             vm.Item.UpdatedBy = User.Identity.Name;

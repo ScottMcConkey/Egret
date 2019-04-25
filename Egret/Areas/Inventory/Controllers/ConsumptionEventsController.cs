@@ -1,4 +1,5 @@
-﻿using Egret.DataAccess;
+﻿using Egret.Code;
+using Egret.DataAccess;
 using Egret.Models;
 using Egret.ViewModels;
 using Microsoft.AspNetCore.Authorization;
@@ -16,13 +17,11 @@ namespace Egret.Controllers
     [Area("Inventory")]
     public class ConsumptionEventsController : BaseController
     {
-        private IQueryable<Unit> _activeUnits { get; set; }
         private static ILogger _logger;
 
         public ConsumptionEventsController(EgretContext context, ILogger<ConsumptionEventsController> logger)
             : base(context)
         {
-            _activeUnits = Context.Units.Where(x => x.Active).OrderBy(x => x.SortOrder);
             _logger = logger;
         }
 
@@ -30,23 +29,23 @@ namespace Egret.Controllers
         [Authorize(Roles = "ConsumptionEvent_Read")]
         public async Task<IActionResult> Details(string id)
         {
+            if (id == null)
+            {
+                return NotFound();
+            }
+
             ConsumptionEventModel presentation = new ConsumptionEventModel();
-
-            ViewData["Unit"] = new SelectList(_activeUnits, "Abbreviation", "Abbreviation");
-
             ConsumptionEvent consumptionEvent = await Context.ConsumptionEvents
                 .Include(i => i.InventoryItemNavigation)
                 .SingleOrDefaultAsync(m => m.Id == id);
 
-            if (id == null || consumptionEvent == null)
+            if (consumptionEvent == null)
             {
                 return NotFound();
             }
 
             presentation.ConsumptionEvent = consumptionEvent;
-            var test = new List<InventoryItem>();
-            test.Add(consumptionEvent.InventoryItemNavigation);
-            presentation.InventoryItems = test;
+            presentation.InventoryItems = new List<InventoryItem>() { consumptionEvent.InventoryItemNavigation };
 
             return View(presentation);
         }
@@ -91,8 +90,6 @@ namespace Egret.Controllers
                 return RedirectToAction("Edit", "Items", new { id = consumptionEvent.InventoryItemCode });
             }
 
-            ViewData["Unit"] = new SelectList(item, "Unit", "Unit", item.FirstOrDefault().Unit);
-
             // Set Defaults
             consumptionEvent.DateOfConsumption = DateTime.Now;
             consumptionEvent.ConsumedBy = User.Identity.Name;
@@ -133,8 +130,6 @@ namespace Egret.Controllers
                 return RedirectToAction("Edit", new { id = consumptionEvent.Id });
             }
 
-            ViewData["Unit"] = new SelectList(_activeUnits, "Abbreviation", "Abbreviation");
-
             // Set Defaults
             consumptionEvent.DateOfConsumption = DateTime.Now;
             consumptionEvent.ConsumedBy = User.Identity.Name;
@@ -146,25 +141,23 @@ namespace Egret.Controllers
         [Authorize(Roles = "ConsumptionEvent_Edit")]
         public async Task<IActionResult> Edit(string id)
         {
+            if (id == null)
+            {
+                return NotFound();
+            }
+
             ConsumptionEventModel presentation = new ConsumptionEventModel();
-
-            ViewData["Unit"] = new SelectList(_activeUnits, "Abbreviation", "Abbreviation");
-
             ConsumptionEvent consumptionEvent = await Context.ConsumptionEvents
                 .Include(i => i.InventoryItemNavigation)
                 .SingleOrDefaultAsync(m => m.Id == id);
 
-            if (id == null || consumptionEvent == null)
+            if (consumptionEvent == null)
             {
                 return NotFound();
             }
 
             presentation.ConsumptionEvent = consumptionEvent;
-            var listOfOne = new List<InventoryItem>
-            {
-                consumptionEvent.InventoryItemNavigation
-            };
-            presentation.InventoryItems = listOfOne;
+            presentation.InventoryItems = new List<InventoryItem>() { consumptionEvent.InventoryItemNavigation };
 
             return View(presentation);
         }
@@ -174,24 +167,32 @@ namespace Egret.Controllers
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> Edit(string id, ConsumptionEventModel vm)
         {
+            if (id == null)
+            {
+                return NotFound();
+            }
+
+            var temp = Context.ConsumptionEvents
+                .Include(y => y.InventoryItemNavigation)
+                .AsNoTracking()
+                .Where(x => x.Id == id)
+                .FirstOrDefault();
+
+            vm.ConsumptionEvent.AddedBy = temp.AddedBy;
+            vm.ConsumptionEvent.DateAdded = temp.DateAdded;
+            vm.ConsumptionEvent.UpdatedBy = User.Identity.Name;
+            vm.ConsumptionEvent.DateUpdated = DateTime.Now;
+
             if (ModelState.IsValid)
             {
-                vm.ConsumptionEvent.UpdatedBy = User.Identity.Name;
-                vm.ConsumptionEvent.DateUpdated = DateTime.Now;
                 Context.ConsumptionEvents.Update(vm.ConsumptionEvent);
                 await Context.SaveChangesAsync();
                 TempData["SuccessMessage"] = "Save Complete";
                 return RedirectToAction();
             }
 
-            var temp = Context.ConsumptionEvents
-                .Include(y => y.InventoryItemNavigation)
-                .Where(x => x.Id == id).FirstOrDefault();
-
-            vm.ConsumptionEvent.AddedBy = vm.ConsumptionEvent.AddedBy;
-            vm.ConsumptionEvent.DateAdded = vm.ConsumptionEvent.DateAdded;
-            vm.ConsumptionEvent.UpdatedBy = vm.ConsumptionEvent.UpdatedBy;
-            vm.ConsumptionEvent.DateUpdated = vm.ConsumptionEvent.DateUpdated;
+            vm.ConsumptionEvent.UpdatedBy = temp.UpdatedBy;
+            vm.ConsumptionEvent.DateUpdated = temp.DateUpdated;
             vm.InventoryItems = new List<InventoryItem>() { temp.InventoryItemNavigation };
 
             return View(vm);

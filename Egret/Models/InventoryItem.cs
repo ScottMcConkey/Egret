@@ -43,7 +43,7 @@ namespace Egret.Models
         [Required]
         [Display(Name = "Quantity Purchased")]
         [Language(Name = "Nepali", Value = "मात्रा खरिद गरियो")]
-        [DisplayFormat(DataFormatString = "{0:0.00##}", ApplyFormatInEditMode = true)]
+        [DisplayFormat(DataFormatString = "{0:0.####}", ApplyFormatInEditMode = true)]
         public decimal? QtyPurchased { get; set; }
 
         [Required]
