@@ -168,17 +168,6 @@ namespace Egret.DataAccess
                     .HasForeignKey(f => f.InventoryItemCode)
                     .OnDelete(DeleteBehavior.Cascade);
 
-                entity.HasOne(d => d.UnitNavigation)
-                    .WithMany()
-                    .HasPrincipalKey(p => p.Abbreviation)
-                    .HasForeignKey(f => f.Unit)
-                    .OnDelete(DeleteBehavior.Restrict);
-
-                entity.HasOne(d => d.OrderNavigation)
-                    .WithMany()
-                    .HasPrincipalKey(k => k.Id)
-                    .HasForeignKey(f => f.OrderNumber)
-                    .OnDelete(DeleteBehavior.ClientSetNull);
             });
 
             modelBuilder.Entity<CurrencyType>(entity =>
@@ -352,15 +341,6 @@ namespace Egret.DataAccess
                     .HasPrincipalKey(p => p.Code)
                     //.HasForeignKey(f => f.InventoryItemCode)
                     .OnDelete(DeleteBehavior.Cascade);
-            });
-
-            modelBuilder.Entity<Order>(entity =>
-            {
-                // Table
-                entity.ToTable("orders");
-
-                // Properties
-                entity.Property(p => p.Id);
             });
 
             modelBuilder.Entity<PurchaseEvent>(entity =>

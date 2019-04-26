@@ -63,11 +63,7 @@ namespace Egret.Models
         [Language(Name = "Nepali", Value = "वस्तु कोड")]
         public string InventoryItemCode { get; set; }
 
-        public Unit UnitNavigation { get; set; }
-
         public InventoryItem InventoryItemNavigation { get; set; }
-
-        public Order OrderNavigation { get; set; }
 
         [NotMapped]
         [DatabaseGenerated(DatabaseGeneratedOption.Computed)]
