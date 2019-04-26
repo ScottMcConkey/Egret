@@ -263,7 +263,9 @@ namespace Egret.Controllers
         {
             ViewData["Category"] = new SelectListFactory(Context).CategoriesAll();
 
-            var results = Context.InventoryItems.Include(x => x.ConsumptionEventsNavigation).AsQueryable();
+            var results = Context.InventoryItems
+                .Include(x => x.ConsumptionEventsNavigation)
+                .AsQueryable();
 
             // Code
             if (!String.IsNullOrEmpty(item.Code))

@@ -83,15 +83,9 @@ namespace Egret
             else
             {
                 app.UseStatusCodePagesWithReExecute("/Error/{0}");
-                //app.UseExceptionHandler("/home/error");
             }
-
             app.UseStaticFiles();
             app.UseAuthentication();
-            app.UseCors(options =>
-               options.AllowAnyOrigin().AllowAnyHeader().AllowAnyMethod().AllowCredentials());
-            loggerFactory.AddNLog();
-            loggerFactory.AddDebug();
             app.UseMvc(routes =>
             {
                 routes.MapRoute(
@@ -106,6 +100,11 @@ namespace Egret
                     name: "out",
                     template: "outbound/{controller=Home}/{action=Index}");
             });
+
+            loggerFactory.AddNLog();
+            loggerFactory.AddDebug();
+
+            
         }
     }
 }
