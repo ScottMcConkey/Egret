@@ -5,7 +5,13 @@
   </PropertyGroup>
 
   <ItemGroup>
-    <Folder Include="Areas\Inventory\Views\Shared\" />
+    <Compile Remove="Areas\Inventory\Views\Shared\**" />
+    <Content Remove="Areas\Inventory\Views\Shared\**" />
+    <EmbeddedResource Remove="Areas\Inventory\Views\Shared\**" />
+    <None Remove="Areas\Inventory\Views\Shared\**" />
+  </ItemGroup>
+
+  <ItemGroup>
     <Folder Include="node_modules\" />
     <Folder Include="wwwroot\dist\" />
 
