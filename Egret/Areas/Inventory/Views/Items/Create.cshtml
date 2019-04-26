@@ -38,8 +38,9 @@
             </select>
         </div>
 
-        <label class="control-label">Costs</label>
-        <div style="border: 1px solid #000; padding: 10px;">
+        <fieldset class="default-fieldset">
+            <legend class="col-form-label default-legend">Costs</legend>
+
             <label asp-for="FOBCost" include-languages="Nepali" class="control-label"></label>
             <div class="form-group form-inline">
                 <input asp-for="FOBCost" class="form-control mr-2" />
@@ -63,7 +64,7 @@
                     <option value=""></option>
                 </select>
             </div>
-        </div><br />
+        </fieldset><br />
 
         <div class="form-group">
             <label asp-for="CustomerPurchasedFor" include-languages="Nepali" class="control-label required"></label>

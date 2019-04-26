@@ -4603,3 +4603,15 @@ th {
 .grid {
   display: grid; }
 
+.default-fieldset {
+  border: 1px groove #ddd !important;
+  padding: 0 1.4em 1.4em 1.4em !important;
+  margin: 0 0 1.5em 0 !important; }
+
+.default-legend {
+  font-size: 1.2em !important;
+  width: auto;
+  padding: 10px 10px;
+  margin-bottom: 20px;
+  border-bottom: none; }
+

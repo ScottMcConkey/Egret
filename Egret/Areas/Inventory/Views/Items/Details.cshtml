@@ -54,8 +54,9 @@
                         <input asp-for="Item.Unit" class="form-control" readonly />
                     </div>
 
-                    <label class="control-label">Costs</label>
-                    <div style="border: 1px solid #000; padding: 10px;">
+                    <fieldset class="default-fieldset">
+                        <legend class="col-form-label default-legend">Costs</legend>
+
                         <label asp-for="Item.FOBCost" include-languages="Nepali" class="control-label"></label>
                         <div class="form-group form-inline">
                             <input asp-for="Item.FOBCost" class="form-control mr-2" readonly />
@@ -73,7 +74,7 @@
                             <input asp-for="Item.ImportCosts" class="form-control mr-2" readonly />
                             <input asp-for="Item.ImportCostCurrency" class="form-control" asp-items="ViewBag.ImportCostCurrency" readonly />
                         </div>
-                    </div><br />
+                    </fieldset><br />
 
                     <div class="form-group">
                         <label asp-for="Item.CustomerPurchasedFor" include-languages="Nepali" class="control-label"></label>
