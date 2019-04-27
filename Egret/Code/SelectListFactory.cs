@@ -7,6 +7,7 @@ using Egret.DataAccess;
 using Egret.Models;
 using System.Diagnostics;
 using Microsoft.EntityFrameworkCore;
+using Egret.Extensions;
 
 namespace Egret.Code
 {
@@ -53,7 +54,7 @@ namespace Egret.Code
 
                 var list = actives.ToList();
                 list.Add(inactiveSelected);
-                List <InventoryCategory> orderedList = list.OrderBy(x => x.Name).ToList();
+                List <InventoryCategory> orderedList = list.OrderBy(x => x.Name).DistinctBy(x => x.Name).ToList();
 
                 return new SelectList(orderedList, "Name", "Name", inactiveSelected.Name);
             }
@@ -95,7 +96,7 @@ namespace Egret.Code
 
                 var list = actives.ToList();
                 list.Add(inactiveSelected);
-                List<Unit> orderedList = list.OrderBy(x => x.Name).Distinct().ToList();
+                List<Unit> orderedList = list.OrderBy(x => x.SortOrder).DistinctBy(x => x.Abbreviation).ToList();
 
                 return new SelectList(orderedList, "Abbreviation", "Abbreviation", inactiveSelected.Name);
             }

@@ -48,7 +48,7 @@ namespace Egret
                     opts.Password.RequireUppercase = false;
                     opts.Password.RequireDigit = false;
                     opts.User.RequireUniqueEmail = true;
-                    //opts.Lockout.DefaultLockoutTimeSpan = TimeSpan.FromMinutes(10);
+                    opts.Lockout.DefaultLockoutTimeSpan = TimeSpan.FromMinutes(10);
                     opts.Lockout.MaxFailedAccessAttempts = 10;
                 }
             )
