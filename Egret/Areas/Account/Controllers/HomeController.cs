@@ -74,18 +74,27 @@ namespace Egret.Areas.Account.Controllers
         public async Task<IActionResult> ChangePassword(ChangePasswordModel details)
         {
             User user = await _userManager.FindByNameAsync(HttpContext.User.Identity.Name);
-            IdentityResult passwordChangeResult = await _userManager.ChangePasswordAsync(user, details.CurrentPassword, details.NewPassword);
 
-            if (passwordChangeResult.Succeeded)
+            if (details.NewPassword != details.ConfirmNewPassword)
             {
-                TempData["SuccessMessage"] = "User Password Updated";
-                return RedirectToAction("Index", "Home", new { area = "" } );
-            }
-            else
-            {
-                ModelState.AddModelError("", "Invalid Password.");
+                ModelState.AddModelError("", "New Password must match Confirm New Password.");
             }
 
+            if (ModelState.IsValid)
+            {
+                IdentityResult passwordChangeResult = await _userManager.ChangePasswordAsync(user, details.CurrentPassword, details.NewPassword);
+
+                if (passwordChangeResult.Succeeded)
+                {
+                    TempData["SuccessMessage"] = "User Password Updated";
+                    return RedirectToAction("Index", "Home", new { area = "" });
+                }
+                else
+                {
+                    ModelState.AddModelError("", "Invalid Password.");
+                }
+            }
+            
             return View(details);
         }
 

@@ -18,5 +18,9 @@ namespace Egret.ViewModels
         [Required]
         [Display(Name = "New Password")]
         public string NewPassword { get; set; }
+
+        [Required]
+        [Display(Name = "Confirm New Password")]
+        public string ConfirmNewPassword { get; set; }
     }
 }

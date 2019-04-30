@@ -18,6 +18,7 @@ namespace Egret.Code
         public SelectListFactory(EgretContext context)
         {
             _egretContext = context;
+            _egretContext.ChangeTracker.QueryTrackingBehavior = QueryTrackingBehavior.NoTracking;
         }
 
         public virtual SelectList CategoriesAll(string selected = null)
