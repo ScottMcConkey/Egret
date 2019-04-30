@@ -2,7 +2,8 @@
 
 @{
     Layout = "_CrudDoubleColumn";
-    ViewData["WindowTitle"] = "Item - Edit";
+    //ViewData["WindowTitle"] = $"Item {Model?.Item.Code} - Edit";
+    ViewData["ObjectName"] = "Item";
     ViewData["PageTitle"] = "Edit Item: " + @Model?.Item.Code;
 }
 

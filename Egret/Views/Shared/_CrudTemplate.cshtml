@@ -1,5 +1,6 @@
 ﻿@{
     Layout = "_DefaultLayout";
+    ViewData["WindowTitle"] = $"{ViewData["ObjectName"]} {ViewContext.RouteData.Values["id"]} - {ViewContext.RouteData.Values["action"]}";
 }
 
 @RenderBody()
