@@ -19,16 +19,11 @@ namespace Egret.Controllers
     [Area("Inventory")]
     public class ItemsController : BaseController
     {
-        private IQueryable<CurrencyType> _activeCurrencyTypes { get; set; }
-        private IQueryable<CurrencyType> _currencyDefault { get; set; }
-
         private static ILogger _logger;
 
         public ItemsController(EgretContext context, ILogger<ItemsController> logger) 
             :base(context)
         {
-            _activeCurrencyTypes = Context.CurrencyTypes.Where(x => x.Active == true).OrderBy(x => x.SortOrder);
-            _currencyDefault = Context.CurrencyTypes.Where(x => x.DefaultSelection == true);
             _logger = logger;
         }
 
@@ -65,9 +60,9 @@ namespace Egret.Controllers
         [Authorize(Roles = "Item_Create")]
         public IActionResult Create()
         {
-            ViewData["FOBCostCurrency"] = new SelectList(_activeCurrencyTypes, "Abbreviation", "Abbreviation", _currencyDefault.Any() ? _currencyDefault.First().Abbreviation : "");
-            ViewData["ShippingCostCurrency"] = new SelectList(_activeCurrencyTypes, "Abbreviation", "Abbreviation", _currencyDefault.Any() ? _currencyDefault.First().Abbreviation : "");
-            ViewData["ImportCostCurrency"] = new SelectList(_activeCurrencyTypes, "Abbreviation", "Abbreviation", _currencyDefault.Any() ? _currencyDefault.First().Abbreviation : "");
+            ViewData["FOBCostCurrency"] = new SelectListFactory(Context).CurrencyTypesActive();
+            ViewData["ShippingCostCurrency"] = new SelectListFactory(Context).CurrencyTypesActive();
+            ViewData["ImportCostCurrency"] = new SelectListFactory(Context).CurrencyTypesActive();
             ViewData["Category"] = new SelectListFactory(Context).CategoriesActive();
             ViewData["Unit"] = new SelectListFactory(Context).UnitsActive();
 
@@ -96,9 +91,9 @@ namespace Egret.Controllers
                 return RedirectToAction(nameof(Edit), new { Id = inventoryItem.Code });
             }
 
-            ViewData["FOBCostCurrency"] = new SelectList(_activeCurrencyTypes, "Abbreviation", "Abbreviation", inventoryItem.FOBCostCurrency);
-            ViewData["ShippingCostCurrency"] = new SelectList(_activeCurrencyTypes, "Abbreviation", "Abbreviation", inventoryItem.ShippingCostCurrency);
-            ViewData["ImportCostCurrency"] = new SelectList(_activeCurrencyTypes, "Abbreviation", "Abbreviation", inventoryItem.ImportCostCurrency);
+            ViewData["FOBCostCurrency"] = new SelectListFactory(Context).CurrencyTypesActive(inventoryItem.FOBCostCurrency);
+            ViewData["ShippingCostCurrency"] = new SelectListFactory(Context).CurrencyTypesActive(inventoryItem.ShippingCostCurrency);
+            ViewData["ImportCostCurrency"] = new SelectListFactory(Context).CurrencyTypesActive(inventoryItem.ImportCostCurrency);
             ViewData["Category"] = new SelectListFactory(Context).CategoriesActive(inventoryItem.Category);
             ViewData["Unit"] = new SelectListFactory(Context).UnitsActive(inventoryItem.Unit);
 
@@ -130,9 +125,9 @@ namespace Egret.Controllers
 
             ViewData["Category"] = new SelectListFactory(Context).CategoriesActivePlusCurrent(item.CategoryNavigation);
             ViewData["Unit"] = new SelectListFactory(Context).UnitsActivePlusCurrent(item.UnitNavigation);
-            ViewData["FOBCostCurrency"] = new SelectList(_activeCurrencyTypes, "Abbreviation", "Abbreviation", item.FOBCostCurrency);
-            ViewData["ShippingCostCurrency"] = new SelectList(_activeCurrencyTypes, "Abbreviation", "Abbreviation", item.ShippingCostCurrency);
-            ViewData["ImportCostCurrency"] = new SelectList(_activeCurrencyTypes, "Abbreviation", "Abbreviation", item.ImportCostCurrency);
+            ViewData["FOBCostCurrency"] = new SelectListFactory(Context).CurrencyTypesActive(item.FOBCostCurrency);
+            ViewData["ShippingCostCurrency"] = new SelectListFactory(Context).CurrencyTypesActive(item.ShippingCostCurrency);
+            ViewData["ImportCostCurrency"] = new SelectListFactory(Context).CurrencyTypesActive(item.ImportCostCurrency);
 
             presentation.Item = item;
             presentation.FabricTests = item.FabricTestsNavigation.OrderBy(x => x.Id).ToList();
@@ -206,10 +201,10 @@ namespace Egret.Controllers
 
             // Rebuild viewmodel
             ViewData["Category"] = new SelectListFactory(Context).CategoriesActivePlusCurrent(vm.Item.CategoryNavigation);
-            ViewData["FOBCostCurrency"] = new SelectList(_activeCurrencyTypes, "Abbreviation", "Abbreviation", vm.Item.FOBCostCurrency);
-            ViewData["ShippingCostCurrency"] = new SelectList(_activeCurrencyTypes, "Abbreviation", "Abbreviation", vm.Item.ShippingCostCurrency);
-            ViewData["ImportCostCurrency"] = new SelectList(_activeCurrencyTypes, "Abbreviation", "Abbreviation", vm.Item.ImportCostCurrency);
             ViewData["Unit"] = new SelectListFactory(Context).UnitsActivePlusCurrent(vm.Item.UnitNavigation);
+            ViewData["FOBCostCurrency"] = new SelectListFactory(Context).CurrencyTypesActive(vm.Item.FOBCostCurrency);
+            ViewData["ShippingCostCurrency"] = new SelectListFactory(Context).CurrencyTypesActive(vm.Item.ShippingCostCurrency);
+            ViewData["ImportCostCurrency"] = new SelectListFactory(Context).CurrencyTypesActive(vm.Item.ImportCostCurrency);
 
             vm.FabricTests = temp.FabricTestsNavigation.ToList();
             vm.ConsumptionEvents = temp.ConsumptionEventsNavigation.ToList();

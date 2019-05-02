@@ -104,5 +104,20 @@ namespace Egret.Code
 
             return defaultSelectList;
         }
+
+        public virtual SelectList CurrencyTypesAll(string selected = null)
+        {
+            return new SelectList(_egretContext.CurrencyTypes
+                            .OrderBy(x => x.SortOrder), "Abbreviation", "Abbreviation", selected);
+        }
+
+        public virtual SelectList CurrencyTypesActive(string selected = null)
+        {
+            var defaultType = _egretContext.CurrencyTypes.Where(x => x.DefaultSelection == true);
+
+            return new SelectList(_egretContext.CurrencyTypes
+                            .Where(x => x.Active == true)
+                            .OrderBy(x => x.SortOrder), "Abbreviation", "Abbreviation", selected ?? defaultType.FirstOrDefault().Abbreviation);
+        }
     }
 }
