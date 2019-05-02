@@ -38,24 +38,24 @@ namespace Egret.Code
         /// Creates a SelectList containing all active Inventory Categories
         /// plus any selected Inventory Category whether it is active or not.
         /// </summary>
-        public virtual SelectList CategoriesActivePlusCurrent(InventoryCategory inactiveSelected)
+        public virtual SelectList CategoriesActivePlusCurrent(InventoryCategory selected)
         {
             var all = _egretContext.InventoryCategories;
             var actives = _egretContext.InventoryCategories.OrderBy(x => x.SortOrder).Where(x => x.Active == true);
             var defaultSelectList = new SelectList(actives, "Name", "Name");
 
-            if (inactiveSelected != null)
+            if (selected != null)
             {
-                if (!all.Any(x => x.Name == inactiveSelected.Name))
+                if (!all.Any(x => x.Name == selected.Name))
                 {
                     return defaultSelectList;
                 }
 
                 var list = actives.ToList();
-                list.Add(inactiveSelected);
+                list.Add(selected);
                 List <InventoryCategory> orderedList = list.OrderBy(x => x.Name).DistinctBy(x => x.Name).ToList();
 
-                return new SelectList(orderedList, "Name", "Name", inactiveSelected.Name);
+                return new SelectList(orderedList, "Name", "Name", selected.Name);
             }
 
             return defaultSelectList;
@@ -76,26 +76,26 @@ namespace Egret.Code
 
         /// <summary>
         /// Creates a SelectList containing all active Units
-        /// plus any selected Units whether it is active or not.
+        /// plus any selected Unit whether it is active or not.
         /// </summary>
-        public virtual SelectList UnitsActivePlusCurrent(Unit inactiveSelected)
+        public virtual SelectList UnitsActivePlusCurrent(Unit selected)
         {
             var all = _egretContext.Units;
             var actives = _egretContext.Units.OrderBy(x => x.SortOrder).Where(x => x.Active == true);
             var defaultSelectList = new SelectList(actives, "Abbreviation", "Abbreviation");
 
-            if (inactiveSelected != null)
+            if (selected != null)
             {
-                if (!all.Any(x => x.Name == inactiveSelected.Name))
+                if (!all.Any(x => x.Name == selected.Name))
                 {
                     return defaultSelectList;
                 }
 
                 var list = actives.ToList();
-                list.Add(inactiveSelected);
+                list.Add(selected);
                 List<Unit> orderedList = list.OrderBy(x => x.SortOrder).DistinctBy(x => x.Abbreviation).ToList();
 
-                return new SelectList(orderedList, "Abbreviation", "Abbreviation", inactiveSelected.Name);
+                return new SelectList(orderedList, "Abbreviation", "Abbreviation", selected.Name);
             }
 
             return defaultSelectList;
@@ -120,24 +120,24 @@ namespace Egret.Code
         /// Creates a SelectList containing all active Currency Types
         /// plus any selected Currency Type whether it is active or not.
         /// </summary>
-        public virtual SelectList CurrencyTypesPlusCurrent(CurrencyType inactiveSelected)
+        public virtual SelectList CurrencyTypesPlusCurrent(CurrencyType selected)
         {
             var all = _egretContext.CurrencyTypes;
             var actives = _egretContext.CurrencyTypes.OrderBy(x => x.SortOrder).Where(x => x.Active == true);
             var defaultSelectList = new SelectList(actives, "Abbreviation", "Abbreviation");
 
-            if (inactiveSelected != null)
+            if (selected != null)
             {
-                if (!all.Any(x => x.Name == inactiveSelected.Name))
+                if (!all.Any(x => x.Name == selected.Name))
                 {
                     return defaultSelectList;
                 }
 
                 var list = actives.ToList();
-                list.Add(inactiveSelected);
+                list.Add(selected);
                 List<CurrencyType> orderedList = list.OrderBy(x => x.SortOrder).DistinctBy(x => x.Abbreviation).ToList();
 
-                return new SelectList(orderedList, "Abbreviation", "Abbreviation", inactiveSelected.Name);
+                return new SelectList(orderedList, "Abbreviation", "Abbreviation", selected.Name);
             }
 
             return defaultSelectList;
