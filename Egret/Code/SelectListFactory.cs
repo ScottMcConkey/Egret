@@ -42,8 +42,8 @@ namespace Egret.Code
         /// <returns></returns>
         public virtual SelectList CategoriesActivePlusCurrent(InventoryCategory inactiveSelected)
         {
-            var all = _egretContext.InventoryCategories.AsNoTracking();
-            var actives = _egretContext.InventoryCategories.AsNoTracking().OrderBy(x => x.SortOrder).Where(x => x.Active == true);
+            var all = _egretContext.InventoryCategories;
+            var actives = _egretContext.InventoryCategories.OrderBy(x => x.SortOrder).Where(x => x.Active == true);
             var defaultSelectList = new SelectList(actives, "Name", "Name");
 
             if (inactiveSelected != null)
@@ -84,8 +84,8 @@ namespace Egret.Code
         /// <returns></returns>
         public virtual SelectList UnitsActivePlusCurrent(Unit inactiveSelected)
         {
-            var all = _egretContext.Units.AsNoTracking();
-            var actives = _egretContext.Units.AsNoTracking().OrderBy(x => x.SortOrder).Where(x => x.Active == true);
+            var all = _egretContext.Units;
+            var actives = _egretContext.Units.OrderBy(x => x.SortOrder).Where(x => x.Active == true);
             var defaultSelectList = new SelectList(actives, "Abbreviation", "Abbreviation");
 
             if (inactiveSelected != null)
@@ -118,6 +118,35 @@ namespace Egret.Code
             return new SelectList(_egretContext.CurrencyTypes
                             .Where(x => x.Active == true)
                             .OrderBy(x => x.SortOrder), "Abbreviation", "Abbreviation", selected ?? defaultType.FirstOrDefault().Abbreviation);
+        }
+
+        /// <summary>
+        /// Returns a SelectList containing all active Currency Types
+        /// plus any current Currency Type that happens to be inactive
+        /// </summary>
+        /// <param name="inactiveSelected"></param>
+        /// <returns></returns>
+        public virtual SelectList CurrencyTypesPlusCurrent(CurrencyType inactiveSelected)
+        {
+            var all = _egretContext.CurrencyTypes;
+            var actives = _egretContext.CurrencyTypes.OrderBy(x => x.SortOrder).Where(x => x.Active == true);
+            var defaultSelectList = new SelectList(actives, "Abbreviation", "Abbreviation");
+
+            if (inactiveSelected != null)
+            {
+                if (!all.Any(x => x.Name == inactiveSelected.Name))
+                {
+                    return defaultSelectList;
+                }
+
+                var list = actives.ToList();
+                list.Add(inactiveSelected);
+                List<CurrencyType> orderedList = list.OrderBy(x => x.SortOrder).DistinctBy(x => x.Abbreviation).ToList();
+
+                return new SelectList(orderedList, "Abbreviation", "Abbreviation", inactiveSelected.Name);
+            }
+
+            return defaultSelectList;
         }
     }
 }

@@ -116,6 +116,9 @@ namespace Egret.Controllers
                 .Include(i => i.UnitNavigation)
                 .Include(i => i.ConsumptionEventsNavigation)
                 .Include(i => i.FabricTestsNavigation)
+                .Include(i => i.FOBCostCurrencyNavigation)
+                .Include(i => i.ShippingCostCurrencyNavigation)
+                .Include(i => i.ImportCostCurrencyNavigation)
                 .SingleOrDefaultAsync(m => m.Code == id);
 
             if (item == null)
@@ -125,9 +128,9 @@ namespace Egret.Controllers
 
             ViewData["Category"] = new SelectListFactory(Context).CategoriesActivePlusCurrent(item.CategoryNavigation);
             ViewData["Unit"] = new SelectListFactory(Context).UnitsActivePlusCurrent(item.UnitNavigation);
-            ViewData["FOBCostCurrency"] = new SelectListFactory(Context).CurrencyTypesActive(item.FOBCostCurrency);
-            ViewData["ShippingCostCurrency"] = new SelectListFactory(Context).CurrencyTypesActive(item.ShippingCostCurrency);
-            ViewData["ImportCostCurrency"] = new SelectListFactory(Context).CurrencyTypesActive(item.ImportCostCurrency);
+            ViewData["FOBCostCurrency"] = new SelectListFactory(Context).CurrencyTypesPlusCurrent(item.FOBCostCurrencyNavigation);
+            ViewData["ShippingCostCurrency"] = new SelectListFactory(Context).CurrencyTypesPlusCurrent(item.ShippingCostCurrencyNavigation);
+            ViewData["ImportCostCurrency"] = new SelectListFactory(Context).CurrencyTypesPlusCurrent(item.ImportCostCurrencyNavigation);
 
             presentation.Item = item;
             presentation.FabricTests = item.FabricTestsNavigation.OrderBy(x => x.Id).ToList();
@@ -151,6 +154,9 @@ namespace Egret.Controllers
                 .Include(y => y.UnitNavigation)
                 .Include(y => y.FabricTestsNavigation)
                 .Include(y => y.ConsumptionEventsNavigation)
+                .Include(i => i.FOBCostCurrencyNavigation)
+                .Include(i => i.ShippingCostCurrencyNavigation)
+                .Include(i => i.ImportCostCurrencyNavigation)
                 .AsNoTracking()
                 .Where(x => x.Code == id)
                 .FirstOrDefault();
@@ -202,9 +208,9 @@ namespace Egret.Controllers
             // Rebuild viewmodel
             ViewData["Category"] = new SelectListFactory(Context).CategoriesActivePlusCurrent(vm.Item.CategoryNavigation);
             ViewData["Unit"] = new SelectListFactory(Context).UnitsActivePlusCurrent(vm.Item.UnitNavigation);
-            ViewData["FOBCostCurrency"] = new SelectListFactory(Context).CurrencyTypesActive(vm.Item.FOBCostCurrency);
-            ViewData["ShippingCostCurrency"] = new SelectListFactory(Context).CurrencyTypesActive(vm.Item.ShippingCostCurrency);
-            ViewData["ImportCostCurrency"] = new SelectListFactory(Context).CurrencyTypesActive(vm.Item.ImportCostCurrency);
+            ViewData["FOBCostCurrency"] = new SelectListFactory(Context).CurrencyTypesPlusCurrent(vm.Item.FOBCostCurrencyNavigation);
+            ViewData["ShippingCostCurrency"] = new SelectListFactory(Context).CurrencyTypesPlusCurrent(vm.Item.ShippingCostCurrencyNavigation);
+            ViewData["ImportCostCurrency"] = new SelectListFactory(Context).CurrencyTypesPlusCurrent(vm.Item.ImportCostCurrencyNavigation);
 
             vm.FabricTests = temp.FabricTestsNavigation.ToList();
             vm.ConsumptionEvents = temp.ConsumptionEventsNavigation.ToList();
@@ -298,13 +304,9 @@ namespace Egret.Controllers
 
             // In Stock
             if (item.InStock == "Yes")
-            {
                 results = results.Where(x => x.QtyPurchased - x.ConsumptionEventsNavigation.Select(y => y.QuantityConsumed).Sum() > 0);
-            }
             else if (item.InStock == "No")
-            {
                 results = results.Where(x => x.QtyPurchased - x.ConsumptionEventsNavigation.Select(y => y.QuantityConsumed).Sum() == 0);
-            }
 
             var realResults = results.OrderBy(x => x.Code).ToList();
 
