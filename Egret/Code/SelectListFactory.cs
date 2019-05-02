@@ -35,11 +35,9 @@ namespace Egret.Code
         }
 
         /// <summary>
-        /// Returns a SelectList containing all active Inventory Categories
-        /// plus any current Inventory Category that happens to be inactive
+        /// Creates a SelectList containing all active Inventory Categories
+        /// plus any selected Inventory Category whether it is active or not.
         /// </summary>
-        /// <param name="inactiveSelected"></param>
-        /// <returns></returns>
         public virtual SelectList CategoriesActivePlusCurrent(InventoryCategory inactiveSelected)
         {
             var all = _egretContext.InventoryCategories;
@@ -77,11 +75,9 @@ namespace Egret.Code
         }
 
         /// <summary>
-        /// Returns a SelectList containing all active Units
-        /// plus any current Units that happens to be inactive
+        /// Creates a SelectList containing all active Units
+        /// plus any selected Units whether it is active or not.
         /// </summary>
-        /// <param name="inactiveSelected"></param>
-        /// <returns></returns>
         public virtual SelectList UnitsActivePlusCurrent(Unit inactiveSelected)
         {
             var all = _egretContext.Units;
@@ -121,11 +117,9 @@ namespace Egret.Code
         }
 
         /// <summary>
-        /// Returns a SelectList containing all active Currency Types
-        /// plus any current Currency Type that happens to be inactive
+        /// Creates a SelectList containing all active Currency Types
+        /// plus any selected Currency Type whether it is active or not.
         /// </summary>
-        /// <param name="inactiveSelected"></param>
-        /// <returns></returns>
         public virtual SelectList CurrencyTypesPlusCurrent(CurrencyType inactiveSelected)
         {
             var all = _egretContext.CurrencyTypes;
