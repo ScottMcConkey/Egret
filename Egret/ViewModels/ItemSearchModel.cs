@@ -28,5 +28,7 @@ namespace Egret.ViewModels
 
         [Display(Name = "In Stock")]
         public string InStock { get; set; }
+
+        public int ResultsPerPage { get; set; }
     }
 }

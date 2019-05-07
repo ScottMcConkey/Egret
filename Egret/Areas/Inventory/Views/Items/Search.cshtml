@@ -50,6 +50,11 @@
             <option value="Yes">Yes</option>
             <option value="No">No</option>
         </select>
+    </div>
+
+    <div class="form-group">
+        <label asp-for="ResultsPerPage" class="control-label">Results Per Page</label>
+        <select asp-for="ResultsPerPage" asp-items="ViewBag.ResultsPerPage" class="form-control"></select>
     </div><br />
 
     <div class="form-group">

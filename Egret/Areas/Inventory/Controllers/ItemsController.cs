@@ -1,4 +1,4 @@
-﻿using Egret.Code;
+﻿using Egret.Utilities;
 using Egret.DataAccess;
 using Egret.Models;
 using Egret.ViewModels;
@@ -252,6 +252,7 @@ namespace Egret.Controllers
         [Authorize(Roles = "Item_Read")]
         public IActionResult Search()
         {
+            ViewData["ResultsPerPage"] = DropDownFactory.ResultsPerPage();
             ViewData["Category"] = new SelectListFactory(Context).CategoriesAll();
 
             return View();
@@ -262,6 +263,7 @@ namespace Egret.Controllers
         [ValidateAntiForgeryToken]
         public IActionResult Search(ItemSearchModel item)
         {
+            ViewData["ResultsPerPage"] = DropDownFactory.ResultsPerPage();
             ViewData["Category"] = new SelectListFactory(Context).CategoriesAll();
 
             var results = Context.InventoryItems
@@ -310,13 +312,33 @@ namespace Egret.Controllers
 
             var realResults = results.OrderBy(x => x.Code).ToList();
 
-            return View(nameof(Results), realResults);
+            var presentation = new ItemSearchResultsModel();
+            presentation.Count = realResults.Count();
+            presentation.CurrentPage = 1;
+            presentation.ResultsPerPage = item.ResultsPerPage;
+            presentation.Items = realResults.Skip((presentation.CurrentPage - 1) * presentation.ResultsPerPage).Take(presentation.ResultsPerPage).ToList();
+
+            //return View(nameof(Results), presentation);
+            //return RedirectToAction("Results", "Index", new ItemSearchResultsModel() = presentation);
+            return View(nameof(Results), presentation);
         }
 
         [HttpGet]
         [Authorize(Roles = "Item_Read")]
-        public IActionResult Results(List<InventoryItem> results)
+        public IActionResult Results(ItemSearchResultsModel results)
         {
+            var presentation = new ItemSearchResultsModel();
+            //presentation.Items = results;
+
+            return View(results);
+        }
+
+        [HttpPost]
+        [Authorize(Roles = "Item_Read")]
+        public IActionResult Results(ItemSearchResultsModel results, int page)
+        {
+            results.CurrentPage = page;
+
             return View(results);
         }
 

@@ -9,8 +9,11 @@ using System.Diagnostics;
 using Microsoft.EntityFrameworkCore;
 using Egret.Extensions;
 
-namespace Egret.Code
+namespace Egret.Utilities
 {
+    /// <summary>
+    /// Factory object for Select Lists generated from database relationships.
+    /// </summary>
     public class SelectListFactory
     {
         private readonly EgretContext _egretContext;
