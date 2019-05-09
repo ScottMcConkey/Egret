@@ -1,4 +1,4 @@
-﻿@model ItemSearchResultsModel
+﻿@model SearchResults<InventoryItem>
 
 @{
     Layout = "_ResultsTemplate";
@@ -13,23 +13,23 @@
 <table class="table table-condensed table-bordered table-striped">
     <thead>
         <tr>
-            <th>@Html.DisplayNameFor(model => model.Items[0].Code)</th>
-            <th>@Html.DisplayNameFor(model => model.Items[0].Description)</th>
-            <th>@Html.DisplayNameFor(model => model.Items[0].Category)</th>
-            <th>@Html.DisplayNameFor(model => model.Items[0].CustomerReservedFor)</th>
-            <th>@Html.DisplayNameFor(model => model.Items[0].StockQuantity)</th>
-            <th>@Html.DisplayNameFor(model => model.Items[0].Unit)</th>
+            <th>@Html.DisplayNameFor(model => model.Results[0].Code)</th>
+            <th>@Html.DisplayNameFor(model => model.Results[0].Description)</th>
+            <th>@Html.DisplayNameFor(model => model.Results[0].Category)</th>
+            <th>@Html.DisplayNameFor(model => model.Results[0].CustomerReservedFor)</th>
+            <th>@Html.DisplayNameFor(model => model.Results[0].StockQuantity)</th>
+            <th>@Html.DisplayNameFor(model => model.Results[0].Unit)</th>
         </tr>
     </thead>
     <tbody>
-        @if (Model.Items.Count() == 0)
+        @if (Model.Results.Count() == 0)
         {
             <tr><td colspan="6" class="text-center">There are no Items matching your search criteria.</td></tr>
         }
         else
         {
             var isEditOrDetails = User.IsInRole("Item_Edit") ? "Edit" : "Details";
-            foreach (var item in Model.Items)
+            foreach (var item in Model.Results)
             {
                 <tr class="clickable-row" onclick="location.href = '@(Url.Action(isEditOrDetails, new { id = item.Code }))'; location.target='_blank'">
                     <td>
@@ -48,7 +48,9 @@
     </tbody>
 </table>
 
-@await Html.PartialAsync("_PagingWidget", Model)
+
+
+
 
 <div>
     <a asp-controller="Items" asp-action="Search">Back to Search</a>

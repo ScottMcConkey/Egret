@@ -13,6 +13,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Security.Claims;
 using System.Threading.Tasks;
+using Microsoft.AspNetCore.Razor.TagHelpers;
 
 namespace Egret.Controllers
 {
@@ -261,85 +262,92 @@ namespace Egret.Controllers
         [HttpPost]
         [Authorize(Roles = "Item_Read")]
         [ValidateAntiForgeryToken]
-        public IActionResult Search(ItemSearchModel item)
+        public IActionResult Search(ItemSearchModel searchModel)
         {
             ViewData["ResultsPerPage"] = DropDownFactory.ResultsPerPage();
             ViewData["Category"] = new SelectListFactory(Context).CategoriesAll();
 
-            var results = Context.InventoryItems
-                .Include(x => x.ConsumptionEventsNavigation)
-                .AsQueryable();
+            var results = FindItemSearchResults(searchModel);
+            var presentation = new SearchResults<InventoryItem>();
+            presentation.SearchParameters = searchModel;
+            //presentation.PagingInfo.ItemsPerPage = resultsPerPage;
+            presentation.Results = results;
 
-            // Code
-            if (!String.IsNullOrEmpty(item.Code))
-                results = results.Where(x => x.Code.Contains(item.Code));
-
-            // Description
-            if (!String.IsNullOrEmpty(item.Description))
-                results = results.Where(x => x.Description.Contains(item.Description));
-
-            // Date Added
-            if (item.DateCreatedStart != null && item.DateCreatedEnd != null)
-            {
-                results = results.Where(x => x.DateAdded.Value.Date >= item.DateCreatedStart.Value.Date && x.DateAdded.Value.Date <= item.DateCreatedEnd.Value.Date);
-            }
-            else if (item.DateCreatedStart != null && item.DateCreatedEnd == null)
-            {
-                results = results.Where(x => x.DateAdded.Value.Date >= item.DateCreatedStart.Value.Date);
-            }
-            else if (item.DateCreatedStart == null && item.DateCreatedEnd != null)
-            {
-                results = results.Where(x => x.DateAdded.Value.Date <= item.DateCreatedEnd.Value.Date);
-            }
-
-            // Category
-            if (!String.IsNullOrEmpty(item.Category))
-                results = results.Where(x => x.Category == item.Category);
-
-            // Customer Purchased For
-            if (!String.IsNullOrEmpty(item.CustomerPurchasedFor))
-                results = results.Where(x => x.CustomerPurchasedFor.Contains(item.CustomerPurchasedFor));
-
-            // Customer Reserved For
-            if (!String.IsNullOrEmpty(item.CustomerReservedFor))
-                results = results.Where(x => x.CustomerReservedFor.Contains(item.CustomerReservedFor));
-
-            // In Stock
-            if (item.InStock == "Yes")
-                results = results.Where(x => x.QtyPurchased - x.ConsumptionEventsNavigation.Select(y => y.QuantityConsumed).Sum() > 0);
-            else if (item.InStock == "No")
-                results = results.Where(x => x.QtyPurchased - x.ConsumptionEventsNavigation.Select(y => y.QuantityConsumed).Sum() == 0);
-
-            var realResults = results.OrderBy(x => x.Code).ToList();
-
-            var presentation = new ItemSearchResultsModel();
-            presentation.Count = realResults.Count();
-            presentation.CurrentPage = 1;
-            presentation.ResultsPerPage = item.ResultsPerPage;
-            presentation.Items = realResults.Skip((presentation.CurrentPage - 1) * presentation.ResultsPerPage).Take(presentation.ResultsPerPage).ToList();
-
-            //return View(nameof(Results), presentation);
-            //return RedirectToAction("Results", "Index", new ItemSearchResultsModel() = presentation);
             return View(nameof(Results), presentation);
+            //return View("Results", presentation);
+            //return RedirectToAction("Results", new { results = presentation });
         }
 
         [HttpGet]
         [Authorize(Roles = "Item_Read")]
-        public IActionResult Results(ItemSearchResultsModel results)
+        public IActionResult Results(SearchResults<InventoryItem> results, string test123)
         {
-            var presentation = new ItemSearchResultsModel();
-            //presentation.Items = results;
+            var presentation = new SearchResults<InventoryItem>();
+            presentation.Results = results.Results;
 
             return View(results);
         }
 
         [HttpPost]
         [Authorize(Roles = "Item_Read")]
-        public IActionResult Results(ItemSearchResultsModel results, int page)
+        public IActionResult Results(SearchResults<InventoryItem> results, int page = 1)
         {
-            results.CurrentPage = page;
+            results.PagingInfo.CurrentPage = page;
 
             return View(results);
+        }
+
+        [NonAction]
+        private List<InventoryItem> FindItemSearchResults(ItemSearchModel searchModel)
+        {
+            var results = Context.InventoryItems
+                .Include(x => x.ConsumptionEventsNavigation)
+                .AsQueryable()
+                .AsNoTracking();
+
+            // Code
+            if (!String.IsNullOrEmpty(searchModel.Code))
+                results = results.Where(x => x.Code.Contains(searchModel.Code));
+
+            // Description
+            if (!String.IsNullOrEmpty(searchModel.Description))
+                results = results.Where(x => x.Description.Contains(searchModel.Description));
+
+            // Date Added
+            if (searchModel.DateCreatedStart != null && searchModel.DateCreatedEnd != null)
+            {
+                results = results.Where(x => x.DateAdded.Value.Date >= searchModel.DateCreatedStart.Value.Date && x.DateAdded.Value.Date <= searchModel.DateCreatedEnd.Value.Date);
+            }
+            else if (searchModel.DateCreatedStart != null && searchModel.DateCreatedEnd == null)
+            {
+                results = results.Where(x => x.DateAdded.Value.Date >= searchModel.DateCreatedStart.Value.Date);
+            }
+            else if (searchModel.DateCreatedStart == null && searchModel.DateCreatedEnd != null)
+            {
+                results = results.Where(x => x.DateAdded.Value.Date <= searchModel.DateCreatedEnd.Value.Date);
+            }
+
+            // Category
+            if (!String.IsNullOrEmpty(searchModel.Category))
+                results = results.Where(x => x.Category == searchModel.Category);
+
+            // Customer Purchased For
+            if (!String.IsNullOrEmpty(searchModel.CustomerPurchasedFor))
+                results = results.Where(x => x.CustomerPurchasedFor.Contains(searchModel.CustomerPurchasedFor));
+
+            // Customer Reserved For
+            if (!String.IsNullOrEmpty(searchModel.CustomerReservedFor))
+                results = results.Where(x => x.CustomerReservedFor.Contains(searchModel.CustomerReservedFor));
+
+            // In Stock
+            if (searchModel.InStock == "Yes")
+                results = results.Where(x => x.QtyPurchased - x.ConsumptionEventsNavigation.Select(y => y.QuantityConsumed).Sum() > 0);
+            else if (searchModel.InStock == "No")
+                results = results.Where(x => x.QtyPurchased - x.ConsumptionEventsNavigation.Select(y => y.QuantityConsumed).Sum() == 0);
+
+            var realResults = results.OrderBy(x => x.Code).ToList();
+
+            return realResults;
         }
 
     }

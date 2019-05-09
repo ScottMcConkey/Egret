@@ -4,10 +4,11 @@ using System.ComponentModel;
 using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
 using Microsoft.AspNetCore.Mvc.ModelBinding;
+using Egret.Interfaces;
 
 namespace Egret.ViewModels
 {
-    public class ItemSearchModel
+    public class ItemSearchModel : ISearchParameters
     {
         public string Code { get; set; }
         public string Description { get; set; }
