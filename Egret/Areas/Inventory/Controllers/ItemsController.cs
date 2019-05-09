@@ -259,33 +259,36 @@ namespace Egret.Controllers
             var presentation = new ItemSearchModel();
             presentation.CustomerPurchasedFor = "Purnaa";
             presentation.Code = "C126";
+            presentation.ResultsPerPage = 10;
 
-            return View(presentation);
+            return View(presentation);// nameof(Results), presentation);
         }
 
-        [HttpPost]
-        [Authorize(Roles = "Item_Read")]
-        [ValidateAntiForgeryToken]
-        public IActionResult Search(ItemSearchModel searchModel)
-        {
-            ViewData["ResultsPerPage"] = DropDownFactory.ResultsPerPage();
-            ViewData["Category"] = new SelectListFactory(Context).CategoriesAll();
+        //[HttpPost]
+        //[Authorize(Roles = "Item_Read")]
+        //[ValidateAntiForgeryToken]
+        //public IActionResult Search(ItemSearchModel searchModel)
+        //{
+        //    ViewData["ResultsPerPage"] = DropDownFactory.ResultsPerPage();
+        //    ViewData["Category"] = new SelectListFactory(Context).CategoriesAll();
 
-            var results = FindItemSearchResults(searchModel);
-            var presentation = new SearchResults<InventoryItem>();
-            presentation.SearchParameters = searchModel;
-            //presentation.PagingInfo.ItemsPerPage = resultsPerPage;
-            presentation.Results = results;
+        //    var results = FindItemSearchResults(searchModel);
+        //    var presentation = new SearchResults<InventoryItem>();
+        //    presentation.SearchParameters = searchModel;
+        //    //presentation.PagingInfo.ItemsPerPage = resultsPerPage;
+        //    presentation.Results = results;
 
-            return View(nameof(Results), presentation);
-        }
+        //    return View(nameof(Results), presentation);
+        //}
 
         [HttpGet]
         [Authorize(Roles = "Item_Read")]
-        public IActionResult Results(SearchResults<InventoryItem> results, string test123)
+        public IActionResult Results(ItemSearchModel searchModel, string test123)
         {
-            var presentation = new SearchResults<InventoryItem>();
-            presentation.Results = results.Results;
+            var results = FindItemSearchResults(searchModel);
+
+            //var presentation = new SearchResults<InventoryItem>();
+            //presentation.Results = results;
 
             return View(results);
         }
