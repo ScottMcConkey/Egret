@@ -256,7 +256,11 @@ namespace Egret.Controllers
             ViewData["ResultsPerPage"] = DropDownFactory.ResultsPerPage();
             ViewData["Category"] = new SelectListFactory(Context).CategoriesAll();
 
-            return View();
+            var presentation = new ItemSearchModel();
+            presentation.CustomerPurchasedFor = "Purnaa";
+            presentation.Code = "C126";
+
+            return View(presentation);
         }
 
         [HttpPost]
@@ -274,8 +278,6 @@ namespace Egret.Controllers
             presentation.Results = results;
 
             return View(nameof(Results), presentation);
-            //return View("Results", presentation);
-            //return RedirectToAction("Results", new { results = presentation });
         }
 
         [HttpGet]
