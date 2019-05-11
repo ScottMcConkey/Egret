@@ -6,16 +6,19 @@
     ViewData["PageTitle"] = "Edit Consumption Event: " + @Model.ConsumptionEvent.Id;
 }
 
-<form asp-action="Edit">
-    <div class="row">
-        <div class="col-md-8">
 
-            <!-- Tab Links -->
-            <ul class="nav nav-tabs">
-                <li class="nav-item"><a id="details-tab" class="nav-link active" href="#details">Details</a></li>
-            </ul>
+<div class="row">
 
-            <br />
+    <div class="col-md-8">
+
+        <!-- Tab Links -->
+        <ul class="nav nav-tabs">
+            <li class="nav-item"><a id="details-tab" class="nav-link active" href="#details">Details</a></li>
+        </ul>
+
+        <br />
+
+        <form asp-action="Edit">
 
             <!-- Details -->
             <div class="tab-content" id="tabContent">
@@ -76,19 +79,20 @@
 
             </div>
 
+        </form>
 
-           
-
-        </div>
-
-        <div class="col-md-4">
-
-            @await Html.PartialAsync("_ObjectInformationWidget", Model.ConsumptionEvent)
-
-            @await Html.PartialAsync("_RelatedObjectsWidget", new RelationshipViewModelInventory((List<InventoryItem>)Model.InventoryItems))
-                
-        </div>
     </div>
 
-</form>
+    <div class="col-md-4">
+
+        @await Html.PartialAsync("_ObjectInformationWidget", Model.ConsumptionEvent)
+
+        @await Html.PartialAsync("_DeleteWidget", new ConsumptionEventDeleteViewModel(Model.ConsumptionEvent.Id))
+
+        @await Html.PartialAsync("_RelatedObjectsWidget", new RelationshipViewModelInventory((List<InventoryItem>)Model.InventoryItems))
+
+    </div>
+
+</div>
+
 

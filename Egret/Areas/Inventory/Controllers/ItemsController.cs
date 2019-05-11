@@ -219,7 +219,7 @@ namespace Egret.Controllers
             return View(vm);
         }
 
-        [HttpGet]
+        [HttpPost]
         [Authorize(Roles = "Item_Delete")]
         public async Task<IActionResult> Delete(string id)
         {
@@ -228,26 +228,31 @@ namespace Egret.Controllers
                 return NotFound();
             }
 
-            var inventoryItems = await Context.InventoryItems.SingleOrDefaultAsync(m => m.Code == id);
+            var inventoryItem = await Context.InventoryItems.Where(x => x.Code == id).SingleOrDefaultAsync();
 
-            if (inventoryItems == null)
+            if (inventoryItem == null)
             {
                 return NotFound();
             }
 
-            return View(inventoryItems);
+            Context.InventoryItems.Remove(inventoryItem);
+            Context.SaveChanges();
+            TempData["SuccessMessage"] = $"Item {id} Deleted";
+
+            //return View(inventoryItems);
+            return RedirectToAction("Index", "Home");
         }
 
-        [HttpPost, ActionName("Delete")]
-        [Authorize(Roles = "Item_Delete")]
-        [ValidateAntiForgeryToken]
-        public async Task<IActionResult> DeleteConfirmed(string id)
-        {
-            var inventoryItems = await Context.InventoryItems.SingleOrDefaultAsync(m => m.Code == id);
-            Context.InventoryItems.Remove(inventoryItems);
-            await Context.SaveChangesAsync();
-            return RedirectToAction("Index","Home");
-        }
+        //[HttpPost, ActionName("Delete")]
+        //[Authorize(Roles = "Item_Delete")]
+        //[ValidateAntiForgeryToken]
+        //public async Task<IActionResult> DeleteConfirmed(string id)
+        //{
+        //    var inventoryItems = await Context.InventoryItems.SingleOrDefaultAsync(m => m.Code == id);
+        //    Context.InventoryItems.Remove(inventoryItems);
+        //    await Context.SaveChangesAsync();
+        //    return RedirectToAction("Index","Home");
+        //}
 
         [HttpGet]
         [Authorize(Roles = "Item_Read")]
@@ -257,9 +262,9 @@ namespace Egret.Controllers
             ViewData["Category"] = new SelectListFactory(Context).CategoriesAll();
 
             var presentation = new ItemSearchModel();
-            presentation.CustomerPurchasedFor = "Purnaa";
-            presentation.Code = "C126";
-            presentation.ResultsPerPage = 10;
+            //presentation.CustomerPurchasedFor = "Purnaa";
+            //presentation.Code = "C126";
+            //presentation.ResultsPerPage = 10;
 
             return View(presentation);// nameof(Results), presentation);
         }

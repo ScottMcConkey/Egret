@@ -1,9 +1,5 @@
-﻿using System;
+﻿using Egret.Models;
 using System.Collections.Generic;
-using System.Linq;
-using System.Threading.Tasks;
-using Egret.Models;
-using Egret.DataAccess;
 
 namespace Egret.ViewModels
 {
