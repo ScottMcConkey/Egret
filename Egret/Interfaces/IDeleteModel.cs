@@ -10,5 +10,7 @@ namespace Egret.Interfaces
         string AccessGroupName { get; }
 
         string Id { get; }
+
+        string ObjectName { get; }
     }
 }

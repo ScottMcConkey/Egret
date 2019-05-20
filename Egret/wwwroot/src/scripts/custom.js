@@ -77,15 +77,37 @@ function SetContentHeights() {
     $("#main-bottom").css("min-height", $(document).height() - 250 + "px");
 }
 
-function SetTestsForDelete() {
+function ConfirmDelete(objectType) {
+    var textOutput = objectType ? ' ' + objectType + ' ' : '';
+    var userAgrees = confirm('Are you sure you want to delete this' + textOutput + '?');
+    return userAgrees;
+}
+
+
+function SetObjectsForDelete() {
     $(".delete").on("click", function () {
-        if (confirm('Are you sure you want to delete this?')) {
+
+        if (ConfirmDelete(this.getAttribute("delete-name")) === true) {
+            null;
+        }
+        else {
+            console.log('#4');
+            return false;
+        }
+    });
+}
+
+
+function SetTestsForDelete() {
+    $(".delete-test").on("click", function () {
+
+        if (ConfirmDelete('Fabric Test') === true) {
             $(this).parent().parent().remove();
-            console.log($(this));
+
             var manager = new TestManager();
             manager.reOrder();
 
-            if ($("tr.fabrictest").length == 0) {
+            if ($("tr.fabrictest").length === 0) {
                 $("tr#notests").show();
             };
         }
@@ -180,6 +202,8 @@ $(document).ready(function () {
     FadeOutSuccessMessages();
 
     SetTestsForDelete();
+
+    SetObjectsForDelete();
 
     PrepApiController();
 

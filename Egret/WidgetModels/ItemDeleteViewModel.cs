@@ -8,9 +8,12 @@ namespace Egret.ViewModels
 
         public string Id { get; }
 
+        public string ObjectName { get; } = "Item";
+
         public ItemDeleteViewModel(string id)
         {
             Id = id;
         }
+        
     }
 }

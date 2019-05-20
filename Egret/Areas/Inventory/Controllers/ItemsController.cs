@@ -14,6 +14,7 @@ using System.Linq;
 using System.Security.Claims;
 using System.Threading.Tasks;
 using Microsoft.AspNetCore.Razor.TagHelpers;
+using Microsoft.AspNetCore.WebUtilities;
 
 namespace Egret.Controllers
 {
@@ -288,8 +289,21 @@ namespace Egret.Controllers
 
         [HttpGet]
         [Authorize(Roles = "Item_Read")]
-        public IActionResult Results(ItemSearchModel searchModel, string test123)
+        public IActionResult Results(ItemSearchModel searchModel)
         {
+            var something = (IDictionary<string, string>)HttpContext.Request.Query.Where(v => v.Key != "").ToDictionary(p => p.Key, p => p.Value.ToString());
+
+            //foreach (var str in something)
+            //{
+            //    HttpContext.Request.Query = QueryHelpers.AddQueryString(HttpContext.Request.Path, str);
+            //}
+
+            //HttpContext.Request.Query = new QueryC
+
+            //HttpContext.Request.Query = QueryHelpers.AddQueryString(HttpContext.Request.Query, something);
+
+           // var test = 't'; //HttpContext.Request.QueryString = HttpContext.Request.Query.All(x => x.Value != "");
+
             var results = FindItemSearchResults(searchModel);
 
             //var presentation = new SearchResults<InventoryItem>();

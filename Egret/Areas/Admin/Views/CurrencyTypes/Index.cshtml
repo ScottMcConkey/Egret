@@ -66,7 +66,7 @@
                         <input class="form-control radio" type="radio" asp-for="@Model[i].DefaultSelection" value="@Model[i].DefaultSelection" />
                     </td>
                     <td class="delete-box">
-                        <a class="delete" asp-action="Delete" asp-route-id="@Model[i].Id" title="Delete"><span class="egret egret-trash"></span></a>
+                        <a class="delete" delete-for="Currency Type" asp-action="Delete" asp-route-id="@Model[i].Id" title="Delete"><span class="egret egret-trash"></span></a>
                     </td>
                 </tr>
                 }

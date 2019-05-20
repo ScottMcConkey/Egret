@@ -8,9 +8,12 @@ namespace Egret.ViewModels
 
         public string Id { get; }
 
+        public string ObjectName { get; } = "Consumption Event";
+
         public ConsumptionEventDeleteViewModel(string id)
         {
             Id = id;
         }
+
     }
 }
