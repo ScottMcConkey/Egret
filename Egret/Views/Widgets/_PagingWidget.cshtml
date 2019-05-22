@@ -1,7 +1,14 @@
-﻿
-
+﻿@model PagingInfo
 
 <div>
-    Test!
+    Test @Model.TotalPages <br />
+    Test @Model.TotalItems <br />
+    Test @Model.CurrentPage <br />
+    Test @Model.ItemsPerPage<br />
+
+    @for (int i = 0; i < Model.TotalPages; i++)
+    {
+        <div>@i</div>
+    }
 
 </div>

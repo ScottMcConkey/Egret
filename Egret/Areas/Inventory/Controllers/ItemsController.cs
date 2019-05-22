@@ -15,6 +15,7 @@ using System.Security.Claims;
 using System.Threading.Tasks;
 using Microsoft.AspNetCore.Razor.TagHelpers;
 using Microsoft.AspNetCore.WebUtilities;
+using Microsoft.AspNetCore.Http.Extensions;
 
 namespace Egret.Controllers
 {
@@ -291,35 +292,27 @@ namespace Egret.Controllers
         [Authorize(Roles = "Item_Read")]
         public IActionResult Results(ItemSearchModel searchModel)
         {
-            var something = (IDictionary<string, string>)HttpContext.Request.Query.Where(v => v.Key != "").ToDictionary(p => p.Key, p => p.Value.ToString());
-
-            //foreach (var str in something)
-            //{
-            //    HttpContext.Request.Query = QueryHelpers.AddQueryString(HttpContext.Request.Path, str);
-            //}
-
-            //HttpContext.Request.Query = new QueryC
-
-            //HttpContext.Request.Query = QueryHelpers.AddQueryString(HttpContext.Request.Query, something);
-
-           // var test = 't'; //HttpContext.Request.QueryString = HttpContext.Request.Query.All(x => x.Value != "");
-
             var results = FindItemSearchResults(searchModel);
+
+            var presentation = new ItemSearchResultsModel();
+            presentation.Items = results;
+            presentation.TotalItems = results.Count();
+            presentation.ItemsPerPage = searchModel.ResultsPerPage;
 
             //var presentation = new SearchResults<InventoryItem>();
             //presentation.Results = results;
 
-            return View(results);
+            return View(presentation);
         }
 
-        [HttpPost]
-        [Authorize(Roles = "Item_Read")]
-        public IActionResult Results(SearchResults<InventoryItem> results, int page = 1)
-        {
-            results.PagingInfo.CurrentPage = page;
+        //[HttpPost]
+        //[Authorize(Roles = "Item_Read")]
+        //public IActionResult Results(SearchResults<InventoryItem> results, int page = 1)
+        //{
+        //    results.PagingInfo.CurrentPage = page;
 
-            return View(results);
-        }
+        //    return View(results);
+        //}
 
         [NonAction]
         private List<InventoryItem> FindItemSearchResults(ItemSearchModel searchModel)

@@ -8,7 +8,7 @@ using Egret.Interfaces;
 
 namespace Egret.ViewModels
 {
-    public class ItemSearchModel : ISearchParameters
+    public class ItemSearchModel : PagingInfo
     {
         public string Code { get; set; }
         public string Description { get; set; }
