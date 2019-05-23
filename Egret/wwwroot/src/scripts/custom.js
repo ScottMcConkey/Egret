@@ -6,7 +6,10 @@ function AutoFocusFirstFormInput() {
 }
 
 function CleanUpQueryString() {
+    // remove &example
     var newString = window.location.href.replace(/\&(\w)*=(?=\&)/g, '');
+    // remove ?example&
+    newString = newString.replace(/(?=\?)*\w*=(\&)/g, '');
     window.history.pushState("object or string", "Title", newString);
 }
 
