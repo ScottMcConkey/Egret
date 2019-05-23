@@ -260,23 +260,18 @@ namespace Egret.Controllers
         [Authorize(Roles = "Item_Read")]
         public IActionResult Results(ItemSearchModel searchModel)
         {
+            searchModel.ItemsPerPage = searchModel.ResultsPerPage;
             var results = FindItemSearchResults(searchModel);
+
+            var filterResults = results.Skip((searchModel.CurrentPage - 1) * searchModel.ItemsPerPage).Take(searchModel.ItemsPerPage).ToList();
 
             var presentation = new ItemSearchResultsModel
             {
-                Items = results,
+                CurrentPage = searchModel.CurrentPage,
+                Items = filterResults,
                 ItemsPerPage = searchModel.ResultsPerPage,
                 TotalItems = results.Count()
             };
-
-            if (searchModel.CurrentPage == 0)
-            {
-                presentation.CurrentPage = 1;
-            }
-            
-
-            //var presentation = new SearchResults<InventoryItem>();
-            //presentation.Results = results;
 
             return View(presentation);
         }
