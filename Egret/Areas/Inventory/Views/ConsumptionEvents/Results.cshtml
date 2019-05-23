@@ -1,32 +1,34 @@
-﻿@model List<ConsumptionEvent>
+﻿@model ConsumptionEventSearchResultsModel
 
 @{
     Layout = "_ResultsTemplate";
-    ViewData["WindowTitle"] = "Consumption Events Search Results";
-    ViewData["PageTitle"] = "Consumption Events Results";
+    ViewData["WindowTitle"] = "Consumption Events - Search Results";
+    ViewData["PageTitle"] = "Consumption Events Search Results";
 }
 
 <p class="index-page-link">
     <a asp-action="Create">Create New</a>
 </p>
 
+@await Html.PartialAsync("_PagingWidget", (PagingInfo)Model)
+
 <table class="table table-condensed table-bordered">
     <thead>
         <tr>
-            <th>@Html.DisplayNameFor(model => model[0].InventoryItemCode)</th>
-            <th>@Html.DisplayNameFor(model => model[0].DateAdded)</th>
-            <th>@Html.DisplayNameFor(model => model[0].ConsumedBy)</th>
+            <th>@Html.DisplayNameFor(model => model.Events[0].InventoryItemCode)</th>
+            <th>@Html.DisplayNameFor(model => model.Events[0].DateAdded)</th>
+            <th>@Html.DisplayNameFor(model => model.Events[0].ConsumedBy)</th>
         </tr>
     </thead>
     <tbody>
-        @if (Model.Count() == 0)
+        @if (Model.Events.Count() == 0)
         {
             <tr><td colspan="3" class="text-center">There are no Consumption Events matching your search criteria.</td></tr>
         }
         else
         {
             var isEditOrDetails = User.IsInRole("ConsumptionEvent_Edit") ? "Edit" : "Details";
-            foreach (var consumptionEvent in Model)
+            foreach (var consumptionEvent in Model.Events)
             {
                 <tr class="clickable-row" onclick="location.href = '@(Url.Action(isEditOrDetails, new { id = consumptionEvent.Id }))'; location.target='_blank'">
                     <td>
@@ -41,6 +43,8 @@
         }
     </tbody>
 </table>
+
+@await Html.PartialAsync("_PagingWidget", (PagingInfo)Model)
 
 <div>
     <a asp-controller="ConsumptionEvents" asp-action="Search">Back to Search</a>

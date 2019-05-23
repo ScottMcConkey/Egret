@@ -199,40 +199,68 @@ namespace Egret.Controllers
         }
 
         [HttpGet]
+        [Authorize(Roles = "ConsumptionEvent_Read")]
         public IActionResult Search()
         {
-            return View();
+            ViewData["ResultsPerPage"] = DropDownFactory.ResultsPerPage();
+
+            var presentation = new ConsumptionEventSearchModel();
+
+            return View(presentation);
         }
 
-        [HttpPost]
-        [ValidateAntiForgeryToken]
-        public IActionResult Search(ConsumptionEventSearchModel search)
+        [HttpGet]
+        [Authorize(Roles = "ConsumptionEvent_Edit")]
+        public IActionResult Results(ConsumptionEventSearchModel searchModel)
         {
-            var results = Context.ConsumptionEvents.AsQueryable();
+            searchModel.ItemsPerPage = searchModel.ResultsPerPage;
+            var results = FindConsumptionSearchResults(searchModel);
+
+            var filterResults = results.Skip((searchModel.CurrentPage - 1) * searchModel.ItemsPerPage).Take(searchModel.ItemsPerPage).ToList();
+
+            var presentation = new ConsumptionEventSearchResultsModel
+            {
+                CurrentPage = searchModel.CurrentPage,
+                Events = filterResults,
+                ItemsPerPage = searchModel.ResultsPerPage,
+                TotalItems = results.Count()
+            };
+
+            return View(presentation);
+        }
+
+        [NonAction]
+        private List<ConsumptionEvent> FindConsumptionSearchResults(ConsumptionEventSearchModel searchModel)
+        {
+            var results = Context.ConsumptionEvents
+                .AsQueryable()
+                .AsNoTracking();
 
             // Code
-            if (!String.IsNullOrEmpty(search.Code))
-                results = results.Where(x => x.InventoryItemCode.Contains(search.Code));
+            if (!String.IsNullOrEmpty(searchModel.Code))
+                results = results.Where(x => x.InventoryItemCode.Contains(searchModel.Code));
 
             // Date Added
-            if (search.DateCreatedStart != null && search.DateCreatedEnd != null)
+            if (searchModel.DateCreatedStart != null && searchModel.DateCreatedEnd != null)
             {
-                results = results.Where(x => x.DateAdded.Value.Date >= search.DateCreatedStart.Value.Date && x.DateAdded.Value.Date <= search.DateCreatedEnd.Value.Date);
+                results = results.Where(x => x.DateAdded.Value.Date >= searchModel.DateCreatedStart.Value.Date && x.DateAdded.Value.Date <= searchModel.DateCreatedEnd.Value.Date);
             }
-            else if (search.DateCreatedStart != null && search.DateCreatedEnd == null)
+            else if (searchModel.DateCreatedStart != null && searchModel.DateCreatedEnd == null)
             {
-                results = results.Where(x => x.DateAdded.Value.Date >= search.DateCreatedStart.Value.Date);
+                results = results.Where(x => x.DateAdded.Value.Date >= searchModel.DateCreatedStart.Value.Date);
             }
-            else if (search.DateCreatedStart == null && search.DateCreatedEnd != null)
+            else if (searchModel.DateCreatedStart == null && searchModel.DateCreatedEnd != null)
             {
-                results = results.Where(x => x.DateAdded.Value.Date <= search.DateCreatedEnd.Value.Date);
+                results = results.Where(x => x.DateAdded.Value.Date <= searchModel.DateCreatedEnd.Value.Date);
             }
 
             // Consumed By
-            if (!String.IsNullOrEmpty(search.ConsumedBy))
-                results = results.Where(x => x.ConsumedBy.ToLowerInvariant().Contains(search.ConsumedBy.ToLowerInvariant()));
+            if (!String.IsNullOrEmpty(searchModel.ConsumedBy))
+                results = results.Where(x => x.ConsumedBy.ToLowerInvariant().Contains(searchModel.ConsumedBy.ToLowerInvariant()));
 
-            return View("Results", results.OrderByDescending(x => x.DateOfConsumption).ToList());
+            var realResults = results.OrderBy(x => x.Id).ToList();
+
+            return realResults;
         }
 
     }

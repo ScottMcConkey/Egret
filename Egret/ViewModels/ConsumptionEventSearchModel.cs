@@ -7,7 +7,7 @@ using Egret.Attributes;
 
 namespace Egret.ViewModels
 {
-    public class ConsumptionEventSearchModel
+    public class ConsumptionEventSearchModel : PagingInfo
     {
         [Display(Name = "Inventory Item Code")]
         public string Code { get; set; }
@@ -24,5 +24,7 @@ namespace Egret.ViewModels
 
         [Display(Name = "Order Number")]
         public string OrderNumber { get; set; }
+
+        public int ResultsPerPage { get; set; }
     }
 }

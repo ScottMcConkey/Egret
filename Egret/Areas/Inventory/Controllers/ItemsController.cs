@@ -253,7 +253,7 @@ namespace Egret.Controllers
 
             var presentation = new ItemSearchModel();
 
-            return View(presentation);// nameof(Results), presentation);
+            return View(presentation);
         }
 
         [HttpGet]
