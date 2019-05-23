@@ -55,6 +55,7 @@
     <div class="form-group">
         <label asp-for="ResultsPerPage" class="control-label">Results Per Page</label>
         <select asp-for="ResultsPerPage" asp-items="ViewBag.ResultsPerPage" class="form-control"></select>
+        <input type="hidden" asp-for="CurrentPage" />
     </div><br />
 
     <div class="form-group">

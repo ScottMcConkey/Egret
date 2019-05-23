@@ -241,20 +241,8 @@ namespace Egret.Controllers
             Context.SaveChanges();
             TempData["SuccessMessage"] = $"Item {id} Deleted";
 
-            //return View(inventoryItems);
             return RedirectToAction("Index", "Home");
         }
-
-        //[HttpPost, ActionName("Delete")]
-        //[Authorize(Roles = "Item_Delete")]
-        //[ValidateAntiForgeryToken]
-        //public async Task<IActionResult> DeleteConfirmed(string id)
-        //{
-        //    var inventoryItems = await Context.InventoryItems.SingleOrDefaultAsync(m => m.Code == id);
-        //    Context.InventoryItems.Remove(inventoryItems);
-        //    await Context.SaveChangesAsync();
-        //    return RedirectToAction("Index","Home");
-        //}
 
         [HttpGet]
         [Authorize(Roles = "Item_Read")]
@@ -264,29 +252,9 @@ namespace Egret.Controllers
             ViewData["Category"] = new SelectListFactory(Context).CategoriesAll();
 
             var presentation = new ItemSearchModel();
-            //presentation.CustomerPurchasedFor = "Purnaa";
-            //presentation.Code = "C126";
-            //presentation.ResultsPerPage = 10;
 
             return View(presentation);// nameof(Results), presentation);
         }
-
-        //[HttpPost]
-        //[Authorize(Roles = "Item_Read")]
-        //[ValidateAntiForgeryToken]
-        //public IActionResult Search(ItemSearchModel searchModel)
-        //{
-        //    ViewData["ResultsPerPage"] = DropDownFactory.ResultsPerPage();
-        //    ViewData["Category"] = new SelectListFactory(Context).CategoriesAll();
-
-        //    var results = FindItemSearchResults(searchModel);
-        //    var presentation = new SearchResults<InventoryItem>();
-        //    presentation.SearchParameters = searchModel;
-        //    //presentation.PagingInfo.ItemsPerPage = resultsPerPage;
-        //    presentation.Results = results;
-
-        //    return View(nameof(Results), presentation);
-        //}
 
         [HttpGet]
         [Authorize(Roles = "Item_Read")]
@@ -294,25 +262,24 @@ namespace Egret.Controllers
         {
             var results = FindItemSearchResults(searchModel);
 
-            var presentation = new ItemSearchResultsModel();
-            presentation.Items = results;
-            presentation.TotalItems = results.Count();
-            presentation.ItemsPerPage = searchModel.ResultsPerPage;
+            var presentation = new ItemSearchResultsModel
+            {
+                Items = results,
+                ItemsPerPage = searchModel.ResultsPerPage,
+                TotalItems = results.Count()
+            };
+
+            if (searchModel.CurrentPage == 0)
+            {
+                presentation.CurrentPage = 1;
+            }
+            
 
             //var presentation = new SearchResults<InventoryItem>();
             //presentation.Results = results;
 
             return View(presentation);
         }
-
-        //[HttpPost]
-        //[Authorize(Roles = "Item_Read")]
-        //public IActionResult Results(SearchResults<InventoryItem> results, int page = 1)
-        //{
-        //    results.PagingInfo.CurrentPage = page;
-
-        //    return View(results);
-        //}
 
         [NonAction]
         private List<InventoryItem> FindItemSearchResults(ItemSearchModel searchModel)
