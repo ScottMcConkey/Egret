@@ -10,6 +10,8 @@
     <a asp-action="Create">Create New</a>
 </p>
 
+@await Html.PartialAsync("_PagingWidget", (PagingInfo)Model)
+
 <table class="table table-condensed table-bordered table-striped">
     <thead>
         <tr>

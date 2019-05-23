@@ -11,10 +11,10 @@
 @{ string nextString = Regex.Replace(querystring, "&CurrentPage=[0-9]*", $"&CurrentPage={nextPage}");}
 
 <div>
-    Test @Model.TotalPages <br />
+    @*Test @Model.TotalPages <br />
     Test @Model.TotalItems <br />
     Test @Model.CurrentPage <br />
-    Test @Model.ItemsPerPage<br /><br />
+    Test @Model.ItemsPerPage<br /><br />*@
 
     <ul class="pagination">
         <li class="page-item @(Model.CurrentPage == 1 ? "disabled" : null)"><a class="page-link" href="@(path + previousString)">Previous</a></li>

@@ -5,6 +5,11 @@ function AutoFocusFirstFormInput() {
     }
 }
 
+function CleanUpQueryString() {
+    var newString = window.location.href.replace(/\&(\w)*=(?=\&)/g, '');
+    window.history.pushState("object or string", "Title", newString);
+}
+
 function FadeOutSuccessMessages() {
     $(function () {
         $("#success").delay(2000).fadeOut(5000, function () {
@@ -17,7 +22,7 @@ function ManageMultiRowRadioSelects() {
     $(".radio[value='False']").removeAttr("checked");
     $(".radio").on("click", function () {
 
-        if ($(this).attr("checked") == "checked") {
+        if ($(this).attr("checked") === "checked") {
             $(this).prop("checked", false).attr("checked", false).attr("value", false);
         }
         else {
@@ -189,6 +194,8 @@ function AllowEditCode() {
 
 $(document).ready(function () {
 
+    CleanUpQueryString();
+
     SetContentHeights();
 
     ManageTabs();
@@ -196,7 +203,7 @@ $(document).ready(function () {
     ManageValidationErrors();
 
     AutoFocusFirstFormInput();
-    
+
     ManageMultiRowRadioSelects();
 
     FadeOutSuccessMessages();
@@ -209,7 +216,7 @@ $(document).ready(function () {
 
     AllowEditCode();
 
-})
+});
 
 
 
