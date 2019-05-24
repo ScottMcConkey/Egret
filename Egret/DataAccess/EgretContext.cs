@@ -487,6 +487,7 @@ namespace Egret.DataAccess
             var role_id7 = Guid.NewGuid().ToString();
             var role_id8 = Guid.NewGuid().ToString();
             var role_id9 = Guid.NewGuid().ToString();
+            var role_id10 = Guid.NewGuid().ToString();
             var accessgroup_id1 = 1;
 
             modelBuilder.Entity<User>().HasData(new
@@ -516,7 +517,8 @@ namespace Egret.DataAccess
                          new { Id = role_id6, Name = "ConsumptionEvent_Read", DisplayName = "Consumption Event Read", NormalizedName = "CONSUMPTIONEVENT_READ" },
                          new { Id = role_id7, Name = "ConsumptionEvent_Edit", DisplayName = "Consumption Event Update", NormalizedName = "CONSUMPTIONEVENT_EDIT" },
                          new { Id = role_id8, Name = "ConsumptionEvent_Delete", DisplayName = "Consumption Event Delete", NormalizedName = "CONSUMPTIONEVENT_DELETE" },
-                         new { Id = role_id9, Name = "Admin_Access", DisplayName = "Administrator Access", NormalizedName = "ADMIN_ACCESS" } );
+                         new { Id = role_id9, Name = "Admin_Access", DisplayName = "Administrator Access", NormalizedName = "ADMIN_ACCESS" },
+                         new { Id = role_id10, Name = "Report_Read", DisplayName = "Report Read", NormalizedName = "REPORT_READ" });
 
             modelBuilder.Entity<AccessGroup>()
                 .HasData(new { Id = accessgroup_id1, Name = "Administrator" });
@@ -530,7 +532,8 @@ namespace Egret.DataAccess
                          new { AccessGroupId = accessgroup_id1, RoleId = role_id6 },
                          new { AccessGroupId = accessgroup_id1, RoleId = role_id7 },
                          new { AccessGroupId = accessgroup_id1, RoleId = role_id8 },
-                         new { AccessGroupId = accessgroup_id1, RoleId = role_id9 }
+                         new { AccessGroupId = accessgroup_id1, RoleId = role_id9 },
+                         new { AccessGroupId = accessgroup_id1, RoleId = role_id10 }
                 );
 
             modelBuilder.Entity<UserAccessGroup>()
@@ -545,7 +548,8 @@ namespace Egret.DataAccess
                          new { UserId = userId, RoleId = role_id6 },
                          new { UserId = userId, RoleId = role_id7 },
                          new { UserId = userId, RoleId = role_id8 },
-                         new { UserId = userId, RoleId = role_id9 });
+                         new { UserId = userId, RoleId = role_id9 },
+                         new { UserId = userId, RoleId = role_id10 });
             #endregion
         }
 

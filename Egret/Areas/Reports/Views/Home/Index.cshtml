@@ -4,18 +4,16 @@
     ViewData["PageTitle"] = "Reports";
 }
 
-<p class="page-link-header"><span class="glyphicon glyphicon-barcode"></span> Items</p>
-<p class="page-link">
-    <span class="glyphicon glyphicon-plus"></span><a asp-controller="Items" asp-action="Create">Stock Take</a>
+<p class="index-page-link-header"><span class="fas fa-barcode"></span> Item Reports</p>
+<p class="index-page-link" authorize-for="Report_Read">
+    <span class="egret egret-search"></span><a asp-controller="Items" asp-action="TotalStockValue">Total Stock Value</a><br />
 </p><br />
 
 
-<p class="page-link-header"><span class="glyphicon glyphicon-log-out"></span> Consumption Events</p>
-<br />
-
-
-<p class="page-link-header"><span class="glyphicon glyphicon-envelope"></span> Orders</p>
-<br />
-
-
-<p class="page-link-header"><span class="glyphicon glyphicon-tag"></span> Purchasing Events</p>
+<p class="index-page-link-header"><span class="fas fa-sign-out-alt"></span> Consumption Events Reports</p>
+<p class="index-page-link" authorize-for="Report_Read">
+    <span class="egret egret-search"></span><a asp-controller="Items" asp-action="ConsumptionByOrderNumber">Order Number</a><br />
+</p>
+<p class="index-page-link" authorize-for="Report_Read">
+    <span class="egret egret-search"></span><a asp-controller="Items" asp-action="ConsumptionByProductionNumber">Production Number</a>
+</p><br />
