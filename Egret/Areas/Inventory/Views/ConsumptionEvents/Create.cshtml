@@ -8,64 +8,59 @@
 
 <form asp-action="Create">
 
-        <label class="control-label">Inventory Item</label>
-        <div style="border: 1px solid #000; padding: 10px;">
+    <fieldset class="default-fieldset">
+        <legend class="col-form-label default-legend">Item</legend>
 
-            <label asp-for="@Model.InventoryItemCode" include-languages="Nepali" class="control-label required"></label>
-            <div class="form-group form-inline">
-                <input asp-for="InventoryItemCode" class="form-control form-inline mr-2" />
-                <a id="callApi" class="btn btn-success" title="Check Inventory Code"><span class="egret egret-refresh"></span></a>
-            </div>
-
-            <div class="form-group">
-                <label egret-class="InventoryItem" egret-property="Description" include-languages="Nepali" class="control-label">Description</label>
-                <textarea id="apiDescription" class="form-control" readonly></textarea>
-            </div>
-
-            <div class="form-group">
-                <label egret-class="InventoryItem" egret-property="CustomerReservedFor" include-languages="Nepali" class="control-label">Customer Reserved For</label>
-                <p id="apiCustomer" class="form-control" readonly />
-            </div>
-
-        </div><br />
-
-        <div class="form-group">
-            <label asp-for="DateOfConsumption" include-languages="Nepali" class="control-label required"></label>
-            <input asp-for="DateOfConsumption" class="form-control" />
+        <label asp-for="@Model.InventoryItemCode" include-languages="Nepali" class="control-label required"></label>
+        <div class="form-group form-inline">
+            <input asp-for="InventoryItemCode" class="form-control form-inline mr-2" />
+            <a id="callApi" class="btn btn-success" title="Check Inventory Code"><span class="egret egret-refresh"></span></a>
         </div>
 
         <div class="form-group">
-            <label asp-for="ConsumedBy" include-languages="Nepali" class="control-label required"></label>
-            <input asp-for="ConsumedBy" class="form-control" />
+            <label egret-class="InventoryItem" egret-property="Description" include-languages="Nepali" class="control-label">Description</label>
+            <textarea id="apiDescription" class="form-control" readonly></textarea>
         </div>
 
         <div class="form-group">
-            <label asp-for="OrderNumber" include-languages="Nepali" class="control-label"></label>
-            <input asp-for="OrderNumber" class="form-control" />
+            <label egret-class="InventoryItem" egret-property="CustomerReservedFor" include-languages="Nepali" class="control-label">Customer Reserved For</label>
+            <p id="apiCustomer" class="form-control" readonly />
         </div>
+    </fieldset>
 
-        <div class="form-group">
-            <label asp-for="PatternNumber" include-languages="Nepali" class="control-label"></label>
-            <input asp-for="PatternNumber" class="form-control" />
-        </div>
+    <div class="form-group">
+        <label asp-for="DateOfConsumption" include-languages="Nepali" class="control-label required"></label>
+        <input asp-for="DateOfConsumption" class="form-control" />
+    </div>
 
-        <div class="form-group">
-            <label asp-for="QuantityConsumed" include-languages="Nepali" class="control-label required"></label>
-            <input asp-for="QuantityConsumed" class="form-control" />
-        </div>
+    <div class="form-group">
+        <label asp-for="ConsumedBy" include-languages="Nepali" class="control-label required"></label>
+        <input asp-for="ConsumedBy" class="form-control" />
+    </div>
 
-        <div class="form-group">
-            <label asp-for="Unit" include-languages="Nepali" class="control-label"></label>
-            <p id="apiUnit" asp-for="Unit" readonly class="form-control" />
-        </div>
+    <div class="form-group">
+        <label asp-for="OrderNumber" include-languages="Nepali" class="control-label"></label>
+        <input asp-for="OrderNumber" class="form-control" />
+    </div>
 
-        <div class="form-group">
-            <label asp-for="Comments" include-languages="Nepali" class="control-label"></label>
-            <textarea asp-for="Comments" class="form-control"></textarea>
-        </div>
+    <div class="form-group">
+        <label asp-for="PatternNumber" include-languages="Nepali" class="control-label"></label>
+        <input asp-for="PatternNumber" class="form-control" />
+    </div>
 
-        <input type="submit" value="Save" class="btn btn-primary" />
-        <a asp-controller="Home" asp-action="Index" asp-route-id="@Context.Request.Query["sourceid"]" class="btn btn-default">Cancel</a>
+    <label asp-for="QuantityConsumed" include-languages="Nepali" class="control-label required"></label>
+    <div class="form-group form-inline">
+        <input asp-for="QuantityConsumed" class="form-control mr-2" style="width: 25%" />
+        <p id="apiUnit" asp-for="Unit" readonly class="form-control" style="width: 25%" />
+    </div>
+
+    <div class="form-group">
+        <label asp-for="Comments" include-languages="Nepali" class="control-label"></label>
+        <textarea asp-for="Comments" class="form-control"></textarea>
+    </div>
+
+    <input type="submit" value="Save" class="btn btn-primary" />
+    <a asp-controller="Home" asp-action="Index" asp-route-id="@Context.Request.Query["sourceid"]" class="btn btn-default">Cancel</a>
 
 </form>
 

@@ -33,9 +33,6 @@ namespace Egret.Models
         [DisplayFormat(DataFormatString = "{0:0.####}", ApplyFormatInEditMode = true)]
         public decimal? QuantityConsumed { get; set; }
 
-        [Language(Name = "Nepali", Value = "एकाइ")]
-        public string Unit { get; set; }
-
         [Required]
         [Display(Name = "Consumed By")]
         [Language(Name = "Nepali", Value = "द्वारा उपभोग गरियो")]

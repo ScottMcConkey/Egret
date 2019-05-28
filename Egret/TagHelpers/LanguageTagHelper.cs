@@ -44,7 +44,7 @@ namespace Egret.TagHelpers
             }
             else
             {
-                string assemblyName = System.Reflection.Assembly.GetExecutingAssembly().GetName().Name;
+                string assemblyName = Assembly.GetExecutingAssembly().GetName().Name;
                 Type type = Type.GetType($"{assemblyName}.Models.{ClassName}, {assemblyName}");
                 info = type.GetProperty(PropertyName);
             }

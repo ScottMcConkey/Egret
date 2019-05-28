@@ -60,8 +60,7 @@ namespace Egret.Controllers
             var consumptionEvent = new ConsumptionEvent()
             {
                 DateOfConsumption = DateTime.Now,
-                ConsumedBy = User.Identity.Name,
-                Unit = item.SingleOrDefault().Unit
+                ConsumedBy = User.Identity.Name
             };
 
             return View(consumptionEvent);

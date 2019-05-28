@@ -145,8 +145,6 @@ namespace Egret.DataAccess
 
                 entity.Property(e => e.UpdatedBy);
 
-                entity.Property(e => e.Unit);
-
                 entity.Property(e => e.QuantityConsumed);
 
                 entity.Property(e => e.ConsumedBy);
