@@ -28,16 +28,16 @@
         else
         {
             var isEditOrDetails = User.IsInRole("ConsumptionEvent_Edit") ? "Edit" : "Details";
-            foreach (var consumptionEvent in Model.Events)
+            for (var i = 0; i < Model.Events.Count(); i++)
             {
-                <tr class="clickable-row" onclick="location.href = '@(Url.Action(isEditOrDetails, new { id = consumptionEvent.Id }))'; location.target='_blank'">
+                <tr class="clickable-row" onclick="location.href = '@(Url.Action(isEditOrDetails, new { id = Model.Events[i].Id }))'; location.target='_blank'">
                     <td>
-                        <a class="test" asp-action="@isEditOrDetails" asp-route-id="@consumptionEvent.Id">
-                            @Html.DisplayFor(modelItem => consumptionEvent.InventoryItemCode)
+                        <a class="test" asp-action="@isEditOrDetails" asp-route-id="@Model.Events[i].Id">
+                            @Model.Events[i].InventoryItemCode
                         </a>
                     </td>
-                    <td>@Html.DisplayFor(modelItem => consumptionEvent.DateAdded)</td>
-                    <td>@Html.DisplayFor(modelItem => consumptionEvent.ConsumedBy)</td>
+                    <td>@(Model.Events[i].DateAdded != null ? Model.Events[i].DateAdded.Value.ToShortDateString() + " " + Model.Events[i].DateAdded.Value.ToShortTimeString() : "")</td>
+                    <td>@Model.Events[i].ConsumedBy</td>
                 </tr>
             }
         }

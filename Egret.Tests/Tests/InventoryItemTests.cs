@@ -102,7 +102,6 @@ namespace Egret.Tests
 
 
 
-
         [Test]
         public void QtyPurchasedNegative_ConsumptionEventsNone_Sets_StockQuantityNegative_StockLevelError()
         {
@@ -140,5 +139,10 @@ namespace Egret.Tests
             Assert.AreEqual(item.StockQuantity, -100);
             Assert.AreEqual(item.StockLevel, "Error");
         }
+
+
+
+        //[Test]
+        //public void 
     }
 }

@@ -174,7 +174,6 @@ namespace Egret.Models
                 {
                     return "Error";
                 }
-                
             }
 
             private set { }
