@@ -248,7 +248,7 @@ namespace Egret.Controllers
         [Authorize(Roles = "Item_Read")]
         public IActionResult Search()
         {
-            ViewData["ResultsPerPage"] = DropDownFactory.ResultsPerPage();
+            ViewData["ResultsPerPage"] = SelectListFactory.ResultsPerPage();
             ViewData["Category"] = new SelectListFactory(Context).CategoriesAll();
 
             var presentation = new ItemSearchModel();

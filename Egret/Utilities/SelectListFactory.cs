@@ -145,5 +145,16 @@ namespace Egret.Utilities
 
             return defaultSelectList;
         }
+
+        public static SelectList ResultsPerPage()
+        {
+            List<SelectListItem> pageOptions = new List<SelectListItem>();
+            pageOptions.Add(new SelectListItem() { Text = "10", Value = "10" });
+            pageOptions.Add(new SelectListItem() { Text = "25", Value = "25" });
+            pageOptions.Add(new SelectListItem() { Text = "50", Value = "50" });
+            pageOptions.Add(new SelectListItem() { Text = "100", Value = "100" });
+
+            return new SelectList(pageOptions, "Value", "Text");
+        }
     }
 }

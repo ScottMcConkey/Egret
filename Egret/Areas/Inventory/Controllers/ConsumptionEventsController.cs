@@ -202,7 +202,7 @@ namespace Egret.Controllers
         [Authorize(Roles = "ConsumptionEvent_Read")]
         public IActionResult Search()
         {
-            ViewData["ResultsPerPage"] = DropDownFactory.ResultsPerPage();
+            ViewData["ResultsPerPage"] = SelectListFactory.ResultsPerPage();
 
             var presentation = new ConsumptionEventSearchModel();
 
