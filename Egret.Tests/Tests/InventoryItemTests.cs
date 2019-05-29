@@ -142,7 +142,64 @@ namespace Egret.Tests
 
 
 
-        //[Test]
-        //public void 
+        [Test]
+        public void DateAdded_DateConfirmed_ThreeDaysApart_Sets_DaysToConfirmThree()
+        {
+            //+ Arrange
+            var item = new InventoryItem();
+            item.DateAdded = Convert.ToDateTime("9/15/2017 10:50 am");
+            item.DateConfirmed = Convert.ToDateTime("9/18/2017 3:30 pm");
+
+            //+ Assert
+            Assert.AreEqual(item.DaysToConfirm, 3);
+        }
+
+        [Test]
+        public void DateAdded_DateConfirmed_ZeroDaysApart_Sets_DaysToConfirmZero()
+        {
+            //+ Arrange
+            var item = new InventoryItem();
+            item.DateAdded = Convert.ToDateTime("9/15/2017 10:50 am");
+            item.DateConfirmed = Convert.ToDateTime("9/15/2017 3:30 pm");
+
+            //+ Assert
+            Assert.AreEqual(item.DaysToConfirm, 0);
+        }
+
+        [Test]
+        public void DateConfirmedNull_Sets_DaysToConfirmNull()
+        {
+            //+ Arrange
+            var item = new InventoryItem();
+            item.DateAdded = Convert.ToDateTime("9/15/2017 10:50 am");
+            item.DateConfirmed = null;
+
+            //+ Assert
+            Assert.AreEqual(item.DaysToConfirm, null);
+        }
+
+        [Test]
+        public void DateAddedNull_Sets_DaysToConfirmNull()
+        {
+            //+ Arrange
+            var item = new InventoryItem();
+            item.DateAdded = null;
+            item.DateConfirmed = Convert.ToDateTime("9/15/2017 3:30 pm");
+
+            //+ Assert
+            Assert.AreEqual(item.DaysToConfirm, null);
+        }
+
+        [Test]
+        public void DateAddedNull_DateConfirmedNull_Sets_DaysToConfirmNull()
+        {
+            //+ Arrange
+            var item = new InventoryItem();
+            item.DateAdded = null;
+            item.DateConfirmed = null;
+
+            //+ Assert
+            Assert.AreEqual(item.DaysToConfirm, null);
+        }
     }
 }

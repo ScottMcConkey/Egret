@@ -29,12 +29,17 @@
                     </div>
 
                     <div class="form-group">
-                        <label asp-for="ConsumptionEvent.DateOfConsumption" include-languages="Nepali" class="control-label required"></label>
+                        <label asp-for="ConsumptionEvent.InventoryItemCode" include-languages="Nepali" class="control-label"></label>
+                        <input asp-for="ConsumptionEvent.InventoryItemCode" class="form-control" readonly />
+                    </div>
+
+                    <div class="form-group">
+                        <label asp-for="ConsumptionEvent.DateOfConsumption" include-languages="Nepali" class="control-label"></label>
                         <input asp-for="ConsumptionEvent.DateOfConsumption" class="form-control" readonly />
                     </div>
 
                     <div class="form-group">
-                        <label asp-for="ConsumptionEvent.ConsumedBy" include-languages="Nepali" class="control-label required"></label>
+                        <label asp-for="ConsumptionEvent.ConsumedBy" include-languages="Nepali" class="control-label"></label>
                         <input asp-for="ConsumptionEvent.ConsumedBy" class="form-control" readonly />
                     </div>
 
@@ -48,7 +53,7 @@
                         <input asp-for="ConsumptionEvent.PatternNumber" class="form-control" readonly />
                     </div>
 
-                    <label asp-for="ConsumptionEvent.QuantityConsumed" include-languages="Nepali" class="control-label required"></label>
+                    <label asp-for="ConsumptionEvent.QuantityConsumed" include-languages="Nepali" class="control-label"></label>
                     <div class="form-group form-inline">
                         <input asp-for="ConsumptionEvent.QuantityConsumed" class="form-control mr-2" readonly />
                         <input asp-for="InventoryItems[0].Unit" class="form-control" readonly />
