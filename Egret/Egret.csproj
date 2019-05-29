@@ -6,6 +6,8 @@
 
   <ItemGroup>
     <Folder Include="node_modules\" />
+    <Folder Include="Views\Widgets\" />
+    <Folder Include="WidgetModels\" />
     <Folder Include="wwwroot\dist\" />
 
   </ItemGroup>
