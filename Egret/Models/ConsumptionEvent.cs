@@ -10,6 +10,7 @@ using Egret.Interfaces;
 
 namespace Egret.Models
 {
+    [CssIconClass("fas fa-sign-out-alt")]
     public class ConsumptionEvent : IAuditable
     {
         [Language(Name = "Nepali", Value = "आईडी")]

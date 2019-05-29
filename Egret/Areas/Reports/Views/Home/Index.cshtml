@@ -4,13 +4,13 @@
     ViewData["PageTitle"] = "Reports";
 }
 
-<p class="index-page-link-header"><span class="fas fa-barcode"></span> Item Reports</p>
+<p class="index-page-link-header"><span class="@CustomAttributeManager.GetCssIconClass(typeof(InventoryItem))"></span> Item Reports</p>
 <p class="index-page-link" authorize-for="Report_Read">
     <span class="egret egret-search"></span><a asp-controller="Items" asp-action="TotalStockValue">Total Stock Value</a><br />
 </p><br />
 
 
-<p class="index-page-link-header"><span class="fas fa-sign-out-alt"></span> Consumption Events Reports</p>
+<p class="index-page-link-header"><span class="@CustomAttributeManager.GetCssIconClass(typeof(ConsumptionEvent))"></span> Consumption Events Reports</p>
 <p class="index-page-link" authorize-for="Report_Read">
     <span class="egret egret-search"></span><a asp-controller="Items" asp-action="ConsumptionByOrderNumber">Order Number</a><br />
 </p>

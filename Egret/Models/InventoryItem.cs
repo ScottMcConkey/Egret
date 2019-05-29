@@ -11,6 +11,7 @@ using Egret.Interfaces;
 
 namespace Egret.Models
 {
+    [CssIconClass("egret egret-inventory")]
     public partial class InventoryItem : IAuditable, IHasStockCount
     {
         [Language(Name = "Nepali", Value = "कोड")]
