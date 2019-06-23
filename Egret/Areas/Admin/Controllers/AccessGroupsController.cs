@@ -5,7 +5,9 @@ using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
+using Microsoft.EntityFrameworkCore.Extensions;
 using Microsoft.Extensions.Logging;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
@@ -16,7 +18,7 @@ namespace Egret.Controllers
     [Authorize(Roles = "Admin_Access")]
     public class AccessGroupsController : BaseController
     {
-        private UserManager<User> _userManager;
+        private readonly UserManager<User> _userManager;
 
         public AccessGroupsController(EgretContext context, ILogger<ItemsController> logger, UserManager<User> usrMgr)
             :base(context)
@@ -100,57 +102,34 @@ namespace Egret.Controllers
 
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> EditPermissions(int? id, AccessGroupPermissionsModel model)
+        public IActionResult EditPermissions(int? id, AccessGroupPermissionsModel model)
         {
-            var accessGroup = Context.AccessGroups.Where(x => x.Id == id).SingleOrDefault();
-
+            var accessGroupQuery = Context.AccessGroups.AsNoTracking().Where(x => x.Id == id)
+                .Include(i => i.UserAccessGroups)
+                    .ThenInclude(y => y.User)
+                    .AsNoTracking();
+            var accessGroup = accessGroupQuery.FirstOrDefault();
+            var users = accessGroupQuery.AsNoTracking().SelectMany(x => x.UserAccessGroups).AsNoTracking().Select(y => y.User).AsNoTracking().ToList();
             model.AccessGroup = accessGroup;
+            var rolesToAdd = model.Roles.Where(x => x.RelationshipPresent == true).ToList();
 
             if (ModelState.IsValid)
             {
-                // Remove rels from Access Group to Roles
-                foreach (AccessGroupRole groupRole in Context.AccessGroupRoles.Where(x => x.AccessGroupId == id))
-                {
-                    Context.AccessGroupRoles.Remove(groupRole);
-                }
-                Context.SaveChanges();
-
-                // Create new rels from Access Group to Roles
-                foreach (Role role in model.Roles.Where(x => x.RelationshipPresent == true))
-                {
-                    var localRole = Context.Roles.Where(x => x.Id == role.Id).SingleOrDefault();
-                    var newGroupRole = new AccessGroupRole() { Role = localRole, AccessGroup = model.AccessGroup };
-                    Context.AccessGroupRoles.Add(newGroupRole);
-                }
-                Context.SaveChanges();
-
-
-                // Loop through every user assigned to this access group
-                var users = Context.UserAccessGroups.AsNoTracking().Where(x => x.AccessGroupId == id).Select(y => y.User).ToList();
-                var roles = Context.Roles.AsNoTracking().Select(y => y.Name);
+                RemoveAccessGroupRoles(accessGroup.Id);
+                CreateAccessGroupRoles(accessGroup.Id, rolesToAdd);
 
                 foreach (User user in users)
                 {
-                    // Remove all Roles from each of those users
-                    IdentityResult result = await _userManager.RemoveFromRolesAsync(user, roles);
-
-                    var rolesToAdd = Context.Roles.AsNoTracking().FromSql(
-                        "select r.name" +
-                        "  from user_accessgroups uag" +
-                        "  join accessgroup_roles agr" +
-                        "    on agr.accessgroupid = uag.accessgroupid" +
-                        "  join roles r" +
-                        "    on r.id = agr.roleid" +
-                        " where uag.userid = {0}", user.Id)
-                        .Select(x => x.Name).ToList();
-
-                    // Rebuild all Roles based on new specifications
-                    IdentityResult result2 = await _userManager.AddToRolesAsync(user, rolesToAdd);
+                    RemoveRolesFromUser(user);
+                    AddRolesToUser(user, rolesToAdd);
                 }
-                
+
+                Context.SaveChanges();
+
                 TempData["SuccessMessage"] = "Access Group Permissions Updated";
                 return RedirectToAction(nameof(Index));
             }
+            
             return View(model);
         }
 
@@ -176,14 +155,57 @@ namespace Egret.Controllers
         }
 
         [NonAction]
-        private void AddErrorsFromResult(IdentityResult result)
+        private void RemoveAccessGroupRoles(int accessGroupId)
         {
-            foreach (IdentityError error in result.Errors)
+            var accessGroupRoles = Context.AccessGroupRoles.Where(x => x.AccessGroupId == accessGroupId).ToList();
+            foreach (AccessGroupRole groupRole in accessGroupRoles)
             {
-                ModelState.AddModelError("", error.Description);
+                Context.AccessGroupRoles.Remove(groupRole);
             }
+            Context.SaveChanges();
         }
 
+        [NonAction]
+        private void CreateAccessGroupRoles(int accessGroupId, IEnumerable<Role> roles)
+        {
+            var roleIds = roles.Select(x => x.Id);
 
+            foreach (string id in roleIds)
+            {
+                var newGroupRole = new AccessGroupRole() { RoleId = id, AccessGroupId = accessGroupId };
+                Context.AccessGroupRoles.Add(newGroupRole);
+            }
+
+            Context.SaveChanges();
+        }
+
+        [NonAction]
+        private void RemoveRolesFromUser(User user)
+        {
+            var userRoles = Context.UserRoles.Where(x => x.UserId == user.Id).ToList();
+            Context.UserRoles.RemoveRange(userRoles);
+            Context.SaveChanges();
+        }
+
+        [NonAction]
+        private void AddRolesToUser(User user, List<Role> roles)
+        {
+            var roles2 = Context.Roles.AsNoTracking().Where(x => roles.Select(y => y.Id).Contains(x.Id)).Select(x => x.Name).ToList();
+
+            if (roles2.Count() > 0)
+            {
+                foreach (string role in roles2)
+                {
+                    var test = _userManager.AddToRoleAsync(user, role);
+                }
+            }
+
+            Context.SaveChanges();
+        }
+
+        private Exception Exception(string v)
+        {
+            throw new Exception(v);
+        }
     }
 }

@@ -18,11 +18,11 @@ namespace Egret.DataAccess
     [Authorize(Roles = "Admin_Access")]
     public class UsersController : BaseController
     {
-        private UserManager<User> _userManager;
-        private IUserValidator<User> _userValidator;
-        private IPasswordValidator<User> _passwordValidator;
-        private IPasswordHasher<User> _passwordHasher;
-        private static ILogger _logger;
+        private readonly UserManager<User> _userManager;
+        private readonly IUserValidator<User> _userValidator;
+        private readonly IPasswordValidator<User> _passwordValidator;
+        private readonly IPasswordHasher<User> _passwordHasher;
+        private readonly ILogger _logger;
 
         public UsersController(EgretContext context,
             UserManager<User> usrMgr,

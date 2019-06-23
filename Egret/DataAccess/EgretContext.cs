@@ -551,5 +551,10 @@ namespace Egret.DataAccess
             #endregion
         }
 
+        //protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
+        //{
+        //    optionsBuilder.EnableSensitiveDataLogging();
+        //}
+
     }
 }
