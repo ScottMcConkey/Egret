@@ -164,11 +164,14 @@ namespace Egret.Controllers
                 .Where(x => x.Code == id)
                 .FirstOrDefault();
 
-            vm.Item.AddedBy = temp.AddedBy;
-            vm.Item.DateAdded = temp.DateAdded;
-            vm.Item.UpdatedBy = User.Identity.Name;
-            vm.Item.DateUpdated = DateTime.Now;
-
+            if (temp != null)
+            {
+                vm.Item.AddedBy = temp.AddedBy;
+                vm.Item.DateAdded = temp.DateAdded;
+                vm.Item.UpdatedBy = User.Identity.Name;
+                vm.Item.DateUpdated = DateTime.Now;
+            }
+            
             if (ModelState.IsValid)
             {
                 if (vm.FabricTests != null)

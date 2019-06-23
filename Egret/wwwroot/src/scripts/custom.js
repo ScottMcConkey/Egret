@@ -86,7 +86,7 @@ function SetContentHeights() {
 }
 
 function ConfirmDelete(objectType) {
-    var textOutput = objectType ? ' ' + objectType + ' ' : '';
+    var textOutput = objectType ? ' ' + objectType : '';
     var userAgrees = confirm('Are you sure you want to delete this' + textOutput + '?');
     return userAgrees;
 }
@@ -99,7 +99,7 @@ function SetObjectsForDelete() {
             null;
         }
         else {
-            console.log('#4');
+            //console.log('#4');
             return false;
         }
     });
