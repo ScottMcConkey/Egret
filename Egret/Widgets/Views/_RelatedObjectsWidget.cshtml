@@ -18,20 +18,20 @@
     else
     {
         var isEditOrDetails = User.IsInRole(Model.EditRole) ? "Edit" : "Details";
-        @foreach (var e in Model.RelationshipObjects)
+        @foreach (var relatedObj in Model.RelationshipObjects)
         {
             <a class="related-object-link" asp-area="@Model.Area" 
-               asp-controller="@Model.Controller" asp-action="@isEditOrDetails" asp-route-id="@e.GetType().GetProperty(Model.TargetObjectIdColumn).GetValue(e, null)">
+               asp-controller="@Model.Controller" asp-action="@isEditOrDetails" asp-route-id="@relatedObj.GetType().GetProperty(Model.TargetObjectIdColumn).GetValue(relatedObj, null)">
                 <div class="related-object-div">
                     <span class="egret egret-linkto"></span>
 
-                    @if (e.GetType().GetProperty(Model.ObjectDisplay) != null)
+                    @if (relatedObj.GetType().GetProperty(Model.ObjectDisplay) != null)
                     {
-                        @e.GetType().GetProperty(Model.ObjectDisplay).GetValue(e, null);
+                        @relatedObj.GetType().GetProperty(Model.ObjectDisplay).GetValue(relatedObj, null);
                     }
                     else
                     {
-                        @e.GetType().GetProperty(Model.TargetObjectIdColumn).GetValue(e, null);
+                        @relatedObj.GetType().GetProperty(Model.TargetObjectIdColumn).GetValue(relatedObj, null);
                     }
                 </div>
             </a>

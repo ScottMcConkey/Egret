@@ -6,14 +6,14 @@
 
 <p class="index-page-link-header"><span icon-for="InventoryItem"></span> Item Reports</p>
 <p class="index-page-link" authorize-for="Report_Read">
-    <span class="egret egret-search"></span><a asp-controller="Items" asp-action="TotalStockValue">Total Stock Value</a><br />
+    <span class="egret egret-search"></span><a asp-action="CurrentInventoryReport">Total Stock Value</a><br />
 </p><br />
 
 
 <p class="index-page-link-header"><span icon-for="ConsumptionEvent"></span> Consumption Events Reports</p>
 <p class="index-page-link" authorize-for="Report_Read">
-    <span class="egret egret-search"></span><a asp-controller="Items" asp-action="ConsumptionByOrderNumber">Order Number</a><br />
+    <span class="egret egret-search"></span><a asp-action="ConsumptionByOrderNumber">Order Number</a><br />
 </p>
 <p class="index-page-link" authorize-for="Report_Read">
-    <span class="egret egret-search"></span><a asp-controller="Items" asp-action="ConsumptionByProductionNumber">Production Number</a>
+    <span class="egret egret-search"></span><a asp-action="ConsumptionByProductionNumber">Production Number</a>
 </p><br />

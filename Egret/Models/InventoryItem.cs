@@ -134,6 +134,7 @@ namespace Egret.Models
         public ICollection<ConsumptionEvent> ConsumptionEventsNavigation { get; set; }
 
         [Display(Name = "Quantity in Stock")]
+        [DisplayFormat(DataFormatString = "{0:0.####}", ApplyFormatInEditMode = true)]
         [UIHint("text")]
         [NotMapped]
         public decimal? StockQuantity
