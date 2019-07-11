@@ -4,24 +4,29 @@
     ViewData["PageTitle"] = "Inventory";
 }
 
-<p class="index-page-link-header"><span icon-for="InventoryItem"></span> Items</p>
+<div>
+    <p class="index-page-link-header"><span icon-for="InventoryItem"></span> Items</p>
 
-<p class="index-page-link" authorize-for="Item_Create">
-    <span class="egret egret-add"></span><a asp-controller="Items" asp-action="Create">Create New</a>
-</p>
+    <p class="index-page-link" authorize-for="Item_Create">
+        <span class="egret egret-add"></span><a asp-controller="Items" asp-action="Create">Create New</a>
+    </p>
 
-<p class="index-page-link" authorize-for="Item_Read">
-    <span class="egret egret-search"></span><a asp-controller="Items" asp-action="Search">Search</a>
-</p><br />
+    <p class="index-page-link" authorize-for="Item_Read">
+        <span class="egret egret-search"></span><a asp-controller="Items" asp-action="Search">Search</a>
+    </p>
+</div>
+<br />
 
+<div>
+    <p class="index-page-link-header"><span icon-for="ConsumptionEvent"></span> Consumption Events</p>
 
-<p class="index-page-link-header"><span icon-for="ConsumptionEvent"></span> Consumption Events</p>
+    <p class="index-page-link" authorize-for="ConsumptionEvent_Create">
+        <span class="egret egret-add"></span><a asp-controller="ConsumptionEvents" asp-action="Create">Create New</a>
+    </p>
 
-<p class="index-page-link" authorize-for="ConsumptionEvent_Create">
-    <span class="egret egret-add"></span><a asp-controller="ConsumptionEvents" asp-action="Create">Create New</a>
-</p>
-
-<p class="index-page-link" authorize-for="ConsumptionEvent_Read">
-    <span class="egret egret-search"></span><a asp-controller="ConsumptionEvents" asp-action="Search">Search</a>
-</p><br />
+    <p class="index-page-link" authorize-for="ConsumptionEvent_Read">
+        <span class="egret egret-search"></span><a asp-controller="ConsumptionEvents" asp-action="Search">Search</a>
+    </p>
+</div>
+<br />
 

@@ -1,0 +1,14 @@
+﻿@model CurrentInventoryModel
+@{
+    Layout = "_CrudTemplate";
+    ViewData["WindowTitle"] = "Current Inventory Report";
+    ViewData["PageTitle"] = "Current Inventory Report";
+}
+
+<div>Derp!</div>
+
+@for (var i = 0; i < Model.Categories.Count(); i++)
+{
+    <div>@Model.Categories[i].CategoryName</div>
+    <div>@Model.Categories[i].AvailableLotCount</div>
+}

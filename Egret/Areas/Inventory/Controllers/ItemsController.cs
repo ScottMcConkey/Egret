@@ -1,21 +1,15 @@
-﻿using Egret.Utilities;
-using Egret.DataAccess;
+﻿using Egret.DataAccess;
 using Egret.Models;
+using Egret.Utilities;
 using Egret.ViewModels;
-using Microsoft.AspNetCore.Identity;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
-using Microsoft.AspNetCore.Mvc.Rendering;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Logging;
-using Microsoft.AspNetCore.Authorization;
 using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Security.Claims;
-using System.Threading.Tasks;
-using Microsoft.AspNetCore.Razor.TagHelpers;
-using Microsoft.AspNetCore.WebUtilities;
-using Microsoft.AspNetCore.Http.Extensions;
 
 namespace Egret.Controllers
 {
@@ -32,7 +26,7 @@ namespace Egret.Controllers
 
         [HttpGet]
         [Authorize(Roles = "Item_Read")]
-        public async Task<IActionResult> Details(string id)
+        public IActionResult Details(string id)
         {
             if (id == null)
             {
@@ -41,11 +35,11 @@ namespace Egret.Controllers
 
             ItemModel presentation = new ItemModel();
 
-            InventoryItem item = await Context.InventoryItems
+            InventoryItem item = Context.InventoryItems
                 .Where(i => i.Code == id)
                 .Include(i => i.ConsumptionEventsNavigation)
                 .Include(i => i.FabricTestsNavigation)
-                .SingleOrDefaultAsync(m => m.Code == id);
+                .SingleOrDefault(m => m.Code == id);
 
             if (item == null)
             {
@@ -75,7 +69,7 @@ namespace Egret.Controllers
         [HttpPost]
         [Authorize(Roles = "Item_Create")]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Create(InventoryItem inventoryItem)
+        public IActionResult Create(InventoryItem inventoryItem)
         {
             inventoryItem.AddedBy = User.Identity.Name;
             inventoryItem.UpdatedBy = User.Identity.Name;
@@ -85,7 +79,7 @@ namespace Egret.Controllers
             if (ModelState.IsValid)
             {
                 Context.Add(inventoryItem);
-                await Context.SaveChangesAsync();
+                Context.SaveChanges();
                 TempData["SuccessMessage"] = "Inventory Item Created";
 
                 var userId = User.FindFirstValue(ClaimTypes.NameIdentifier);
@@ -105,7 +99,7 @@ namespace Egret.Controllers
 
         [HttpGet]
         [Authorize(Roles = "Item_Edit")]
-        public async Task<IActionResult> Edit(string id)
+        public IActionResult Edit(string id)
         {
             if (id == null)
             {
@@ -113,7 +107,7 @@ namespace Egret.Controllers
             }
 
             ItemModel presentation = new ItemModel();
-            InventoryItem item = await Context.InventoryItems
+            InventoryItem item = Context.InventoryItems
                 .Where(i => i.Code == id)
                 .Include(i => i.CategoryNavigation)
                 .Include(i => i.UnitNavigation)
@@ -122,7 +116,7 @@ namespace Egret.Controllers
                 .Include(i => i.FOBCostCurrencyNavigation)
                 .Include(i => i.ShippingCostCurrencyNavigation)
                 .Include(i => i.ImportCostCurrencyNavigation)
-                .SingleOrDefaultAsync(m => m.Code == id);
+                .SingleOrDefault(m => m.Code == id);
 
             if (item == null)
             {
@@ -145,7 +139,7 @@ namespace Egret.Controllers
         [HttpPost]
         [Authorize(Roles = "Item_Edit")]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Edit(string id, ItemModel vm)
+        public IActionResult Edit(string id, ItemModel vm)
         {
             if (id == null)
             {
@@ -205,7 +199,7 @@ namespace Egret.Controllers
 
                 Context.InventoryItems.Update(vm.Item);
 
-                await Context.SaveChangesAsync();
+                Context.SaveChanges();
                 TempData["SuccessMessage"] = "Save Complete";
 
                 return RedirectToAction();
@@ -226,14 +220,14 @@ namespace Egret.Controllers
 
         [HttpPost]
         [Authorize(Roles = "Item_Delete")]
-        public async Task<IActionResult> Delete(string id)
+        public IActionResult Delete(string id)
         {
             if (id == null)
             {
                 return NotFound();
             }
 
-            var inventoryItem = await Context.InventoryItems.Where(x => x.Code == id).SingleOrDefaultAsync();
+            var inventoryItem = Context.InventoryItems.Where(x => x.Code == id).SingleOrDefault();
 
             if (inventoryItem == null)
             {

@@ -2,13 +2,11 @@
 using Egret.DataAccess;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
-using Microsoft.Extensions.Logging;
 using Microsoft.Extensions.Configuration;
+using Microsoft.Extensions.Logging;
 using NSubstitute;
 using NUnit.Framework;
 using System;
-using System.Configuration;
-using System.Threading.Tasks;
 
 namespace Egret.Tests
 {
@@ -32,13 +30,13 @@ namespace Egret.Tests
         }
 
         [TestCase]
-        public async Task Edit_Get_NoIdProvided_Throws404()
+        public void Edit_Get_NoIdProvided_Throws404()
         {
             //+ Arrange
             ItemsController controller = new ItemsController(_context, _fakeLogger);
 
             //+ Act
-            var actionResult = await controller.Edit(String.Empty);
+            var actionResult = controller.Edit(String.Empty);
 
             //+ Assert
             Assert.IsInstanceOf<NotFoundResult>(actionResult);

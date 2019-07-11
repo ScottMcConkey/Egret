@@ -27,7 +27,7 @@ namespace Egret.Controllers
 
         [HttpGet]
         [Authorize(Roles = "ConsumptionEvent_Read")]
-        public async Task<IActionResult> Details(string id)
+        public IActionResult Details(string id)
         {
             if (id == null)
             {
@@ -35,9 +35,9 @@ namespace Egret.Controllers
             }
 
             ConsumptionEventModel presentation = new ConsumptionEventModel();
-            ConsumptionEvent consumptionEvent = await Context.ConsumptionEvents
+            ConsumptionEvent consumptionEvent = Context.ConsumptionEvents
                 .Include(i => i.InventoryItemNavigation)
-                .SingleOrDefaultAsync(m => m.Id == id);
+                .SingleOrDefault(m => m.Id == id);
 
             if (consumptionEvent == null)
             {
@@ -138,7 +138,7 @@ namespace Egret.Controllers
 
         [HttpGet]
         [Authorize(Roles = "ConsumptionEvent_Edit")]
-        public async Task<IActionResult> Edit(string id)
+        public IActionResult Edit(string id)
         {
             if (id == null)
             {
@@ -146,9 +146,9 @@ namespace Egret.Controllers
             }
 
             ConsumptionEventModel presentation = new ConsumptionEventModel();
-            ConsumptionEvent consumptionEvent = await Context.ConsumptionEvents
+            ConsumptionEvent consumptionEvent = Context.ConsumptionEvents
                 .Include(i => i.InventoryItemNavigation)
-                .SingleOrDefaultAsync(m => m.Id == id);
+                .SingleOrDefault(m => m.Id == id);
 
             if (consumptionEvent == null)
             {
@@ -164,7 +164,7 @@ namespace Egret.Controllers
         [HttpPost]
         [Authorize(Roles = "ConsumptionEvent_Edit")]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Edit(string id, ConsumptionEventModel vm)
+        public IActionResult Edit(string id, ConsumptionEventModel vm)
         {
             if (id == null)
             {
@@ -185,7 +185,7 @@ namespace Egret.Controllers
             if (ModelState.IsValid)
             {
                 Context.ConsumptionEvents.Update(vm.ConsumptionEvent);
-                await Context.SaveChangesAsync();
+                Context.SaveChanges();
                 TempData["SuccessMessage"] = "Save Complete";
                 return RedirectToAction();
             }
