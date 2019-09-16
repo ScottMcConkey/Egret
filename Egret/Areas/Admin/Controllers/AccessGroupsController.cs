@@ -7,8 +7,10 @@ using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Extensions;
 using Microsoft.Extensions.Logging;
+using Npgsql;
 using System;
 using System.Collections.Generic;
+using System.Data.SqlClient;
 using System.Linq;
 using System.Threading.Tasks;
 
@@ -79,49 +81,91 @@ namespace Egret.Controllers
         }
 
         [HttpGet]
-        public async Task<IActionResult> EditPermissions(int? id)
+        public IActionResult EditPermissions(int? id)
         {
             if (id == null)
             {
                 return NotFound();
             }
 
-            var accessGroup = await Context.AccessGroups.Where(x => x.Id == id).SingleOrDefaultAsync();
+            var accessGroup = Context.AccessGroups.Where(x => x.Id == id).SingleOrDefault();
             var roles = Context.Roles.AsNoTracking().OrderBy(x => x.Name).ToList();
             var relatedRoles = Context.AccessGroupRoles.AsNoTracking().Where(x => x.AccessGroupId == id).Select(x => x.RoleId).ToList();
             roles.Where(x => relatedRoles.Contains(x.Id)).ToList().ForEach(y => y.RelationshipPresent = true);
 
-            var presentation = new AccessGroupPermissionsModel
-            {
-                AccessGroup = accessGroup,
-                Roles = roles
-            };
+            var presentation = new AccessGroupPermissionsModel();
+            presentation.AccessGroup = accessGroup;
+            presentation.Roles = roles;
 
             return View(presentation);
         }
 
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public IActionResult EditPermissions(int? id, AccessGroupPermissionsModel model)
+        public async Task<IActionResult> EditPermissions(int? id, AccessGroupPermissionsModel model)
         {
-            var accessGroupQuery = Context.AccessGroups.AsNoTracking().Where(x => x.Id == id)
+            // Make like 100x easier by setting default to notracking
+            Context.ChangeTracker.QueryTrackingBehavior = QueryTrackingBehavior.NoTracking;
+
+            var accessGroupQuery = Context.AccessGroups.Where(x => x.Id == id)
                 .Include(i => i.UserAccessGroups)
-                    .ThenInclude(y => y.User)
-                    .AsNoTracking();
+                    .ThenInclude(y => y.User);
             var accessGroup = accessGroupQuery.FirstOrDefault();
-            var users = accessGroupQuery.AsNoTracking().SelectMany(x => x.UserAccessGroups).AsNoTracking().Select(y => y.User).AsNoTracking().ToList();
+            var users = accessGroupQuery.SelectMany(x => x.UserAccessGroups).Select(y => y.User).ToList();
             model.AccessGroup = accessGroup;
-            var rolesToAdd = model.Roles.Where(x => x.RelationshipPresent == true).ToList();
+            var roleIds = Context.Roles.Select(y => y.Id).ToList();
+            var currentRoleIds = Context.AccessGroupRoles.Where(x => x.AccessGroupId == id).Select(y => y.RoleId).ToList();
+            var futureRoleIds = model.Roles.Where(x => x.RelationshipPresent == true).Select(y => y.Id).ToList();
 
             if (ModelState.IsValid)
             {
-                RemoveAccessGroupRoles(accessGroup.Id);
-                CreateAccessGroupRoles(accessGroup.Id, rolesToAdd);
+                // Rebuild Access Group Roles
+                foreach (var roleId in roleIds)
+                {
+                    if (futureRoleIds.Contains(roleId) && !currentRoleIds.Contains(roleId))
+                    {
+                        var roleToAdd = Context.AccessGroupRoles.Add(new AccessGroupRole { RoleId = roleId, AccessGroupId = id.Value });
+                    }
+                    else if (!futureRoleIds.Contains(roleId) && currentRoleIds.Contains(roleId))
+                    {
+                        var roleToRemove = Context.AccessGroupRoles.AsTracking().Where(x => x.AccessGroupId == id && x.RoleId == roleId).SingleOrDefault();
+                        Context.AccessGroupRoles.Remove(roleToRemove);
+                    }
+                }
 
+                Context.SaveChanges();
+
+                // Rebuild User Roles
                 foreach (User user in users)
                 {
-                    RemoveRolesFromUser(user);
-                    AddRolesToUser(user, rolesToAdd);
+                    var userParam = new NpgsqlParameter("userid", user.Id); //???
+                    var currentUserRoles = Context.Roles.FromSql(
+                        "select r.* from roles r " +
+                        "join user_roles ur " +
+                        "on ur.roleid = r.id " +
+                        "join users u " +
+                        "on u.id = ur.userid " +
+                        $"where u.id = '{user.Id}'").ToList();
+
+                    var allRoleIds = Context.Roles.Select(x => x.Id);
+                    var futureUserRoleIds = model.Roles.Where(x => x.RelationshipPresent).Select(x => x.Id).ToList();
+                    var currentUserRoleIds = currentUserRoles.Select(x => x.Id);
+
+                    foreach (var roleId in allRoleIds)
+                    {
+                        var theRole = Context.Roles.Where(x => x.Id == roleId).FirstOrDefault();
+
+                        if (futureUserRoleIds.Contains(roleId) && !currentUserRoleIds.Contains(roleId))
+                        {
+                            await _userManager.AddToRoleAsync(user, theRole.Name);
+                        }
+                        else if (!futureUserRoleIds.Contains(roleId) && currentUserRoleIds.Contains(roleId))
+                        {
+                            await _userManager.RemoveFromRoleAsync(user, theRole.Name);
+                        }
+                    }
+
+                    Context.SaveChanges();
                 }
 
                 Context.SaveChanges();
@@ -188,24 +232,19 @@ namespace Egret.Controllers
         }
 
         [NonAction]
-        private void AddRolesToUser(User user, List<Role> roles)
+        private void AddRolesToUser(User user, List<Role> rolesToAdd)
         {
-            var roles2 = Context.Roles.AsNoTracking().Where(x => roles.Select(y => y.Id).Contains(x.Id)).Select(x => x.Name).ToList();
+            var roles = Context.Roles.AsNoTracking().Where(x => rolesToAdd.Select(y => y.Id).Contains(x.Id)).Select(x => x.Name).ToList();
 
-            if (roles2.Count() > 0)
+            if (roles.Count() > 0)
             {
-                foreach (string role in roles2)
+                foreach (string role in roles)
                 {
                     var test = _userManager.AddToRoleAsync(user, role);
                 }
             }
 
             Context.SaveChanges();
-        }
-
-        private Exception Exception(string v)
-        {
-            throw new Exception(v);
         }
     }
 }
