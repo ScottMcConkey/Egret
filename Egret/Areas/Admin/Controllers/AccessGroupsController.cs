@@ -104,23 +104,25 @@ namespace Egret.Controllers
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> EditPermissions(int? id, AccessGroupPermissionsModel model)
         {
-            // Make like 100x easier by setting default to notracking
+            // Make life 100x easier by setting default to notracking
             Context.ChangeTracker.QueryTrackingBehavior = QueryTrackingBehavior.NoTracking;
 
             var accessGroupQuery = Context.AccessGroups.Where(x => x.Id == id)
                 .Include(i => i.UserAccessGroups)
                     .ThenInclude(y => y.User);
             var accessGroup = accessGroupQuery.FirstOrDefault();
-            var users = accessGroupQuery.SelectMany(x => x.UserAccessGroups).Select(y => y.User).ToList();
+            var accessGroupId = accessGroup.Id;
+            var relatedUsers = accessGroupQuery.SelectMany(x => x.UserAccessGroups).Select(y => y.User).ToList();
             model.AccessGroup = accessGroup;
-            var roleIds = Context.Roles.Select(y => y.Id).ToList();
+            var allRoleIds = Context.Roles.Select(y => y.Id).ToList();
             var currentRoleIds = Context.AccessGroupRoles.Where(x => x.AccessGroupId == id).Select(y => y.RoleId).ToList();
             var futureRoleIds = model.Roles.Where(x => x.RelationshipPresent == true).Select(y => y.Id).ToList();
+            
 
             if (ModelState.IsValid)
             {
                 // Rebuild Access Group Roles
-                foreach (var roleId in roleIds)
+                foreach (var roleId in allRoleIds)
                 {
                     if (futureRoleIds.Contains(roleId) && !currentRoleIds.Contains(roleId))
                     {
@@ -136,20 +138,33 @@ namespace Egret.Controllers
                 Context.SaveChanges();
 
                 // Rebuild User Roles
-                foreach (User user in users)
+                foreach (User user in relatedUsers)
                 {
-                    var userParam = new NpgsqlParameter("userid", user.Id); //???
+
+                    var userIdParam = new NpgsqlParameter("userid", user.Id); //???
+                    var accessGroupIdParam = new NpgsqlParameter("accessGroupId", accessGroupId);
+
                     var currentUserRoles = Context.Roles.FromSql(
                         "select r.* from roles r " +
                         "join user_roles ur " +
                         "on ur.roleid = r.id " +
-                        "join users u " +
-                        "on u.id = ur.userid " +
-                        $"where u.id = '{user.Id}'").ToList();
+                        $"where ur.userid = @userid", userIdParam).ToList();
 
-                    var allRoleIds = Context.Roles.Select(x => x.Id);
+                    var roleIdsOutside = Context.Roles.FromSql(
+                        "select r.* " +
+                        "from user_accessgroups uag " +
+                        "join accessgroups ag " +
+                        "on ag.id = uag.accessgroupid " +
+                        "join accessgroup_roles agr " +
+                        "on agr.accessgroupid = ag.id " +
+                        "join roles r " +
+                        "on r.id = agr.roleid " +
+                        "where uag.userid = @userid " +
+                        "and ag.id != @accessGroupId ", new[] { userIdParam, accessGroupIdParam }).Select(x => x.Id).ToList();
+
                     var futureUserRoleIds = model.Roles.Where(x => x.RelationshipPresent).Select(x => x.Id).ToList();
-                    var currentUserRoleIds = currentUserRoles.Select(x => x.Id);
+                    var currentUserRoleIds = currentUserRoles.Select(x => x.Id).ToList();
+                    var accessGroupRoles = currentRoleIds;
 
                     foreach (var roleId in allRoleIds)
                     {
@@ -161,7 +176,12 @@ namespace Egret.Controllers
                         }
                         else if (!futureUserRoleIds.Contains(roleId) && currentUserRoleIds.Contains(roleId))
                         {
-                            await _userManager.RemoveFromRoleAsync(user, theRole.Name);
+                            // Remove the Role from the User only if that user
+                            // doesn't have access to that Role through another Access Group
+                            if (!roleIdsOutside.Contains(roleId))
+                            {
+                                await _userManager.RemoveFromRoleAsync(user, theRole.Name);
+                            }
                         }
                     }
 
