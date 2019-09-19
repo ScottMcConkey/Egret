@@ -274,5 +274,24 @@ namespace Egret.DataAccess
             IdentityResult result = await _userManager.AddToRolesAsync(user, roles);
             return result;
         }
+
+        [HttpGet]
+        public async Task<IActionResult> UserRoles(string id)
+        {
+            var user = await _userManager.FindByIdAsync(id);
+
+            var roleNames = await _userManager.GetRolesAsync(user);
+
+            List<Role> roles = new List<Role>();
+
+            foreach (var name in roleNames)
+            {
+                roles.Add(Context.Roles.AsNoTracking().Where(x => x.Name == name).SingleOrDefault());
+            }
+
+            roles = roles.OrderBy(x => x.Name).ToList();
+
+            return View("UserRoles", roles);
+        }
     }
 }
