@@ -25,7 +25,7 @@ namespace Egret.Tests
         public AccessGroupsControllerTests()
         {
             _fakeLogger = Substitute.For<ILogger<ItemsController>>();
-            _userManager = Substitute.For <UserManager<User>>();
+            _userManager = Substitute.For<UserManager<User>>();
             _options = new DbContextOptionsBuilder<EgretContext>();
             var config = new ConfigurationBuilder()
                 .AddJsonFile("appsettings.json")
@@ -36,7 +36,7 @@ namespace Egret.Tests
         }
 
         [TestCase]
-        public void Edit_Get_NoIdProvided_Throws404()
+        public void Edit_Get_NoIdProvided_ThrowsNotFound()
         {
             //+ Arrange
             AccessGroupsController controller = new AccessGroupsController(_context, _fakeLogger, _userManager);

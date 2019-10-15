@@ -30,13 +30,13 @@ namespace Egret.Tests
         }
 
         [TestCase]
-        public void Edit_Get_NoIdProvided_Throws404()
+        public void Edit_Get_NoIdProvided_ThrowsNotFound()
         {
             //+ Arrange
             ItemsController controller = new ItemsController(_context, _fakeLogger);
 
             //+ Act
-            var actionResult = controller.Edit(String.Empty);
+            var actionResult = controller.Edit(null);
 
             //+ Assert
             Assert.IsInstanceOf<NotFoundResult>(actionResult);
