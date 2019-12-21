@@ -10,7 +10,7 @@ function CleanUpQueryString() {
     var newString = window.location.href.replace(/\&(\w)*=(?=\&)/g, '');
     // remove ?example&
     newString = newString.replace(/(?=\?)*\w*=(\&)/g, '');
-    window.history.pushState("object or string", "Title", newString);
+    window.history.replaceState("object or string", "Title", newString);
 }
 
 function FadeOutSuccessMessages() {
@@ -99,7 +99,6 @@ function SetObjectsForDelete() {
             null;
         }
         else {
-            //console.log('#4');
             return false;
         }
     });
