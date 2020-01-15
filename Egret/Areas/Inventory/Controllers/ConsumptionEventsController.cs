@@ -255,7 +255,7 @@ namespace Egret.Controllers
 
             // Consumed By
             if (!String.IsNullOrEmpty(searchModel.ConsumedBy))
-                results = results.Where(x => x.ConsumedBy.ToLowerInvariant().Contains(searchModel.ConsumedBy.ToLowerInvariant()));
+                results = results.Where(x => x.ConsumedBy.Contains(searchModel.ConsumedBy, StringComparison.InvariantCultureIgnoreCase));
 
             var realResults = results.OrderBy(x => x.Id).ToList();
 

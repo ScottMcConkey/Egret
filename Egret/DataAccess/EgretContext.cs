@@ -264,10 +264,6 @@ namespace Egret.DataAccess
 
                 entity.Property(e => e.QtyToPurchaseNow);
 
-                entity.Property(e => e.ApproxProdQty);
-
-                entity.Property(e => e.NeededBefore);
-
                 entity.Property(e => e.TargetPrice);
 
                 entity.Property(e => e.ShippingCompany);

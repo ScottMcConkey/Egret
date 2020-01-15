@@ -88,15 +88,6 @@ namespace Egret.Models
         [Language(Name = "Nepali", Value = "अब खरिद गर्न मात्रा")]
         public string QtyToPurchaseNow { get; set; }
 
-        [Display(Name = "Approximate Production Qty")]
-        [Language(Name = "Nepali", Value = "अनुमानित उत्पादन मात्रा")]
-        public string ApproxProdQty { get; set; }
-
-        [Display(Name = "Needed Before")]
-        [Language(Name = "Nepali", Value = "पहिले चाहिन्छ")]
-        [UIHint("date")]
-        public DateTime? NeededBefore { get; set; }
-
         [Display(Name = "Target Price")]
         [Language(Name = "Nepali", Value = "लक्षित मुल्य")]
         public string TargetPrice { get; set; }

@@ -287,7 +287,7 @@ namespace Egret.Controllers
 
             // Description
             if (!String.IsNullOrEmpty(searchModel.Description))
-                results = results.Where(x => x.Description.Contains(searchModel.Description));
+                results = results.Where(x => x.Description.Contains(searchModel.Description, StringComparison.InvariantCultureIgnoreCase));
 
             // Date Added
             if (searchModel.DateCreatedStart != null && searchModel.DateCreatedEnd != null)
@@ -309,17 +309,17 @@ namespace Egret.Controllers
 
             // Customer Purchased For
             if (!String.IsNullOrEmpty(searchModel.CustomerPurchasedFor))
-                results = results.Where(x => x.CustomerPurchasedFor.Contains(searchModel.CustomerPurchasedFor));
+                results = results.Where(x => x.CustomerPurchasedFor.Contains(searchModel.CustomerPurchasedFor, StringComparison.InvariantCultureIgnoreCase));
 
             // Customer Reserved For
             if (!String.IsNullOrEmpty(searchModel.CustomerReservedFor))
-                results = results.Where(x => x.CustomerReservedFor.Contains(searchModel.CustomerReservedFor));
+                results = results.Where(x => x.CustomerReservedFor.Contains(searchModel.CustomerReservedFor, StringComparison.InvariantCultureIgnoreCase));
 
             // In Stock
             if (searchModel.InStock == "Yes")
-                results = results.Where(x => x.QtyPurchased - x.ConsumptionEventsNavigation.Select(y => y.QuantityConsumed).Sum() > 0);
+                results = results.Where(x => x.StockLevel == "In Stock");
             else if (searchModel.InStock == "No")
-                results = results.Where(x => x.QtyPurchased - x.ConsumptionEventsNavigation.Select(y => y.QuantityConsumed).Sum() == 0);
+                results = results.Where(x => x.StockLevel == "Out of Stock");
 
             var realResults = results.OrderBy(x => x.Code).ToList();
 
