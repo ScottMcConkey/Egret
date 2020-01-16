@@ -18,6 +18,7 @@
             <th>@Html.DisplayNameFor(model => model.Events[0].InventoryItemCode)</th>
             <th>@Html.DisplayNameFor(model => model.Events[0].DateAdded)</th>
             <th>@Html.DisplayNameFor(model => model.Events[0].ConsumedBy)</th>
+            <th>@Html.DisplayNameFor(model => model.Events[0].OrderNumber)</th>
         </tr>
     </thead>
     <tbody>
@@ -38,6 +39,7 @@
                     </td>
                     <td>@(Model.Events[i].DateAdded != null ? Model.Events[i].DateAdded.Value.ToShortDateString() + " " + Model.Events[i].DateAdded.Value.ToShortTimeString() : "")</td>
                     <td>@Model.Events[i].ConsumedBy</td>
+                    <td>@Model.Events[i].OrderNumber</td>
                 </tr>
             }
         }

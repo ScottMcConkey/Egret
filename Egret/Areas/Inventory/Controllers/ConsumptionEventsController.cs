@@ -257,6 +257,10 @@ namespace Egret.Controllers
             if (!String.IsNullOrEmpty(searchModel.ConsumedBy))
                 results = results.Where(x => x.ConsumedBy.Contains(searchModel.ConsumedBy, StringComparison.InvariantCultureIgnoreCase));
 
+            // Order Number
+            if (!String.IsNullOrEmpty(searchModel.OrderNumber))
+                results = results.Where(x => x.OrderNumber.Contains(searchModel.OrderNumber, StringComparison.InvariantCultureIgnoreCase));
+
             var realResults = results.OrderBy(x => x.Id).ToList();
 
             return realResults;

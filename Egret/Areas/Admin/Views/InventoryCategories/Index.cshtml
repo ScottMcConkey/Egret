@@ -50,8 +50,8 @@
                         <td>
                             <input asp-for="@Model[i].SortOrder" class="form-control" />
                         </td>
-                        <td>
-                            <input type="checkbox" asp-for="@Model[i].Active" class="form-control" />
+                        <td class="text-center">
+                            <input type="checkbox" asp-for="@Model[i].Active" class="form-control-sm" />
                         </td>
                         <td class="delete-box">
                             <a class="delete" asp-action="Delete" asp-route-id="@Model[i].Id" title="Delete"><span class="egret egret-trash"></span></a>

@@ -12,7 +12,7 @@ namespace Egret.Controllers.ApiControllers
 {
     [Route("api/[controller]")]
     [ApiController]
-    public class InventoryController : BaseController
+    public class InventoryApiController : BaseController
     {
         public class Item
         {
@@ -21,7 +21,7 @@ namespace Egret.Controllers.ApiControllers
             public string Unit { get; set; }
         }
 
-        public InventoryController(EgretContext context)
+        public InventoryApiController(EgretContext context)
             : base(context) { }
 
         [HttpGet]
@@ -37,9 +37,13 @@ namespace Egret.Controllers.ApiControllers
         {
             Item item = new Item();
             InventoryItem inventoryTarget = Context.InventoryItems.Where(x => x.Code == id).SingleOrDefault();
-            item.Description = inventoryTarget.Description;
-            item.CustomerReservedFor = inventoryTarget.CustomerReservedFor;
-            item.Unit = inventoryTarget.Unit;
+            if (inventoryTarget != null)
+            {
+                item.Description = inventoryTarget.Description;
+                item.CustomerReservedFor = inventoryTarget.CustomerReservedFor;
+                item.Unit = inventoryTarget.Unit;
+            }
+            
             return item;
         }
 

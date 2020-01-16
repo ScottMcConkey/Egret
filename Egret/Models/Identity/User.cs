@@ -6,8 +6,8 @@ namespace Egret.Models
 {
     public class User : IdentityUser
     {
-        [Display(Name = "Is Active?")]
-        public bool IsActive { get; set; }
+        [Display(Name = "Active")]
+        public bool Active { get; set; }
 
         public ICollection<UserAccessGroup> UserAccessGroups { get; set; }
     }

@@ -15,7 +15,7 @@
             <th>@Html.DisplayNameFor(model => model[0].Id)</th>
             <th>@Html.DisplayNameFor(model => model[0].UserName)</th>
             <th>@Html.DisplayNameFor(model => model[0].Email)</th>
-            <th>@Html.DisplayNameFor(model => model[0].IsActive)</th>
+            <th>@Html.DisplayNameFor(model => model[0].Active)</th>
             <th>Access Groups</th>
             <th>Roles</th>
             <th></th>
@@ -34,8 +34,8 @@
                     <td>@Model[i].Id</td>
                     <td>@Model[i].UserName</td>
                     <td>@Model[i].Email</td>
-                    <td>
-                        <input type="checkbox" asp-for="@Model[i].IsActive" class="form-control" disabled="disabled" />
+                    <td class="text-center">
+                        <input type="checkbox" asp-for="@Model[i].Active" class="form-control-sm" disabled="disabled" />
                     </td>
                     <td>
                         <a class="btn btn-secondary" asp-route-id="@Model[i].Id" asp-action="EditAccessGroups">Configure</a>

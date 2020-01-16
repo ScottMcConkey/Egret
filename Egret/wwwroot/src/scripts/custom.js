@@ -65,14 +65,11 @@ function ManageValidationErrors() {
 function PrepApiController() {
     $("#callApi").on("click", function () {
         $(".egret-refresh").addClass("fa fa-spin");
-        $('#apiDescription').empty();
-        $('#apiCustomer').empty();
-        $('#apiUnit').empty();
 
-        $.get('/api/Inventory/' + $("#InventoryItemCode").val(), function (data) {
-            $('#apiDescription').html(data.description);
-            $('#apiCustomer').html(data.customerReservedFor);
-            $('#apiUnit').html(data.unit);
+        $.get('/api/InventoryApi/' + $("#InventoryItemCode").val(), function (data) {
+            $('#apiDescription').val(data.description);
+            $('#apiCustomer').text(data.customerReservedFor);
+            $('#apiUnit').text(data.unit);
         }, 'json');
 
         $(".egret-refresh").removeClass("fa-spin").removeClass("fa");

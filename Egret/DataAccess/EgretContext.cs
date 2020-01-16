@@ -77,7 +77,11 @@ namespace Egret.DataAccess
             #endregion
 
             #region Sequences
-            modelBuilder.HasSequence<long>("master_seq")
+            modelBuilder.HasSequence<long>("items_id_seq")
+                .StartsAt(1000);
+            modelBuilder.HasSequence<long>("fabric_tests_id_seq")
+                .StartsAt(1000);
+            modelBuilder.HasSequence<long>("consumption_events_id_seq")
                 .StartsAt(1000);
             modelBuilder.HasSequence<long>("inventorycategories_id_seq")
                 .StartsAt(100);
@@ -110,11 +114,6 @@ namespace Egret.DataAccess
                 // Table
                 entity.ToTable("accessgroup_roles");
 
-                // Indexes
-                //entity.HasIndex(i => i.AccessGroupId);
-
-                //entity.HasIndex(i => i.RoleId);
-
                 // Keys
                 entity.HasKey(k => new { k.AccessGroupId, k.RoleId });
 
@@ -135,7 +134,7 @@ namespace Egret.DataAccess
 
                 // Properties
                 entity.Property(e => e.Id)
-                    .HasDefaultValueSql("nextval('master_seq'::regclass)");
+                    .HasDefaultValueSql("'CE' || nextval('consumption_events_id_seq'::regclass)");
 
                 entity.Property(e => e.DateAdded);
 
@@ -200,7 +199,7 @@ namespace Egret.DataAccess
 
                 // Properties
                 entity.Property(e => e.Id)
-                    .HasDefaultValueSql("nextval('master_seq'::regclass)");
+                    .HasDefaultValueSql("nextval('fabric_tests_id_seq'::regclass)");
 
                 entity.Property(e => e.Name);
 
@@ -246,7 +245,7 @@ namespace Egret.DataAccess
 
                 // Properties
                 entity.Property(e => e.Code)
-                    .HasDefaultValueSql("nextval('master_seq'::regclass)");
+                    .HasDefaultValueSql("'I' || nextval('items_id_seq'::regclass)");
 
                 entity.Property(e => e.Description).IsRequired();
 
@@ -333,35 +332,34 @@ namespace Egret.DataAccess
                 entity.HasMany(s => s.ConsumptionEventsNavigation)
                     .WithOne(p => p.InventoryItemNavigation)
                     .HasPrincipalKey(p => p.Code)
-                    //.HasForeignKey(f => f.InventoryItemCode)
                     .OnDelete(DeleteBehavior.Cascade);
             });
 
-            modelBuilder.Entity<PurchaseEvent>(entity =>
-                {
-                    // Table
-                    entity.ToTable("purchase_events");
+            //modelBuilder.Entity<PurchaseEvent>(entity =>
+            //    {
+            //        // Table
+            //        entity.ToTable("purchase_events");
 
-                    // Properties
-                    entity.Property(p => p.Id)
-                        .HasDefaultValueSql("nextval('master_seq'::regclass)");
+            //        // Properties
+            //        entity.Property(p => p.Id)
+            //            .HasDefaultValueSql("nextval('master_seq'::regclass)");
 
-                    entity.Property(e => e.DateAdded);
+            //        entity.Property(e => e.DateAdded);
 
-                    entity.Property(e => e.AddedBy);
+            //        entity.Property(e => e.AddedBy);
 
-                    entity.Property(e => e.DateUpdated);
+            //        entity.Property(e => e.DateUpdated);
 
-                    entity.Property(e => e.UpdatedBy);
+            //        entity.Property(e => e.UpdatedBy);
 
-                    entity.Property(e => e.Description);
+            //        entity.Property(e => e.Description);
 
-                    entity.Property(e => e.CustomerPurchasedFor);
+            //        entity.Property(e => e.CustomerPurchasedFor);
 
-                    entity.Property(e => e.Supplier);
+            //        entity.Property(e => e.Supplier);
 
-                    entity.Property(e => e.CustomerPurchasedFor);
-                });
+            //        entity.Property(e => e.CustomerPurchasedFor);
+            //    });
 
             modelBuilder.Entity<Unit>(entity =>
             {
@@ -499,7 +497,7 @@ namespace Egret.DataAccess
                 LockoutEnabled = false,
                 PhoneNumberConfirmed = false,
                 TwoFactorEnabled = false,
-                IsActive = true
+                Active = true
             });
 
             modelBuilder.Entity<Role>()

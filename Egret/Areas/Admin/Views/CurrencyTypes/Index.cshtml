@@ -59,11 +59,11 @@
                     <td>
                         <input class="form-control" asp-for="@Model[i].SortOrder" />
                     </td>
-                    <td>
-                        <input class="form-control" type="checkbox" asp-for="@Model[i].Active" />
+                    <td class="text-center">
+                        <input class="form-control-sm" type="checkbox" asp-for="@Model[i].Active" />
                     </td>
-                    <td>
-                        <input class="form-control radio" type="radio" asp-for="@Model[i].DefaultSelection" value="@Model[i].DefaultSelection" />
+                    <td class="text-center">
+                        <input class="form-control-sm radio" type="radio" asp-for="@Model[i].DefaultSelection" value="@Model[i].DefaultSelection" />
                     </td>
                     <td class="delete-box">
                         <a class="delete" delete-for="Currency Type" asp-action="Delete" asp-route-id="@Model[i].Id" title="Delete"><span class="egret egret-trash"></span></a>

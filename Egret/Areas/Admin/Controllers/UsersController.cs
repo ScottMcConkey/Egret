@@ -61,14 +61,14 @@ namespace Egret.DataAccess
 
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Edit(string id, string email, string password, bool isactive)
+        public async Task<IActionResult> Edit(string id, string email, string password, bool active)
         {
             User user = await _userManager.FindByIdAsync(id);
 
             if (user != null)
             {
                 user.Email = email;
-                user.IsActive = isactive;
+                user.Active = active;
                 IdentityResult validEmail = await _userValidator.ValidateAsync(_userManager, user);
                 if (!validEmail.Succeeded)
                 {
@@ -127,7 +127,7 @@ namespace Egret.DataAccess
                 {
                     UserName = model.Name,
                     Email = model.Email,
-                    IsActive = true
+                    Active = true
                 };
 
                 IdentityResult result = await _userManager.CreateAsync(user, model.Password);

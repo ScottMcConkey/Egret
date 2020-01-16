@@ -41,7 +41,7 @@ namespace Egret.Areas.Account.Controllers
                 User user = await _userManager.FindByEmailAsync(details.Email);
                 if (user != null)
                 {
-                    if (user.IsActive)
+                    if (user.Active)
                     {
                         await _signInManager.SignOutAsync();
                         Microsoft.AspNetCore.Identity.SignInResult result = await _signInManager.PasswordSignInAsync(

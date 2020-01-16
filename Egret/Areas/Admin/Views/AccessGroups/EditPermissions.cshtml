@@ -22,7 +22,7 @@
                     <td>
                         @Model.Roles[i].DisplayName
                     </td>
-                    <td>
+                    <td class="text-center">
                         <input type="hidden" asp-for="@Model.Roles[i].Id" />
                         <input asp-for="@Model.Roles[i].RelationshipPresent" type="checkbox" class="checkbox" />
                     </td>
