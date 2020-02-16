@@ -445,9 +445,7 @@ namespace Egret.DataAccess
 
             #region Seed Data
             modelBuilder.Entity<CurrencyType>().HasData(
-                new { Id = 1, Name = "United States Dollars", Symbol = "$", Abbreviation = "USD", SortOrder = 1, Active = false, DefaultSelection = false },
-                new { Id = 2, Name = "Nepali Rupees", Symbol = "रु", Abbreviation = "NRP", SortOrder = 2, Active = true, DefaultSelection = true },
-                new { Id = 3, Name = "Indian Rupees", Symbol = "₹", Abbreviation = "INR", SortOrder = 3, Active = false, DefaultSelection = false }
+                new { Id = 1, Name = "Nepali Rupees", Symbol = "रु", Abbreviation = "NRP", SortOrder = 2, Active = true, DefaultSelection = true }
             );
 
             modelBuilder.Entity<InventoryCategory>().HasData(

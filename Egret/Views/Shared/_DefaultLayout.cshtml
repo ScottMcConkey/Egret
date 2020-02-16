@@ -45,6 +45,12 @@
                     <span class="egret egret-check"></span> @TempData["SuccessMessage"]
                 </div>
             }
+            @if (TempData["WarningMessage"] != null)
+            {
+                <div id="warning" class="alert alert-danger">
+                    <span></span> @TempData["WarningMessage"]
+                </div>
+            }
             @if (!Html.ViewData.ModelState.IsValid)
             {
                 <div class="alert alert-danger" asp-validation-summary="All"></div>

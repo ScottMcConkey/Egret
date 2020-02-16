@@ -3,203 +3,73 @@ using NUnit.Framework;
 using Egret.Models;
 using System.Linq.Expressions;
 using System.Collections.Generic;
+using System.Collections;
 
 namespace Egret.Tests
 {
     [TestFixture]
     public class InventoryItemTests
     {
-        [Test]
-        public void QtyPurchasedNull_ConsumptionEventsNone_Sets_StockQuantityNull_StockLevelNull()
+        [TestCase(null, 0, 0, null, "Unknown")]
+        [TestCase(null, 1, 100, null, "Unknown")]
+        [TestCase(null, 1, -100, null, "Unknown")]
+        [TestCase(100, 0, 0, 100, "In Stock")]
+        [TestCase(100, 1, 100, 0, "Out of Stock")]
+        [TestCase(100, 2, 50, 0, "Out of Stock")]
+        [TestCase(100, 1, 40, 60, "In Stock")]
+        [TestCase(100, 1, -40, 140, "In Stock")]
+        [TestCase(100, 1, 150, -50, "Error")]
+        [TestCase(-100, 0, 0, -100, "Error")]
+        [TestCase(-100, 1, 40, -100, "Error")]
+        [TestCase(-100, 1, -50, -100, "Error")]
+        public void StockQuantity (decimal? qtyPurchased, int consumptionCount, int consumptionValue, 
+            int? expectedStockQty, string expectedStockLevel)
         {
             //+ Arrange
             var item = new InventoryItem();
-            item.QtyPurchased = null;
+            item.ConsumptionEventsNavigation = new List<ConsumptionEvent>();
+
+            if (qtyPurchased != null)
+            {
+                item.QtyPurchased = qtyPurchased;
+            }
+
+            for (var i = 0; i < consumptionCount; i++)
+            {
+                var consumptionEvent = new ConsumptionEvent() { QuantityConsumed = consumptionValue };
+                item.ConsumptionEventsNavigation.Add(consumptionEvent);
+            }
 
             //+ Assert
-            Assert.AreEqual(item.StockQuantity, null);
-            Assert.AreEqual(item.StockLevel, "Unknown");
+            Assert.AreEqual(expectedStockQty, item.StockQuantity);
+            Assert.AreEqual(expectedStockLevel, item.StockLevel);
+
         }
 
-        [Test]
-        public void QtyPurchasedNull_ConsumptionEventsPositive_Sets_StockQuantityNull_StockLevelUnknown()
+
+        [TestCase("9/15/2017 10:50 am", "9/18/2017 3:30 pm", 3)]
+        [TestCase("9/15/2017 10:50 am", "9/15/2017 3:30 pm", 0)]
+        [TestCase("9/15/2017 10:50 am", null, null)]
+        [TestCase(null, "9/15/2017 3:30 pm", null)]
+        [TestCase(null, null, null)]
+        public void DaysToConfirm(string added, string confirmed, int? expectedDays)
         {
             //+ Arrange
             var item = new InventoryItem();
-            item.QtyPurchased = null;
-            item.ConsumptionEventsNavigation = new List<ConsumptionEvent>() { new ConsumptionEvent() { QuantityConsumed = 100 } };
+
+            if (!string.IsNullOrWhiteSpace(added))
+            {
+                item.DateAdded = Convert.ToDateTime(added);
+            }
+
+            if (!string.IsNullOrWhiteSpace(confirmed))
+            {
+                item.DateConfirmed = Convert.ToDateTime(confirmed);
+            }
 
             //+ Assert
-            Assert.AreEqual(item.StockQuantity, null);
-            Assert.AreEqual(item.StockLevel, "Unknown");
+            Assert.AreEqual(expectedDays, item.DaysToConfirm);
         }
-
-        [Test]
-        public void QtyPurchasedNull_ConsumptionEventsNegative_Sets_StockQuantityNull_StockLevelUnknown()
-        {
-            //+ Arrange
-            var item = new InventoryItem();
-            item.QtyPurchased = null;
-            item.ConsumptionEventsNavigation = new List<ConsumptionEvent>() { new ConsumptionEvent() { QuantityConsumed = -100 } };
-
-            //+ Assert
-            Assert.AreEqual(item.StockQuantity, null);
-            Assert.AreEqual(item.StockLevel, "Unknown");
-        }
-
-
-
-        [Test]
-        public void QtyPurchasedPositive_ConsumptionEventsNone_Sets_StockQuantityPositive_StockLevelInStock()
-        {
-            //+ Arrange
-            var item = new InventoryItem();
-            item.QtyPurchased = 100;
-
-            //+ Assert
-            Assert.AreEqual(item.StockQuantity, 100);
-            Assert.AreEqual(item.StockLevel, "In Stock");
-        }
-
-        [Test]
-        public void QtyPurchasedPositive_ConsumptionEventsFill_Sets_StockQuantity0_StockLevelOutOfStock()
-        {
-            //+ Arrange
-            var item = new InventoryItem();
-            item.QtyPurchased = 100;
-            item.ConsumptionEventsNavigation = new List<ConsumptionEvent>() { new ConsumptionEvent() { QuantityConsumed = 100 } };
-
-            //+ Assert
-            Assert.AreEqual(item.StockQuantity, 0);
-            Assert.AreEqual(item.StockLevel, "Out of Stock");
-        }
-
-        [Test]
-        public void QtyPurchasedPositive_ConsumptionEventsPositive_Sets_StockQuantityPositive_StockLevelInStock()
-        {
-            //+ Arrange
-            var item = new InventoryItem();
-            item.QtyPurchased = 100;
-            item.ConsumptionEventsNavigation = new List<ConsumptionEvent>() { new ConsumptionEvent() { QuantityConsumed = 40 } };
-
-            //+ Assert
-            Assert.AreEqual(item.StockQuantity, 60);
-            Assert.AreEqual(item.StockLevel, "In Stock");
-        }
-
-        [Test]
-        public void QtyPurchasedPositive_ConsumptionEventsNegative_Sets_StockQuantityPositive_StockLevelInStock()
-        {
-            //+ Arrange
-            var item = new InventoryItem();
-            item.QtyPurchased = 100;
-            item.ConsumptionEventsNavigation = new List<ConsumptionEvent>() { new ConsumptionEvent() { QuantityConsumed = 40 }, new ConsumptionEvent() { QuantityConsumed = -40 } };
-
-            //+ Assert
-            Assert.AreEqual(item.StockQuantity, 100);
-            Assert.AreEqual(item.StockLevel, "In Stock");
-        }
-
-
-
-        [Test]
-        public void QtyPurchasedNegative_ConsumptionEventsNone_Sets_StockQuantityNegative_StockLevelError()
-        {
-            //+ Arrange
-            var item = new InventoryItem();
-            item.QtyPurchased = -100;
-
-            //+ Assert
-            Assert.AreEqual(item.StockQuantity, -100);
-            Assert.AreEqual(item.StockLevel, "Error");
-        }
-
-        [Test]
-        public void QtyPurchasedNegative_ConsumptionEventsPositive_Sets_StockQuantityNegative_StockLevelError()
-        {
-            //+ Arrange
-            var item = new InventoryItem();
-            item.QtyPurchased = -100;
-            item.ConsumptionEventsNavigation = new List<ConsumptionEvent>() { new ConsumptionEvent() { QuantityConsumed = 200 } };
-
-            //+ Assert
-            Assert.AreEqual(item.StockQuantity, -100);
-            Assert.AreEqual(item.StockLevel, "Error");
-        }
-
-        [Test]
-        public void QtyPurchasedNegative_ConsumptionEventsNegative_Sets_StockQuantityNegative_StockLevelError()
-        {
-            //+ Arrange
-            var item = new InventoryItem();
-            item.QtyPurchased = -100;
-            item.ConsumptionEventsNavigation = new List<ConsumptionEvent>() { new ConsumptionEvent() { QuantityConsumed = -200 } };
-
-            //+ Assert
-            Assert.AreEqual(item.StockQuantity, -100);
-            Assert.AreEqual(item.StockLevel, "Error");
-        }
-
-
-
-        [Test]
-        public void DateAdded_DateConfirmed_ThreeDaysApart_Sets_DaysToConfirmThree()
-        {
-            //+ Arrange
-            var item = new InventoryItem();
-            item.DateAdded = Convert.ToDateTime("9/15/2017 10:50 am");
-            item.DateConfirmed = Convert.ToDateTime("9/18/2017 3:30 pm");
-
-            //+ Assert
-            Assert.AreEqual(item.DaysToConfirm, 3);
-        }
-
-        [Test]
-        public void DateAdded_DateConfirmed_ZeroDaysApart_Sets_DaysToConfirmZero()
-        {
-            //+ Arrange
-            var item = new InventoryItem();
-            item.DateAdded = Convert.ToDateTime("9/15/2017 10:50 am");
-            item.DateConfirmed = Convert.ToDateTime("9/15/2017 3:30 pm");
-
-            //+ Assert
-            Assert.AreEqual(item.DaysToConfirm, 0);
-        }
-
-        [Test]
-        public void DateConfirmedNull_Sets_DaysToConfirmNull()
-        {
-            //+ Arrange
-            var item = new InventoryItem();
-            item.DateAdded = Convert.ToDateTime("9/15/2017 10:50 am");
-            item.DateConfirmed = null;
-
-            //+ Assert
-            Assert.AreEqual(item.DaysToConfirm, null);
-        }
-
-        [Test]
-        public void DateAddedNull_Sets_DaysToConfirmNull()
-        {
-            //+ Arrange
-            var item = new InventoryItem();
-            item.DateAdded = null;
-            item.DateConfirmed = Convert.ToDateTime("9/15/2017 3:30 pm");
-
-            //+ Assert
-            Assert.AreEqual(item.DaysToConfirm, null);
-        }
-
-        [Test]
-        public void DateAddedNull_DateConfirmedNull_Sets_DaysToConfirmNull()
-        {
-            //+ Arrange
-            var item = new InventoryItem();
-            item.DateAdded = null;
-            item.DateConfirmed = null;
-
-            //+ Assert
-            Assert.AreEqual(item.DaysToConfirm, null);
-        }
+        
     }
 }

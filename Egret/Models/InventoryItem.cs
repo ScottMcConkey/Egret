@@ -263,7 +263,7 @@ namespace Egret.Models
             {
                 if (QtyPurchased != null && QtyPurchased != 0 && FOBCost != null && FOBCost != 0)
                 {
-                    return (int)(FOBCost / QtyPurchased);
+                    return (decimal)(FOBCost / QtyPurchased);
                 }
                 else
                 {
@@ -287,7 +287,7 @@ namespace Egret.Models
             {
                 if (TotalCost != null && TotalCost != 0 && QtyPurchased != null && QtyPurchased != 0)
                 {
-                    return (int)(TotalCost / QtyPurchased);
+                    return (decimal)(TotalCost / QtyPurchased);
                 }
                 else
                 {
