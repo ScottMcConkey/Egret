@@ -172,8 +172,12 @@ namespace Egret.DataAccess
                 // Table
                 entity.ToTable("currency_types");
 
-                // Keys
-                entity.HasAlternateKey(k => k.Abbreviation);
+                // Indexes
+                entity.HasIndex(i => i.Name).IsUnique();
+
+                entity.HasIndex(i => i.Abbreviation).IsUnique();
+
+                entity.HasIndex(i => i.SortOrder).IsUnique();
 
                 // Properties
                 entity.Property(e => e.Id)
@@ -219,8 +223,10 @@ namespace Egret.DataAccess
                 // Table
                 entity.ToTable("inventory_categories");
 
-                // Keys
-                entity.HasAlternateKey(k => k.Name);
+                // Indexes
+                entity.HasIndex(i => i.Name).IsUnique();
+
+                entity.HasIndex(i => i.SortOrder).IsUnique();
 
                 // Properties
                 entity.Property(e => e.Id)
@@ -249,11 +255,11 @@ namespace Egret.DataAccess
 
                 entity.Property(e => e.Description).IsRequired();
 
-                entity.Property(e => e.Category).IsRequired();
+                entity.Property(e => e.CategoryId).IsRequired();
 
                 entity.Property(e => e.QtyPurchased);
 
-                entity.Property(e => e.Unit);
+                entity.Property(e => e.UnitId);
 
                 entity.Property(e => e.CustomerPurchasedFor);
 
@@ -273,15 +279,15 @@ namespace Egret.DataAccess
 
                 entity.Property(e => e.FOBCost);
 
-                entity.Property(e => e.FOBCostCurrency);
+                entity.Property(e => e.FOBCostCurrencyId);
 
                 entity.Property(e => e.ShippingCost);
 
-                entity.Property(e => e.ShippingCostCurrency);
+                entity.Property(e => e.ShippingCostCurrencyId);
 
                 entity.Property(e => e.ImportCosts);
 
-                entity.Property(e => e.ImportCostCurrency);
+                entity.Property(e => e.ImportCostCurrencyId);
 
                 entity.Property(e => e.DateAdded);
 
@@ -300,28 +306,28 @@ namespace Egret.DataAccess
                 // Relationships
                 entity.HasOne(d => d.UnitNavigation)
                     .WithMany()
-                    .HasPrincipalKey(k => k.Abbreviation)
-                    .HasForeignKey(k => k.Unit);
+                    .HasPrincipalKey(k => k.Id)
+                    .HasForeignKey(k => k.UnitId);
 
                 entity.HasOne(d => d.FOBCostCurrencyNavigation)
                     .WithMany()
-                    .HasPrincipalKey(k => k.Abbreviation)
-                    .HasForeignKey(k => k.FOBCostCurrency);
+                    .HasPrincipalKey(k => k.Id)
+                    .HasForeignKey(k => k.FOBCostCurrencyId);
 
                 entity.HasOne(d => d.ShippingCostCurrencyNavigation)
                     .WithMany()
-                    .HasPrincipalKey(k => k.Abbreviation)
-                    .HasForeignKey(k => k.ShippingCostCurrency);
+                    .HasPrincipalKey(k => k.Id)
+                    .HasForeignKey(k => k.ShippingCostCurrencyId);
 
                 entity.HasOne(d => d.ImportCostCurrencyNavigation)
                     .WithMany()
-                    .HasPrincipalKey(k => k.Abbreviation)
-                    .HasForeignKey(k => k.ImportCostCurrency);
+                    .HasPrincipalKey(k => k.Id)
+                    .HasForeignKey(k => k.ImportCostCurrencyId);
 
                 entity.HasOne(d => d.CategoryNavigation)
                     .WithMany()
-                    .HasPrincipalKey(p => p.Name)
-                    .HasForeignKey(d => d.Category)
+                    .HasPrincipalKey(p => p.Id)
+                    .HasForeignKey(d => d.CategoryId)
                     .OnDelete(DeleteBehavior.Restrict);
 
                 entity.HasMany(d => d.FabricTestsNavigation)
@@ -366,10 +372,11 @@ namespace Egret.DataAccess
                 // Table
                 entity.ToTable("units");
 
-                // Keys
-                entity.HasAlternateKey(k => k.Abbreviation);
-
                 // Indexes
+                entity.HasIndex(e => e.Name)
+                    .IsUnique();
+                entity.HasIndex(e => e.Abbreviation)
+                    .IsUnique();
                 entity.HasIndex(e => e.SortOrder)
                     .IsUnique();
 
@@ -415,37 +422,37 @@ namespace Egret.DataAccess
             foreach (var entity in modelBuilder.Model.GetEntityTypes())
             {
                 // Replace Table Names
-                entity.Relational().TableName = entity.Relational().TableName.ToLower();
+                entity.SetTableName(entity.GetTableName().ToLower());
 
                 // Replace Column Names            
                 foreach (var property in entity.GetProperties())
                 {
-                    property.Relational().ColumnName = property.Name.ToLower();
+                    property.SetColumnName(property.Name.ToLower());
                 }
 
                 // Replace Keys
                 foreach (var key in entity.GetKeys())
                 {
-                    key.Relational().Name = key.Relational().Name.ToLower();
+                    key.SetName(key.GetName().ToLower());
                 }
 
                 // Replace Foreign Keys
                 foreach (var key in entity.GetForeignKeys())
                 {
-                    key.Relational().Name = key.Relational().Name.ToLower();
+                    key.SetConstraintName(key.GetConstraintName().ToLower());
                 }
 
                 // Replace Indexes
                 foreach (var index in entity.GetIndexes())
                 {
-                    index.Relational().Name = index.Relational().Name.ToLower();
+                    index.SetName(index.GetName().ToLower());
                 }
             }
             #endregion
 
             #region Seed Data
             modelBuilder.Entity<CurrencyType>().HasData(
-                new { Id = 1, Name = "Nepali Rupees", Symbol = "रु", Abbreviation = "NRP", SortOrder = 2, Active = true, DefaultSelection = true }
+                new { Id = 1, Name = "Nepali Rupees", Symbol = "रु", Abbreviation = "NRP", SortOrder = 1, Active = true, DefaultSelection = true }
             );
 
             modelBuilder.Entity<InventoryCategory>().HasData(
@@ -462,7 +469,7 @@ namespace Egret.DataAccess
 
             modelBuilder.Entity<Unit>().HasData(
                 new { Id = 1, Name = "kilogram", Abbreviation = "kg", SortOrder = 1, Active = true },
-                new { Id = 2, Name = "meter", Abbreviation = "meter", SortOrder = 2, Active = true },
+                new { Id = 2, Name = "meter", Abbreviation = "m", SortOrder = 2, Active = true },
                 new { Id = 3, Name = "piece", Abbreviation = "piece", SortOrder = 3, Active = true },
                 new { Id = 4, Name = "set", Abbreviation = "set", SortOrder = 4, Active = true }
             );

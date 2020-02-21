@@ -4506,7 +4506,10 @@ th {
 .delete,
 .delete:hover,
 .delete:active,
-.delete:visited {
+.delete:visited,
+.delete-box,
+.delete-box:hover,
+.delete-box:visited{
   color: #000;
   font-size: 25px;
   font-size: 1em;

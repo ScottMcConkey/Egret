@@ -24,8 +24,8 @@
         </div>
 
         <div class="form-group">
-            <label asp-for="Category" include-languages="Nepali" class="control-label required"></label>
-            <select asp-for="Category" class="form-control" asp-items="ViewBag.Category">
+            <label asp-for="CategoryId" include-languages="Nepali" class="control-label required"></label>
+            <select asp-for="CategoryId" class="form-control" asp-items="ViewBag.Category">
                 <option value=""></option>
             </select>
         </div>
@@ -33,7 +33,7 @@
         <label asp-for="QtyPurchased" include-languages="Nepali" class="control-label required"></label>
         <div class="form-group form-inline">
             <input asp-for="QtyPurchased" style="width: 25%;" class="form-control col-md-4 mr-2" />
-            <select asp-for="Unit" style="width: 25%;" class="form-control" asp-items="ViewBag.Unit">
+            <select asp-for="UnitId" style="width: 25%;" class="form-control" asp-items="ViewBag.Unit">
                 <option value=""></option>
             </select>
         </div>
@@ -44,7 +44,7 @@
             <label asp-for="FOBCost" include-languages="Nepali" class="control-label"></label>
             <div class="form-group form-inline">
                 <input asp-for="FOBCost" class="form-control col-md-6 mr-2" />
-                <select asp-for="FOBCostCurrency" class="form-control" asp-items="ViewBag.FOBCostCurrency">
+                <select asp-for="FOBCostCurrencyId" class="form-control" asp-items="ViewBag.FOBCostCurrency">
                     <option value=""></option>
                 </select>
             </div>
@@ -52,7 +52,7 @@
             <label asp-for="ShippingCost" include-languages="Nepali" class="control-label"></label>
             <div class="form-group form-inline">
                 <input asp-for="ShippingCost" class="form-control col-md-6 mr-2" />
-                <select asp-for="ShippingCostCurrency" class="form-control" asp-items="ViewBag.ShippingCostCurrency">
+                <select asp-for="ShippingCostCurrencyId" class="form-control" asp-items="ViewBag.ShippingCostCurrency">
                     <option value=""></option>
                 </select>
             </div>
@@ -60,7 +60,7 @@
             <label asp-for="ImportCosts" include-languages="Nepali" class="control-label"></label>
             <div class="form-group form-inline" style="width: 100%">
                 <input asp-for="ImportCosts" class="form-control col-md-6 mr-2" />
-                <select asp-for="ImportCostCurrency" class="form-control" asp-items="ViewBag.ImportCostCurrency">
+                <select asp-for="ImportCostCurrencyId" class="form-control" asp-items="ViewBag.ImportCostCurrency">
                     <option value=""></option>
                 </select>
             </div>

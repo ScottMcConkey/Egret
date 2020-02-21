@@ -1,13 +1,12 @@
-﻿using System;
+﻿using Egret.Attributes;
+using Egret.Interfaces;
+using Microsoft.AspNetCore.Mvc.ModelBinding;
+using System;
 using System.Collections.Generic;
 using System.ComponentModel;
 using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
 using System.Linq;
-using Microsoft.AspNetCore.Mvc.ModelBinding;
-using Microsoft.Extensions;
-using Egret.Attributes;
-using Egret.Interfaces;
 
 namespace Egret.Models
 {
@@ -38,8 +37,9 @@ namespace Egret.Models
         public string Description { get; set; }
 
         [Required]
+        [Display(Name = "Category")]
         [Language(Name = "Nepali", Value = "वर्ग")]
-        public string Category { get; set; }
+        public int? CategoryId { get; set; }
 
         [Required]
         [Display(Name = "Quantity Purchased")]
@@ -48,28 +48,29 @@ namespace Egret.Models
         public decimal? QtyPurchased { get; set; }
 
         [Required]
-        public string Unit { get; set; }
+        [Display(Name = "Unit")]
+        public int UnitId { get; set; }
 
         [Display(Name = "FOB Cost Or Local Cost no VAT")]
         [Language(Name = "Nepali", Value = "लागत")]
         [DisplayFormat(DataFormatString = "{0:0.00##}", ApplyFormatInEditMode = true)]
         public decimal? FOBCost { get; set; }
 
-        public string FOBCostCurrency { get; set; }
+        public int? FOBCostCurrencyId { get; set; }
 
         [Display(Name = "Shipping Cost")]
         [Language(Name = "Nepali", Value = "ढुवानी खर्च")]
         [DisplayFormat(DataFormatString = "{0:0.00##}", ApplyFormatInEditMode = true)]
         public decimal? ShippingCost { get; set; }
 
-        public string ShippingCostCurrency { get; set; }
+        public int? ShippingCostCurrencyId { get; set; }
 
         [Display(Name = "Import/Custom/Delivery Costs/VAT")]
         [Language(Name = "Nepali", Value = "आयात लागत")]
         [DisplayFormat(DataFormatString = "{0:0.00##}", ApplyFormatInEditMode = true)]
         public decimal? ImportCosts { get; set; }
 
-        public string ImportCostCurrency { get; set; }
+        public int? ImportCostCurrencyId { get; set; }
 
         [Required]
         [Display(Name = "Customer Purchased For")]
@@ -153,19 +154,19 @@ namespace Egret.Models
             {
                 if (StockQuantity == null)
                 {
-                    return "Unknown";
+                    return Utilities.ItemStockLevel.Unknown.Value;
                 }
                 else if (StockQuantity == 0)
                 {
-                    return "Out of Stock";
+                    return Utilities.ItemStockLevel.OutOfStock.Value;
                 }
                 else if (StockQuantity > 0)
                 {
-                    return "In Stock";
+                    return Utilities.ItemStockLevel.InStock.Value;
                 }
                 else
                 {
-                    return "Error";
+                    return Utilities.ItemStockLevel.Error.Value;
                 }
             }
 
@@ -202,6 +203,11 @@ namespace Egret.Models
         {
             get
             {
+                if (DateArrived < DateShipped)
+                {
+                    return null;
+                }
+
                 if (DateArrived != null && DateShipped != null)
                 {
                     return (int)((DateTime)DateArrived - (DateTime)DateShipped).TotalDays;
@@ -223,6 +229,11 @@ namespace Egret.Models
         {
             get
             {
+                if (DateArrived < DateAdded)
+                {
+                    return null;
+                }
+
                 if (DateArrived != null && DateAdded != null)
                 {
                     return (int)((DateTime)DateArrived - (DateTime)DateAdded).TotalDays;
@@ -245,6 +256,11 @@ namespace Egret.Models
         {
             get
             {
+                if (FOBCost == null && ShippingCost == null && ImportCosts == null)
+                {
+                    return null;
+                }
+
                 return (FOBCost ?? 0) + (ShippingCost ?? 0) + (ImportCosts ?? 0);
             }
             private set { }
@@ -261,7 +277,7 @@ namespace Egret.Models
         {
             get
             {
-                if (QtyPurchased != null && QtyPurchased != 0 && FOBCost != null && FOBCost != 0)
+                if (QtyPurchased > 0 && FOBCost > 0)
                 {
                     return (decimal)(FOBCost / QtyPurchased);
                 }
@@ -285,7 +301,7 @@ namespace Egret.Models
         {
             get
             {
-                if (TotalCost != null && TotalCost != 0 && QtyPurchased != null && QtyPurchased != 0)
+                if (TotalCost > 0 && QtyPurchased > 0)
                 {
                     return (decimal)(TotalCost / QtyPurchased);
                 }

@@ -5,7 +5,6 @@ using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
-using Microsoft.EntityFrameworkCore.Extensions;
 using Microsoft.Extensions.Logging;
 using Npgsql;
 using System;
@@ -144,13 +143,13 @@ namespace Egret.Controllers
                     var userIdParam = new NpgsqlParameter("userid", user.Id); //???
                     var accessGroupIdParam = new NpgsqlParameter("accessGroupId", accessGroupId);
 
-                    var currentUserRoles = Context.Roles.FromSql(
+                    var currentUserRoles = Context.Roles.FromSqlRaw(
                         "select r.* from roles r " +
                         "join user_roles ur " +
                         "on ur.roleid = r.id " +
                         $"where ur.userid = @userid", userIdParam).ToList();
 
-                    var roleIdsOutside = Context.Roles.FromSql(
+                    var roleIdsOutside = Context.Roles.FromSqlRaw(
                         "select r.* " +
                         "from user_accessgroups uag " +
                         "join accessgroups ag " +

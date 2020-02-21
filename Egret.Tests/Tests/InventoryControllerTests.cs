@@ -7,6 +7,7 @@ using Microsoft.Extensions.Logging;
 using NSubstitute;
 using NUnit.Framework;
 using System;
+using Egret.Services;
 
 namespace Egret.Tests
 {
@@ -16,6 +17,8 @@ namespace Egret.Tests
         ILogger<ItemsController> _fakeLogger;
         DbContextOptionsBuilder<EgretContext> _options;
         EgretContext _context;
+        IItemService _itemService;
+        ISelectListFactoryService _selectListService;
 
         public InventoryControllerTests()
         {
@@ -27,13 +30,15 @@ namespace Egret.Tests
             string connection = config["ConnectionString"];
             _options.UseNpgsql(connection);
             _context = new EgretContext(_options.Options);
+            _itemService = Substitute.For<IItemService>();
+            _selectListService = Substitute.For<ISelectListFactoryService>();
         }
 
         [TestCase]
         public void Edit_Get_NoIdProvided_ThrowsNotFound()
         {
             //+ Arrange
-            ItemsController controller = new ItemsController(_context, _fakeLogger);
+            ItemsController controller = new ItemsController(_itemService, _fakeLogger, _selectListService);
 
             //+ Act
             var actionResult = controller.Edit(null);

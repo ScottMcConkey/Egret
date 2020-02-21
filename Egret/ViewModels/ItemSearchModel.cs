@@ -19,7 +19,7 @@ namespace Egret.ViewModels
         [UIHint("date")]
         public DateTime? DateCreatedEnd { get; set; }
 
-        public string Category { get; set; }
+        public int? Category { get; set; }
 
         [Display(Name = "Customer Purchased For")]
         public string CustomerPurchasedFor { get; set; }

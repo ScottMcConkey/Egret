@@ -1,5 +1,7 @@
 ﻿using Egret.DataAccess;
 using Egret.Models;
+using Egret.Services;
+using Egret.Utilities;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.Identity;
@@ -12,6 +14,7 @@ using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Logging;
 using NLog.Extensions.Logging;
 using System;
+using Microsoft.Extensions.Hosting;
 
 namespace Egret
 {
@@ -19,12 +22,12 @@ namespace Egret
     {
         public IConfigurationRoot Configuration;
 
-        public Startup(IHostingEnvironment env)
+        public Startup(IConfiguration configuration)
         {
             var builder = new ConfigurationBuilder()
-                .SetBasePath(env.ContentRootPath)
+                //.SetBasePath(env.ContentRootPath)
                 .AddJsonFile("appsettings.json", optional: false, reloadOnChange: true)
-                .AddJsonFile($"appsetings.{env.EnvironmentName}.json", optional: true, reloadOnChange: true)
+                //.AddJsonFile($"appsetings.{env.EnvironmentName}.json", optional: true, reloadOnChange: true)
                 .AddEnvironmentVariables();
 
             Configuration = builder.Build();
@@ -36,6 +39,8 @@ namespace Egret
             services.AddDbContext<EgretContext>(options =>
                 options.UseNpgsql(Configuration["ConnectionStrings:DefaultConnection"]));
             services.AddSingleton<IActionContextAccessor, ActionContextAccessor>();
+            services.AddTransient<IItemService, ItemService>();
+            services.AddTransient<ISelectListFactoryService, SelectListFactoryService>();
             services.AddMvc();
             services.AddMemoryCache();
             services.AddSession();
@@ -52,9 +57,7 @@ namespace Egret
                     opts.Lockout.MaxFailedAccessAttempts = 10;
                 }
             )
-                .AddEntityFrameworkStores<EgretContext>()
-                //.AddDefaultUI()
-                ;
+                .AddEntityFrameworkStores<EgretContext>();
 
             services.ConfigureApplicationCookie(options =>
             {
@@ -73,7 +76,7 @@ namespace Egret
             });
         }
 
-        public void Configure(IApplicationBuilder app, IHostingEnvironment env, ILoggerFactory loggerFactory)
+        public void Configure(IApplicationBuilder app, IWebHostEnvironment env, ILoggerFactory loggerFactory)
         {
             if (env.IsDevelopment())
             {
@@ -86,25 +89,24 @@ namespace Egret
             }
             app.UseStaticFiles();
             app.UseAuthentication();
-            app.UseMvc(routes =>
+            app.UseRouting();
+            app.UseAuthorization();
+            app.UseEndpoints(endpoints =>
             {
-                routes.MapRoute(
+                endpoints.MapControllerRoute(
                     name: "areas",
-                    template: "{area:exists}/{controller=Home}/{action=Index}/{id?}");
+                    pattern: "{area:exists}/{controller=Home}/{action=Index}/{id?}");
 
-                routes.MapRoute(
+                endpoints.MapControllerRoute(
                     name: "default",
-                    template: "{controller=Home}/{action=Index}/{id?}");
+                    pattern: "{controller=Home}/{action=Index}/{id?}");
 
-                routes.MapRoute(
+                endpoints.MapControllerRoute(
                     name: "out",
-                    template: "outbound/{controller=Home}/{action=Index}");
+                    pattern: "outbound/{controller=Home}/{action=Index}");
             });
 
             loggerFactory.AddNLog();
-            loggerFactory.AddDebug();
-
-            
         }
     }
 }

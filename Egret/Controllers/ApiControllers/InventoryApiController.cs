@@ -7,6 +7,7 @@ using Microsoft.AspNetCore.Mvc;
 using Egret.Models;
 using Egret.DataAccess;
 using Microsoft.AspNetCore.Authorization;
+using Microsoft.EntityFrameworkCore;
 
 namespace Egret.Controllers.ApiControllers
 {
@@ -35,13 +36,14 @@ namespace Egret.Controllers.ApiControllers
         [Authorize]
         public Item Get(string id)
         {
-            Item item = new Item();
-            InventoryItem inventoryTarget = Context.InventoryItems.Where(x => x.Code == id).SingleOrDefault();
+            var item = new Item();
+            InventoryItem inventoryTarget = Context.InventoryItems.Where(x => x.Code == id)
+                .Include(x => x.UnitNavigation).SingleOrDefault();
             if (inventoryTarget != null)
             {
                 item.Description = inventoryTarget.Description;
                 item.CustomerReservedFor = inventoryTarget.CustomerReservedFor;
-                item.Unit = inventoryTarget.Unit;
+                item.Unit = inventoryTarget.UnitNavigation.Abbreviation;
             }
             
             return item;

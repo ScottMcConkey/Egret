@@ -1,16 +1,14 @@
-﻿using Egret.Utilities;
-using Egret.DataAccess;
+﻿using Egret.DataAccess;
 using Egret.Models;
+using Egret.Services;
 using Egret.ViewModels;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
-using Microsoft.AspNetCore.Mvc.Rendering;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Logging;
 using System;
 using System.Collections.Generic;
 using System.Linq;
-using System.Threading.Tasks;
 
 namespace Egret.Controllers
 {
@@ -18,11 +16,13 @@ namespace Egret.Controllers
     public class ConsumptionEventsController : BaseController
     {
         private static ILogger _logger;
+        private static ISelectListFactoryService _selectListService;
 
-        public ConsumptionEventsController(EgretContext context, ILogger<ConsumptionEventsController> logger)
+        public ConsumptionEventsController(EgretContext context, ILogger<ConsumptionEventsController> logger, ISelectListFactoryService selectListService)
             : base(context)
         {
             _logger = logger;
+            _selectListService = selectListService;
         }
 
         [HttpGet]
@@ -71,10 +71,6 @@ namespace Egret.Controllers
         [Authorize(Roles = "Item_Read, ConsumptionEvent_Create")]
         public IActionResult CreateFromItem(string sourceid, ConsumptionEvent consumptionEvent)
         {
-            string sourceId = sourceid;
-
-            var item = Context.InventoryItems.Where(x => x.Code == consumptionEvent.InventoryItemCode);
-
             consumptionEvent.AddedBy = User.Identity.Name;
             consumptionEvent.UpdatedBy = User.Identity.Name;
             consumptionEvent.DateAdded = DateTime.Now;
@@ -148,6 +144,7 @@ namespace Egret.Controllers
             ConsumptionEventModel presentation = new ConsumptionEventModel();
             ConsumptionEvent consumptionEvent = Context.ConsumptionEvents
                 .Include(i => i.InventoryItemNavigation)
+                    .ThenInclude(i => i.UnitNavigation)
                 .SingleOrDefault(m => m.Id == id);
 
             if (consumptionEvent == null)
@@ -201,7 +198,7 @@ namespace Egret.Controllers
         [Authorize(Roles = "ConsumptionEvent_Read")]
         public IActionResult Search()
         {
-            ViewData["ResultsPerPage"] = SelectListFactory.ResultsPerPage();
+            ViewData["ResultsPerPage"] = _selectListService.ResultsPerPage();
 
             var presentation = new ConsumptionEventSearchModel();
 

@@ -261,7 +261,7 @@ namespace Egret.DataAccess
         [NonAction]
         private async Task<IdentityResult> AddUserRoles(User user)
         {
-            var roles = Context.Roles.AsNoTracking().FromSql(
+            var roles = Context.Roles.FromSqlRaw(
                           "select r.name" +
                           "  from user_accessgroups uag" +
                           "  join accessgroup_roles agr" +

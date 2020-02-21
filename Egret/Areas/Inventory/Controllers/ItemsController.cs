@@ -1,15 +1,11 @@
-﻿using Egret.DataAccess;
-using Egret.Models;
-using Egret.Utilities;
+﻿using Egret.Models;
+using Egret.Services;
 using Egret.ViewModels;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
-using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Logging;
 using System;
-using System.Collections.Generic;
 using System.Linq;
-using System.Security.Claims;
 
 namespace Egret.Controllers
 {
@@ -17,11 +13,14 @@ namespace Egret.Controllers
     public class ItemsController : BaseController
     {
         private static ILogger _logger;
+        private static IItemService _itemService;
+        private static ISelectListFactoryService _selectListService;
 
-        public ItemsController(EgretContext context, ILogger<ItemsController> logger) 
-            :base(context)
+        public ItemsController(IItemService itemService, ILogger<ItemsController> logger, ISelectListFactoryService selectListService)
         {
             _logger = logger;
+            _itemService = itemService;
+            _selectListService = selectListService;
         }
 
         [HttpGet]
@@ -35,11 +34,7 @@ namespace Egret.Controllers
 
             ItemModel presentation = new ItemModel();
 
-            InventoryItem item = Context.InventoryItems
-                .Where(i => i.Code == id)
-                .Include(i => i.ConsumptionEventsNavigation)
-                .Include(i => i.FabricTestsNavigation)
-                .SingleOrDefault(m => m.Code == id);
+            var item = _itemService.GetItem(id, true);
 
             if (item == null)
             {
@@ -57,11 +52,11 @@ namespace Egret.Controllers
         [Authorize(Roles = "Item_Create")]
         public IActionResult Create()
         {
-            ViewData["FOBCostCurrency"] = new SelectListFactory(Context).CurrencyTypesActive();
-            ViewData["ShippingCostCurrency"] = new SelectListFactory(Context).CurrencyTypesActive();
-            ViewData["ImportCostCurrency"] = new SelectListFactory(Context).CurrencyTypesActive();
-            ViewData["Category"] = new SelectListFactory(Context).CategoriesActive();
-            ViewData["Unit"] = new SelectListFactory(Context).UnitsActive();
+            ViewData["Category"] = _selectListService.CategoriesActive();
+            ViewData["Unit"] = _selectListService.UnitsActive();
+            ViewData["FOBCostCurrency"] = _selectListService.CurrencyTypesActive();
+            ViewData["ShippingCostCurrency"] = _selectListService.CurrencyTypesActive();
+            ViewData["ImportCostCurrency"] = _selectListService.CurrencyTypesActive();
 
             return View();
         }
@@ -69,32 +64,31 @@ namespace Egret.Controllers
         [HttpPost]
         [Authorize(Roles = "Item_Create")]
         [ValidateAntiForgeryToken]
-        public IActionResult Create(InventoryItem inventoryItem)
+        public IActionResult Create(InventoryItem item)
         {
-            inventoryItem.AddedBy = User.Identity.Name;
-            inventoryItem.UpdatedBy = User.Identity.Name;
-            inventoryItem.DateAdded = DateTime.Now;
-            inventoryItem.DateUpdated = DateTime.Now;
-
             if (ModelState.IsValid)
             {
-                Context.Add(inventoryItem);
-                Context.SaveChanges();
-                TempData["SuccessMessage"] = "Inventory Item Created";
+                var userId = _itemService.CreateItem(item, User);
+                if (!string.IsNullOrWhiteSpace(userId))
+                {
+                    TempData["SuccessMessage"] = "Inventory Item Created";
+                }
+                else
+                {
+                    TempData["WarningMessage"] = "There was an error creating your item. Please try again";
+                    return View(item);
+                }
 
-                var userId = User.FindFirstValue(ClaimTypes.NameIdentifier);
-                _logger.LogInformation($"Item {inventoryItem.Code} created by user {userId}");
-
-                return RedirectToAction(nameof(Edit), new { Id = inventoryItem.Code });
+                return RedirectToAction(nameof(Edit), new { Id = userId });
             }
 
-            ViewData["FOBCostCurrency"] = new SelectListFactory(Context).CurrencyTypesActive(inventoryItem.FOBCostCurrency);
-            ViewData["ShippingCostCurrency"] = new SelectListFactory(Context).CurrencyTypesActive(inventoryItem.ShippingCostCurrency);
-            ViewData["ImportCostCurrency"] = new SelectListFactory(Context).CurrencyTypesActive(inventoryItem.ImportCostCurrency);
-            ViewData["Category"] = new SelectListFactory(Context).CategoriesActive(inventoryItem.Category);
-            ViewData["Unit"] = new SelectListFactory(Context).UnitsActive(inventoryItem.Unit);
+            ViewData["Category"] = _selectListService.CategoriesActive(item.CategoryId);
+            ViewData["Unit"] = _selectListService.UnitsActive(item.UnitId);
+            ViewData["FOBCostCurrency"] = _selectListService.CurrencyTypesActive(item.FOBCostCurrencyId);
+            ViewData["ShippingCostCurrency"] = _selectListService.CurrencyTypesActive(item.ShippingCostCurrencyId);
+            ViewData["ImportCostCurrency"] = _selectListService.CurrencyTypesActive(item.ImportCostCurrencyId);
 
-            return View(inventoryItem);
+            return View(item);
         }
 
         [HttpGet]
@@ -106,34 +100,27 @@ namespace Egret.Controllers
                 return NotFound();
             }
 
-            ItemModel presentation = new ItemModel();
-            InventoryItem item = Context.InventoryItems
-                .Where(i => i.Code == id)
-                .Include(i => i.CategoryNavigation)
-                .Include(i => i.UnitNavigation)
-                .Include(i => i.ConsumptionEventsNavigation)
-                .Include(i => i.FabricTestsNavigation)
-                .Include(i => i.FOBCostCurrencyNavigation)
-                .Include(i => i.ShippingCostCurrencyNavigation)
-                .Include(i => i.ImportCostCurrencyNavigation)
-                .SingleOrDefault(m => m.Code == id);
+            var item = _itemService.GetItem(id);
 
             if (item == null)
             {
                 return NotFound();
             }
 
-            ViewData["Category"] = new SelectListFactory(Context).CategoriesActivePlusCurrent(item.CategoryNavigation);
-            ViewData["Unit"] = new SelectListFactory(Context).UnitsActivePlusCurrent(item.UnitNavigation);
-            ViewData["FOBCostCurrency"] = new SelectListFactory(Context).CurrencyTypesPlusCurrent(item.FOBCostCurrencyNavigation);
-            ViewData["ShippingCostCurrency"] = new SelectListFactory(Context).CurrencyTypesPlusCurrent(item.ShippingCostCurrencyNavigation);
-            ViewData["ImportCostCurrency"] = new SelectListFactory(Context).CurrencyTypesPlusCurrent(item.ImportCostCurrencyNavigation);
+            ViewData["Category"] = _selectListService.CategoriesActivePlusCurrent(item.CategoryNavigation);
+            ViewData["Unit"] = _selectListService.UnitsActivePlusCurrent(item.UnitNavigation);
+            ViewData["FOBCostCurrency"] = _selectListService.CurrencyTypesPlusCurrent(item.FOBCostCurrencyNavigation);
+            ViewData["ShippingCostCurrency"] = _selectListService.CurrencyTypesPlusCurrent(item.ShippingCostCurrencyNavigation);
+            ViewData["ImportCostCurrency"] = _selectListService.CurrencyTypesPlusCurrent(item.ImportCostCurrencyNavigation);
 
-            presentation.Item = item;
-            presentation.FabricTests = item.FabricTestsNavigation.OrderBy(x => x.Id).ToList();
-            presentation.ConsumptionEvents = item.ConsumptionEventsNavigation.ToList();
+            var viewModel = new ItemModel
+            {
+                Item = item,
+                FabricTests = item.FabricTestsNavigation.OrderBy(x => x.Id).ToList(),
+                ConsumptionEvents = item.ConsumptionEventsNavigation.ToList()
+            };
 
-            return View(presentation);
+            return View(viewModel);
         }
 
         [HttpPost]
@@ -146,17 +133,7 @@ namespace Egret.Controllers
                 return NotFound();
             }
 
-            InventoryItem temp = Context.InventoryItems
-                .Include(y => y.CategoryNavigation)
-                .Include(y => y.UnitNavigation)
-                .Include(y => y.FabricTestsNavigation)
-                .Include(y => y.ConsumptionEventsNavigation)
-                .Include(i => i.FOBCostCurrencyNavigation)
-                .Include(i => i.ShippingCostCurrencyNavigation)
-                .Include(i => i.ImportCostCurrencyNavigation)
-                .AsNoTracking()
-                .Where(x => x.Code == id)
-                .FirstOrDefault();
+            var temp = _itemService.GetItem(id, true);
 
             if (temp != null)
             {
@@ -168,52 +145,24 @@ namespace Egret.Controllers
             
             if (ModelState.IsValid)
             {
-                if (vm.FabricTests != null)
-                {
-                    // Set item Code on tests
-                    foreach (FabricTest i in vm.FabricTests)
-                    {
-                        i.InventoryItemCode = vm.Item.Code;
-                        Context.FabricTests.Update(i);
-                    }
+                _itemService.DefineFabricTestsForItem(vm.Item, vm.FabricTests);
 
-                    // Get related Fabric Tests from database
-                    List<FabricTest> DbTests = Context.FabricTests.Where(x => x.InventoryItemCode == vm.Item.Code).ToList();
-                    foreach (FabricTest test in DbTests)
-                    {
-                        if (!vm.FabricTests.Contains(test))
-                        {
-                            Context.FabricTests.Remove(test);
-                        }
-                    }
-                }
-                else
-                {
-                    // Remove all tests - model is authority
-                    List<FabricTest> DbTests = Context.FabricTests.Where(x => x.InventoryItemCode == vm.Item.Code).ToList();
-                    foreach (FabricTest test in DbTests)
-                    {
-                        Context.FabricTests.Remove(test);
-                    }
-                }
-
-                Context.InventoryItems.Update(vm.Item);
-
-                Context.SaveChanges();
+                _itemService.UpdateItem(vm.Item, User);
+                
                 TempData["SuccessMessage"] = "Save Complete";
 
                 return RedirectToAction();
             }
 
             // Rebuild viewmodel
-            ViewData["Category"] = new SelectListFactory(Context).CategoriesActivePlusCurrent(vm.Item.CategoryNavigation);
-            ViewData["Unit"] = new SelectListFactory(Context).UnitsActivePlusCurrent(vm.Item.UnitNavigation);
-            ViewData["FOBCostCurrency"] = new SelectListFactory(Context).CurrencyTypesPlusCurrent(vm.Item.FOBCostCurrencyNavigation);
-            ViewData["ShippingCostCurrency"] = new SelectListFactory(Context).CurrencyTypesPlusCurrent(vm.Item.ShippingCostCurrencyNavigation);
-            ViewData["ImportCostCurrency"] = new SelectListFactory(Context).CurrencyTypesPlusCurrent(vm.Item.ImportCostCurrencyNavigation);
+            ViewData["Category"] = _selectListService.CategoriesActivePlusCurrent(vm.Item.CategoryNavigation);
+            ViewData["Unit"] = _selectListService.UnitsActivePlusCurrent(vm.Item.UnitNavigation);
+            ViewData["FOBCostCurrency"] = _selectListService.CurrencyTypesPlusCurrent(vm.Item.FOBCostCurrencyNavigation);
+            ViewData["ShippingCostCurrency"] = _selectListService.CurrencyTypesPlusCurrent(vm.Item.ShippingCostCurrencyNavigation);
+            ViewData["ImportCostCurrency"] = _selectListService.CurrencyTypesPlusCurrent(vm.Item.ImportCostCurrencyNavigation);
 
-            vm.FabricTests = temp.FabricTestsNavigation.ToList();
-            vm.ConsumptionEvents = temp.ConsumptionEventsNavigation.ToList();
+            //vm.FabricTests = temp.FabricTestsNavigation.ToList();
+            //vm.ConsumptionEvents = temp.ConsumptionEventsNavigation.ToList();
 
             return View(vm);
         }
@@ -227,15 +176,15 @@ namespace Egret.Controllers
                 return NotFound();
             }
 
-            var inventoryItem = Context.InventoryItems.Where(x => x.Code == id).SingleOrDefault();
+            var inventoryItem = _itemService.GetItem(id);
 
             if (inventoryItem == null)
             {
                 return NotFound();
             }
 
-            Context.InventoryItems.Remove(inventoryItem);
-            Context.SaveChanges();
+            _itemService.DeleteItem(id);
+
             TempData["SuccessMessage"] = $"Item {id} Deleted";
 
             return RedirectToAction("Index", "Home");
@@ -245,8 +194,8 @@ namespace Egret.Controllers
         [Authorize(Roles = "Item_Read")]
         public IActionResult Search()
         {
-            ViewData["ResultsPerPage"] = SelectListFactory.ResultsPerPage();
-            ViewData["Category"] = new SelectListFactory(Context).CategoriesAll();
+            ViewData["ResultsPerPage"] = _selectListService.ResultsPerPage();
+            ViewData["Category"] = _selectListService.CategoriesAll();
 
             var presentation = new ItemSearchModel();
 
@@ -258,7 +207,7 @@ namespace Egret.Controllers
         public IActionResult Results(ItemSearchModel searchModel)
         {
             searchModel.ItemsPerPage = searchModel.ResultsPerPage;
-            var results = FindItemSearchResults(searchModel);
+            var results = _itemService.FindItemSearchResults(searchModel);
 
             var filterResults = results.Skip((searchModel.CurrentPage - 1) * searchModel.ItemsPerPage).Take(searchModel.ItemsPerPage).ToList();
 
@@ -272,59 +221,5 @@ namespace Egret.Controllers
 
             return View(presentation);
         }
-
-        [NonAction]
-        private List<InventoryItem> FindItemSearchResults(ItemSearchModel searchModel)
-        {
-            var results = Context.InventoryItems
-                .Include(x => x.ConsumptionEventsNavigation)
-                .AsQueryable()
-                .AsNoTracking();
-
-            // Code
-            if (!String.IsNullOrEmpty(searchModel.Code))
-                results = results.Where(x => x.Code.Contains(searchModel.Code));
-
-            // Description
-            if (!String.IsNullOrEmpty(searchModel.Description))
-                results = results.Where(x => x.Description.Contains(searchModel.Description, StringComparison.InvariantCultureIgnoreCase));
-
-            // Date Added
-            if (searchModel.DateCreatedStart != null && searchModel.DateCreatedEnd != null)
-            {
-                results = results.Where(x => x.DateAdded.Value.Date >= searchModel.DateCreatedStart.Value.Date && x.DateAdded.Value.Date <= searchModel.DateCreatedEnd.Value.Date);
-            }
-            else if (searchModel.DateCreatedStart != null && searchModel.DateCreatedEnd == null)
-            {
-                results = results.Where(x => x.DateAdded.Value.Date >= searchModel.DateCreatedStart.Value.Date);
-            }
-            else if (searchModel.DateCreatedStart == null && searchModel.DateCreatedEnd != null)
-            {
-                results = results.Where(x => x.DateAdded.Value.Date <= searchModel.DateCreatedEnd.Value.Date);
-            }
-
-            // Category
-            if (!String.IsNullOrEmpty(searchModel.Category))
-                results = results.Where(x => x.Category == searchModel.Category);
-
-            // Customer Purchased For
-            if (!String.IsNullOrEmpty(searchModel.CustomerPurchasedFor))
-                results = results.Where(x => x.CustomerPurchasedFor.Contains(searchModel.CustomerPurchasedFor, StringComparison.InvariantCultureIgnoreCase));
-
-            // Customer Reserved For
-            if (!String.IsNullOrEmpty(searchModel.CustomerReservedFor))
-                results = results.Where(x => x.CustomerReservedFor.Contains(searchModel.CustomerReservedFor, StringComparison.InvariantCultureIgnoreCase));
-
-            // In Stock
-            if (searchModel.InStock == "Yes")
-                results = results.Where(x => x.StockLevel == "In Stock");
-            else if (searchModel.InStock == "No")
-                results = results.Where(x => x.StockLevel == "Out of Stock");
-
-            var realResults = results.OrderBy(x => x.Code).ToList();
-
-            return realResults;
-        }
-
     }
 }

@@ -59,7 +59,7 @@
                         <label asp-for="ConsumptionEvent.QuantityConsumed" include-languages="Nepali" class="control-label required"></label>
                         <div class="form-group form-inline">
                             <input asp-for="ConsumptionEvent.QuantityConsumed" class="form-control mr-2 col-sm-4" />
-                            <input asp-for="InventoryItems[0].Unit" class="form-control col-sm-4" disabled />
+                            <input asp-for="InventoryItems[0].UnitNavigation.Abbreviation" class="form-control col-sm-4" disabled />
                         </div>
 
                         <div class="form-group">
