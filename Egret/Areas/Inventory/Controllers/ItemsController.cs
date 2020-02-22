@@ -6,6 +6,7 @@ using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Logging;
 using System;
 using System.Linq;
+using System.Collections.Generic;
 
 namespace Egret.Controllers
 {
@@ -68,18 +69,10 @@ namespace Egret.Controllers
         {
             if (ModelState.IsValid)
             {
-                var userId = _itemService.CreateItem(item, User);
-                if (!string.IsNullOrWhiteSpace(userId))
-                {
-                    TempData["SuccessMessage"] = "Inventory Item Created";
-                }
-                else
-                {
-                    TempData["WarningMessage"] = "There was an error creating your item. Please try again";
-                    return View(item);
-                }
+                _itemService.CreateItem(item, User);
+                TempData["SuccessMessage"] = "Inventory Item Created";
 
-                return RedirectToAction(nameof(Edit), new { Id = userId });
+                return RedirectToAction(nameof(Edit), new { Id = item.Code });
             }
 
             ViewData["Category"] = _selectListService.CategoriesActive(item.CategoryId);

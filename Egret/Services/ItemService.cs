@@ -24,6 +24,22 @@ namespace Egret.Services
             //_logger = logger;
         }
 
+        /// <summary>
+        /// Creates an Inventory Item
+        /// </summary>
+        /// <param name="item"></param>
+        /// <param name="user"></param>
+        /// <returns></returns>
+        public void CreateItem(InventoryItem item, ClaimsPrincipal user)
+        {
+            item.AddedBy = user.Identity.Name;
+            item.UpdatedBy = user.Identity.Name;
+            item.DateAdded = DateTime.Now;
+            item.DateUpdated = DateTime.Now;
+
+            Context.InventoryItems.Add(item);
+            Context.SaveChanges();
+        }
 
         /// <summary>
         /// Returns a single InventoryItem object if the
@@ -65,7 +81,7 @@ namespace Egret.Services
         }
 
         /// <summary>
-        /// Deletes the specified user
+        /// Deletes the specified Inventory Item
         /// </summary>
         /// <param name="id"></param>
         public void DeleteItem(string id)
@@ -82,33 +98,14 @@ namespace Egret.Services
         public void UpdateItem(InventoryItem item, ClaimsPrincipal user)
         {
             var itemToUpdate = Context.InventoryItems.AsNoTracking().Where(x => x.Code == item.Code).FirstOrDefault();
+            item.UpdatedBy = user.Identity.Name;
+            item.DateUpdated = DateTime.Now;
 
             if (itemToUpdate != null)
             {
                 Context.InventoryItems.Update(item);
                 Context.SaveChanges();
             }
-        }
-
-        /// <summary>
-        /// Creates an Item. If item creation is successfull, the
-        /// Item Code is returned
-        /// </summary>
-        /// <param name="item"></param>
-        /// <param name="user"></param>
-        /// <returns></returns>
-        public string CreateItem(InventoryItem item, ClaimsPrincipal user)
-        {
-            item.AddedBy = user.Identity.Name;
-            item.UpdatedBy = user.Identity.Name;
-            item.DateAdded = DateTime.Now;
-            item.DateUpdated = DateTime.Now;
-
-            Context.InventoryItems.Add(item);
-            Context.SaveChanges();
-            //_logger.LogInformation($"Item {item.Code} created by user {user.Identity.Name}");
-
-            return item.Code;
         }
 
         /// <summary>

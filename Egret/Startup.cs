@@ -40,6 +40,7 @@ namespace Egret
                 options.UseNpgsql(Configuration["ConnectionStrings:DefaultConnection"]));
             services.AddSingleton<IActionContextAccessor, ActionContextAccessor>();
             services.AddTransient<IItemService, ItemService>();
+            services.AddTransient<IConsumptionEventService, ConsumptionEventService>();
             services.AddTransient<ISelectListFactoryService, SelectListFactoryService>();
             services.AddMvc();
             services.AddMemoryCache();

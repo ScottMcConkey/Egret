@@ -57,6 +57,12 @@
             }
 
             @RenderBody()
+
+            @section Scripts {
+                SetContentHeights();
+                SetObjectsForDelete();
+                @RenderSection("Scripts", required: false)
+            }
         </div>
     </div>
 

@@ -1,7 +1,7 @@
 ﻿@model List<CurrencyType>
 
 @{
-    Layout = "_CrudFullPage";
+    Layout = "_FullPageLayout";
     ViewData["WindowTitle"] = "Admin - Currency Types";
     ViewData["PageTitle"] = "Currency Types";
 }
@@ -45,30 +45,30 @@
             {
                 for (int i = 0; i < Model.Count(); i++)
                 {
-                <tr>
-                    <td>
-                        <input type="hidden" asp-for="@Model[i].Id" />
-                        <input class="form-control" asp-for="@Model[i].Name" />
-                    </td>
-                    <td>
-                        <input class="form-control" asp-for="@Model[i].Abbreviation" />
-                    </td>
-                    <td>
-                        <input class="form-control" asp-for="@Model[i].Symbol" />
-                    </td>
-                    <td>
-                        <input class="form-control" asp-for="@Model[i].SortOrder" />
-                    </td>
-                    <td class="text-center">
-                        <input class="form-control-sm" type="checkbox" asp-for="@Model[i].Active" />
-                    </td>
-                    <td class="text-center">
-                        <input class="form-control-sm radio" type="radio" asp-for="@Model[i].DefaultSelection" value="@Model[i].DefaultSelection" />
-                    </td>
-                    <td class="delete-box">
-                        <a class="delete" delete-for="Currency Type" asp-action="Delete" asp-route-id="@Model[i].Id" title="Delete"><span class="egret egret-trash"></span></a>
-                    </td>
-                </tr>
+                    <tr>
+                        <td>
+                            <input type="hidden" asp-for="@Model[i].Id" />
+                            <input class="form-control" asp-for="@Model[i].Name" />
+                        </td>
+                        <td>
+                            <input class="form-control" asp-for="@Model[i].Abbreviation" />
+                        </td>
+                        <td>
+                            <input class="form-control" asp-for="@Model[i].Symbol" />
+                        </td>
+                        <td>
+                            <input class="form-control" asp-for="@Model[i].SortOrder" />
+                        </td>
+                        <td class="text-center">
+                            <input class="form-control-sm" type="checkbox" asp-for="@Model[i].Active" />
+                        </td>
+                        <td class="text-center">
+                            <input class="form-control-sm radio" type="radio" asp-for="@Model[i].DefaultSelection" value="@Model[i].DefaultSelection" />
+                        </td>
+                        <td class="delete-box">
+                            <a class="delete" delete-for="Currency Type" asp-action="Delete" asp-route-id="@Model[i].Id" title="Delete"><span class="egret egret-trash"></span></a>
+                        </td>
+                    </tr>
                 }
             }
         </tbody>
@@ -83,3 +83,7 @@
 <div>
     <a asp-area="Admin" asp-controller="Home" asp-action="Index">Back to Admin</a>
 </div>
+
+@section Scripts {
+    ManageMultiRowRadioSelects();
+}

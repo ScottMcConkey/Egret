@@ -1,7 +1,7 @@
 ﻿@model ConsumptionEvent
 
 @{
-    Layout = "_CrudSingleColumn";
+    Layout = "_SingleColumnLayout";
     ViewData["WindowTitle"] = "Consumption Event - Create";
     ViewData["PageTitle"] = "Create Consumption Event";
 }
@@ -60,7 +60,11 @@
     </div>
 
     <input type="submit" value="Save" class="btn btn-primary" />
-    <a asp-controller="Home" asp-action="Index" asp-route-id="@Context.Request.Query["sourceid"]" class="btn btn-default">Cancel</a>
+    <a asp-controller="Home" asp-action="Index" asp-route-id="@Context.Request.Query["sourceId"]" class="btn btn-default">Cancel</a>
 
 </form>
+
+@section Scripts {
+    PrepApiController();
+}
 

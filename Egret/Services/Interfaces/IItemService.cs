@@ -17,7 +17,7 @@ namespace Egret.Services
 
         void UpdateItem(InventoryItem item, ClaimsPrincipal user);
 
-        string CreateItem(InventoryItem item, ClaimsPrincipal user);
+        void CreateItem(InventoryItem item, ClaimsPrincipal user);
 
         List<InventoryItem> FindItemSearchResults(ItemSearchModel searchModel);
 

@@ -1,7 +1,7 @@
 ﻿@model ConsumptionEventModel
 
 @{
-    Layout = "_CrudDoubleColumn";
+    Layout = "_DoubleColumnLayout";
     ViewData["WindowTitle"] = "Consumption Event - Edit";
     ViewData["PageTitle"] = "Edit Consumption Event: " + @Model.ConsumptionEvent.Id;
 }
@@ -92,6 +92,10 @@
         @await Html.PartialAsync("_RelatedObjectsWidget", new RelationshipViewModelInventory((List<InventoryItem>)Model.InventoryItems))
 
     </div>
+
+    @section Scripts {
+        AllowEditCode();
+    }
 
 </div>
 

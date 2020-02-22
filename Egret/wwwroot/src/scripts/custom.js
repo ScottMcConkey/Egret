@@ -188,34 +188,3 @@ function AllowEditCode() {
 
     });
 }
-
-
-
-$(document).ready(function () {
-
-    CleanUpQueryString();
-
-    SetContentHeights();
-
-    ManageTabs();
-
-    ManageValidationErrors();
-
-    AutoFocusFirstFormInput();
-
-    ManageMultiRowRadioSelects();
-
-    FadeOutSuccessMessages();
-
-    SetTestsForDelete();
-
-    SetObjectsForDelete();
-
-    PrepApiController();
-
-    AllowEditCode();
-
-});
-
-
-

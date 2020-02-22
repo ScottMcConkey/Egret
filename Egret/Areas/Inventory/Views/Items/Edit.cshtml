@@ -1,7 +1,7 @@
 ﻿@model ItemModel
 
 @{
-    Layout = "_CrudDoubleColumn";
+    Layout = "_DoubleColumnLayout";
     ViewData["WindowTitle"] = $"Item {Model?.Item.Code} - Edit";
     ViewData["PageTitle"] = "Edit Item: " + @Model?.Item.Code;
 }
@@ -266,6 +266,10 @@
         @await Html.PartialAsync("_RelatedObjectsWidget", new RelationshipViewModelConsumption(Model.ConsumptionEvents.OrderBy(x => x.DateOfConsumption).ToList(), Model.Item.Code))
 
     </div>
+
+    @section Scripts {
+        SetTestsForDelete();
+    }
 
 </div>
 

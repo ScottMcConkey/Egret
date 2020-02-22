@@ -12,5 +12,18 @@
 
     @RenderBody()
 
+
+    <script type="text/javascript">
+        $(document).ready(function () {
+            AutoFocusFirstFormInput();
+            ManageValidationErrors();
+            FadeOutSuccessMessages();
+
+            @RenderSection("Scripts", required: false)
+        });
+
+    </script>
+    
+
 </body>
 </html>
