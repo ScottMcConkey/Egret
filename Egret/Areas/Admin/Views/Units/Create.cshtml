@@ -1,5 +1,4 @@
 ﻿@model Unit
-
 @{
     Layout = "_SingleColumnLayout";
     ViewData["WindowTitle"] = "Unit - Create";
@@ -18,8 +17,8 @@
     </div>
 
     <div class="form-group">
-        <label asp-for="Active"></label>
-        <input asp-for="Active" type="checkbox" checked="checked" class="form-control" style="width: 50px;" />
+        <label asp-for="Active" class="control-label" style="display: block;"></label>
+        <input asp-for="Active" checked="checked" class="form-control-sm" />
     </div>
 
     <div class="form-group">
