@@ -6,16 +6,15 @@ using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Logging;
 using System.Threading.Tasks;
 
-namespace Egret.Areas.Account.Controllers
+namespace Egret.Controllers
 {
-    [Area("Account")]
-    public class HomeController : Controller
+    public class AccountController : Controller
     {
         private UserManager<User> _userManager;
         private SignInManager<User> _signInManager;
         private static ILogger _logger;
 
-        public HomeController(UserManager<User> userMgr,
+        public AccountController(UserManager<User> userMgr,
             SignInManager<User> signinMgr, ILogger<HomeController> logger)
         {
             _userManager = userMgr;
@@ -94,7 +93,7 @@ namespace Egret.Areas.Account.Controllers
                     ModelState.AddModelError("", "Invalid Password.");
                 }
             }
-            
+
             return View(details);
         }
 
@@ -102,7 +101,7 @@ namespace Egret.Areas.Account.Controllers
         public async Task<IActionResult> Logout()
         {
             await _signInManager.SignOutAsync();
-            return RedirectToAction("Index", "Home", new { area = "" } );
+            return RedirectToAction("Index", "Home", new { area = "" });
         }
 
         [AllowAnonymous]

@@ -64,8 +64,8 @@ namespace Egret
             {
                 options.Cookie.HttpOnly = true;
                 options.AccessDeniedPath = "/Account/Home/AccessDenied";
-                options.LoginPath = "/Account/Home/Login";
-                options.LogoutPath = "/Account/Home/Logout";
+                options.LoginPath = "/Account/Login";
+                options.LogoutPath = "/Account/Logout";
                 //options.ExpireTimeSpan = TimeSpan.FromMinutes(30);
                 //options.SlidingExpiration = true;
             });
