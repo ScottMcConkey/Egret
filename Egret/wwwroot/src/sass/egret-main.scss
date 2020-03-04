@@ -1,11 +1,11 @@
 ﻿@import "~reset-css/sass/_reset.scss";
 @import "~bootstrap/dist/css/bootstrap.min.css";
-@import "common.scss";
-@import "~@fortawesome/fontawesome-free/scss/fontawesome.scss";
 $fa-font-path: "../../dist/fonts" !default;
+@import "~@fortawesome/fontawesome-free/scss/fontawesome.scss";
 @import "~@fortawesome/fontawesome-free/scss/solid.scss";
 @import "~@fortawesome/fontawesome-free/scss/_variables.scss";
 @import "egret-icons.scss";
+@import "egret-common.scss";
 
 
 
@@ -202,18 +202,22 @@ th {
 .delete,
 .delete:hover,
 .delete:active,
-.delete:visited {
+.delete:visited,
+.delete-box,
+.delete-box:hover,
+.delete-box:active,
+.delete-box:visited {
     color: #000;
     font-size: 25px;
     font-size: 1em;
     text-decoration: none;
 }
 
-.delete-box {
+.widget-box {
     text-align: center;
 }
 
-.delete-box span {
+.widget-box span {
     margin-top: 10px;
     font-size: 1em;
     vertical-align: middle;

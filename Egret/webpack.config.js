@@ -13,23 +13,22 @@ module.exports = {
     module: {
         rules: [
             {
+                test: /\.(woff(2)?|ttf|eot|svg)(\?v=\d+\.\d+\.\d+)?$/,
+                use: [{
+                    loader: 'url-loader',
+                    options: {
+                        name: '[name].[ext]',
+                        outputPath: '../../fonts'
+                    }
+                }]
+            },
+            {
                 test: /\.s?css$/,
                 use: [
                     MiniCssExtractPlugin.loader,
                     "css-loader",
                     "sass-loader"
                 ]
-            },
-            {
-                test: /\.(woff(2)?|ttf|eot|svg)(\?v=\d+\.\d+\.\d+)?$/,
-                use: [{
-                    loader: 'url-loader',
-                    options: {
-                        name: '[name].[ext]',
-                        limit: 50,
-                        outputPath: '/fonts'
-                    }
-                }]
             },
             {
                 test: require.resolve('jquery'),
@@ -42,7 +41,7 @@ module.exports = {
     },
     plugins: [
         new MiniCssExtractPlugin({
-            filename: "css/styles.css",
+            filename: "css/egret-styles.css",
             chunkFilename: "[id].css"
         })
     ]

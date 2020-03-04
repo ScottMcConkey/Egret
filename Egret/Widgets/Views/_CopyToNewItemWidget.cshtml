@@ -1,0 +1,36 @@
+﻿@model InventoryItem
+
+<form asp-action="CreateFromCopy" method="get">
+
+    <div class="related-objects">
+        <input type="hidden" asp-for="@Model.Description" />
+        <input type="hidden" asp-for="@Model.CategoryId" />
+        <input type="hidden" asp-for="@Model.QtyPurchased" />
+        <input type="hidden" asp-for="@Model.UnitId" />
+        <input type="hidden" asp-for="@Model.FOBCost" />
+        <input type="hidden" asp-for="@Model.FOBCostCurrencyId" />
+        <input type="hidden" asp-for="@Model.ShippingCost" />
+        <input type="hidden" asp-for="@Model.ShippingCostCurrencyId" />
+        <input type="hidden" asp-for="@Model.ImportCosts" />
+        <input type="hidden" asp-for="@Model.ImportCostCurrencyId" />
+        <input type="hidden" asp-for="@Model.CustomerPurchasedFor" />
+        <input type="hidden" asp-for="@Model.CustomerReservedFor" />
+        <input type="hidden" asp-for="@Model.Supplier" />
+        <input type="hidden" asp-for="@Model.BondedWarehouse" />
+        <div class="related-objects-header">
+            Copy to New
+        </div>
+        <div class="related-object-blank">
+            <div class="widget-box">
+                <button target="_blank" style="cursor: pointer; border: none; background-color: transparent;" title="Copy to New">
+                    <span class="egret egret-add"></span>
+                </button>
+            </div>
+        </div>
+    </div>
+
+</form>
+
+<br />
+<br />
+

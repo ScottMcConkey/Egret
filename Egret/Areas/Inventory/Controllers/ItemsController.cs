@@ -62,6 +62,35 @@ namespace Egret.Controllers
             return View();
         }
 
+        [HttpGet]
+        [Authorize(Roles = "Item_Create")]
+        public IActionResult CreateFromCopy(InventoryItem copy)
+        {
+            //var item = new InventoryItem()
+            //{
+            //    Description = copy.Description,
+            //    CategoryId = copy.CategoryId,
+            //    UnitId = copy.UnitId,
+            //    FOBCost = copy.FOBCost,
+            //    FOBCostCurrencyId = copy.FOBCostCurrencyId,
+            //    ShippingCost = copy.ShippingCost,
+            //    ShippingCostCurrencyId = copy.ShippingCostCurrencyId,
+            //    ImportCostCurrencyId = copy.ImportCostCurrencyId,
+            //    ImportCosts = copy.ImportCosts,
+            //    CustomerPurchasedFor = copy.CustomerPurchasedFor,
+            //    CustomerReservedFor = copy.CustomerReservedFor,
+            //    BondedWarehouse = copy.BondedWarehouse
+            //};
+
+            ViewData["Category"] = _selectListService.CategoriesActive();
+            ViewData["Unit"] = _selectListService.UnitsActive();
+            ViewData["FOBCostCurrency"] = _selectListService.CurrencyTypesActive();
+            ViewData["ShippingCostCurrency"] = _selectListService.CurrencyTypesActive();
+            ViewData["ImportCostCurrency"] = _selectListService.CurrencyTypesActive();
+
+            return View("Create", copy);
+        }
+
         [HttpPost]
         [Authorize(Roles = "Item_Create")]
         [ValidateAntiForgeryToken]

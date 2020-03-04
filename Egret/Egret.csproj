@@ -7,7 +7,7 @@
 
   <ItemGroup>
     <Folder Include="node_modules\" />
-    <Folder Include="wwwroot\dist\" />
+    <Folder Include="wwwroot\dist\fonts\" />
   </ItemGroup>
 
   <ItemGroup>

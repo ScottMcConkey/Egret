@@ -6,7 +6,6 @@
   "dependencies": {
     "@fortawesome/fontawesome-free": "^5.8.1",
     "css-loader": "^2.1.1",
-    "file-loader": "^2.0.0",
     "lodash": "^4.17.11",
     "npm": "^6.9.0",
     "reset-css": "^4.0.1",
@@ -22,6 +21,7 @@
     "bootstrap": "^4.3.1",
     "bootstrap-loader": "^3.0.4",
     "expose-loader": "^0.7.5",
+    "file-loader": "^2.0.0",
     "html-webpack-plugin": "^3.2.0",
     "jquery": ">=3.4.0",
     "mini-css-extract-plugin": "^0.5.0",

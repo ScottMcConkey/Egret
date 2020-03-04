@@ -261,6 +261,8 @@
 
         @await Html.PartialAsync("_InStockWidget", Model.Item)
 
+        @await Html.PartialAsync("_CopyToNewItemWidget", Model.Item)
+
         @await Html.PartialAsync("_DeleteWidget", new ItemDeleteViewModel(Model.Item.Code))
 
         @await Html.PartialAsync("_RelatedObjectsWidget", new RelationshipViewModelConsumption(Model.ConsumptionEvents.OrderBy(x => x.DateOfConsumption).ToList(), Model.Item.Code))
