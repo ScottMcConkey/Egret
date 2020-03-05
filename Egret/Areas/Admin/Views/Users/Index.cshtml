@@ -37,13 +37,13 @@
                     <td class="text-center">
                         <input type="checkbox" asp-for="@Model[i].Active" class="form-control-sm" disabled="disabled" />
                     </td>
-                    <td>
+                    <td class="text-center">
                         <a class="btn btn-secondary" asp-route-id="@Model[i].Id" asp-action="EditAccessGroups">Configure</a>
                     </td>
-                    <td>
+                    <td class="text-center">
                         <a class="btn btn-secondary" asp-route-id="@Model[i].Id" asp-action="UserRoles">View</a>
                     </td>
-                    <td>
+                    <td class="text-center">
                         <form asp-action="Delete" asp-route-id="@Model[i].Id" method="post">
                             <a class="btn btn-sm btn-primary" asp-action="Edit" asp-route-id="@Model[i].Id">Edit</a>
                         </form>

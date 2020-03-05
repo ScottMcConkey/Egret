@@ -4550,21 +4550,22 @@ th {
   content: "* ";
   color: red; }
 
-.delete,
+.delete, .delete-test,
 .delete:hover,
+.delete-test:hover,
 .delete:active,
+.delete-test:active,
 .delete:visited,
-.delete-box,
-.delete-box:hover,
-.delete-box:active,
-.delete-box:visited {
+.delete-test:visited,
+.delete-test {
   color: #000;
-  font-size: 25px;
   font-size: 1em;
-  text-decoration: none; }
+  text-decoration: none;
+  text-align: center; }
 
 .widget-box {
-  text-align: center; }
+  text-align: center;
+  margin: 0; }
 
 .widget-box span {
   margin-top: 10px;

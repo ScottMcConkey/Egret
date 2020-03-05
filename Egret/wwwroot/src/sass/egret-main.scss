@@ -203,18 +203,20 @@ th {
 .delete:hover,
 .delete:active,
 .delete:visited,
-.delete-box,
-.delete-box:hover,
-.delete-box:active,
-.delete-box:visited {
+.delete-test {
     color: #000;
-    font-size: 25px;
     font-size: 1em;
     text-decoration: none;
+    text-align: center;
+}
+
+.delete-test {
+    @extend .delete
 }
 
 .widget-box {
     text-align: center;
+    margin: 0;
 }
 
 .widget-box span {
