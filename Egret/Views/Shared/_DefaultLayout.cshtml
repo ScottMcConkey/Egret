@@ -27,9 +27,9 @@
                                 Welcome, @User.Identity.Name
                             </button>
                             <div class="dropdown-menu" aria-labelledby="dropdownMenuButton">
-                                <a class="dropdown-item" asp-controller="Account" asp-action="ChangePassword">Change Password</a>
+                                <a class="dropdown-item" asp-area="" asp-controller="Account" asp-action="ChangePassword">Change Password</a>
                                 <div class="dropdown-divider"></div>
-                                <a class="dropdown-item" asp-controller="Account" asp-action="Logout">Log Out</a>
+                                <a class="dropdown-item" asp-area="" asp-controller="Account" asp-action="Logout">Log Out</a>
                             </div>
                         </div>
                     }
