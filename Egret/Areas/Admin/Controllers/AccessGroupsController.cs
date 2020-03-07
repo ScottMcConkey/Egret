@@ -37,15 +37,6 @@ namespace Egret.Controllers
         [HttpPost]
         public IActionResult Index(List<AccessGroup> groups, string action, int? id)
         {
-            //switch( action )
-            //{
-            //    case "delete":
-            //        Delete(id);
-            //        break;
-            //    case "save":
-            //        break;
-            //}
-
             if (ModelState.IsValid)
             {
                 for (int i = 0; i < groups.Count(); i++)

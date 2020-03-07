@@ -38,6 +38,12 @@ namespace Egret
             services.AddEntityFrameworkNpgsql();
             services.AddDbContext<EgretContext>(options =>
                 options.UseNpgsql(Configuration["ConnectionStrings:DefaultConnection"]));
+            services.AddLogging(loggingBuilder =>
+            {
+                loggingBuilder.AddConsole();
+                loggingBuilder.AddDebug();
+                loggingBuilder.AddNLog();
+            });
             services.AddSingleton<IActionContextAccessor, ActionContextAccessor>();
             services.AddTransient<IItemService, ItemService>();
             services.AddTransient<IConsumptionEventService, ConsumptionEventService>();
@@ -77,7 +83,7 @@ namespace Egret
             });
         }
 
-        public void Configure(IApplicationBuilder app, IWebHostEnvironment env, ILoggerFactory loggerFactory)
+        public void Configure(IApplicationBuilder app, IHostEnvironment env)
         {
             if (env.IsDevelopment())
             {
@@ -107,8 +113,6 @@ namespace Egret
                     name: "out",
                     pattern: "outbound/{controller=Home}/{action=Index}");
             });
-
-            loggerFactory.AddNLog();
         }
     }
 }

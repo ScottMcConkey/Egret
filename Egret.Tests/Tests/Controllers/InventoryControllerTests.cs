@@ -1,24 +1,23 @@
 ﻿using Egret.Controllers;
 using Egret.DataAccess;
+using Egret.Services;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.Logging;
 using NSubstitute;
-using NUnit.Framework;
-using System;
-using Egret.Services;
+using Xunit;
 
-namespace Egret.Tests
+namespace Egret.Tests.Controllers
 {
-    [TestFixture]
+    [Trait("Name", "ControllerTests")]
     public class InventoryControllerTests
     {
-        ILogger<ItemsController> _fakeLogger;
-        DbContextOptionsBuilder<EgretContext> _options;
-        EgretContext _context;
-        IItemService _itemService;
-        ISelectListFactoryService _selectListService;
+        private readonly ILogger<ItemsController> _fakeLogger;
+        private readonly DbContextOptionsBuilder<EgretContext> _options;
+        private readonly EgretContext _context;
+        private readonly IItemService _itemService;
+        private readonly ISelectListFactoryService _selectListService;
 
         public InventoryControllerTests()
         {
@@ -34,17 +33,20 @@ namespace Egret.Tests
             _selectListService = Substitute.For<ISelectListFactoryService>();
         }
 
-        [TestCase]
-        public void Edit_Get_NoIdProvided_ThrowsNotFound()
+        [Theory]
+        [InlineData("0")]
+        [InlineData(null)]
+        [Trait("name", "edit_get_no_id_provided_throws_not_found")]
+        public void edit_get_no_id_provided_throws_not_found(string value)
         {
             //+ Arrange
             ItemsController controller = new ItemsController(_itemService, _fakeLogger, _selectListService);
 
             //+ Act
-            var actionResult = controller.Edit(null);
+            var actionResult = controller.Edit(value);
 
             //+ Assert
-            Assert.IsInstanceOf<NotFoundResult>(actionResult);
+            Assert.IsType<NotFoundResult>(actionResult);
         }
     }
 
