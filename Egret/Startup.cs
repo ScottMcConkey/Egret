@@ -63,7 +63,7 @@ namespace Egret
             services.ConfigureApplicationCookie(options =>
             {
                 options.Cookie.HttpOnly = true;
-                options.AccessDeniedPath = "/Account/Home/AccessDenied";
+                options.AccessDeniedPath = "/Account/AccessDenied";
                 options.LoginPath = "/Account/Login";
                 options.LogoutPath = "/Account/Logout";
                 //options.ExpireTimeSpan = TimeSpan.FromMinutes(30);
@@ -86,6 +86,7 @@ namespace Egret
             }
             else
             {
+                app.UseExceptionHandler("/Error");
                 app.UseStatusCodePagesWithReExecute("/Error/{0}");
             }
             app.UseStaticFiles();
