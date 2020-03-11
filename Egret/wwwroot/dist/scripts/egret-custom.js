@@ -64,15 +64,21 @@ function ManageValidationErrors() {
 
 function PrepApiController() {
     $("#callApi").on("click", function () {
-        $(".egret-refresh").addClass("fa fa-spin");
-
-        $.get('/api/InventoryApi/' + $("#InventoryItemCode").val(), function (data) {
-            $('#apiDescription').val(data.description);
-            $('#apiCustomer').text(data.customerReservedFor);
-            $('#apiUnit').text(data.unit);
-        }, 'json');
-
-        $(".egret-refresh").removeClass("fa-spin").removeClass("fa");
+        $.ajax({
+            url: '/api/InventoryApi/' + $("#InventoryItemCode").val(),
+            beforeSend: function () {
+                $(".egret-refresh").addClass("fa fa-spin");
+            }
+        })
+            .fail(function() {
+                $(".egret-refresh").removeClass("fa-spin");
+            })
+            .done(function (data) {
+                $('#apiDescription').val(data.description);
+                $('#apiCustomer').text(data.customerReservedFor);
+                $('#apiUnit').text(data.unit);
+                $(".egret-refresh").removeClass("fa-spin");
+        });
     });
 }
 

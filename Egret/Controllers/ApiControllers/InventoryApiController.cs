@@ -25,13 +25,6 @@ namespace Egret.Controllers.ApiControllers
         public InventoryApiController(EgretContext context)
             : base(context) { }
 
-        [HttpGet]
-        [Authorize]
-        public IEnumerable<InventoryItem> Get()
-        {
-            return Context.InventoryItems.ToList();
-        }
-
         [HttpGet("{id}")]
         [Authorize]
         public Item Get(string id)
