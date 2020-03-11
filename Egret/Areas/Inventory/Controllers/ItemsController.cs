@@ -66,22 +66,6 @@ namespace Egret.Controllers
         [Authorize(Roles = "Item_Create")]
         public IActionResult CreateFromCopy(InventoryItem copy)
         {
-            //var item = new InventoryItem()
-            //{
-            //    Description = copy.Description,
-            //    CategoryId = copy.CategoryId,
-            //    UnitId = copy.UnitId,
-            //    FOBCost = copy.FOBCost,
-            //    FOBCostCurrencyId = copy.FOBCostCurrencyId,
-            //    ShippingCost = copy.ShippingCost,
-            //    ShippingCostCurrencyId = copy.ShippingCostCurrencyId,
-            //    ImportCostCurrencyId = copy.ImportCostCurrencyId,
-            //    ImportCosts = copy.ImportCosts,
-            //    CustomerPurchasedFor = copy.CustomerPurchasedFor,
-            //    CustomerReservedFor = copy.CustomerReservedFor,
-            //    BondedWarehouse = copy.BondedWarehouse
-            //};
-
             ViewData["Category"] = _selectListService.CategoriesActive();
             ViewData["Unit"] = _selectListService.UnitsActive();
             ViewData["FOBCostCurrency"] = _selectListService.CurrencyTypesActive();
@@ -96,6 +80,9 @@ namespace Egret.Controllers
         [ValidateAntiForgeryToken]
         public IActionResult Create(InventoryItem item)
         {
+            if (item.QtyPurchased < 0)
+                ModelState.AddModelError("", "Qty Purchased must be a positive number.");
+
             if (ModelState.IsValid)
             {
                 _itemService.CreateItem(item, User);
@@ -164,7 +151,10 @@ namespace Egret.Controllers
                 vm.Item.UpdatedBy = User.Identity.Name;
                 vm.Item.DateUpdated = DateTime.Now;
             }
-            
+
+            if (vm.Item.QtyPurchased < 0)
+                ModelState.AddModelError("", "Qty Purchased must be a positive number.");
+
             if (ModelState.IsValid)
             {
                 _itemService.DefineFabricTestsForItem(vm.Item, vm.FabricTests);
