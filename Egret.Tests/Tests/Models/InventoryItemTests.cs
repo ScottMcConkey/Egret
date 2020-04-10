@@ -1,6 +1,7 @@
 ﻿using Egret.Models;
 using Egret.Utilities;
 using System;
+using System.Collections;
 using System.Collections.Generic;
 using Xunit;
 
@@ -17,18 +18,7 @@ namespace Egret.Tests.Models
 
 
         [Theory]
-        [InlineData(null, 0, 0, null, "Unknown")]
-        [InlineData(null, 1, 100, null, "Unknown")]
-        [InlineData(null, 1, -100, null, "Unknown")]
-        [InlineData(100, 0, 0, 100, "In Stock")]
-        [InlineData(100, 1, 100, 0, "Out of Stock")]
-        [InlineData(100, 2, 50, 0, "Out of Stock")]
-        [InlineData(100, 1, 40, 60, "In Stock")]
-        [InlineData(100, 1, -40, 140, "In Stock")]
-        [InlineData(100, 1, 150, -50, "Error")]
-        [InlineData(-100, 0, 0, -100, "Error")]
-        [InlineData(-100, 1, 40, -100, "Error")]
-        [InlineData(-100, 1, -50, -100, "Error")]
+        [ClassData(typeof(StockQuantityData))]
         [Trait("name", "stock_quantity_evaluates")]
         public void stock_quantity_evaluates(decimal? qtyPurchased, int consumptionCount, int consumptionValue, 
             int? expectedStockQty, string expectedStockLevel)
@@ -136,13 +126,7 @@ namespace Egret.Tests.Models
         #region Accounting
 
         [Theory]
-        [InlineData(null, null, null, null)]
-        [InlineData(25, null, null, 25)]
-        [InlineData(25.5, null, null, 25.5)]
-        [InlineData(0, 49, null, 49)]
-        [InlineData(null, 35, null, 35)]
-        [InlineData(0, null, null, 0)]
-        [InlineData(400, 50, 12.5, 462.5)]
+        [ClassData(typeof(TotalCostData))]
         [Trait("name", "total_cost_evaluates")]
         // Test nulls?
         public void total_cost_evaluates(decimal? fobCost, decimal? shippingCost, decimal? importCosts, decimal? expectedValue)
@@ -158,13 +142,7 @@ namespace Egret.Tests.Models
         }
 
         [Theory]
-        [InlineData(200, 20, 10)]
-        [InlineData(null, null, null)]
-        [InlineData(null, 20, null)]
-        [InlineData(200, null, null)]
-        [InlineData(200, 0, null)]
-        [InlineData(0, 20, null)]
-        [InlineData(200.2, 1, 200.2)]
+        [ClassData(typeof(CostPerUnitData))]
         [Trait("name", "cost_per_unit_evaluates")]
         public void cost_per_unit_evaluates(decimal? fobCost, decimal? qtyPurchased, decimal? expectedValue)
         {
@@ -180,12 +158,7 @@ namespace Egret.Tests.Models
         // This is redundant in order to test the calculated property TotalCost
         // and is not ideal, but I have not found a better solution at this time
         [Theory]
-        [InlineData(null, null, null, null, null)] // Total Cost Null
-        [InlineData(null, null, null, 50, null)] // Total Cost Null
-        [InlineData(50, null, null, null, null)] // Total Cost Null
-        [InlineData(50, 20, 5, 5, 15)] // Total Cost Positive (60)
-        [InlineData(50, 20, 5, null, null)] // Total Cost Positive (60)
-        [InlineData(50.25, 20.7, 5.28, 80, 0.9529)] // Calculate Rounding!
+        [ClassData(typeof(TotalCostPerUnitData))]
         [Trait("name", "total_cost_per_unit_evaluates")]
         public void total_cost_per_unit_evaluates(decimal? fobCost, decimal? shippingCost, decimal? importCosts,
             decimal? qtyPurchased, decimal? expectedValue)
@@ -202,6 +175,69 @@ namespace Egret.Tests.Models
         }
 
         #endregion
+
+
+
+        private class CostPerUnitData : TheoryData<decimal?, decimal?, decimal?>
+        {
+            public CostPerUnitData()
+            {
+                this.Add(200, 20, 10);
+                this.Add(null, null, null);
+                this.Add(null, 20, null);
+                this.Add(200, null, null);
+                this.Add(200, 0, null);
+                this.Add(0, 20, null);
+                this.Add(Convert.ToDecimal(200.2), 1, Convert.ToDecimal(200.2));
+            }
+        }
+
+        private class StockQuantityData : TheoryData<decimal?, int, int, int?, string>
+        {
+            public StockQuantityData()
+            {
+                this.Add(null, 0, 0, null, "Unknown");
+                this.Add(null, 1, 100, null, "Unknown");
+                this.Add(null, 1, -100, null, "Unknown");
+                this.Add(100, 0, 0, 100, "In Stock");
+                this.Add(100, 1, 100, 0, "Out of Stock");
+                this.Add(100, 2, 50, 0, "Out of Stock");
+                this.Add(100, 1, 40, 60, "In Stock");
+                this.Add(100, 1, -40, 140, "In Stock");
+                this.Add(100, 1, 150, -50, "Error");
+                this.Add(-100, 0, 0, -100, "Error");
+                this.Add(-100, 1, 40, -100, "Error");
+                this.Add(-100, 1, -50, -100, "Error");
+            }
+        }
+
+        private class TotalCostData : TheoryData<decimal?,decimal?,decimal?,decimal?>
+        {
+            public TotalCostData()
+            {
+                this.Add(null, null, null, null);
+                this.Add(25, null, null, 25);
+                this.Add(Convert.ToDecimal(25.5), null, null, Convert.ToDecimal(25.5));
+                this.Add(0, 49, null, 49);
+                this.Add(null, 35, null, 35);
+                this.Add(0, null, null, 0);
+                this.Add(400, 50, Convert.ToDecimal(12.5), Convert.ToDecimal(462.5));
+            }
+        }
+
+        private class TotalCostPerUnitData : TheoryData<decimal?, decimal?, decimal?, decimal?, decimal?>
+        {
+            public TotalCostPerUnitData()
+            {
+                this.Add(null, null, null, null, null);
+                this.Add(null, null, null, 50, null);
+                this.Add(50, null, null, null, null);
+                this.Add(50, 20, 5, 5, 15);
+                this.Add(50, 20, 5, null, null);
+                this.Add(Convert.ToDecimal(50.25), Convert.ToDecimal(20.7),
+                    Convert.ToDecimal(5.28), 80, Convert.ToDecimal(0.9529));
+            }
+        }
 
     }
 }
