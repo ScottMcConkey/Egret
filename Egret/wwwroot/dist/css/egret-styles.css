@@ -4426,6 +4426,11 @@ label {
   padding: 10px;
   background-color: #fff; }
 
+.version {
+  text-align: center;
+  color: #888;
+  align-content: center; }
+
 #titleband {
   font: "verdana" bold;
   font-size: 30pt;

@@ -116,8 +116,8 @@ namespace Egret.Services
         /// <returns></returns>
         public List<InventoryItem> FindItemSearchResults(ItemSearchModel searchModel)
         {
-            var results = Context.InventoryItems
-                .Include(x => x.ConsumptionEventsNavigation)
+            var results = Context.InventoryItems.AsNoTracking()
+                .Include(x => x.ConsumptionEventsNavigation).AsNoTracking()
                 .AsQueryable()
                 .AsNoTracking();
 

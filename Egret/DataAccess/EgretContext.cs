@@ -83,13 +83,13 @@ namespace Egret.DataAccess
                 .StartsAt(1000);
             modelBuilder.HasSequence<long>("consumption_events_id_seq")
                 .StartsAt(1000);
-            modelBuilder.HasSequence<long>("inventorycategories_id_seq")
+            modelBuilder.HasSequence<long>("inventory_categories_id_seq")
                 .StartsAt(100);
             modelBuilder.HasSequence<long>("units_id_seq")
                 .StartsAt(100);
-            modelBuilder.HasSequence<long>("currencytypes_id_seq")
+            modelBuilder.HasSequence<long>("currency_types_id_seq")
                 .StartsAt(100);
-            modelBuilder.HasSequence<long>("accessgroups_id_seq")
+            modelBuilder.HasSequence<long>("access_groups_id_seq")
                 .StartsAt(100);
             #endregion
 
@@ -98,11 +98,11 @@ namespace Egret.DataAccess
             modelBuilder.Entity<AccessGroup>(entity =>
             {
                 // Table
-                entity.ToTable("accessgroups");
+                entity.ToTable("access_groups");
 
                 // Properties
                 entity.Property(p => p.Id)
-                    .HasDefaultValueSql("nextval('accessgroups_id_seq'::regclass)"); ;
+                    .HasDefaultValueSql("nextval('access_groups_id_seq'::regclass)"); ;
 
                 entity.Property(p => p.Name);
 
@@ -112,7 +112,7 @@ namespace Egret.DataAccess
             modelBuilder.Entity<AccessGroupRole>(entity =>
             {
                 // Table
-                entity.ToTable("accessgroup_roles");
+                entity.ToTable("access_group_roles");
 
                 // Keys
                 entity.HasKey(k => new { k.AccessGroupId, k.RoleId });
@@ -181,7 +181,7 @@ namespace Egret.DataAccess
 
                 // Properties
                 entity.Property(e => e.Id)
-                    .HasDefaultValueSql("nextval('currencytypes_id_seq'::regclass)");
+                    .HasDefaultValueSql("nextval('currency_types_id_seq'::regclass)");
 
                 entity.Property(e => e.Name).IsRequired();
 
@@ -230,7 +230,7 @@ namespace Egret.DataAccess
 
                 // Properties
                 entity.Property(e => e.Id)
-                    .HasDefaultValueSql("nextval('inventorycategories_id_seq'::regclass)");
+                    .HasDefaultValueSql("nextval('inventory_categories_id_seq'::regclass)");
 
                 entity.Property(e => e.Name).IsRequired();
 
@@ -396,7 +396,7 @@ namespace Egret.DataAccess
             modelBuilder.Entity<UserAccessGroup>(entity =>
             {
                 // Table
-                entity.ToTable("user_accessgroups");
+                entity.ToTable("user_access_groups");
 
                 // Keys
                 entity.HasKey(k => new { k.AccessGroupId, k.UserId });
@@ -485,7 +485,7 @@ namespace Egret.DataAccess
             var role_id8 = Guid.NewGuid().ToString();
             var role_id9 = Guid.NewGuid().ToString();
             var role_id10 = Guid.NewGuid().ToString();
-            var accessgroup_id1 = 1;
+            var access_group_id1 = 1;
 
             modelBuilder.Entity<User>().HasData(new
             {
@@ -518,23 +518,23 @@ namespace Egret.DataAccess
                          new { Id = role_id10, Name = "Report_Read", DisplayName = "Report Read", NormalizedName = "REPORT_READ" });
 
             modelBuilder.Entity<AccessGroup>()
-                .HasData(new { Id = accessgroup_id1, Name = "Administrator" });
+                .HasData(new { Id = access_group_id1, Name = "Administrator" });
 
             modelBuilder.Entity<AccessGroupRole>()
-                .HasData(new { AccessGroupId = accessgroup_id1, RoleId = role_id1 },
-                         new { AccessGroupId = accessgroup_id1, RoleId = role_id2 },
-                         new { AccessGroupId = accessgroup_id1, RoleId = role_id3 },
-                         new { AccessGroupId = accessgroup_id1, RoleId = role_id4 },
-                         new { AccessGroupId = accessgroup_id1, RoleId = role_id5 },
-                         new { AccessGroupId = accessgroup_id1, RoleId = role_id6 },
-                         new { AccessGroupId = accessgroup_id1, RoleId = role_id7 },
-                         new { AccessGroupId = accessgroup_id1, RoleId = role_id8 },
-                         new { AccessGroupId = accessgroup_id1, RoleId = role_id9 },
-                         new { AccessGroupId = accessgroup_id1, RoleId = role_id10 }
+                .HasData(new { AccessGroupId = access_group_id1, RoleId = role_id1 },
+                         new { AccessGroupId = access_group_id1, RoleId = role_id2 },
+                         new { AccessGroupId = access_group_id1, RoleId = role_id3 },
+                         new { AccessGroupId = access_group_id1, RoleId = role_id4 },
+                         new { AccessGroupId = access_group_id1, RoleId = role_id5 },
+                         new { AccessGroupId = access_group_id1, RoleId = role_id6 },
+                         new { AccessGroupId = access_group_id1, RoleId = role_id7 },
+                         new { AccessGroupId = access_group_id1, RoleId = role_id8 },
+                         new { AccessGroupId = access_group_id1, RoleId = role_id9 },
+                         new { AccessGroupId = access_group_id1, RoleId = role_id10 }
                 );
 
             modelBuilder.Entity<UserAccessGroup>()
-                .HasData(new { UserId = userId, AccessGroupId = accessgroup_id1 });
+                .HasData(new { UserId = userId, AccessGroupId = access_group_id1 });
 
             modelBuilder.Entity<IdentityUserRole<string>>()
                 .HasData(new { UserId = userId, RoleId = role_id1 },
@@ -549,11 +549,6 @@ namespace Egret.DataAccess
                          new { UserId = userId, RoleId = role_id10 });
             #endregion
         }
-
-        //protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
-        //{
-        //    optionsBuilder.EnableSensitiveDataLogging();
-        //}
 
     }
 }

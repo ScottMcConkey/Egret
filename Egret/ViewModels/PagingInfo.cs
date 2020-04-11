@@ -7,7 +7,7 @@ namespace Egret.ViewModels
 {
     public class PagingInfo
     {
-        public int TotalItems { get; set; }
+        public int TotalItems { get; set; } = 1;
         public int ItemsPerPage { get; set; } = 1;
         public int CurrentPage { get; set; } = 1;
 

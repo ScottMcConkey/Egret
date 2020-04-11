@@ -7,6 +7,6 @@ namespace Egret.Utilities
 {
     public static class Constants
     {
-        public static string VersionNumber = "0.1";
+        public static string VersionNumber = "0.0.1";
     }
 }

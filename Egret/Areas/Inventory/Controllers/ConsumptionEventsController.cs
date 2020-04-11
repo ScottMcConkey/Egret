@@ -197,7 +197,7 @@ namespace Egret.Controllers
                 CurrentPage = searchModel.CurrentPage,
                 Events = filterResults,
                 ItemsPerPage = searchModel.ResultsPerPage,
-                TotalItems = results.Count()
+                TotalItems = (results.Count() > 0 ? results.Count() : 1)
             };
 
             return View(presentation);
