@@ -1,8 +1,5 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Threading.Tasks;
-using Microsoft.AspNetCore.Diagnostics;
+﻿using Microsoft.AspNetCore.Diagnostics;
+using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 
 namespace Egret.Controllers
@@ -18,11 +15,11 @@ namespace Egret.Controllers
 
             switch (statusCode)
             {
-                case 404:
+                case StatusCodes.Status404NotFound:
                     ViewBag.ErrorMessage = "Sorry, the page you requested could not be found.";
                     ViewBag.RouteOfException = statusCodeData.OriginalPath;
                     break;
-                case 500:
+                case StatusCodes.Status500InternalServerError:
                     ViewBag.ErrorMessage = "Sorry, something went wrong on the server.";
                     ViewBag.RouteOfException = statusCodeData.OriginalPath;
                     break;
