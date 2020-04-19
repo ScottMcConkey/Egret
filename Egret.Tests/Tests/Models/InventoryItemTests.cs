@@ -11,12 +11,6 @@ namespace Egret.Tests.Models
     [Trait("group", "ModelTests")]
     public class InventoryItemTests
     {
-        private readonly string _unknown = ItemStockLevel.Unknown.Value;
-        private readonly string _inStock = ItemStockLevel.InStock.Value;
-        private readonly string _outOfStock = ItemStockLevel.OutOfStock.Value;
-        private readonly string _error = ItemStockLevel.Error.Value;
-
-
         [Theory]
         [ClassData(typeof(StockQuantityData))]
         [Trait("name", "stock_quantity_evaluates")]
@@ -129,11 +123,11 @@ namespace Egret.Tests.Models
         [ClassData(typeof(TotalCostData))]
         [Trait("name", "total_cost_evaluates")]
         // Test nulls?
-        public void total_cost_evaluates(decimal? fobCost, decimal? shippingCost, decimal? importCosts, decimal? expectedValue)
+        public void total_cost_evaluates(decimal? fobcost, decimal? shippingCost, decimal? importCosts, decimal? expectedValue)
         {
             var item = new InventoryItem()
             {
-                FOBCost = fobCost,
+                FobCost = fobcost,
                 ShippingCost = shippingCost,
                 ImportCosts = importCosts
             };
@@ -144,12 +138,12 @@ namespace Egret.Tests.Models
         [Theory]
         [ClassData(typeof(CostPerUnitData))]
         [Trait("name", "cost_per_unit_evaluates")]
-        public void cost_per_unit_evaluates(decimal? fobCost, decimal? qtyPurchased, decimal? expectedValue)
+        public void cost_per_unit_evaluates(decimal? fobcost, decimal? qtyPurchased, decimal? expectedValue)
         {
             var item = new InventoryItem()
             {
                 QtyPurchased = qtyPurchased,
-                FOBCost = fobCost
+                FobCost = fobcost
             };
 
             Assert.Equal(expectedValue, item.CostPerUnit);
@@ -160,12 +154,12 @@ namespace Egret.Tests.Models
         [Theory]
         [ClassData(typeof(TotalCostPerUnitData))]
         [Trait("name", "total_cost_per_unit_evaluates")]
-        public void total_cost_per_unit_evaluates(decimal? fobCost, decimal? shippingCost, decimal? importCosts,
+        public void total_cost_per_unit_evaluates(decimal? fobcost, decimal? shippingCost, decimal? importCosts,
             decimal? qtyPurchased, decimal? expectedValue)
         {
             var item = new InventoryItem()
             {
-                FOBCost = fobCost,
+                FobCost = fobcost,
                 ShippingCost = shippingCost,
                 ImportCosts = importCosts,
                 QtyPurchased = qtyPurchased

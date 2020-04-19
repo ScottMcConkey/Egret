@@ -93,7 +93,7 @@ namespace Egret.Controllers
 
             ViewData["Category"] = _selectListService.CategoriesActive(item.CategoryId);
             ViewData["Unit"] = _selectListService.UnitsActive(item.UnitId);
-            ViewData["FOBCostCurrency"] = _selectListService.CurrencyTypesActive(item.FOBCostCurrencyId);
+            ViewData["FOBCostCurrency"] = _selectListService.CurrencyTypesActive(item.FobCostCurrencyId);
             ViewData["ShippingCostCurrency"] = _selectListService.CurrencyTypesActive(item.ShippingCostCurrencyId);
             ViewData["ImportCostCurrency"] = _selectListService.CurrencyTypesActive(item.ImportCostCurrencyId);
 
@@ -118,7 +118,7 @@ namespace Egret.Controllers
 
             ViewData["Category"] = _selectListService.CategoriesActivePlusCurrent(item.CategoryNavigation);
             ViewData["Unit"] = _selectListService.UnitsActivePlusCurrent(item.UnitNavigation);
-            ViewData["FOBCostCurrency"] = _selectListService.CurrencyTypesPlusCurrent(item.FOBCostCurrencyNavigation);
+            ViewData["FOBCostCurrency"] = _selectListService.CurrencyTypesPlusCurrent(item.FobCostCurrencyNavigation);
             ViewData["ShippingCostCurrency"] = _selectListService.CurrencyTypesPlusCurrent(item.ShippingCostCurrencyNavigation);
             ViewData["ImportCostCurrency"] = _selectListService.CurrencyTypesPlusCurrent(item.ImportCostCurrencyNavigation);
 
@@ -169,7 +169,7 @@ namespace Egret.Controllers
             // Rebuild viewmodel
             ViewData["Category"] = _selectListService.CategoriesActivePlusCurrent(vm.Item.CategoryNavigation);
             ViewData["Unit"] = _selectListService.UnitsActivePlusCurrent(vm.Item.UnitNavigation);
-            ViewData["FOBCostCurrency"] = _selectListService.CurrencyTypesPlusCurrent(vm.Item.FOBCostCurrencyNavigation);
+            ViewData["FOBCostCurrency"] = _selectListService.CurrencyTypesPlusCurrent(vm.Item.FobCostCurrencyNavigation);
             ViewData["ShippingCostCurrency"] = _selectListService.CurrencyTypesPlusCurrent(vm.Item.ShippingCostCurrencyNavigation);
             ViewData["ImportCostCurrency"] = _selectListService.CurrencyTypesPlusCurrent(vm.Item.ImportCostCurrencyNavigation);
 

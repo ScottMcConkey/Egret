@@ -9,4 +9,3 @@ project.lock.json
 *.prpt
 Reports/
 *.csproj.user
-Migrations/

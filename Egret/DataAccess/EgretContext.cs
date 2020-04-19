@@ -1,8 +1,10 @@
-﻿using Egret.Models;
+﻿using Egret.Extensions;
+using Egret.Models;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Identity.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore;
 using System;
+using System.Text.RegularExpressions;
 
 namespace Egret.DataAccess
 {
@@ -277,9 +279,9 @@ namespace Egret.DataAccess
 
                 entity.Property(e => e.Comments);
 
-                entity.Property(e => e.FOBCost);
+                entity.Property(e => e.FobCost);
 
-                entity.Property(e => e.FOBCostCurrencyId);
+                entity.Property(e => e.FobCostCurrencyId);
 
                 entity.Property(e => e.ShippingCost);
 
@@ -309,10 +311,10 @@ namespace Egret.DataAccess
                     .HasPrincipalKey(k => k.Id)
                     .HasForeignKey(k => k.UnitId);
 
-                entity.HasOne(d => d.FOBCostCurrencyNavigation)
+                entity.HasOne(d => d.FobCostCurrencyNavigation)
                     .WithMany()
                     .HasPrincipalKey(k => k.Id)
-                    .HasForeignKey(k => k.FOBCostCurrencyId);
+                    .HasForeignKey(k => k.FobCostCurrencyId);
 
                 entity.HasOne(d => d.ShippingCostCurrencyNavigation)
                     .WithMany()
@@ -422,30 +424,30 @@ namespace Egret.DataAccess
             foreach (var entity in modelBuilder.Model.GetEntityTypes())
             {
                 // Replace Table Names
-                entity.SetTableName(entity.GetTableName().ToLower());
+                entity.SetTableName(entity.GetTableName().ToSnakeCase().ToLower());
 
                 // Replace Column Names            
                 foreach (var property in entity.GetProperties())
                 {
-                    property.SetColumnName(property.Name.ToLower());
+                    property.SetColumnName(property.Name.ToSnakeCase().ToLower());
                 }
 
                 // Replace Keys
                 foreach (var key in entity.GetKeys())
                 {
-                    key.SetName(key.GetName().ToLower());
+                    key.SetName(key.GetName().ToSnakeCase().ToLower());
                 }
 
                 // Replace Foreign Keys
                 foreach (var key in entity.GetForeignKeys())
                 {
-                    key.SetConstraintName(key.GetConstraintName().ToLower());
+                    key.SetConstraintName(key.GetConstraintName().ToSnakeCase().ToLower());
                 }
 
                 // Replace Indexes
                 foreach (var index in entity.GetIndexes())
                 {
-                    index.SetName(index.GetName().ToLower());
+                    index.SetName(index.GetName().ToSnakeCase().ToLower());
                 }
             }
             #endregion
@@ -549,6 +551,8 @@ namespace Egret.DataAccess
                          new { UserId = userId, RoleId = role_id10 });
             #endregion
         }
+
+        
 
     }
 }

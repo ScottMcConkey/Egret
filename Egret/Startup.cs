@@ -32,7 +32,6 @@ namespace Egret
 
         public void ConfigureServices(IServiceCollection services)
         {
-            services.AddEntityFrameworkNpgsql();
             services.AddDbContext<EgretContext>(options =>
                 options.UseNpgsql(Configuration["ConnectionStrings:DefaultConnection"]));
             services.AddLogging(loggingBuilder =>
@@ -69,8 +68,8 @@ namespace Egret
                 options.AccessDeniedPath = "/Account/AccessDenied";
                 options.LoginPath = "/Account/Login";
                 options.LogoutPath = "/Account/Logout";
-                //options.ExpireTimeSpan = TimeSpan.FromMinutes(30);
-                //options.SlidingExpiration = true;
+                options.ExpireTimeSpan = TimeSpan.FromMinutes(30);
+                options.SlidingExpiration = true;
             });
 
             services.Configure<RazorViewEngineOptions>(o =>

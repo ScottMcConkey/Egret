@@ -5,6 +5,11 @@ using System.Threading.Tasks;
 
 namespace Egret.Utilities
 {
+    /// <summary>
+    /// This class maps static references from the established Stock Levels to string values. 
+    /// A typical enum would require convoluted reflection to perform the same functionality,
+    /// since it naturally maps to ints instead of strings.
+    /// </summary>
     public class ItemStockLevel
     {
         private ItemStockLevel(string value) { Value = value; }

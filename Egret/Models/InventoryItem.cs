@@ -54,9 +54,9 @@ namespace Egret.Models
         [Display(Name = "FOB Cost Or Local Cost no VAT")]
         [Language(Name = "Nepali", Value = "लागत")]
         [DisplayFormat(DataFormatString = "{0:0.00##}", ApplyFormatInEditMode = true)]
-        public decimal? FOBCost { get; set; }
+        public decimal? FobCost { get; set; }
 
-        public int? FOBCostCurrencyId { get; set; }
+        public int? FobCostCurrencyId { get; set; }
 
         [Display(Name = "Shipping Cost")]
         [Language(Name = "Nepali", Value = "ढुवानी खर्च")]
@@ -119,7 +119,7 @@ namespace Egret.Models
 
         public InventoryCategory CategoryNavigation { get; set; }
         public Unit UnitNavigation { get; set; }
-        public CurrencyType FOBCostCurrencyNavigation { get; set; }
+        public CurrencyType FobCostCurrencyNavigation { get; set; }
         public CurrencyType ShippingCostCurrencyNavigation { get; set; }
         public CurrencyType ImportCostCurrencyNavigation { get; set; }
         public ICollection<FabricTest> FabricTestsNavigation { get; set; }
@@ -256,12 +256,12 @@ namespace Egret.Models
         {
             get
             {
-                if (FOBCost == null && ShippingCost == null && ImportCosts == null)
+                if (FobCost == null && ShippingCost == null && ImportCosts == null)
                 {
                     return null;
                 }
 
-                return (FOBCost ?? 0) + (ShippingCost ?? 0) + (ImportCosts ?? 0);
+                return (FobCost ?? 0) + (ShippingCost ?? 0) + (ImportCosts ?? 0);
             }
             private set { }
         }
@@ -277,9 +277,9 @@ namespace Egret.Models
         {
             get
             {
-                if (QtyPurchased > 0 && FOBCost > 0)
+                if (QtyPurchased > 0 && FobCost > 0)
                 {
-                    return (decimal)(FOBCost / QtyPurchased);
+                    return (decimal)(FobCost / QtyPurchased);
                 }
                 else
                 {

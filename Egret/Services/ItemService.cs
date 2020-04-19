@@ -58,7 +58,7 @@ namespace Egret.Services
                     .Include(i => i.UnitNavigation).AsNoTracking()
                     .Include(i => i.ConsumptionEventsNavigation).AsNoTracking()
                     .Include(i => i.FabricTestsNavigation).AsNoTracking()
-                    .Include(i => i.FOBCostCurrencyNavigation).AsNoTracking()
+                    .Include(i => i.FobCostCurrencyNavigation).AsNoTracking()
                     .Include(i => i.ShippingCostCurrencyNavigation).AsNoTracking()
                     .Include(i => i.ImportCostCurrencyNavigation).AsNoTracking()
                     .FirstOrDefault(m => m.Code == id);
@@ -72,7 +72,7 @@ namespace Egret.Services
                     .Include(i => i.UnitNavigation)
                     .Include(i => i.ConsumptionEventsNavigation)
                     .Include(i => i.FabricTestsNavigation)
-                    .Include(i => i.FOBCostCurrencyNavigation)
+                    .Include(i => i.FobCostCurrencyNavigation)
                     .Include(i => i.ShippingCostCurrencyNavigation)
                     .Include(i => i.ImportCostCurrencyNavigation)
                     .FirstOrDefault(m => m.Code == id);

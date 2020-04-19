@@ -8,9 +8,9 @@ namespace Egret.Models
     public class CategoryReport
     {
         public string CategoryName { get; set; }
-        public decimal CurrentStockValue { get; set; }
+        public decimal? CurrentStockValue { get; set; }
 
-        public decimal AvailableLotCount { get; set; }
+        public decimal? AvailableLotCount { get; set; }
 
         public string[] Errors { get; set; }
 
