@@ -1,11 +1,14 @@
-﻿using Egret.Controllers;
+﻿using ClosedXML.Excel;
+using Egret.Controllers;
 using Egret.DataAccess;
+using Egret.Models;
+using Egret.ViewModels;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Logging;
-//using SpreadsheetLight;
-using ClosedXML.Excel;
+using System.Collections.Generic;
 using System.IO;
-//using System.IO;
+using System.Linq;
 
 namespace Egret.Areas.Reports.Controllers
 {
@@ -26,94 +29,48 @@ namespace Egret.Areas.Reports.Controllers
         }
 
         [HttpGet]
-        //public FileStreamResult CurrentInventoryReport()
-        //{
-        //    var report = new CurrentInventoryModel();
-        //    //foreach (InventoryCategory category in Context.InventoryCategories.AsNoTracking().Include(x => x.)
-        //    //{
-        //    //    var category = new CategoryReport();
-        //    //    category.CurrentStockValue = category.
-        //    //    report.Categories.Add(category);
-        //    //}
-
-        //    var cats = Context.InventoryItems
-        //        .AsNoTracking()
-        //        .Include(i => i.ConsumptionEventsNavigation)
-        //        .Include(i => i.CategoryNavigation)
-        //        .GroupBy(x => new { CategoryId = x.CategoryNavigation.Id, Category = x.CategoryNavigation.Name })
-        //        .Select(y => new { Name = y.Key.Category, Quantity = y.Sum(z => (decimal)z.StockQuantity) })
-        //        .ToList();
-
-        //    report.Categories = new List<CategoryReport>();
-
-        //    foreach (var i in cats)
-        //    {
-        //        var category = new CategoryReport();
-        //        //category.CategoryName = Context.InventoryCategories.AsNoTracking().Where(x => x.Name == i.)
-        //        category.CategoryName = i.Name;
-        //        category.AvailableLotCount = i.Quantity;
-        //        report.Categories.Add(category);
-        //    }
-
-        //    //using (var sl = new SLDocument())
-        //    //{
-        //    //    sl.SetCellValue("A1", 3.145);
-        //    //    sl.SaveAs("derp.xlsx");
-        //    //}
-
-        //    //var sl = new SLDocument();
-        //    //sl.SetCellValue("A1", 3.145);
-        //    //sl.SaveAs("derp.xlsx");
-
-        //    //var cd = new System.Net.Mime.ContentDisposition
-        //    //{
-        //    //    FileName = "Test File",
-        //    //    Inline = false
-        //    //};
-
-
-        //    //return View("CurrentInventoryReport", report);
-        //    //return FileResult(cd.);
-
-        //    var filePath = System.IO.Path.GetTempPath();
-
-
-        //    SLDocument sl = new SLDocument();
-        //    sl.SetCellValue(1, 1, "Some Text");
-        //    //Response.Clear();
-        //    Response.ContentType = "application/vnd.openxmlformats-officedocument.spreadsheetml.sheet";
-        //    Response.AddHeader("Content-Disposition", "attachment; filename=WebStreamDownload.xlsx");
-        //    sl.SaveAs(Response.OutputStream);
-        //    Response.End();
-        //}
-
-        public FileStreamResult GenerateReport()
+        public FileStreamResult CurrentInventoryReport()
         {
+            var report = new CurrentInventoryModel();
+            report.Categories = new List<CategoryReport>();
+
             MemoryStream ms = new MemoryStream();
+
+            Context.ChangeTracker.QueryTrackingBehavior = QueryTrackingBehavior.NoTracking;
+
+            // Get the Data from EF and get stock value
+            //var cats = Context.InventoryItems
+            //    .Include(i => i.ConsumptionEventsNavigation)
+            //    .Include(i => i.CategoryNavigation)
+            //    .GroupBy(x => new { CategoryId = x.CategoryNavigation.Id, Category = x.CategoryNavigation.Name })
+            //    .Select(y => new { Name = y.Key.Category, Quantity = y.Sum(z => (decimal)z.StockQuantity) })
+            //    .ToList();
+            var categories = Context.InventoryCategories.OrderBy(x => x.Name).ToList();
+
+            // Process the Data
+            //foreach (var i in cats)
+            //{
+            //    var category = new CategoryReport();
+            //    category.CategoryName = i.Name;
+            //    category.AvailableLotCount = i.Quantity;
+            //    report.Categories.Add(category);
+            //}
+
             using (XLWorkbook workbook = new XLWorkbook())
             {
                 var worksheet = workbook.Worksheets.Add("Test Sheet");
-                worksheet.Cell("A1").Value = "hi there";
-                //sl.SetCellValue("B3", "I love ASP.NET MVC");
+                for (var row = 0; row < categories.Count; row++)
+                {
+                    worksheet.Cell(row + 1, 1).Value = categories[row].Name;
+                }
+                //worksheet.Cell("A1").Value = categories.Count.ToString();
                 workbook.SaveAs(ms);
             }
-            // this is important. Otherwise you get an empty file
-            // (because you'd be at EOF after the stream is written to, I think...).
+
             ms.Position = 0;
 
             return File(ms, "application/vnd.openxmlformats-officedocument.spreadsheetml.sheet", "Report.xlsx");
         }
 
-        public string Test()
-        {
-            using (var workbook = new XLWorkbook())
-            {
-                var worksheet = workbook.Worksheets.Add("Test Sheet");
-                worksheet.Cell("A1").Value = "hi there";
-                
-            }
-
-            return "Test";
-        }
     }
 }
