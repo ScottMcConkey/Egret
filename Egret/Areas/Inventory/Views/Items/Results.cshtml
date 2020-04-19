@@ -40,10 +40,10 @@
                         </a>
                     </td>
                     <td>@Html.DisplayFor(modelItem => item.Description)</td>
-                    <td>@Html.DisplayFor(modelItem => item.CategoryId)</td>
+                    <td>@Html.DisplayFor(modelItem => item.CategoryNavigation.Name)</td>
                     <td>@Html.DisplayFor(modelItem => item.CustomerReservedFor)</td>
                     <td>@Html.DisplayFor(modelItem => item.StockQuantity)</td>
-                    <td>@Html.DisplayFor(modelItem => item.UnitId)</td>
+                    <td>@Html.DisplayFor(modelItem => item.UnitNavigation.Name)</td>
                 </tr>
             }
         }

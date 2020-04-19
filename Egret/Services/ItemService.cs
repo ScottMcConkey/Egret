@@ -118,6 +118,8 @@ namespace Egret.Services
         {
             var results = Context.InventoryItems.AsNoTracking()
                 .Include(x => x.ConsumptionEventsNavigation).AsNoTracking()
+                .Include(x => x.CategoryNavigation).AsNoTracking()
+                .Include(x => x.UnitNavigation).AsNoTracking()
                 .AsQueryable()
                 .AsNoTracking();
 
