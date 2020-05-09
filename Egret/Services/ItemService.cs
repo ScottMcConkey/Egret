@@ -11,6 +11,7 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Security.Claims;
+using Egret.Models.Common;
 
 namespace Egret.Services
 {
@@ -66,6 +67,21 @@ namespace Egret.Services
                 .Include(i => i.ImportCostCurrencyNavigation)
                 .FirstOrDefault(m => m.Code == id);
             return item;
+        }
+
+        /// <summary>
+        /// Returns a single Inventory Items object and its Unit ONLY
+        /// </summary>
+        /// <param name="id"></param>
+        /// <returns></returns>
+        public InventoryItem GetBasicLot(string id)
+        {
+            Context.ChangeTracker.QueryTrackingBehavior = QueryTrackingBehavior.NoTracking;
+
+            return Context.InventoryItems
+                .Where(x => x.Code == id)
+                .Include(x => x.UnitNavigation)
+                .SingleOrDefault();
         }
 
         /// <summary>

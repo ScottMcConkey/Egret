@@ -18,5 +18,7 @@ namespace Egret.Services
         List<InventoryItem> FindItemSearchResults(ItemSearchModel searchModel);
 
         void DefineFabricTestsForItem(InventoryItem item, List<FabricTest> fabricTests);
+
+        InventoryItem GetBasicLot(string id);
     }
 }

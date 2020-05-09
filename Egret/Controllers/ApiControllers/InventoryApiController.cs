@@ -1,13 +1,8 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Threading.Tasks;
-using Microsoft.AspNetCore.Http;
-using Microsoft.AspNetCore.Mvc;
-using Egret.Models;
-using Egret.DataAccess;
+﻿using Egret.DataAccess;
+using Egret.Models.Common;
+using Egret.Services;
 using Microsoft.AspNetCore.Authorization;
-using Microsoft.EntityFrameworkCore;
+using Microsoft.AspNetCore.Mvc;
 
 namespace Egret.Controllers.ApiControllers
 {
@@ -15,23 +10,19 @@ namespace Egret.Controllers.ApiControllers
     [ApiController]
     public class InventoryApiController : BaseController
     {
-        public class Item
+        private IItemService _itemService { get; set; }
+
+        public InventoryApiController(IItemService itemService)
         {
-            public string Description { get; set; }
-            public string CustomerReservedFor { get; set; }
-            public string Unit { get; set; }
+            _itemService = itemService;
         }
 
-        public InventoryApiController(EgretContext context)
-            : base(context) { }
-
         [HttpGet("{id}")]
-        [Authorize]
-        public Item Get(string id)
+        [Authorize(Roles = "Item_Read")]
+        public BasicInventoryLot Get(string id)
         {
-            var item = new Item();
-            InventoryItem inventoryTarget = Context.InventoryItems.Where(x => x.Code == id)
-                .Include(x => x.UnitNavigation).SingleOrDefault();
+            var item = new BasicInventoryLot();
+            var inventoryTarget = _itemService.GetBasicLot(id);
             if (inventoryTarget != null)
             {
                 item.Description = inventoryTarget.Description;
