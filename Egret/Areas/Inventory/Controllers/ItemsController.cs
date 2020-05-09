@@ -173,8 +173,8 @@ namespace Egret.Controllers
             ViewData["ShippingCostCurrency"] = _selectListService.CurrencyTypesPlusCurrent(vm.Item.ShippingCostCurrencyNavigation);
             ViewData["ImportCostCurrency"] = _selectListService.CurrencyTypesPlusCurrent(vm.Item.ImportCostCurrencyNavigation);
 
-            //vm.FabricTests = temp.FabricTestsNavigation.ToList();
-            //vm.ConsumptionEvents = temp.ConsumptionEventsNavigation.ToList();
+            vm.FabricTests = temp.FabricTestsNavigation.ToList();
+            vm.ConsumptionEvents = temp.ConsumptionEventsNavigation.ToList();
 
             return View(vm);
         }

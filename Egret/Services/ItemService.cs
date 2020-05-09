@@ -52,32 +52,20 @@ namespace Egret.Services
         {
             if (noTracking)
             {
-                var item = Context.InventoryItems.AsNoTracking()
-                    .Where(i => i.Code == id)
-                    .Include(i => i.CategoryNavigation).AsNoTracking()
-                    .Include(i => i.UnitNavigation).AsNoTracking()
-                    .Include(i => i.ConsumptionEventsNavigation).AsNoTracking()
-                    .Include(i => i.FabricTestsNavigation).AsNoTracking()
-                    .Include(i => i.FobCostCurrencyNavigation).AsNoTracking()
-                    .Include(i => i.ShippingCostCurrencyNavigation).AsNoTracking()
-                    .Include(i => i.ImportCostCurrencyNavigation).AsNoTracking()
-                    .FirstOrDefault(m => m.Code == id);
-                return item;
+                Context.ChangeTracker.QueryTrackingBehavior = QueryTrackingBehavior.NoTracking;
             }
-            else
-            {
-                var item = Context.InventoryItems
-                    .Where(i => i.Code == id)
-                    .Include(i => i.CategoryNavigation)
-                    .Include(i => i.UnitNavigation)
-                    .Include(i => i.ConsumptionEventsNavigation)
-                    .Include(i => i.FabricTestsNavigation)
-                    .Include(i => i.FobCostCurrencyNavigation)
-                    .Include(i => i.ShippingCostCurrencyNavigation)
-                    .Include(i => i.ImportCostCurrencyNavigation)
-                    .FirstOrDefault(m => m.Code == id);
-                return item;
-            }
+
+            var item = Context.InventoryItems
+                .Where(i => i.Code == id)
+                .Include(i => i.CategoryNavigation)
+                .Include(i => i.UnitNavigation)
+                .Include(i => i.ConsumptionEventsNavigation)
+                .Include(i => i.FabricTestsNavigation)
+                .Include(i => i.FobCostCurrencyNavigation)
+                .Include(i => i.ShippingCostCurrencyNavigation)
+                .Include(i => i.ImportCostCurrencyNavigation)
+                .FirstOrDefault(m => m.Code == id);
+            return item;
         }
 
         /// <summary>
@@ -116,10 +104,12 @@ namespace Egret.Services
         /// <returns></returns>
         public List<InventoryItem> FindItemSearchResults(ItemSearchModel searchModel)
         {
-            var results = Context.InventoryItems.AsNoTracking()
-                .Include(x => x.ConsumptionEventsNavigation).AsNoTracking()
-                .Include(x => x.CategoryNavigation).AsNoTracking()
-                .Include(x => x.UnitNavigation).AsNoTracking()
+            Context.ChangeTracker.QueryTrackingBehavior = QueryTrackingBehavior.NoTracking;
+
+            var results = Context.InventoryItems
+                .Include(x => x.ConsumptionEventsNavigation)
+                .Include(x => x.CategoryNavigation)
+                .Include(x => x.UnitNavigation)
                 .AsQueryable()
                 .AsNoTracking();
 
@@ -172,7 +162,7 @@ namespace Egret.Services
         {
             var dbTests = Context.FabricTests.AsNoTracking().Where(x => x.InventoryItemCode == item.Code).ToList();
 
-            if (fabricTests.Count > 0)
+            if (fabricTests != null && fabricTests.Count > 0)
             {
                 // Remove from db if not in model
                 foreach (FabricTest test in dbTests)

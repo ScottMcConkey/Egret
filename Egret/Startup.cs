@@ -42,6 +42,7 @@ namespace Egret
             });
             services.AddSingleton<IActionContextAccessor, ActionContextAccessor>();
             services.AddTransient<IItemService, ItemService>();
+            services.AddTransient<IReportService, ReportService>();
             services.AddTransient<IConsumptionEventService, ConsumptionEventService>();
             services.AddTransient<ISelectListFactoryService, SelectListFactoryService>();
             services.AddMvc();

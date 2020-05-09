@@ -6,6 +6,7 @@
   </PropertyGroup>
 
   <ItemGroup>
+    <Folder Include="Images\" />
     <Folder Include="node_modules\" />
     <Folder Include="wwwroot\dist\fonts\" />
   </ItemGroup>

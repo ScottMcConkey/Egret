@@ -1,11 +1,7 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Security.Claims;
-using System.Threading.Tasks;
-using Egret.Models;
-using Egret.Services;
+﻿using Egret.Models;
 using Egret.ViewModels;
+using System.Collections.Generic;
+using System.Security.Claims;
 
 namespace Egret.Services
 {

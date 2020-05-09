@@ -1,26 +1,27 @@
 ﻿using ClosedXML.Excel;
 using Egret.Controllers;
 using Egret.DataAccess;
-using Egret.Models;
-using Egret.ViewModels;
+using Egret.Services;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
-using Microsoft.Extensions.Logging;
-using System.Collections.Generic;
 using System.IO;
-using System.Linq;
 
 namespace Egret.Areas.Reports.Controllers
 {
     [Area("Reports")]
+    [Authorize(Roles = "Item_Read")]
     public class HomeController : BaseController
     {
-        private static ILogger _logger;
+        //private static ILogger _logger;
+        private static IReportService _reportService;
 
-        public HomeController(EgretContext context, ILogger<HomeController> logger)
+        public HomeController(EgretContext context, IReportService reportService)
             : base(context)
         {
-            _logger = logger;
+            //_logger = logger;
+            _reportService = reportService;
+            Context.ChangeTracker.QueryTrackingBehavior = QueryTrackingBehavior.NoTracking;
         }
 
         public IActionResult Index()
@@ -28,70 +29,27 @@ namespace Egret.Areas.Reports.Controllers
             return View();
         }
 
-        public class Test
-        {
-            public string Quantity { get; set; }
-            public string Name { get; set; }
-        }
-
         [HttpGet]
         public FileStreamResult CurrentInventoryReport()
         {
-            var report = new CurrentInventoryModel();
-            report.Categories = new List<CategoryReport>();
+            var categories = _reportService.TotalValueByCategory();
 
-            MemoryStream ms = new MemoryStream();
-
-            Context.ChangeTracker.QueryTrackingBehavior = QueryTrackingBehavior.NoTracking;
-
-
-            // Get the Data from EF and get stock value
-            //var categories = Context.InventoryItems
-            //    .Include(i => i.ConsumptionEventsNavigation)
-            //    .Include(i => i.CategoryNavigation)
-            //    .GroupBy(x => new { CategoryId = x.CategoryNavigation.Id, Category = x.CategoryNavigation.Name })
-            //    .Select(y => new { Name = y.Key.Category, Quantity = y.Sum(z => (decimal)z.ConsumptionEventsNavigation.) })
-            //    .ToList();
-            //var categories = Context.InventoryItems
-            //    .Include(i => i.ConsumptionEventsNavigation)
-            //    .Include(i => i.CategoryNavigation)
-            //    //.GroupBy(x => new { CategoryId = x.CategoryNavigation.Id, Category = x.CategoryNavigation.Name })
-            //    .GroupBy(x => x.CategoryNavigation.Name)
-            //    .Select(y => new { Name = y.Key })
-            //    .ToList();
-            var categories = from inv in Context.Set<InventoryItem>()
-                             from c in Context.Set<InventoryCategory>()
-                                .Where(c => c.Id == inv.CategoryId)
-                                .DefaultIfEmpty()
-                             select new { Name = c.Name, Test = inv.QtyPurchased };
-                             
-            //var categories = Context.InventoryCategories.OrderBy(x => x.Name).ToList();
-
-            // Process the Data
-            foreach (var i in categories)
-            {
-                var category = new CategoryReport();
-                category.CategoryName = i.Name;
-                category.CurrentStockValue = i.Test;
-                report.Categories.Add(category);
-            }
-
+            var stream = new MemoryStream();
+            // Refactor to be Wrapper
             using (XLWorkbook workbook = new XLWorkbook())
             {
                 var worksheet = workbook.Worksheets.Add("Test Sheet");
-                for (var row = 0; row < report.Categories.Count; row++)
+                for (var row = 0; row < categories.Count; row++)
                 {
-                    worksheet.Cell(row + 1, 1).Value = report.Categories[row].CategoryName;
-                    worksheet.Cell(row + 1, 2).Value = report.Categories[row].CurrentStockValue.ToString();
-                    //worksheet.Cell(row + 1, 3).Value = report.Categories[row].GetErrorCount.ToString();
+                    worksheet.Cell(row + 1, 1).Value = categories[row].Name;
+                    worksheet.Cell(row + 1, 2).Value = categories[row].StockValue.ToString();
                 }
-                //worksheet.Cell("A1").Value = categories.Count.ToString();
-                workbook.SaveAs(ms);
+                workbook.SaveAs(stream);
             }
 
-            ms.Position = 0;
+            stream.Position = 0;
 
-            return File(ms, "application/vnd.openxmlformats-officedocument.spreadsheetml.sheet", "Report.xlsx");
+            return File(stream, "application/vnd.openxmlformats-officedocument.spreadsheetml.sheet", "Report.xlsx");
         }
 
     }
