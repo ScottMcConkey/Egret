@@ -41,6 +41,10 @@ namespace Egret.Models
         [Language(Name = "Nepali", Value = "वर्ग")]
         public int? CategoryId { get; set; }
 
+        [Display(Name = "Storage Location")]
+        [Language(Name = "Nepali", Value = "भण्डारण स्थान")]
+        public int? StorageLocationId { get; set; }
+
         [Required]
         [Display(Name = "Quantity Purchased")]
         [Language(Name = "Nepali", Value = "मात्रा खरिद गरियो")]
@@ -122,6 +126,7 @@ namespace Egret.Models
         public CurrencyType FobCostCurrencyNavigation { get; set; }
         public CurrencyType ShippingCostCurrencyNavigation { get; set; }
         public CurrencyType ImportCostCurrencyNavigation { get; set; }
+        public StorageLocation StorageLocationNavigation { get; set; }
         public ICollection<FabricTest> FabricTestsNavigation { get; set; }
         public ICollection<ConsumptionEvent> ConsumptionEventsNavigation { get; set; }
 

@@ -8,7 +8,6 @@ namespace Egret.Models
 {
     public class FabricTest
     {
-        [Key]
         public string Id { get; set; }
 
         public string Name { get; set; }

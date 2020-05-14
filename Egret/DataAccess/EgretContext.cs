@@ -1,4 +1,5 @@
-﻿using Egret.DataAccess.QueryModels;
+﻿using DocumentFormat.OpenXml.Office2010.PowerPoint;
+using Egret.DataAccess.QueryModels;
 using Egret.Extensions;
 using Egret.Models;
 using Microsoft.AspNetCore.Identity;
@@ -32,6 +33,7 @@ namespace Egret.DataAccess
         public virtual DbSet<InventoryItem> InventoryItems { get; set; }
         public virtual DbSet<Unit> Units { get; set; }
         public virtual DbSet<UserAccessGroup> UserAccessGroups { get; set; }
+        public virtual DbSet<StorageLocation> StorageLocations { get; set; }
 
         public DbSet<Test> TestResults { get; set; }
 
@@ -99,6 +101,8 @@ namespace Egret.DataAccess
                 .StartsAt(100);
             modelBuilder.HasSequence<long>("access_groups_id_seq")
                 .StartsAt(100);
+            modelBuilder.HasSequence<long>("storage_location_id_seq")
+                .StartsAt(1);
             #endregion
 
             #region Entities
@@ -265,6 +269,8 @@ namespace Egret.DataAccess
 
                 entity.Property(e => e.CategoryId).IsRequired();
 
+                entity.Property(e => e.StorageLocationId);
+
                 entity.Property(e => e.QtyPurchased);
 
                 entity.Property(e => e.UnitId);
@@ -347,33 +353,11 @@ namespace Egret.DataAccess
                     .WithOne(p => p.InventoryItemNavigation)
                     .HasPrincipalKey(p => p.Code)
                     .OnDelete(DeleteBehavior.Cascade);
+
+                entity.HasOne(s => s.StorageLocationNavigation)
+                    .WithMany()
+                    .HasForeignKey(f => f.StorageLocationId);
             });
-
-            //modelBuilder.Entity<PurchaseEvent>(entity =>
-            //    {
-            //        // Table
-            //        entity.ToTable("purchase_events");
-
-            //        // Properties
-            //        entity.Property(p => p.Id)
-            //            .HasDefaultValueSql("nextval('master_seq'::regclass)");
-
-            //        entity.Property(e => e.DateAdded);
-
-            //        entity.Property(e => e.AddedBy);
-
-            //        entity.Property(e => e.DateUpdated);
-
-            //        entity.Property(e => e.UpdatedBy);
-
-            //        entity.Property(e => e.Description);
-
-            //        entity.Property(e => e.CustomerPurchasedFor);
-
-            //        entity.Property(e => e.Supplier);
-
-            //        entity.Property(e => e.CustomerPurchasedFor);
-            //    });
 
             modelBuilder.Entity<Unit>(entity =>
             {
@@ -383,8 +367,10 @@ namespace Egret.DataAccess
                 // Indexes
                 entity.HasIndex(e => e.Name)
                     .IsUnique();
+
                 entity.HasIndex(e => e.Abbreviation)
                     .IsUnique();
+
                 entity.HasIndex(e => e.SortOrder)
                     .IsUnique();
 
@@ -424,18 +410,25 @@ namespace Egret.DataAccess
                     .HasForeignKey(k => k.UserId);
             });
 
+            modelBuilder.Entity<StorageLocation>(entity =>
+            {
+                // Properties
+                entity.Property(p => p.StorageLocationId)
+                    .HasDefaultValueSql("nextval('storage_location_id_seq'::regclass)");
+            });
+
             #endregion
 
             #region Lowercase Names
             foreach (var entity in modelBuilder.Model.GetEntityTypes())
             {
                 // Replace Table Names
-                entity.SetTableName(entity.GetTableName().ToSnakeCase().ToLower());
+                entity.SetTableName(entity.GetTableName().ToSnakeCase());
 
                 // Replace Column Names            
                 foreach (var property in entity.GetProperties())
                 {
-                    property.SetColumnName(property.Name.ToSnakeCase().ToLower());
+                    property.SetColumnName(property.Name.ToSnakeCase());
                 }
 
                 // Replace Keys
@@ -447,13 +440,13 @@ namespace Egret.DataAccess
                 // Replace Foreign Keys
                 foreach (var key in entity.GetForeignKeys())
                 {
-                    key.SetConstraintName(key.GetConstraintName().ToSnakeCase().ToLower());
+                    key.SetConstraintName(key.GetConstraintName().ToSnakeCase());
                 }
 
                 // Replace Indexes
                 foreach (var index in entity.GetIndexes())
                 {
-                    index.SetName(index.GetName().ToSnakeCase().ToLower());
+                    index.SetName(index.GetName().ToSnakeCase());
                 }
             }
             #endregion
@@ -482,17 +475,17 @@ namespace Egret.DataAccess
                 new { Id = 4, Name = "set", Abbreviation = "set", SortOrder = 4, Active = true }
             );
 
-            var userId = Guid.NewGuid().ToString();
-            var role_id1 = Guid.NewGuid().ToString();
-            var role_id2 = Guid.NewGuid().ToString();
-            var role_id3 = Guid.NewGuid().ToString();
-            var role_id4 = Guid.NewGuid().ToString();
-            var role_id5 = Guid.NewGuid().ToString();
-            var role_id6 = Guid.NewGuid().ToString();
-            var role_id7 = Guid.NewGuid().ToString();
-            var role_id8 = Guid.NewGuid().ToString();
-            var role_id9 = Guid.NewGuid().ToString();
-            var role_id10 = Guid.NewGuid().ToString();
+            var userId = "20551684-b958-4581-af23-96c1528b0e29";
+            var role_id1 = "faffc6d3-f72f-4b64-b208-3c7cfec71270";
+            var role_id2 = "a08e13a5-00a8-4d7d-9aaf-c0d3a816e48b";
+            var role_id3 = "9de4e55f-b26c-4b62-812a-cf52000b97bf";
+            var role_id4 = "6ce169eb-8cfc-49da-9306-15e41ef13562";
+            var role_id5 = "bcabe6d9-e245-40f8-ad4a-38f76ee73614";
+            var role_id6 = "a56ff8b3-479f-4d1c-aed3-b1b7ec5d6998";
+            var role_id7 = "a8a0c676-d58e-4be3-94db-ca7a5198692a";
+            var role_id8 = "d6206540-4ba5-4dce-a608-37ba6523be27";
+            var role_id9 = "d9fe7909-63eb-496f-a81c-bcff6f0456c5";
+            var role_id10 = "f6bb4564-6919-484b-897b-4a2c994721e5";
             var access_group_id1 = 1;
 
             modelBuilder.Entity<User>().HasData(new
@@ -555,10 +548,11 @@ namespace Egret.DataAccess
                          new { UserId = userId, RoleId = role_id8 },
                          new { UserId = userId, RoleId = role_id9 },
                          new { UserId = userId, RoleId = role_id10 });
-            #endregion
-        }
 
-        
+        }
+        #endregion
+
+
 
     }
 }
