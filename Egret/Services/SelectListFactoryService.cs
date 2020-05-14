@@ -3,10 +3,8 @@ using Egret.Extensions;
 using Egret.Models;
 using Microsoft.AspNetCore.Mvc.Rendering;
 using Microsoft.EntityFrameworkCore;
-using System;
 using System.Collections.Generic;
 using System.Linq;
-using System.Threading.Tasks;
 
 namespace Egret.Services
 {
@@ -30,7 +28,7 @@ namespace Egret.Services
         public virtual SelectList CategoriesAll(int? selected = null)
         {
             return new SelectList(Context.InventoryCategories
-                            .OrderBy(x => x.SortOrder), "InventoryCategoryId", "Name", selected);
+                            .OrderBy(x => x.SortOrder), nameof(InventoryCategory.InventoryCategoryId), nameof(InventoryCategory.Name), selected);
         }
 
         /// <summary>
@@ -42,7 +40,7 @@ namespace Egret.Services
         {
             return new SelectList(Context.InventoryCategories
                             .Where(x => x.Active == true)
-                            .OrderBy(x => x.SortOrder), "InventoryCategoryId", "Name", selected);
+                            .OrderBy(x => x.SortOrder), nameof(InventoryCategory.InventoryCategoryId), nameof(InventoryCategory.Name), selected);
         }
 
         /// <summary>
@@ -53,7 +51,7 @@ namespace Egret.Services
         {
             var all = Context.InventoryCategories;
             var actives = Context.InventoryCategories.OrderBy(x => x.SortOrder).Where(x => x.Active == true);
-            var defaultSelectList = new SelectList(actives, "InventoryCategoryId", "Name");
+            var defaultSelectList = new SelectList(actives, nameof(InventoryCategory.InventoryCategoryId), nameof(InventoryCategory.Name));
 
             if (selected != null)
             {
@@ -66,7 +64,7 @@ namespace Egret.Services
                 list.Add(selected);
                 List<InventoryCategory> orderedList = list.OrderBy(x => x.Name).DistinctBy(x => x.Name).ToList();
 
-                return new SelectList(orderedList, "InventoryCategoryId", "Name", selected.Name);
+                return new SelectList(orderedList, nameof(InventoryCategory.InventoryCategoryId), nameof(InventoryCategory.Name), selected.Name);
             }
 
             return defaultSelectList;
@@ -80,7 +78,7 @@ namespace Egret.Services
         public virtual SelectList UnitsAll(string selected = null)
         {
             return new SelectList(Context.Units
-                            .OrderBy(x => x.SortOrder), "UnitId", "Abbreviation", selected);
+                            .OrderBy(x => x.SortOrder), nameof(Unit.UnitId), nameof(Unit.Abbreviation), selected);
         }
 
         /// <summary>
@@ -92,7 +90,7 @@ namespace Egret.Services
         {
             return new SelectList(Context.Units
                             .Where(x => x.Active == true)
-                            .OrderBy(x => x.SortOrder), "UnitId", "Abbreviation", selected);
+                            .OrderBy(x => x.SortOrder), nameof(Unit.UnitId), nameof(Unit.Abbreviation), selected);
         }
 
         /// <summary>
@@ -103,7 +101,7 @@ namespace Egret.Services
         {
             var all = Context.Units;
             var actives = Context.Units.OrderBy(x => x.SortOrder).Where(x => x.Active == true);
-            var defaultSelectList = new SelectList(actives, "UnitId", "Abbreviation");
+            var defaultSelectList = new SelectList(actives, nameof(Unit.UnitId), nameof(Unit.Abbreviation));
 
             if (selected != null)
             {
@@ -116,7 +114,7 @@ namespace Egret.Services
                 list.Add(selected);
                 List<Unit> orderedList = list.OrderBy(x => x.SortOrder).DistinctBy(x => x.Abbreviation).ToList();
 
-                return new SelectList(orderedList, "UnitId", "Abbreviation", selected.Name);
+                return new SelectList(orderedList, nameof(Unit.UnitId), nameof(Unit.Abbreviation), selected.Name);
             }
 
             return defaultSelectList;
@@ -130,7 +128,7 @@ namespace Egret.Services
         public virtual SelectList CurrencyTypesAll(int? selected = null)
         {
             return new SelectList(Context.CurrencyTypes
-                            .OrderBy(x => x.SortOrder), "CurrencyTypeId", "Abbreviation", selected);
+                            .OrderBy(x => x.SortOrder), nameof(CurrencyType.CurrencyTypeId), nameof(CurrencyType.Abbreviation), selected);
         }
 
         /// <summary>
@@ -144,7 +142,7 @@ namespace Egret.Services
 
             return new SelectList(Context.CurrencyTypes
                             .Where(x => x.Active == true)
-                            .OrderBy(x => x.SortOrder), "CurrencyTypeId", "Abbreviation", selected ?? defaultType.CurrencyTypeId);
+                            .OrderBy(x => x.SortOrder), nameof(CurrencyType.CurrencyTypeId), nameof(CurrencyType.Abbreviation), selected ?? defaultType.CurrencyTypeId);
         }
 
         /// <summary>
@@ -155,7 +153,7 @@ namespace Egret.Services
         {
             var all = Context.CurrencyTypes;
             var actives = Context.CurrencyTypes.OrderBy(x => x.SortOrder).Where(x => x.Active == true);
-            var defaultSelectList = new SelectList(actives, "CurrencyTypeId", "Abbreviation");
+            var defaultSelectList = new SelectList(actives, nameof(CurrencyType.CurrencyTypeId), nameof(CurrencyType.Abbreviation));
 
             if (selected != null)
             {
@@ -168,12 +166,16 @@ namespace Egret.Services
                 list.Add(selected);
                 List<CurrencyType> orderedList = list.OrderBy(x => x.SortOrder).DistinctBy(x => x.Abbreviation).ToList();
 
-                return new SelectList(orderedList, "CurrencyTypeId", "Abbreviation", selected.Name);
+                return new SelectList(orderedList, nameof(CurrencyType.CurrencyTypeId), nameof(CurrencyType.Abbreviation), selected.Name);
             }
 
             return defaultSelectList;
         }
 
+        /// <summary>
+        /// Default system options for all ResultsPerPage dropdowns
+        /// </summary>
+        /// <returns></returns>
         public SelectList ResultsPerPage()
         {
             List<SelectListItem> pageOptions = new List<SelectListItem>();
