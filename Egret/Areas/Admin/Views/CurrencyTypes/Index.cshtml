@@ -47,7 +47,7 @@
                 {
                     <tr>
                         <td>
-                            <input type="hidden" asp-for="@Model[i].Id" />
+                            <input type="hidden" asp-for="@Model[i].CurrencyTypeId" />
                             <input class="form-control" asp-for="@Model[i].Name" />
                         </td>
                         <td>
@@ -66,7 +66,7 @@
                             <input class="form-control-sm radio" type="radio" asp-for="@Model[i].DefaultSelection" value="@Model[i].DefaultSelection" />
                         </td>
                         <td class="text-center">
-                            <a class="delete" delete-for="Currency Type" asp-action="Delete" asp-route-id="@Model[i].Id" title="Delete"><span class="egret egret-trash"></span></a>
+                            <a class="delete" delete-for="Currency Type" asp-action="Delete" asp-route-id="@Model[i].CurrencyTypeId" title="Delete"><span class="egret egret-trash"></span></a>
                         </td>
                     </tr>
                 }

@@ -121,7 +121,7 @@ namespace Egret.Controllers
         [HttpGet]
         public IActionResult Delete(int id)
         {
-            var currencyType = Context.CurrencyTypes.SingleOrDefault(m => m.Id == id);
+            var currencyType = Context.CurrencyTypes.SingleOrDefault(m => m.CurrencyTypeId == id);
             Context.CurrencyTypes.Remove(currencyType);
             Context.SaveChanges();
             TempData["SuccessMessage"] = $"Currency Type '{currencyType.Name}' Deleted";

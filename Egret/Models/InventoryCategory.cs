@@ -6,7 +6,7 @@ namespace Egret.Models
 {
     public partial class InventoryCategory
     {
-        public int Id { get; set; }
+        public int InventoryCategoryId { get; set; }
 
         [Required]
         public string Name { get; set; }

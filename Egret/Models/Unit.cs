@@ -7,7 +7,7 @@ namespace Egret.Models
 {
     public partial class Unit
     {
-        public int Id { get; set; }
+        public int UnitId { get; set; }
 
         [Required]
         public string Name { get; set; }

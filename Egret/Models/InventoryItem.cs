@@ -39,7 +39,7 @@ namespace Egret.Models
         [Required]
         [Display(Name = "Category")]
         [Language(Name = "Nepali", Value = "वर्ग")]
-        public int? CategoryId { get; set; }
+        public int? InventoryCategoryId { get; set; }
 
         [Display(Name = "Storage Location")]
         [Language(Name = "Nepali", Value = "भण्डारण स्थान")]

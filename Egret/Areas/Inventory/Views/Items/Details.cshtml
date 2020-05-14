@@ -44,7 +44,7 @@
                     </p>
 
                     <div class="form-group">
-                        <label asp-for="Item.CategoryId" include-languages="Nepali" class="control-label"></label>
+                        <label asp-for="Item.InventoryCategoryId" include-languages="Nepali" class="control-label"></label>
                         <input asp-for="Item.CategoryNavigation.Name" class="form-control" readonly>
                     </div>
 
@@ -144,7 +144,7 @@
                                     <tr class="fabrictest">
                                         <td>
                                             <div class="form-group">
-                                                <input type="hidden" asp-for="FabricTests[i].Id" class="testId" readonly />
+                                                <input type="hidden" asp-for="FabricTests[i].FabricTestId" class="testId" readonly />
                                                 <input asp-for="FabricTests[i].Name" class="form-control testName" readonly />
                                             </div>
                                         </td>

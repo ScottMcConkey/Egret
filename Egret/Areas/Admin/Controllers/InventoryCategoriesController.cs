@@ -94,7 +94,7 @@ namespace Egret.Controllers
 
         public ActionResult Delete(int id)
         {
-            var category = Context.InventoryCategories.SingleOrDefault(m => m.Id == id);
+            var category = Context.InventoryCategories.SingleOrDefault(m => m.InventoryCategoryId == id);
             Context.InventoryCategories.Remove(category);
             Context.SaveChanges();
             TempData["SuccessMessage"] = $"Inventory Category '{category.Name}' Deleted";

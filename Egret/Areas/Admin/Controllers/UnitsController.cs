@@ -100,7 +100,7 @@ namespace Egret.Controllers
         [HttpGet]
         public ActionResult Delete(int id)
         {
-            var unit = Context.Units.SingleOrDefault(m => m.Id == id);
+            var unit = Context.Units.SingleOrDefault(m => m.UnitId == id);
             Context.Units.Remove(unit);
             Context.SaveChanges();
             TempData["SuccessMessage"] = $"Unit '{unit.Name}' Deleted";

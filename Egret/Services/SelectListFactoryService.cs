@@ -30,7 +30,7 @@ namespace Egret.Services
         public virtual SelectList CategoriesAll(int? selected = null)
         {
             return new SelectList(Context.InventoryCategories
-                            .OrderBy(x => x.SortOrder), "Id", "Name", selected);
+                            .OrderBy(x => x.SortOrder), "InventoryCategoryId", "Name", selected);
         }
 
         /// <summary>
@@ -42,7 +42,7 @@ namespace Egret.Services
         {
             return new SelectList(Context.InventoryCategories
                             .Where(x => x.Active == true)
-                            .OrderBy(x => x.SortOrder), "Id", "Name", selected);
+                            .OrderBy(x => x.SortOrder), "InventoryCategoryId", "Name", selected);
         }
 
         /// <summary>
@@ -53,7 +53,7 @@ namespace Egret.Services
         {
             var all = Context.InventoryCategories;
             var actives = Context.InventoryCategories.OrderBy(x => x.SortOrder).Where(x => x.Active == true);
-            var defaultSelectList = new SelectList(actives, "Id", "Name");
+            var defaultSelectList = new SelectList(actives, "InventoryCategoryId", "Name");
 
             if (selected != null)
             {
@@ -66,7 +66,7 @@ namespace Egret.Services
                 list.Add(selected);
                 List<InventoryCategory> orderedList = list.OrderBy(x => x.Name).DistinctBy(x => x.Name).ToList();
 
-                return new SelectList(orderedList, "Id", "Name", selected.Name);
+                return new SelectList(orderedList, "InventoryCategoryId", "Name", selected.Name);
             }
 
             return defaultSelectList;
@@ -80,7 +80,7 @@ namespace Egret.Services
         public virtual SelectList UnitsAll(string selected = null)
         {
             return new SelectList(Context.Units
-                            .OrderBy(x => x.SortOrder), "Id", "Abbreviation", selected);
+                            .OrderBy(x => x.SortOrder), "UnitId", "Abbreviation", selected);
         }
 
         /// <summary>
@@ -92,7 +92,7 @@ namespace Egret.Services
         {
             return new SelectList(Context.Units
                             .Where(x => x.Active == true)
-                            .OrderBy(x => x.SortOrder), "Id", "Abbreviation", selected);
+                            .OrderBy(x => x.SortOrder), "UnitId", "Abbreviation", selected);
         }
 
         /// <summary>
@@ -103,7 +103,7 @@ namespace Egret.Services
         {
             var all = Context.Units;
             var actives = Context.Units.OrderBy(x => x.SortOrder).Where(x => x.Active == true);
-            var defaultSelectList = new SelectList(actives, "Id", "Abbreviation");
+            var defaultSelectList = new SelectList(actives, "UnitId", "Abbreviation");
 
             if (selected != null)
             {
@@ -116,7 +116,7 @@ namespace Egret.Services
                 list.Add(selected);
                 List<Unit> orderedList = list.OrderBy(x => x.SortOrder).DistinctBy(x => x.Abbreviation).ToList();
 
-                return new SelectList(orderedList, "Id", "Abbreviation", selected.Name);
+                return new SelectList(orderedList, "UnitId", "Abbreviation", selected.Name);
             }
 
             return defaultSelectList;
@@ -130,7 +130,7 @@ namespace Egret.Services
         public virtual SelectList CurrencyTypesAll(int? selected = null)
         {
             return new SelectList(Context.CurrencyTypes
-                            .OrderBy(x => x.SortOrder), "Id", "Abbreviation", selected);
+                            .OrderBy(x => x.SortOrder), "CurrencyTypeId", "Abbreviation", selected);
         }
 
         /// <summary>
@@ -144,7 +144,7 @@ namespace Egret.Services
 
             return new SelectList(Context.CurrencyTypes
                             .Where(x => x.Active == true)
-                            .OrderBy(x => x.SortOrder), "Id", "Abbreviation", selected ?? defaultType.Id);
+                            .OrderBy(x => x.SortOrder), "CurrencyTypeId", "Abbreviation", selected ?? defaultType.CurrencyTypeId);
         }
 
         /// <summary>
@@ -155,7 +155,7 @@ namespace Egret.Services
         {
             var all = Context.CurrencyTypes;
             var actives = Context.CurrencyTypes.OrderBy(x => x.SortOrder).Where(x => x.Active == true);
-            var defaultSelectList = new SelectList(actives, "Id", "Abbreviation");
+            var defaultSelectList = new SelectList(actives, "CurrencyTypeId", "Abbreviation");
 
             if (selected != null)
             {
@@ -168,7 +168,7 @@ namespace Egret.Services
                 list.Add(selected);
                 List<CurrencyType> orderedList = list.OrderBy(x => x.SortOrder).DistinctBy(x => x.Abbreviation).ToList();
 
-                return new SelectList(orderedList, "Id", "Abbreviation", selected.Name);
+                return new SelectList(orderedList, "CurrencyTypeId", "Abbreviation", selected.Name);
             }
 
             return defaultSelectList;

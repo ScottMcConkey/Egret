@@ -3,19 +3,22 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 using System.ComponentModel.DataAnnotations;
+using System.ComponentModel.DataAnnotations.Schema;
 
 namespace Egret.Models
 {
     public class FabricTest
     {
-        public string Id { get; set; }
+        public string FabricTestId { get; set; }
 
         public string Name { get; set; }
 
         public string Result { get; set; }
 
+        [NotMapped]
         public string InventoryItemCode { get; set; }
 
+        [NotMapped]
         public InventoryItem InventoryItem { get; set; }
 
     }

@@ -4,7 +4,7 @@ namespace Egret.Models
 {
     public partial class CurrencyType
     {
-        public int Id { get; set; }
+        public int CurrencyTypeId { get; set; }
 
         [Required]
         public string Name { get; set; }
@@ -14,8 +14,8 @@ namespace Egret.Models
 
         public string Symbol { get; set; }
 
-        [Display(Name = "Sort Order")]
         [Required]
+        [Display(Name = "Sort Order")]
         public int SortOrder { get; set; }
 
         public bool Active { get; set; }

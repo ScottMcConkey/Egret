@@ -65,6 +65,7 @@ namespace Egret.Services
                 .Include(i => i.FobCostCurrencyNavigation)
                 .Include(i => i.ShippingCostCurrencyNavigation)
                 .Include(i => i.ImportCostCurrencyNavigation)
+                .Include(i => i.StorageLocationNavigation)
                 .FirstOrDefault(m => m.Code == id);
             return item;
         }
@@ -153,7 +154,7 @@ namespace Egret.Services
 
             // Category
             if (searchModel.Category != null)
-                results = results.Where(x => x.CategoryId == searchModel.Category);
+                results = results.Where(x => x.InventoryCategoryId == searchModel.Category);
 
             // Customer Purchased For
             if (!String.IsNullOrEmpty(searchModel.CustomerPurchasedFor))

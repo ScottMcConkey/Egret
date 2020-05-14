@@ -141,39 +141,13 @@ namespace Egret.DataAccess
 
             modelBuilder.Entity<ConsumptionEvent>(entity =>
             {
-                // Table
-                entity.ToTable("consumption_events");
-
                 // Properties
                 entity.Property(e => e.Id)
                     .HasDefaultValueSql("'CE' || nextval('consumption_events_id_seq'::regclass)");
 
-                entity.Property(e => e.DateAdded);
-
-                entity.Property(e => e.AddedBy);
-
-                entity.Property(e => e.DateUpdated);
-
-                entity.Property(e => e.UpdatedBy);
-
-                entity.Property(e => e.QuantityConsumed);
-
-                entity.Property(e => e.ConsumedBy);
-
-                entity.Property(e => e.DateOfConsumption);
-
-                entity.Property(e => e.OrderNumber);
-
-                entity.Property(e => e.PatternNumber);
-
-                entity.Property(e => e.Comments);
-
-                entity.Property(p => p.InventoryItemCode);
-
                 // Relationships
                 entity.HasOne(d => d.InventoryItemNavigation)
                     .WithMany(p => p.ConsumptionEventsNavigation)
-                    .HasPrincipalKey(p => p.Code)
                     .HasForeignKey(f => f.InventoryItemCode)
                     .OnDelete(DeleteBehavior.Cascade);
 
@@ -181,9 +155,6 @@ namespace Egret.DataAccess
 
             modelBuilder.Entity<CurrencyType>(entity =>
             {
-                // Table
-                entity.ToTable("currency_types");
-
                 // Indexes
                 entity.HasIndex(i => i.Name).IsUnique();
 
@@ -192,36 +163,15 @@ namespace Egret.DataAccess
                 entity.HasIndex(i => i.SortOrder).IsUnique();
 
                 // Properties
-                entity.Property(e => e.Id)
+                entity.Property(e => e.CurrencyTypeId)
                     .HasDefaultValueSql("nextval('currency_types_id_seq'::regclass)");
-
-                entity.Property(e => e.Name).IsRequired();
-
-                entity.Property(e => e.Abbreviation).IsRequired();
-
-                entity.Property(e => e.Symbol);
-
-                entity.Property(e => e.Active);
-
-                entity.Property(e => e.DefaultSelection);
-
-                entity.Property(e => e.SortOrder);
             });
 
             modelBuilder.Entity<FabricTest>(entity =>
             {
-                // Table
-                entity.ToTable("fabric_tests");
-
                 // Properties
-                entity.Property(e => e.Id)
+                entity.Property(e => e.FabricTestId)
                     .HasDefaultValueSql("nextval('fabric_tests_id_seq'::regclass)");
-
-                entity.Property(e => e.Name);
-
-                entity.Property(e => e.Result);
-
-                entity.Property(p => p.InventoryItemCode);
 
                 // Relationships
                 entity.HasOne(e => e.InventoryItem)
@@ -232,25 +182,14 @@ namespace Egret.DataAccess
 
             modelBuilder.Entity<InventoryCategory>(entity =>
             {
-                // Table
-                entity.ToTable("inventory_categories");
-
                 // Indexes
                 entity.HasIndex(i => i.Name).IsUnique();
 
                 entity.HasIndex(i => i.SortOrder).IsUnique();
 
                 // Properties
-                entity.Property(e => e.Id)
+                entity.Property(e => e.InventoryCategoryId)
                     .HasDefaultValueSql("nextval('inventory_categories_id_seq'::regclass)");
-
-                entity.Property(e => e.Name).IsRequired();
-
-                entity.Property(e => e.Description);
-
-                entity.Property(e => e.SortOrder).IsRequired();
-
-                entity.Property(e => e.Active);
             });
 
             modelBuilder.Entity<InventoryItem>(entity =>
@@ -267,7 +206,7 @@ namespace Egret.DataAccess
 
                 entity.Property(e => e.Description).IsRequired();
 
-                entity.Property(e => e.CategoryId).IsRequired();
+                entity.Property(e => e.InventoryCategoryId).IsRequired();
 
                 entity.Property(e => e.StorageLocationId);
 
@@ -320,28 +259,23 @@ namespace Egret.DataAccess
                 // Relationships
                 entity.HasOne(d => d.UnitNavigation)
                     .WithMany()
-                    .HasPrincipalKey(k => k.Id)
                     .HasForeignKey(k => k.UnitId);
 
                 entity.HasOne(d => d.FobCostCurrencyNavigation)
                     .WithMany()
-                    .HasPrincipalKey(k => k.Id)
                     .HasForeignKey(k => k.FobCostCurrencyId);
 
                 entity.HasOne(d => d.ShippingCostCurrencyNavigation)
                     .WithMany()
-                    .HasPrincipalKey(k => k.Id)
                     .HasForeignKey(k => k.ShippingCostCurrencyId);
 
                 entity.HasOne(d => d.ImportCostCurrencyNavigation)
                     .WithMany()
-                    .HasPrincipalKey(k => k.Id)
                     .HasForeignKey(k => k.ImportCostCurrencyId);
 
                 entity.HasOne(d => d.CategoryNavigation)
                     .WithMany()
-                    .HasPrincipalKey(p => p.Id)
-                    .HasForeignKey(d => d.CategoryId)
+                    .HasForeignKey(d => d.InventoryCategoryId)
                     .OnDelete(DeleteBehavior.Restrict);
 
                 entity.HasMany(d => d.FabricTestsNavigation)
@@ -361,9 +295,6 @@ namespace Egret.DataAccess
 
             modelBuilder.Entity<Unit>(entity =>
             {
-                // Table
-                entity.ToTable("units");
-
                 // Indexes
                 entity.HasIndex(e => e.Name)
                     .IsUnique();
@@ -375,16 +306,8 @@ namespace Egret.DataAccess
                     .IsUnique();
 
                 // Properties
-                entity.Property(e => e.Id)
+                entity.Property(e => e.UnitId)
                     .HasDefaultValueSql("nextval('units_id_seq'::regclass)");
-
-                entity.Property(e => e.Name).IsRequired();
-
-                entity.Property(e => e.Abbreviation).IsRequired();
-
-                entity.Property(e => e.SortOrder);
-
-                entity.Property(e => e.Active);
             });
 
             modelBuilder.Entity<UserAccessGroup>(entity =>
@@ -453,26 +376,26 @@ namespace Egret.DataAccess
 
             #region Seed Data
             modelBuilder.Entity<CurrencyType>().HasData(
-                new { Id = 1, Name = "Nepali Rupees", Symbol = "रु", Abbreviation = "NRP", SortOrder = 1, Active = true, DefaultSelection = true }
+                new { CurrencyTypeId = 1, Name = "Nepali Rupees", Symbol = "रु", Abbreviation = "NRP", SortOrder = 1, Active = true, DefaultSelection = true }
             );
 
             modelBuilder.Entity<InventoryCategory>().HasData(
-                new { Id = 1, Name = "Elastic", Description = "", SortOrder = 1, Active = true },
-                new { Id = 2, Name = "Fastener", Description = "", SortOrder = 2, Active = true },
-                new { Id = 3, Name = "Knit", Description = "", SortOrder = 3, Active = true },
-                new { Id = 4, Name = "Labels and Tags", Description = "", SortOrder = 4, Active = true },
-                new { Id = 5, Name = "Leather", Description = "", SortOrder = 5, Active = true },
-                new { Id = 6, Name = "Other", Description = "", SortOrder = 6, Active = true },
-                new { Id = 7, Name = "Thread", Description = "", SortOrder = 7, Active = true },
-                new { Id = 8, Name = "Woven", Description = "", SortOrder = 8, Active = true },
-                new { Id = 9, Name = "Zipper", Description = "", SortOrder = 9, Active = true }
+                new { InventoryCategoryId = 1, Name = "Elastic", Description = "", SortOrder = 1, Active = true },
+                new { InventoryCategoryId = 2, Name = "Fastener", Description = "", SortOrder = 2, Active = true },
+                new { InventoryCategoryId = 3, Name = "Knit", Description = "", SortOrder = 3, Active = true },
+                new { InventoryCategoryId = 4, Name = "Labels and Tags", Description = "", SortOrder = 4, Active = true },
+                new { InventoryCategoryId = 5, Name = "Leather", Description = "", SortOrder = 5, Active = true },
+                new { InventoryCategoryId = 6, Name = "Other", Description = "", SortOrder = 6, Active = true },
+                new { InventoryCategoryId = 7, Name = "Thread", Description = "", SortOrder = 7, Active = true },
+                new { InventoryCategoryId = 8, Name = "Woven", Description = "", SortOrder = 8, Active = true },
+                new { InventoryCategoryId = 9, Name = "Zipper", Description = "", SortOrder = 9, Active = true }
             );
 
             modelBuilder.Entity<Unit>().HasData(
-                new { Id = 1, Name = "kilogram", Abbreviation = "kg", SortOrder = 1, Active = true },
-                new { Id = 2, Name = "meter", Abbreviation = "m", SortOrder = 2, Active = true },
-                new { Id = 3, Name = "piece", Abbreviation = "piece", SortOrder = 3, Active = true },
-                new { Id = 4, Name = "set", Abbreviation = "set", SortOrder = 4, Active = true }
+                new { UnitId = 1, Name = "kilogram", Abbreviation = "kg", SortOrder = 1, Active = true },
+                new { UnitId = 2, Name = "meter", Abbreviation = "m", SortOrder = 2, Active = true },
+                new { UnitId = 3, Name = "piece", Abbreviation = "piece", SortOrder = 3, Active = true },
+                new { UnitId = 4, Name = "set", Abbreviation = "set", SortOrder = 4, Active = true }
             );
 
             var userId = "20551684-b958-4581-af23-96c1528b0e29";

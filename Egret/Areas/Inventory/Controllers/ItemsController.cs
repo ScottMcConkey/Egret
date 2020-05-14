@@ -44,7 +44,7 @@ namespace Egret.Controllers
             }
 
             presentation.Item = item;
-            presentation.FabricTests = item.FabricTestsNavigation.OrderBy(x => x.Id).ToList();
+            presentation.FabricTests = item.FabricTestsNavigation.OrderBy(x => x.FabricTestId).ToList();
             presentation.ConsumptionEvents = item.ConsumptionEventsNavigation.ToList();
 
             return View(presentation);
@@ -92,7 +92,7 @@ namespace Egret.Controllers
                 return RedirectToAction(nameof(Edit), new { Id = item.Code });
             }
 
-            ViewData["Category"] = _selectListService.CategoriesActive(item.CategoryId);
+            ViewData["Category"] = _selectListService.CategoriesActive(item.InventoryCategoryId);
             ViewData["Unit"] = _selectListService.UnitsActive(item.UnitId);
             ViewData["FOBCostCurrency"] = _selectListService.CurrencyTypesActive(item.FobCostCurrencyId);
             ViewData["ShippingCostCurrency"] = _selectListService.CurrencyTypesActive(item.ShippingCostCurrencyId);
@@ -126,7 +126,7 @@ namespace Egret.Controllers
             var viewModel = new ItemModel
             {
                 Item = item,
-                FabricTests = item.FabricTestsNavigation.OrderBy(x => x.Id).ToList(),
+                FabricTests = item.FabricTestsNavigation.OrderBy(x => x.FabricTestId).ToList(),
                 ConsumptionEvents = item.ConsumptionEventsNavigation.ToList()
             };
 
