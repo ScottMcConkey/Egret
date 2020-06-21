@@ -21,12 +21,15 @@ namespace Egret.Reports
             using (XLWorkbook workbook = new XLWorkbook())
             {
                 var worksheet = workbook.Worksheets.Add(report.Title);
+                var dateColumn = 10;
 
                 // Header
                 worksheet.Cell(rowNumber, 1).Value = report.Title;
+                worksheet.FirstColumn().Width = report.Title.Length;
+                worksheet.Column(10).Width = dateColumn;
                 rowNumber++;
                 worksheet.Cell(rowNumber, 1).Value = report.ImagePath;
-                worksheet.Cell(rowNumber, 20).Value = report.ReportDate;
+                worksheet.Cell(rowNumber, dateColumn).Value = report.ReportDate;
                 rowNumber++;
                 
                 for (var row = 0; row < report.Details.Count; row++)

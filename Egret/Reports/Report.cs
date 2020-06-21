@@ -19,7 +19,7 @@ namespace Egret.Reports
         // Header
         public virtual string ImagePath { get; set; } = "~Images/report-title.png";
 
-        public DateTime ReportDate { get; set; } = DateTime.Now;
+        public DateTime ReportDate { get; set; } = DateTime.Today;
 
         public virtual string Title { get; set; }
 
