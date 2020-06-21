@@ -10,11 +10,11 @@ namespace Egret.Controllers
 {
     [Area("Admin")]
     [Authorize(Roles = "Admin_Access")]
-    public class UnitsController : BaseController
+    public class StorageLocationsController : BaseController
     {
         private static ILogger _logger;
 
-        public UnitsController (EgretContext context, ILogger<UnitsController> logger)
+        public StorageLocationsController(EgretContext context, ILogger<StorageLocationsController> logger)
             :base(context)
         {
             _logger = logger;
@@ -23,55 +23,50 @@ namespace Egret.Controllers
         [HttpGet]
         public IActionResult Index()
         {
-            var units = Context.Units.OrderBy(x => x.SortOrder);
-            return View(units.ToList());
+            var locations = Context.StorageLocations.OrderBy(x => x.SortOrder);
+            return View(locations.ToList());
         }
 
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public IActionResult Index(List<Unit> units)
+        public IActionResult Index(List<StorageLocation> locations)
         {
             // Find duplicates
-            var duplicateName = units.GroupBy(x => x.Name).Where(g => g.Count() > 1)
+            var duplicateName = locations.GroupBy(x => x.Name).Where(g => g.Count() > 1)
                 .Select(y => y.Key)
                 .ToList();
-            var duplicateAbbr = units.GroupBy(x => x.Abbreviation).Where(g => g.Count() > 1)
-                .Select(y => y.Key)
-                .ToList();
-            var duplicateSortOrder = units.GroupBy(x => x.SortOrder).Where(g => g.Count() > 1)
+
+            var duplicateSortOrder = locations.GroupBy(x => x.SortOrder).Where(g => g.Count() > 1)
                 .Select(y => y.Key)
                 .ToList();
 
             // Find Sort Order <= 0
-            var badSort = units.Where(x => x.SortOrder <= 0);
+            var badSort = locations.Where(x => x.SortOrder <= 0);
 
             // Find usage
 
             // Error on duplicates
             if (duplicateName.Count > 0)
-                ModelState.AddModelError("", "Duplicate Name detected. Please assign every Unit a unique Name.");
-
-            if (duplicateAbbr.Count > 0)
-                ModelState.AddModelError("", "Duplicate Abbreviation detected. Please assign every Unit a unique Abbreviation.");
+                ModelState.AddModelError("", "Duplicate Name detected. Please assign every Storage Location a unique Name.");
 
             if (duplicateSortOrder.Count > 0)
-                ModelState.AddModelError("", "Duplicate Sort Order detected. Please assign every Unit a unique Sort Order.");
+                ModelState.AddModelError("", "Duplicate Sort Order detected. Please assign every Storage Location a unique Sort Order.");
 
             if (badSort.Count() > 0)
-                ModelState.AddModelError("", "Sort Order below 1 detected. Please assign every Unit a positive Sort Order.");
+                ModelState.AddModelError("", "Sort Order below 1 detected. Please assign every Storage Location a positive Sort Order.");
 
             if (ModelState.IsValid)
             {
-                for (int i = 0; i < units.Count(); i++)
+                for (int i = 0; i < locations.Count(); i++)
                 {
-                    Context.Update(units[i]);
+                    Context.Update(locations[i]);
                 }
                 Context.SaveChanges();
                 TempData["SuccessMessage"] = "Save Complete";
                 return RedirectToAction(nameof(Index));
             }
 
-            return View(units);            
+            return View(locations);            
         }
 
         [HttpGet]
@@ -82,9 +77,9 @@ namespace Egret.Controllers
 
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public ActionResult Create(Unit unit)
+        public ActionResult Create(StorageLocation location)
         {
-            unit.SortOrder = Context.Units
+            location.SortOrder = Context.StorageLocations
                 .Select(x => x.SortOrder)
                 .DefaultIfEmpty()
                 .ToList()
@@ -92,22 +87,22 @@ namespace Egret.Controllers
 
             if (ModelState.IsValid)
             {
-                Context.Add(unit);
+                Context.Add(location);
                 Context.SaveChanges();
-                TempData["SuccessMessage"] = "Unit Created";
+                TempData["SuccessMessage"] = "Storage Location Created";
                 return RedirectToAction(nameof(Index));
             }
 
-            return View(unit);
+            return View(location);
         }
 
         [HttpGet]
         public ActionResult Delete(int id)
         {
-            var unit = Context.Units.SingleOrDefault(m => m.UnitId == id);
-            Context.Units.Remove(unit);
+            var location = Context.StorageLocations.SingleOrDefault(m => m.StorageLocationId == id);
+            Context.StorageLocations.Remove(location);
             Context.SaveChanges();
-            TempData["SuccessMessage"] = $"Unit '{unit.Name}' Deleted";
+            TempData["SuccessMessage"] = $"Storage Location '{location.Name}' Deleted";
             return RedirectToAction(nameof(Index));
         }
 

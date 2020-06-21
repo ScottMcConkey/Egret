@@ -1,0 +1,29 @@
+﻿@model StorageLocation
+@{
+    Layout = "_SingleColumnLayout";
+    ViewData["WindowTitle"] = "Storage Location - Create";
+    ViewData["PageTitle"] = "Create Storage Location";
+}
+
+<form asp-action="Create">
+    <div class="form-group">
+        <label asp-for="Name" class="control-label"></label>
+        <input asp-for="Name" class="form-control" />
+    </div>
+
+    <div class="form-group">
+        <label asp-for="Description" class="control-label"></label>
+        <input asp-for="Description" class="form-control" />
+    </div>
+
+    <div class="form-group">
+        <label asp-for="Active" class="control-label" style="display: block;"></label>
+        <input asp-for="Active" checked="checked" class="form-control-sm" />
+    </div>
+
+    <div class="form-group">
+        <button type="submit" class="btn btn-primary">Save</button>
+        <a asp-action="Index" class="btn btn-default">Cancel</a>
+    </div>
+
+</form>

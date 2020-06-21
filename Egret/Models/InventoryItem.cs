@@ -13,8 +13,9 @@ namespace Egret.Models
     [CssIconClass("egret egret-inventory")]
     public partial class InventoryItem : IAuditable, IHasStockCount
     {
+        [Display(Name = "Code")]
         [Language(Name = "Nepali", Value = "कोड")]
-        public string Code { get; set; }
+        public string InventoryItemId { get; set; }
 
         [Display(Name = "Date Added")]
         [BindNever]
@@ -106,28 +107,36 @@ namespace Egret.Models
         [UIHint("checkbox")]
         public bool BondedWarehouse { get; set; }
 
-        [Display(Name = "Date of Order Confirmed")]
+        [Display(Name = "Date Confirmed")]
         [UIHint("Date")]
         public DateTime? DateConfirmed { get; set; }
 
-        [Display(Name = "Date of Shipping")]
+        [Display(Name = "Date Shipped")]
         [UIHint("Date")]
         public DateTime? DateShipped { get; set; }
 
-        [Display(Name = "Date of Arrival")]
+        [Display(Name = "Date Arrived")]
         [UIHint("Date")]
         public DateTime? DateArrived { get; set; }
 
         [Language(Name = "Nepali", Value = "टिप्पणीहरू")]
         public string Comments { get; set; }
 
+        [NotMapped]
         public InventoryCategory CategoryNavigation { get; set; }
+        [NotMapped]
         public Unit UnitNavigation { get; set; }
+        [NotMapped]
         public CurrencyType FobCostCurrencyNavigation { get; set; }
+        [NotMapped]
         public CurrencyType ShippingCostCurrencyNavigation { get; set; }
+        [NotMapped]
         public CurrencyType ImportCostCurrencyNavigation { get; set; }
+        [NotMapped]
         public StorageLocation StorageLocationNavigation { get; set; }
+        [NotMapped]
         public ICollection<FabricTest> FabricTestsNavigation { get; set; }
+        [NotMapped]
         public ICollection<ConsumptionEvent> ConsumptionEventsNavigation { get; set; }
 
         [Display(Name = "Quantity in Stock")]
@@ -324,7 +333,7 @@ namespace Egret.Models
         {
             get
             {
-                string output = (Code != "" ? "Code: " + Code + " - " : "") + (Description ?? "");
+                string output = (InventoryItemId != "" ? "Code: " + InventoryItemId + " - " : "") + (Description ?? "");
                 if (output.Length > 40)
                 {
                     output = output.Substring(0, 40);

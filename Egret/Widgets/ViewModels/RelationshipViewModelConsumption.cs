@@ -33,8 +33,8 @@ namespace Egret.ViewModels
         public string EditRole { get; set; } = "ConsumptionEvent_Edit";
         public string ReadOnlyRole { get; set; } = "ConsumptionEvent_Read";
         public string HelpText { get; set; } = "Create New Consumption Event";
-        public string ObjectDisplay { get; set; } = "RelationshipDisplay";
-        public string TargetObjectIdColumn { get; set; } = "Id";
+        public string ObjectDisplay { get; set; } = nameof(ConsumptionEvent.RelationshipDisplay);
+        public string TargetObjectIdColumn { get; set; } = nameof(ConsumptionEvent.ConsumptionEventId);
         public string CssClass { get; set; } = "egret egret-add";
         public ICollection RelationshipObjects { get; set; }
     }

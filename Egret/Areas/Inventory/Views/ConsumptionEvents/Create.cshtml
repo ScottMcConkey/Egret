@@ -11,9 +11,9 @@
     <fieldset class="default-fieldset">
         <legend class="col-form-label default-legend">Item</legend>
 
-        <label asp-for="@Model.InventoryItemCode" include-languages="Nepali" class="control-label required"></label>
+        <label asp-for="@Model.InventoryItemId" include-languages="Nepali" class="control-label required"></label>
         <div class="form-group form-inline">
-            <input asp-for="InventoryItemCode" class="form-control form-inline mr-2" />
+            <input asp-for="InventoryItemId" class="form-control form-inline mr-2" />
             <a id="callApi" class="btn btn-success" title="Check Inventory Code"><span class="egret egret-refresh"></span></a>
         </div>
 
@@ -29,8 +29,8 @@
     </fieldset>
 
     <div class="form-group">
-        <label asp-for="DateOfConsumption" include-languages="Nepali" class="control-label required"></label>
-        <input asp-for="DateOfConsumption" class="form-control" />
+        <label asp-for="DateConsumed" include-languages="Nepali" class="control-label required"></label>
+        <input asp-for="DateConsumed" class="form-control" />
     </div>
 
     <div class="form-group">

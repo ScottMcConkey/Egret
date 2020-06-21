@@ -15,7 +15,7 @@
 <table class="table table-condensed table-bordered table-striped">
     <thead>
         <tr>
-            <th>@Html.DisplayNameFor(model => model.Items[0].Code)</th>
+            <th>@Html.DisplayNameFor(model => model.Items[0].InventoryItemId)</th>
             <th>@Html.DisplayNameFor(model => model.Items[0].Description)</th>
             <th>@Html.DisplayNameFor(model => model.Items[0].InventoryCategoryId)</th>
             <th>@Html.DisplayNameFor(model => model.Items[0].CustomerReservedFor)</th>
@@ -33,10 +33,10 @@
             var isEditOrDetails = User.IsInRole("Item_Edit") ? "Edit" : "Details";
             foreach (var item in Model.Items)
             {
-                <tr class="clickable-row" onclick="location.href = '@(Url.Action(isEditOrDetails, new { id = item.Code }))'; location.target='_blank'">
+                <tr class="clickable-row" onclick="location.href = '@(Url.Action(isEditOrDetails, new { id = item.InventoryItemId }))'; location.target='_blank'">
                     <td>
-                        <a class="test" asp-action="@isEditOrDetails" asp-route-id="@item.Code">
-                            @Html.DisplayFor(modelItem => item.Code)
+                        <a class="test" asp-action="@isEditOrDetails" asp-route-id="@item.InventoryItemId">
+                            @Html.DisplayFor(modelItem => item.InventoryItemId)
                         </a>
                     </td>
                     <td>@Html.DisplayFor(modelItem => item.Description)</td>

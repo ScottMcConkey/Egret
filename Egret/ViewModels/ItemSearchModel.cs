@@ -21,6 +21,9 @@ namespace Egret.ViewModels
 
         public int? Category { get; set; }
 
+        [Display(Name = "Storage Location")]
+        public int? StorageLocation { get; set; }
+
         [Display(Name = "Customer Purchased For")]
         public string CustomerPurchasedFor { get; set; }
 

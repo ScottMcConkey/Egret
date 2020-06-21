@@ -79,7 +79,11 @@ namespace Egret.Controllers
         [ValidateAntiForgeryToken]
         public ActionResult Create(InventoryCategory category)
         {
-            category.SortOrder = Context.InventoryCategories.Max(x => x.SortOrder) + 1;
+            category.SortOrder = Context.InventoryCategories
+                .Select(x => x.SortOrder)
+                .DefaultIfEmpty()
+                .ToList()
+                .Max() + 1;
 
             if (ModelState.IsValid)
             {

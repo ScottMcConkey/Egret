@@ -3,7 +3,7 @@
 @{
     Layout = "_DoubleColumnLayout";
     ViewData["WindowTitle"] = "Item - Details";
-    ViewData["PageTitle"] = "Item Details: " + @Model?.Item.Code;
+    ViewData["PageTitle"] = "Item Details: " + @Model?.Item.InventoryItemId;
 }
 
 <div class="row">
@@ -34,8 +34,8 @@
                 <div class="col-md-6">
 
                     <p class="form-group">
-                        <label asp-for="Item.Code" include-languages="Nepali" class="control-label"></label>
-                        <input asp-for="Item.Code" class="form-control" readonly />
+                        <label asp-for="Item.InventoryItemId" include-languages="Nepali" class="control-label"></label>
+                        <input asp-for="Item.InventoryItemId" class="form-control" readonly />
                     </p>
 
                     <p class="form-group">
@@ -239,7 +239,8 @@
 
         @await Html.PartialAsync("_InStockWidget", Model.Item)
 
-        @await Html.PartialAsync("_RelatedObjectsWidget", new RelationshipViewModelConsumption(Model.ConsumptionEvents.OrderBy(x => x.DateOfConsumption).ToList(), Model.Item.Code))
+        @await Html.PartialAsync("_RelatedObjectsWidget", new RelationshipViewModelConsumption(Model.ConsumptionEvents
+            .OrderBy(x => x.DateConsumed).ToList(), Model.Item.InventoryItemId))
 
     </div>
 </div>

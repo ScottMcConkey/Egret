@@ -3,7 +3,7 @@
 @{
     Layout = "_DoubleColumnLayout";
     ViewData["WindowTitle"] = "Consumption Event - Details";
-    ViewData["PageTitle"] = "Details Consumption Event: " + @Model.ConsumptionEvent.Id;
+    ViewData["PageTitle"] = "Details Consumption Event: " + @Model.ConsumptionEvent.ConsumptionEventId;
 }
 
 
@@ -23,19 +23,19 @@
                 <div class="col-md-6">
 
                     <div class="form-group">
-                        <input type="hidden" asp-for="ConsumptionEvent.InventoryItemCode" />
-                        <label asp-for="ConsumptionEvent.Id" include-languages="Nepali" class="control-label"></label>
-                        <input asp-for="ConsumptionEvent.Id" class="form-control" disabled />
+                        <input type="hidden" asp-for="ConsumptionEvent.InventoryItemId" />
+                        <label asp-for="ConsumptionEvent.ConsumptionEventId" include-languages="Nepali" class="control-label"></label>
+                        <input asp-for="ConsumptionEvent.ConsumptionEventId" class="form-control" disabled />
                     </div>
 
                     <div class="form-group">
-                        <label asp-for="ConsumptionEvent.InventoryItemCode" include-languages="Nepali" class="control-label"></label>
-                        <input asp-for="ConsumptionEvent.InventoryItemCode" class="form-control" readonly />
+                        <label asp-for="ConsumptionEvent.InventoryItemId" include-languages="Nepali" class="control-label"></label>
+                        <input asp-for="ConsumptionEvent.InventoryItemId" class="form-control" readonly />
                     </div>
 
                     <div class="form-group">
-                        <label asp-for="ConsumptionEvent.DateOfConsumption" include-languages="Nepali" class="control-label"></label>
-                        <input asp-for="ConsumptionEvent.DateOfConsumption" class="form-control" readonly />
+                        <label asp-for="ConsumptionEvent.DateConsumed" include-languages="Nepali" class="control-label"></label>
+                        <input asp-for="ConsumptionEvent.DateConsumed" class="form-control" readonly />
                     </div>
 
                     <div class="form-group">

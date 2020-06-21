@@ -10,12 +10,6 @@ using System.Text.RegularExpressions;
 
 namespace Egret.DataAccess
 {
-    // Please notice, if no primary key is specified for a table, EF Core defaults to the [id] field or the
-    // [<entity name>id] property. The following code reflects a reliance on this convention and does not
-    // manually specify primary keys except where necessary.
-
-
-
     /// <summary>
     /// This class is the DbContext used throughout the project for accessing database stores with Entity Framework.
     /// </summary>
@@ -31,18 +25,18 @@ namespace Egret.DataAccess
         public virtual DbSet<FabricTest> FabricTests { get; set; }
         public virtual DbSet<InventoryCategory> InventoryCategories { get; set; }
         public virtual DbSet<InventoryItem> InventoryItems { get; set; }
+        public virtual DbSet<StorageLocation> StorageLocations { get; set; }
         public virtual DbSet<Unit> Units { get; set; }
         public virtual DbSet<UserAccessGroup> UserAccessGroups { get; set; }
-        public virtual DbSet<StorageLocation> StorageLocations { get; set; }
 
-        public DbSet<Test> TestResults { get; set; }
+        public DbSet<StockValueReport> StockValueReportResults { get; set; }
 
 
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
             base.OnModelCreating(modelBuilder);
 
-            modelBuilder.Entity<Test>()
+            modelBuilder.Entity<StockValueReport>()
                 .HasNoKey();
 
             #region PostgreSQL-Specific
@@ -109,23 +103,13 @@ namespace Egret.DataAccess
 
             modelBuilder.Entity<AccessGroup>(entity =>
             {
-                // Table
-                entity.ToTable("access_groups");
-
                 // Properties
                 entity.Property(p => p.Id)
                     .HasDefaultValueSql("nextval('access_groups_id_seq'::regclass)"); ;
-
-                entity.Property(p => p.Name);
-
-                entity.Property(e => e.Description);
             });
 
             modelBuilder.Entity<AccessGroupRole>(entity =>
             {
-                // Table
-                entity.ToTable("access_group_roles");
-
                 // Keys
                 entity.HasKey(k => new { k.AccessGroupId, k.RoleId });
 
@@ -141,14 +125,21 @@ namespace Egret.DataAccess
 
             modelBuilder.Entity<ConsumptionEvent>(entity =>
             {
+                // Indexes
+                entity.HasIndex(i => i.DateAdded);
+
+                entity.HasIndex(i => i.ConsumedBy);
+
+                entity.HasIndex(i => i.OrderNumber);
+
                 // Properties
-                entity.Property(e => e.Id)
+                entity.Property(e => e.ConsumptionEventId)
                     .HasDefaultValueSql("'CE' || nextval('consumption_events_id_seq'::regclass)");
 
                 // Relationships
                 entity.HasOne(d => d.InventoryItemNavigation)
                     .WithMany(p => p.ConsumptionEventsNavigation)
-                    .HasForeignKey(f => f.InventoryItemCode)
+                    .HasForeignKey(f => f.InventoryItemId)
                     .OnDelete(DeleteBehavior.Cascade);
 
             });
@@ -174,10 +165,9 @@ namespace Egret.DataAccess
                     .HasDefaultValueSql("nextval('fabric_tests_id_seq'::regclass)");
 
                 // Relationships
-                entity.HasOne(e => e.InventoryItem)
+                entity.HasOne(e => e.InventoryItemNavigation)
                     .WithMany(p => p.FabricTestsNavigation)
-                    .HasForeignKey(f => f.InventoryItemCode)
-                    .HasPrincipalKey(k => k.Code);
+                    .HasForeignKey(f => f.InventoryItemId);
             });
 
             modelBuilder.Entity<InventoryCategory>(entity =>
@@ -194,67 +184,12 @@ namespace Egret.DataAccess
 
             modelBuilder.Entity<InventoryItem>(entity =>
             {
-                // Table
-                entity.ToTable("inventory_items");
-
                 // Keys
-                entity.HasKey(k => k.Code);
+                entity.HasKey(k => k.InventoryItemId);
 
                 // Properties
-                entity.Property(e => e.Code)
+                entity.Property(e => e.InventoryItemId)
                     .HasDefaultValueSql("'I' || nextval('items_id_seq'::regclass)");
-
-                entity.Property(e => e.Description).IsRequired();
-
-                entity.Property(e => e.InventoryCategoryId).IsRequired();
-
-                entity.Property(e => e.StorageLocationId);
-
-                entity.Property(e => e.QtyPurchased);
-
-                entity.Property(e => e.UnitId);
-
-                entity.Property(e => e.CustomerPurchasedFor);
-
-                entity.Property(e => e.CustomerReservedFor);
-
-                entity.Property(e => e.Supplier);
-
-                entity.Property(e => e.QtyToPurchaseNow);
-
-                entity.Property(e => e.TargetPrice);
-
-                entity.Property(e => e.ShippingCompany);
-
-                entity.Property(e => e.BondedWarehouse);
-
-                entity.Property(e => e.Comments);
-
-                entity.Property(e => e.FobCost);
-
-                entity.Property(e => e.FobCostCurrencyId);
-
-                entity.Property(e => e.ShippingCost);
-
-                entity.Property(e => e.ShippingCostCurrencyId);
-
-                entity.Property(e => e.ImportCosts);
-
-                entity.Property(e => e.ImportCostCurrencyId);
-
-                entity.Property(e => e.DateAdded);
-
-                entity.Property(e => e.AddedBy);
-
-                entity.Property(e => e.DateUpdated);
-
-                entity.Property(e => e.UpdatedBy);
-
-                entity.Property(e => e.DateConfirmed);
-
-                entity.Property(e => e.DateShipped);
-
-                entity.Property(e => e.DateArrived);
 
                 // Relationships
                 entity.HasOne(d => d.UnitNavigation)
@@ -279,13 +214,13 @@ namespace Egret.DataAccess
                     .OnDelete(DeleteBehavior.Restrict);
 
                 entity.HasMany(d => d.FabricTestsNavigation)
-                    .WithOne(p => p.InventoryItem)
-                    .HasPrincipalKey(p => p.Code)
+                    .WithOne(p => p.InventoryItemNavigation)
+                    .HasForeignKey(p => p.InventoryItemId)
                     .OnDelete(DeleteBehavior.Cascade);
 
                 entity.HasMany(s => s.ConsumptionEventsNavigation)
                     .WithOne(p => p.InventoryItemNavigation)
-                    .HasPrincipalKey(p => p.Code)
+                    .HasForeignKey(p => p.InventoryItemId)
                     .OnDelete(DeleteBehavior.Cascade);
 
                 entity.HasOne(s => s.StorageLocationNavigation)
@@ -312,16 +247,8 @@ namespace Egret.DataAccess
 
             modelBuilder.Entity<UserAccessGroup>(entity =>
             {
-                // Table
-                entity.ToTable("user_access_groups");
-
                 // Keys
                 entity.HasKey(k => new { k.AccessGroupId, k.UserId });
-
-                // Properties
-                entity.Property(p => p.AccessGroupId);
-
-                entity.Property(p => p.UserId);
 
                 // Relationships
                 entity.HasOne(p => p.AccessGroup)

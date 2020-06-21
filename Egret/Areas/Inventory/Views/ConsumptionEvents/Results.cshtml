@@ -15,7 +15,7 @@
 <table class="table table-condensed table-bordered table-striped">
     <thead>
         <tr>
-            <th>@Html.DisplayNameFor(model => model.Events[0].InventoryItemCode)</th>
+            <th>@Html.DisplayNameFor(model => model.Events[0].InventoryItemId)</th>
             <th>@Html.DisplayNameFor(model => model.Events[0].DateAdded)</th>
             <th>@Html.DisplayNameFor(model => model.Events[0].ConsumedBy)</th>
             <th>@Html.DisplayNameFor(model => model.Events[0].OrderNumber)</th>
@@ -24,17 +24,17 @@
     <tbody>
         @if (Model.Events.Count() == 0)
         {
-            <tr><td colspan="3" class="text-center">There are no Consumption Events matching your search criteria.</td></tr>
+            <tr><td colspan="4" class="text-center">There are no Consumption Events matching your search criteria.</td></tr>
         }
         else
         {
             var isEditOrDetails = User.IsInRole("ConsumptionEvent_Edit") ? "Edit" : "Details";
             for (var i = 0; i < Model.Events.Count(); i++)
             {
-                <tr class="clickable-row" onclick="location.href = '@(Url.Action(isEditOrDetails, new { id = Model.Events[i].Id }))'; location.target='_blank'">
+                <tr class="clickable-row" onclick="location.href = '@(Url.Action(isEditOrDetails, new { id = Model.Events[i].ConsumptionEventId }))'; location.target='_blank'">
                     <td>
-                        <a class="test" asp-action="@isEditOrDetails" asp-route-id="@Model.Events[i].Id">
-                            @Model.Events[i].InventoryItemCode
+                        <a class="test" asp-action="@isEditOrDetails" asp-route-id="@Model.Events[i].ConsumptionEventId">
+                            @Model.Events[i].InventoryItemId
                         </a>
                     </td>
                     <td>@(Model.Events[i].DateAdded != null ? Model.Events[i].DateAdded.Value.ToShortDateString() + " " + Model.Events[i].DateAdded.Value.ToShortTimeString() : "")</td>

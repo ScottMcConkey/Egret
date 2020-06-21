@@ -16,10 +16,10 @@ namespace Egret.Models
         public string Result { get; set; }
 
         [NotMapped]
-        public string InventoryItemCode { get; set; }
+        public string InventoryItemId { get; set; }
 
         [NotMapped]
-        public InventoryItem InventoryItem { get; set; }
+        public InventoryItem InventoryItemNavigation { get; set; }
 
     }
 }

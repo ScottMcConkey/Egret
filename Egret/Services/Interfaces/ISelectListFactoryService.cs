@@ -27,6 +27,10 @@ namespace Egret.Services
 
         SelectList CurrencyTypesPlusCurrent(CurrencyType selected);
 
+        SelectList StorageLocationsAll(int? selected = null);
+
+        SelectList StorageLocationsActive(int? selected = null);
+
         SelectList ResultsPerPage();
     }
 }

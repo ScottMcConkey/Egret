@@ -1,12 +1,8 @@
-﻿using System.Collections.Generic;
-using System.ComponentModel.DataAnnotations;
-using System.Linq;
-using System.Threading.Tasks;
-using Microsoft.AspNetCore.Identity;
+﻿using Egret.Models;
 using Microsoft.AspNetCore.Authorization;
+using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
-using Egret.Models;
-using Egret.ViewModels;
+using System.Linq;
 
 namespace Egret.Controllers
 {
@@ -14,7 +10,7 @@ namespace Egret.Controllers
     [Authorize(Roles = "Admin_Access")]
     public class RolesController : Controller
     {
-        private RoleManager<Role> _roleManager;
+        private readonly RoleManager<Role> _roleManager;
 
         public RolesController(RoleManager<Role> roleMgr)
         {

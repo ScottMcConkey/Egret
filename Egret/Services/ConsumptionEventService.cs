@@ -47,19 +47,19 @@ namespace Egret.Services
             if (noTracking)
             {
                 var consumptionEvent = Context.ConsumptionEvents.AsNoTracking()
-                    .Where(i => i.Id == id)
+                    .Where(i => i.ConsumptionEventId == id)
                     .Include(i => i.InventoryItemNavigation)
                         .ThenInclude(i => i.UnitNavigation)
-                    .FirstOrDefault(m => m.Id == id);
+                    .FirstOrDefault(m => m.ConsumptionEventId == id);
                 return consumptionEvent;
             }
             else
             {
                 var consumptionEvent = Context.ConsumptionEvents
-                    .Where(i => i.Id == id)
+                    .Where(i => i.ConsumptionEventId == id)
                     .Include(i => i.InventoryItemNavigation)
                         .ThenInclude(i => i.UnitNavigation)
-                    .FirstOrDefault(m => m.Id == id);
+                    .FirstOrDefault(m => m.ConsumptionEventId == id);
                 return consumptionEvent;
             }
         }
@@ -70,7 +70,7 @@ namespace Egret.Services
         /// <param name="id"></param>
         public void DeleteConsumptionEvent(string id)
         {
-            var consumptionEvent = Context.ConsumptionEvents.Where(x => x.Id == id).FirstOrDefault();
+            var consumptionEvent = Context.ConsumptionEvents.Where(x => x.ConsumptionEventId == id).FirstOrDefault();
             Context.ConsumptionEvents.Remove(consumptionEvent);
             Context.SaveChanges();
         }
@@ -81,7 +81,7 @@ namespace Egret.Services
         /// <param name="id"></param>
         public void UpdateConsumptionEvent(ConsumptionEvent consumptionEvent, ClaimsPrincipal user)
         {
-            var eventToUpdate = Context.ConsumptionEvents.AsNoTracking().Where(x => x.Id == consumptionEvent.Id).FirstOrDefault();
+            var eventToUpdate = Context.ConsumptionEvents.AsNoTracking().Where(x => x.ConsumptionEventId == consumptionEvent.ConsumptionEventId).FirstOrDefault();
             consumptionEvent.UpdatedBy = user.Identity.Name;
             consumptionEvent.DateUpdated = DateTime.Now;
 
@@ -105,8 +105,8 @@ namespace Egret.Services
                 .AsNoTracking();
 
             // Code
-            if (!String.IsNullOrEmpty(searchModel.Code))
-                results = results.Where(x => x.InventoryItemCode.Contains(searchModel.Code));
+            if (!string.IsNullOrEmpty(searchModel.InventoryItemId))
+                results = results.Where(x => x.InventoryItemId.Contains(searchModel.InventoryItemId));
 
             // Date Added
             if (searchModel.DateCreatedStart != null && searchModel.DateCreatedEnd != null)
@@ -122,15 +122,15 @@ namespace Egret.Services
                 results = results.Where(x => x.DateAdded.Value.Date <= searchModel.DateCreatedEnd.Value.Date);
             }
 
+            var realResults = results.OrderBy(x => x.ConsumptionEventId).ToList();
+
             // Consumed By
-            if (!String.IsNullOrEmpty(searchModel.ConsumedBy))
-                results = results.Where(x => x.ConsumedBy.Contains(searchModel.ConsumedBy, StringComparison.InvariantCultureIgnoreCase));
+            if (!string.IsNullOrEmpty(searchModel.ConsumedBy))
+                realResults = realResults.Where(x => x.ConsumedBy.Contains(searchModel.ConsumedBy, StringComparison.OrdinalIgnoreCase)).ToList();
 
             // Order Number
-            if (!String.IsNullOrEmpty(searchModel.OrderNumber))
-                results = results.Where(x => x.OrderNumber.Contains(searchModel.OrderNumber, StringComparison.InvariantCultureIgnoreCase));
-
-            var realResults = results.OrderBy(x => x.Id).ToList();
+            if (!string.IsNullOrEmpty(searchModel.OrderNumber))
+                realResults = realResults.Where(x => x.OrderNumber.Contains(searchModel.OrderNumber, StringComparison.OrdinalIgnoreCase)).ToList();            
 
             return realResults;
         }

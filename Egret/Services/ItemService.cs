@@ -57,7 +57,7 @@ namespace Egret.Services
             }
 
             var item = Context.InventoryItems
-                .Where(i => i.Code == id)
+                .Where(i => i.InventoryItemId == id)
                 .Include(i => i.CategoryNavigation)
                 .Include(i => i.UnitNavigation)
                 .Include(i => i.ConsumptionEventsNavigation)
@@ -66,7 +66,7 @@ namespace Egret.Services
                 .Include(i => i.ShippingCostCurrencyNavigation)
                 .Include(i => i.ImportCostCurrencyNavigation)
                 .Include(i => i.StorageLocationNavigation)
-                .FirstOrDefault(m => m.Code == id);
+                .FirstOrDefault(m => m.InventoryItemId == id);
             return item;
         }
 
@@ -80,7 +80,7 @@ namespace Egret.Services
             Context.ChangeTracker.QueryTrackingBehavior = QueryTrackingBehavior.NoTracking;
 
             return Context.InventoryItems
-                .Where(x => x.Code == id)
+                .Where(x => x.InventoryItemId == id)
                 .Include(x => x.UnitNavigation)
                 .SingleOrDefault();
         }
@@ -91,7 +91,7 @@ namespace Egret.Services
         /// <param name="id"></param>
         public void DeleteItem(string id)
         {
-            var item = Context.InventoryItems.Where(x => x.Code == id).FirstOrDefault();
+            var item = Context.InventoryItems.Where(x => x.InventoryItemId == id).FirstOrDefault();
             Context.InventoryItems.Remove(item);
             Context.SaveChanges();
         }
@@ -102,13 +102,18 @@ namespace Egret.Services
         /// <param name="id"></param>
         public void UpdateItem(InventoryItem item, ClaimsPrincipal user)
         {
-            var itemToUpdate = Context.InventoryItems.AsNoTracking().Where(x => x.Code == item.Code).FirstOrDefault();
-            item.UpdatedBy = user.Identity.Name;
-            item.DateUpdated = DateTime.Now;
+            var itemToUpdate = Context.InventoryItems
+                .AsNoTracking()
+                .Where(x => x.InventoryItemId == item.InventoryItemId)
+                .FirstOrDefault();
 
             if (itemToUpdate != null)
             {
+                item.UpdatedBy = user.Identity.Name;
+                item.DateUpdated = DateTime.Now;
                 Context.InventoryItems.Update(item);
+                Context.Entry(item).Property(p => p.AddedBy).IsModified = false;
+                Context.Entry(item).Property(p => p.DateAdded).IsModified = false;
                 Context.SaveChanges();
             }
         }
@@ -127,12 +132,13 @@ namespace Egret.Services
                 .Include(x => x.ConsumptionEventsNavigation)
                 .Include(x => x.CategoryNavigation)
                 .Include(x => x.UnitNavigation)
+                .Include(x => x.StorageLocationNavigation)
                 .AsQueryable()
                 .AsNoTracking();
 
             // Code
             if (!String.IsNullOrEmpty(searchModel.Code))
-                results = results.Where(x => x.Code.Contains(searchModel.Code));
+                results = results.Where(x => x.InventoryItemId.Contains(searchModel.Code));
 
             // Description
             if (!String.IsNullOrEmpty(searchModel.Description))
@@ -156,6 +162,10 @@ namespace Egret.Services
             if (searchModel.Category != null)
                 results = results.Where(x => x.InventoryCategoryId == searchModel.Category);
 
+            // Storage Location
+            if (searchModel.StorageLocation != null)
+                results = results.Where(x => x.StorageLocationId == searchModel.StorageLocation);
+
             // Customer Purchased For
             if (!String.IsNullOrEmpty(searchModel.CustomerPurchasedFor))
                 results = results.Where(x => x.CustomerPurchasedFor.Contains(searchModel.CustomerPurchasedFor, StringComparison.InvariantCultureIgnoreCase));
@@ -170,14 +180,14 @@ namespace Egret.Services
             else if (searchModel.InStock == "No")
                 results = results.Where(x => x.StockLevel != "In Stock");
 
-            var realResults = results.OrderBy(x => x.Code).ToList();
+            var realResults = results.OrderBy(x => x.InventoryItemId).ToList();
 
             return realResults;
         }
     
         public void DefineFabricTestsForItem(InventoryItem item, List<FabricTest> fabricTests)
         {
-            var dbTests = Context.FabricTests.AsNoTracking().Where(x => x.InventoryItemCode == item.Code).ToList();
+            var dbTests = Context.FabricTests.AsNoTracking().Where(x => x.InventoryItemId == item.InventoryItemId).ToList();
 
             if (fabricTests != null && fabricTests.Count > 0)
             {
@@ -193,7 +203,7 @@ namespace Egret.Services
                 // Add all from model - model is authority
                 foreach (FabricTest test in fabricTests)
                 {
-                    test.InventoryItemCode = item.Code;
+                    test.InventoryItemId = item.InventoryItemId;
                     Context.FabricTests.Update(test);
                 }
             }

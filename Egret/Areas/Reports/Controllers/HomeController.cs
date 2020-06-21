@@ -1,6 +1,8 @@
 ﻿using ClosedXML.Excel;
+using DocumentFormat.OpenXml.Spreadsheet;
 using Egret.Controllers;
 using Egret.DataAccess;
+using Egret.Reports;
 using Egret.Services;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
@@ -32,24 +34,15 @@ namespace Egret.Areas.Reports.Controllers
         [HttpGet]
         public FileStreamResult CurrentInventoryReport()
         {
-            var categories = _reportService.TotalValueByCategory();
+            var reportFile = _reportService.GetTotalStockValueByCategoryReport();
 
-            var stream = new MemoryStream();
-            // Refactor to be Wrapper
-            using (XLWorkbook workbook = new XLWorkbook())
-            {
-                var worksheet = workbook.Worksheets.Add("Test Sheet");
-                for (var row = 0; row < categories.Count; row++)
-                {
-                    worksheet.Cell(row + 1, 1).Value = categories[row].Name;
-                    worksheet.Cell(row + 1, 2).Value = categories[row].StockValue.ToString();
-                }
-                workbook.SaveAs(stream);
-            }
+            //return reportFile;
+            return File(reportFile, "application/vnd.openxmlformats-officedocument.spreadsheetml.sheet", "Report.xlsx");
+        }
 
-            stream.Position = 0;
+        private void GetFile()
+        {
 
-            return File(stream, "application/vnd.openxmlformats-officedocument.spreadsheetml.sheet", "Report.xlsx");
         }
 
     }

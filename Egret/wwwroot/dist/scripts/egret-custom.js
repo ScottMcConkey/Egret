@@ -16,7 +16,7 @@ function CleanUpQueryString() {
 function FadeOutSuccessMessages() {
     $(function () {
         $("#success").delay(2000).fadeOut(5000, function () {
-            $(this).css({ "visibility": "hidden", display: 'block' }).slideUp();
+            $(this).css({ "visibility": "hidden", display: "block" }).slideUp();
         });
     });
 }
@@ -186,10 +186,10 @@ function AllowEditCode() {
         var ischecked = $(this).is(':checked');
 
         if (ischecked) {
-            $("#ConsumptionEvent_InventoryItemCode").removeAttr("readonly");
+            $("#ConsumptionEvent_InventoryItemId").removeAttr("readonly");
         }
         else if (!ischecked) {
-            $("#ConsumptionEvent_InventoryItemCode").attr("readonly", "readonly");
+            $("#ConsumptionEvent_InventoryItemId").attr("readonly", "readonly");
         }
 
     });

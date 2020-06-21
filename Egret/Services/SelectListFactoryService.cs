@@ -128,7 +128,7 @@ namespace Egret.Services
         public virtual SelectList CurrencyTypesAll(int? selected = null)
         {
             return new SelectList(Context.CurrencyTypes
-                            .OrderBy(x => x.SortOrder), nameof(CurrencyType.CurrencyTypeId), nameof(CurrencyType.Abbreviation), selected);
+                .OrderBy(x => x.SortOrder), nameof(CurrencyType.CurrencyTypeId), nameof(CurrencyType.Abbreviation), selected);
         }
 
         /// <summary>
@@ -173,16 +173,41 @@ namespace Egret.Services
         }
 
         /// <summary>
+        /// Returns all Storage Locations
+        /// </summary>
+        /// <param name="selected"></param>
+        /// <returns></returns>
+        public virtual SelectList StorageLocationsAll(int? selected = null)
+        {
+            return new SelectList(Context.StorageLocations
+                .OrderBy(x => x.SortOrder), nameof(StorageLocation.StorageLocationId), nameof(StorageLocation.Name), selected);
+        }
+
+        /// <summary>
+        /// Returns all Active Storage Locations
+        /// </summary>
+        /// <param name="selected"></param>
+        /// <returns></returns>
+        public virtual SelectList StorageLocationsActive(int? selected = null)
+        {
+            return new SelectList(Context.StorageLocations
+                .Where(x => x.Active == true)
+                .OrderBy(x => x.SortOrder), nameof(StorageLocation.StorageLocationId), nameof(StorageLocation.Name), selected);
+        }
+
+        /// <summary>
         /// Default system options for all ResultsPerPage dropdowns
         /// </summary>
         /// <returns></returns>
         public SelectList ResultsPerPage()
         {
-            List<SelectListItem> pageOptions = new List<SelectListItem>();
-            pageOptions.Add(new SelectListItem() { Text = "10", Value = "10" });
-            pageOptions.Add(new SelectListItem() { Text = "25", Value = "25" });
-            pageOptions.Add(new SelectListItem() { Text = "50", Value = "50" });
-            pageOptions.Add(new SelectListItem() { Text = "100", Value = "100" });
+            List<SelectListItem> pageOptions = new List<SelectListItem>
+            {
+                new SelectListItem() { Text = "10", Value = "10" },
+                new SelectListItem() { Text = "25", Value = "25" },
+                new SelectListItem() { Text = "50", Value = "50" },
+                new SelectListItem() { Text = "100", Value = "100" }
+            };
 
             return new SelectList(pageOptions, "Value", "Text");
         }

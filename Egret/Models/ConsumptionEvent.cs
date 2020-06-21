@@ -14,7 +14,7 @@ namespace Egret.Models
     public class ConsumptionEvent : IAuditable
     {
         [Language(Name = "Nepali", Value = "आईडी")]
-        public string Id { get; set; }
+        public string ConsumptionEventId { get; set; }
 
         [Display(Name = "Date Added")]
         public DateTime? DateAdded { get; set; }
@@ -43,7 +43,7 @@ namespace Egret.Models
         [Display(Name = "Date Consumed")]
         [UIHint("date")]
         [Language(Name = "Nepali", Value = "मिति खपत भयो")]
-        public DateTime? DateOfConsumption { get; set; }
+        public DateTime? DateConsumed { get; set; }
 
         [Display(Name = "Order Number")]
         [Language(Name = "Nepali", Value = "अर्डर नम्बर")]
@@ -59,7 +59,7 @@ namespace Egret.Models
         [Required]
         [Display(Name = "Item Code")]
         [Language(Name = "Nepali", Value = "वस्तु कोड")]
-        public string InventoryItemCode { get; set; }
+        public string InventoryItemId { get; set; }
 
         [NotMapped]
         public InventoryItem InventoryItemNavigation { get; set; }
@@ -70,7 +70,7 @@ namespace Egret.Models
         {
             get
             {
-                return (DateOfConsumption != null ? DateOfConsumption.Value.ToShortDateString() + " - " : "")
+                return (DateConsumed != null ? DateConsumed.Value.ToShortDateString() + " - " : "")
                     + "Quantity Consumed: " + (QuantityConsumed != null ? QuantityConsumed.ToString() : "0");
             }
             private set { }

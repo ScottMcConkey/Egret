@@ -3,15 +3,17 @@ using System;
 using Egret.DataAccess;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 using Npgsql.EntityFrameworkCore.PostgreSQL.Metadata;
 
 namespace Egret.Migrations
 {
     [DbContext(typeof(EgretContext))]
-    partial class EgretContextModelSnapshot : ModelSnapshot
+    [Migration("20200518211250_v0.3.0")]
+    partial class v030
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -28,7 +30,7 @@ namespace Egret.Migrations
                 .HasAnnotation("Relational:Sequence:.storage_location_id_seq", "'storage_location_id_seq', '', '1', '1', '', '', 'Int64', 'False'")
                 .HasAnnotation("Relational:Sequence:.units_id_seq", "'units_id_seq', '', '100', '1', '', '', 'Int64', 'False'");
 
-            modelBuilder.Entity("Egret.DataAccess.QueryModels.StockValueReport", b =>
+            modelBuilder.Entity("Egret.DataAccess.QueryModels.Test", b =>
                 {
                     b.Property<string>("Name")
                         .HasColumnName("name")
@@ -38,7 +40,7 @@ namespace Egret.Migrations
                         .HasColumnName("stock_value")
                         .HasColumnType("text");
 
-                    b.ToTable("stock_value_report_results");
+                    b.ToTable("test_results");
                 });
 
             modelBuilder.Entity("Egret.Models.AccessGroup", b =>
@@ -200,17 +202,8 @@ namespace Egret.Migrations
                     b.HasKey("ConsumptionEventId")
                         .HasName("pk_consumption_events");
 
-                    b.HasIndex("ConsumedBy")
-                        .HasName("ix_consumption_events_consumed_by");
-
-                    b.HasIndex("DateAdded")
-                        .HasName("ix_consumption_events_date_added");
-
                     b.HasIndex("InventoryItemId")
                         .HasName("ix_consumption_events_inventory_item_id");
-
-                    b.HasIndex("OrderNumber")
-                        .HasName("ix_consumption_events_order_number");
 
                     b.ToTable("consumption_events");
                 });

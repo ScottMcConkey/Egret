@@ -9,7 +9,6 @@ using Microsoft.Extensions.Logging;
 using Npgsql;
 using System;
 using System.Collections.Generic;
-using System.Data.SqlClient;
 using System.Linq;
 using System.Threading.Tasks;
 
@@ -21,10 +20,10 @@ namespace Egret.Controllers
     {
         private readonly UserManager<User> _userManager;
 
-        public AccessGroupsController(EgretContext context, ILogger<ItemsController> logger, UserManager<User> usrMgr)
+        public AccessGroupsController(EgretContext context, UserManager<User> userManager)
             :base(context)
         {
-            _userManager = usrMgr;
+            _userManager = userManager;
         }
 
         [HttpGet]

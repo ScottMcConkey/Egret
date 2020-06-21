@@ -6,6 +6,13 @@
   </PropertyGroup>
 
   <ItemGroup>
+    <Compile Remove="Migrations\20200514134844_v0.3.0.cs" />
+    <Compile Remove="Migrations\20200514134844_v0.3.0.Designer.cs" />
+    <Compile Remove="Migrations\20200514153632_v0.3.0.cs" />
+    <Compile Remove="Migrations\20200514153632_v0.3.0.Designer.cs" />
+  </ItemGroup>
+
+  <ItemGroup>
     <Folder Include="Images\" />
     <Folder Include="node_modules\" />
     <Folder Include="wwwroot\dist\fonts\" />

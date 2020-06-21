@@ -10,7 +10,7 @@ namespace Egret.ViewModels
     public class ConsumptionEventSearchModel : PagingInfo
     {
         [Display(Name = "Inventory Item Code")]
-        public string Code { get; set; }
+        public string InventoryItemId { get; set; }
 
         [UIHint("date")]
         public DateTime? DateCreatedStart { get; set; }
@@ -19,7 +19,6 @@ namespace Egret.ViewModels
         public DateTime? DateCreatedEnd { get; set; }
 
         [Display(Name = "Consumed By")]
-        [Language(Name = "Nepali", Value = "द्वारा उपभोग गरियो")]
         public string ConsumedBy { get; set; }
 
         [Display(Name = "Order Number")]

@@ -58,9 +58,9 @@ namespace Egret.Controllers
         {
             var consumptionEvent = new ConsumptionEvent()
             {
-                DateOfConsumption = DateTime.Now,
+                DateConsumed = DateTime.Now,
                 ConsumedBy = User.Identity.Name,
-                InventoryItemCode = sourceId
+                InventoryItemId = sourceId
             };
 
             return View(consumptionEvent);
@@ -73,11 +73,11 @@ namespace Egret.Controllers
         {
             if (ModelState.IsValid)
             {
-                consumptionEvent.InventoryItemCode = sourceId;
+                consumptionEvent.InventoryItemId = sourceId;
                 _eventService.CreateConsumptionEvent(consumptionEvent, User);
                 TempData["SuccessMessage"] = "Consumption Event Created";
 
-                return RedirectToAction("Edit", "Items", new { id = consumptionEvent.InventoryItemCode });
+                return RedirectToAction("Edit", "Items", new { id = consumptionEvent.InventoryItemId });
             }
 
             return View("CreateFromItem", consumptionEvent);
@@ -89,7 +89,7 @@ namespace Egret.Controllers
         {
             var consumptionEvent = new ConsumptionEvent()
             {
-                DateOfConsumption = DateTime.Now,
+                DateConsumed = DateTime.Now,
                 ConsumedBy = User.Identity.Name
             };
 
@@ -106,7 +106,7 @@ namespace Egret.Controllers
                 _eventService.CreateConsumptionEvent(consumptionEvent, User);
                 TempData["SuccessMessage"] = "Consumption Event Created";
 
-                return RedirectToAction("Edit", new { id = consumptionEvent.Id });
+                return RedirectToAction("Edit", new { id = consumptionEvent.ConsumptionEventId });
             }
 
             return View();
@@ -190,7 +190,10 @@ namespace Egret.Controllers
             searchModel.ItemsPerPage = searchModel.ResultsPerPage;
             var results = _eventService.FindConsumptionSearchResults(searchModel);
 
-            var filterResults = results.Skip((searchModel.CurrentPage - 1) * searchModel.ItemsPerPage).Take(searchModel.ItemsPerPage).ToList();
+            var filterResults = results
+                .Skip((searchModel.CurrentPage - 1) * searchModel.ItemsPerPage)
+                .Take(searchModel.ItemsPerPage)
+                .ToList();
 
             var presentation = new ConsumptionEventSearchResultsModel
             {

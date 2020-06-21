@@ -15,7 +15,7 @@ using System.ComponentModel.DataAnnotations.Schema;
 
 namespace Egret.DataAccess.QueryModels
 {
-    public class Test
+    public class StockValueReport
     {
         public string Name { get; set; }
         public string StockValue { get; set; }
