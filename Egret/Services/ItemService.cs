@@ -62,9 +62,6 @@ namespace Egret.Services
                 .Include(i => i.UnitNavigation)
                 .Include(i => i.ConsumptionEventsNavigation)
                 .Include(i => i.FabricTestsNavigation)
-                .Include(i => i.FobCostCurrencyNavigation)
-                .Include(i => i.ShippingCostCurrencyNavigation)
-                .Include(i => i.ImportCostCurrencyNavigation)
                 .Include(i => i.StorageLocationNavigation)
                 .FirstOrDefault(m => m.InventoryItemId == id);
             return item;

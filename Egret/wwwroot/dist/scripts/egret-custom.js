@@ -21,20 +21,6 @@ function FadeOutSuccessMessages() {
     });
 }
 
-function ManageMultiRowRadioSelects() {
-    $(".radio[value='False']").removeAttr("checked");
-    $(".radio").on("click", function () {
-
-        if ($(this).attr("checked") === "checked") {
-            $(this).prop("checked", false).attr("checked", false).attr("value", false);
-        }
-        else {
-            $(".radio").prop("checked", false).attr("checked", false).attr("value", false);
-            $(this).prop("checked", true).attr("checked", true).attr("value", true);
-        }
-    });
-}
-
 function ManageTabs() {
     $(".nav-link").on("click", function () {
         $(this).blur();

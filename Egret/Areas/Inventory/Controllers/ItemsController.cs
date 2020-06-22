@@ -57,9 +57,6 @@ namespace Egret.Controllers
         {
             ViewBag.Categories = _selectListService.CategoriesActive();
             ViewBag.Units = _selectListService.UnitsActive();
-            ViewBag.FobCostCurrencies = _selectListService.CurrencyTypesActive();
-            ViewBag.ShippingCostCurrencies = _selectListService.CurrencyTypesActive();
-            ViewBag.ImportCostCurrencies = _selectListService.CurrencyTypesActive();
             ViewBag.StorageLocations = _selectListService.StorageLocationsActive();
 
             return View();
@@ -71,9 +68,6 @@ namespace Egret.Controllers
         {
             ViewData["Categories"] = _selectListService.CategoriesActive();
             ViewData["Units"] = _selectListService.UnitsActive();
-            ViewData["FobCostCurrency"] = _selectListService.CurrencyTypesActive();
-            ViewData["ShippingCostCurrency"] = _selectListService.CurrencyTypesActive();
-            ViewData["ImportCostCurrency"] = _selectListService.CurrencyTypesActive();
             ViewData["StorageLocations"] = _selectListService.StorageLocationsActive();
 
             return View("Create", copy);
@@ -97,9 +91,6 @@ namespace Egret.Controllers
 
             ViewData["Categories"] = _selectListService.CategoriesActive(item.InventoryCategoryId);
             ViewData["Unit"] = _selectListService.UnitsActive(item.UnitId);
-            ViewData["FOBCostCurrency"] = _selectListService.CurrencyTypesActive(item.FobCostCurrencyId);
-            ViewData["ShippingCostCurrency"] = _selectListService.CurrencyTypesActive(item.ShippingCostCurrencyId);
-            ViewData["ImportCostCurrency"] = _selectListService.CurrencyTypesActive(item.ImportCostCurrencyId);
             ViewData["StorageLocations"] = _selectListService.StorageLocationsActive(item.StorageLocationId);
 
             return View(item);
@@ -123,9 +114,6 @@ namespace Egret.Controllers
 
             ViewData["Categories"] = _selectListService.CategoriesActivePlusCurrent(item.CategoryNavigation);
             ViewData["Units"] = _selectListService.UnitsActivePlusCurrent(item.UnitNavigation);
-            ViewData["FobCostCurrencies"] = _selectListService.CurrencyTypesPlusCurrent(item.FobCostCurrencyNavigation);
-            ViewData["ShippingCostCurrencies"] = _selectListService.CurrencyTypesPlusCurrent(item.ShippingCostCurrencyNavigation);
-            ViewData["ImportCostCurrencies"] = _selectListService.CurrencyTypesPlusCurrent(item.ImportCostCurrencyNavigation);
             ViewData["StorageLocations"] = _selectListService.StorageLocationsActive(item.StorageLocationId);
 
             var viewModel = new ItemModel
@@ -167,9 +155,6 @@ namespace Egret.Controllers
             // Rebuild viewmodel
             ViewData["Categories"] = _selectListService.CategoriesActivePlusCurrent(vm.Item.CategoryNavigation);
             ViewData["Units"] = _selectListService.UnitsActivePlusCurrent(vm.Item.UnitNavigation);
-            ViewData["FOBCostCurrencies"] = _selectListService.CurrencyTypesPlusCurrent(vm.Item.FobCostCurrencyNavigation);
-            ViewData["ShippingCostCurrencies"] = _selectListService.CurrencyTypesPlusCurrent(vm.Item.ShippingCostCurrencyNavigation);
-            ViewData["ImportCostCurrencies"] = _selectListService.CurrencyTypesPlusCurrent(vm.Item.ImportCostCurrencyNavigation);
             ViewData["StorageLocations"] = _selectListService.StorageLocationsActive(vm.Item.StorageLocationId);
 
             vm.Item = temp;

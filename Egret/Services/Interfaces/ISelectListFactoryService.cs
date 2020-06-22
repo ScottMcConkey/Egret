@@ -21,12 +21,6 @@ namespace Egret.Services
 
         SelectList UnitsActivePlusCurrent(Unit selected);
 
-        SelectList CurrencyTypesAll(int? selected = null);
-
-        SelectList CurrencyTypesActive(int? selected = null);
-
-        SelectList CurrencyTypesPlusCurrent(CurrencyType selected);
-
         SelectList StorageLocationsAll(int? selected = null);
 
         SelectList StorageLocationsActive(int? selected = null);

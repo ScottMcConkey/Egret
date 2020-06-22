@@ -121,58 +121,6 @@ namespace Egret.Services
         }
 
         /// <summary>
-        /// Returns all Currency Types
-        /// </summary>
-        /// <param name="selected"></param>
-        /// <returns></returns>
-        public virtual SelectList CurrencyTypesAll(int? selected = null)
-        {
-            return new SelectList(Context.CurrencyTypes
-                .OrderBy(x => x.SortOrder), nameof(CurrencyType.CurrencyTypeId), nameof(CurrencyType.Abbreviation), selected);
-        }
-
-        /// <summary>
-        /// Returns all Active Currency Types
-        /// </summary>
-        /// <param name="selected"></param>
-        /// <returns></returns>
-        public virtual SelectList CurrencyTypesActive(int? selected = null)
-        {
-            var defaultType = Context.CurrencyTypes.Where(x => x.DefaultSelection == true).FirstOrDefault();
-
-            return new SelectList(Context.CurrencyTypes
-                            .Where(x => x.Active == true)
-                            .OrderBy(x => x.SortOrder), nameof(CurrencyType.CurrencyTypeId), nameof(CurrencyType.Abbreviation), selected ?? defaultType.CurrencyTypeId);
-        }
-
-        /// <summary>
-        /// Returns a SelectList containing all active Currency Types
-        /// plus any selected Currency Type whether it is active or not.
-        /// </summary>
-        public virtual SelectList CurrencyTypesPlusCurrent(CurrencyType selected)
-        {
-            var all = Context.CurrencyTypes;
-            var actives = Context.CurrencyTypes.OrderBy(x => x.SortOrder).Where(x => x.Active == true);
-            var defaultSelectList = new SelectList(actives, nameof(CurrencyType.CurrencyTypeId), nameof(CurrencyType.Abbreviation));
-
-            if (selected != null)
-            {
-                if (!all.Any(x => x.Name == selected.Name))
-                {
-                    return defaultSelectList;
-                }
-
-                var list = actives.ToList();
-                list.Add(selected);
-                List<CurrencyType> orderedList = list.OrderBy(x => x.SortOrder).DistinctBy(x => x.Abbreviation).ToList();
-
-                return new SelectList(orderedList, nameof(CurrencyType.CurrencyTypeId), nameof(CurrencyType.Abbreviation), selected.Name);
-            }
-
-            return defaultSelectList;
-        }
-
-        /// <summary>
         /// Returns all Storage Locations
         /// </summary>
         /// <param name="selected"></param>

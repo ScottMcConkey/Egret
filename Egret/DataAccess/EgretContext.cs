@@ -196,18 +196,6 @@ namespace Egret.DataAccess
                     .WithMany()
                     .HasForeignKey(k => k.UnitId);
 
-                entity.HasOne(d => d.FobCostCurrencyNavigation)
-                    .WithMany()
-                    .HasForeignKey(k => k.FobCostCurrencyId);
-
-                entity.HasOne(d => d.ShippingCostCurrencyNavigation)
-                    .WithMany()
-                    .HasForeignKey(k => k.ShippingCostCurrencyId);
-
-                entity.HasOne(d => d.ImportCostCurrencyNavigation)
-                    .WithMany()
-                    .HasForeignKey(k => k.ImportCostCurrencyId);
-
                 entity.HasOne(d => d.CategoryNavigation)
                     .WithMany()
                     .HasForeignKey(d => d.InventoryCategoryId)

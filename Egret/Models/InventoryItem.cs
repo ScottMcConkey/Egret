@@ -61,21 +61,15 @@ namespace Egret.Models
         [DisplayFormat(DataFormatString = "{0:0.00##}", ApplyFormatInEditMode = true)]
         public decimal? FobCost { get; set; }
 
-        public int? FobCostCurrencyId { get; set; }
-
         [Display(Name = "Shipping Cost")]
         [Language(Name = "Nepali", Value = "ढुवानी खर्च")]
         [DisplayFormat(DataFormatString = "{0:0.00##}", ApplyFormatInEditMode = true)]
         public decimal? ShippingCost { get; set; }
 
-        public int? ShippingCostCurrencyId { get; set; }
-
         [Display(Name = "Import/Custom/Delivery Costs/VAT")]
         [Language(Name = "Nepali", Value = "आयात लागत")]
         [DisplayFormat(DataFormatString = "{0:0.00##}", ApplyFormatInEditMode = true)]
         public decimal? ImportCosts { get; set; }
-
-        public int? ImportCostCurrencyId { get; set; }
 
         [Required]
         [Display(Name = "Customer Purchased For")]

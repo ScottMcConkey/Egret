@@ -6,10 +6,6 @@
     ViewData["PageTitle"] = "Currency Types";
 }
 
-<p class="index-page-link">
-    <a asp-action="Create">Create New</a>
-</p>
-
 <form asp-action="Index">
 
     <table class="table table-condensed table-bordered">
@@ -24,16 +20,6 @@
                 <th>
                     @Html.DisplayNameFor(model => model[0].Symbol)
                 </th>
-                <th>
-                    @Html.DisplayNameFor(model => model[0].SortOrder)
-                </th>
-                <th>
-                    @Html.DisplayNameFor(model => model[0].Active)
-                </th>
-                <th>
-                    @Html.DisplayNameFor(model => model[0].DefaultSelection)
-                </th>
-                <th></th>
             </tr>
         </thead>
         <tbody>
@@ -56,18 +42,6 @@
                         <td>
                             <input class="form-control" asp-for="@Model[i].Symbol" />
                         </td>
-                        <td>
-                            <input class="form-control" asp-for="@Model[i].SortOrder" />
-                        </td>
-                        <td class="text-center">
-                            <input class="form-control-sm" type="checkbox" asp-for="@Model[i].Active" />
-                        </td>
-                        <td class="text-center">
-                            <input class="form-control-sm radio" type="radio" asp-for="@Model[i].DefaultSelection" value="@Model[i].DefaultSelection" />
-                        </td>
-                        <td class="text-center">
-                            <a class="delete" delete-for="Currency Type" asp-action="Delete" asp-route-id="@Model[i].CurrencyTypeId" title="Delete"><span class="egret egret-trash"></span></a>
-                        </td>
                     </tr>
                 }
             }
@@ -83,7 +57,3 @@
 <div>
     <a asp-area="Admin" asp-controller="Home" asp-action="Index">Back to Admin</a>
 </div>
-
-@section Scripts {
-    ManageMultiRowRadioSelects();
-}
