@@ -10,20 +10,22 @@ namespace Egret.Controllers
 {
     [Area("Admin")]
     [Authorize(Roles = "Admin_Access")]
-    public class StorageLocationsController : BaseController
+    public class StorageLocationsController : Controller
     {
-        private static ILogger _logger;
+        private readonly ILogger _logger;
 
-        public StorageLocationsController(EgretContext context, ILogger<StorageLocationsController> logger)
-            :base(context)
+        private readonly EgretDbContext _context;
+
+        public StorageLocationsController(EgretDbContext context, ILogger<StorageLocationsController> logger)
         {
+            _context = context;
             _logger = logger;
         }
 
         [HttpGet]
         public IActionResult Index()
         {
-            var locations = Context.StorageLocations.OrderBy(x => x.SortOrder);
+            var locations =  _context.StorageLocations.OrderBy(x => x.SortOrder);
             return View(locations.ToList());
         }
 
@@ -59,9 +61,9 @@ namespace Egret.Controllers
             {
                 for (int i = 0; i < locations.Count(); i++)
                 {
-                    Context.Update(locations[i]);
+                     _context.Update(locations[i]);
                 }
-                Context.SaveChanges();
+                 _context.SaveChanges();
                 TempData["SuccessMessage"] = "Save Complete";
                 return RedirectToAction(nameof(Index));
             }
@@ -79,7 +81,7 @@ namespace Egret.Controllers
         [ValidateAntiForgeryToken]
         public ActionResult Create(StorageLocation location)
         {
-            location.SortOrder = Context.StorageLocations
+            location.SortOrder =  _context.StorageLocations
                 .Select(x => x.SortOrder)
                 .DefaultIfEmpty()
                 .ToList()
@@ -87,8 +89,8 @@ namespace Egret.Controllers
 
             if (ModelState.IsValid)
             {
-                Context.Add(location);
-                Context.SaveChanges();
+                 _context.Add(location);
+                 _context.SaveChanges();
                 TempData["SuccessMessage"] = "Storage Location Created";
                 return RedirectToAction(nameof(Index));
             }
@@ -99,9 +101,9 @@ namespace Egret.Controllers
         [HttpGet]
         public ActionResult Delete(int id)
         {
-            var location = Context.StorageLocations.SingleOrDefault(m => m.StorageLocationId == id);
-            Context.StorageLocations.Remove(location);
-            Context.SaveChanges();
+            var location =  _context.StorageLocations.SingleOrDefault(m => m.StorageLocationId == id);
+             _context.StorageLocations.Remove(location);
+             _context.SaveChanges();
             TempData["SuccessMessage"] = $"Storage Location '{location.Name}' Deleted";
             return RedirectToAction(nameof(Index));
         }

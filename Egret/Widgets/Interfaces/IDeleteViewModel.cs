@@ -3,9 +3,9 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 
-namespace Egret.Interfaces
+namespace Egret.Widgets
 {
-    public interface IDeleteModel
+    public interface IDeleteViewModel
     {
         string AccessGroupName { get; }
 

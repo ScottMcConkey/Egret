@@ -13,7 +13,7 @@ namespace Egret.Services
     /// </summary>
     public class SelectListFactoryService : BaseService, ISelectListFactoryService
     {
-        public SelectListFactoryService(EgretContext context/*, ILogger logger*/)
+        public SelectListFactoryService(EgretDbContext context/*, ILogger logger*/)
             : base(context)
         {
             //_logger = logger;

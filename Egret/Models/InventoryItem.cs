@@ -1,5 +1,5 @@
 ﻿using Egret.Attributes;
-using Egret.Interfaces;
+using Egret.Widgets;
 using Microsoft.AspNetCore.Mvc.ModelBinding;
 using System;
 using System.Collections.Generic;
@@ -11,7 +11,7 @@ using System.Linq;
 namespace Egret.Models
 {
     [CssIconClass("egret egret-inventory")]
-    public partial class InventoryItem : IAuditable, IHasStockCount
+    public partial class InventoryItem : IAuditable, IStockLevel
     {
         [Display(Name = "Code")]
         [Language(Name = "Nepali", Value = "कोड")]

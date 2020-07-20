@@ -8,8 +8,8 @@ using Npgsql.EntityFrameworkCore.PostgreSQL.Metadata;
 
 namespace Egret.Migrations
 {
-    [DbContext(typeof(EgretContext))]
-    partial class EgretContextModelSnapshot : ModelSnapshot
+    [DbContext(typeof(EgretDbContext))]
+    partial class EgretDbContextModelSnapshot : ModelSnapshot
     {
         protected override void BuildModel(ModelBuilder modelBuilder)
         {
@@ -228,22 +228,10 @@ namespace Egret.Migrations
                         .HasColumnName("abbreviation")
                         .HasColumnType("text");
 
-                    b.Property<bool>("Active")
-                        .HasColumnName("active")
-                        .HasColumnType("boolean");
-
-                    b.Property<bool>("DefaultSelection")
-                        .HasColumnName("default_selection")
-                        .HasColumnType("boolean");
-
                     b.Property<string>("Name")
                         .IsRequired()
                         .HasColumnName("name")
                         .HasColumnType("text");
-
-                    b.Property<int>("SortOrder")
-                        .HasColumnName("sort_order")
-                        .HasColumnType("integer");
 
                     b.Property<string>("Symbol")
                         .HasColumnName("symbol")
@@ -260,10 +248,6 @@ namespace Egret.Migrations
                         .IsUnique()
                         .HasName("ix_currency_types_name");
 
-                    b.HasIndex("SortOrder")
-                        .IsUnique()
-                        .HasName("ix_currency_types_sort_order");
-
                     b.ToTable("currency_types");
 
                     b.HasData(
@@ -271,10 +255,7 @@ namespace Egret.Migrations
                         {
                             CurrencyTypeId = 1,
                             Abbreviation = "NRP",
-                            Active = true,
-                            DefaultSelection = true,
                             Name = "Nepali Rupees",
-                            SortOrder = 1,
                             Symbol = "रु"
                         });
                 });

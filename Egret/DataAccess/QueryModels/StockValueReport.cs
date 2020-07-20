@@ -6,7 +6,7 @@ using System.Linq;
 using System.Threading.Tasks;
 using Microsoft.EntityFrameworkCore.Migrations;
 using Egret.Attributes;
-using Egret.Interfaces;
+using Egret.Widgets;
 using Microsoft.AspNetCore.Mvc.ModelBinding;
 using System.ComponentModel;
 using System.ComponentModel.DataAnnotations;

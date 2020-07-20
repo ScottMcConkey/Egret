@@ -1,30 +1,30 @@
-﻿using Egret.DataAccess;
+﻿using Egret.Areas.Inventory.Models;
+using Egret.Controllers;
 using Egret.Models;
+using Egret.Models.Common;
 using Egret.Services;
-using Egret.ViewModels;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
-using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Logging;
 using System;
 using System.Collections.Generic;
 using System.Linq;
 
-namespace Egret.Controllers
+namespace Egret.Areas.Inventory.Controllers
 {
     [Area("Inventory")]
-    public class ConsumptionEventsController : BaseController
+    public class ConsumptionEventsController : Controller
     {
-        private static ILogger _logger;
-        private static ISelectListFactoryService _selectListService;
-        private static IConsumptionEventService _eventService;
+        private readonly ISelectListFactoryService _selectListService;
+        private readonly IConsumptionEventService _eventService;
+        private readonly ILogger _logger;
 
         public ConsumptionEventsController(ILogger<ConsumptionEventsController> logger, 
             ISelectListFactoryService selectListService, IConsumptionEventService consumptionEventService)
         {
-            _logger = logger;
             _selectListService = selectListService;
             _eventService = consumptionEventService;
+            _logger = logger;
         }
 
         [HttpGet]
@@ -188,7 +188,18 @@ namespace Egret.Controllers
         public IActionResult Results(ConsumptionEventSearchModel searchModel)
         {
             searchModel.ItemsPerPage = searchModel.ResultsPerPage;
-            var results = _eventService.FindConsumptionSearchResults(searchModel);
+
+            var query = new ConsumptionEventSearchQueryEntity()
+            {
+                InventoryItemId = searchModel.InventoryItemId,
+                DateCreatedStart = searchModel.DateCreatedStart,
+                DateCreatedEnd = searchModel.DateCreatedEnd,
+                ConsumedBy = searchModel.ConsumedBy,
+                OrderNumber = searchModel.OrderNumber,
+                ResultsPerPage = searchModel.ResultsPerPage
+            };
+
+            var results = _eventService.FindConsumptionSearchResults(query);
 
             var filterResults = results
                 .Skip((searchModel.CurrentPage - 1) * searchModel.ItemsPerPage)

@@ -11,20 +11,22 @@ namespace Egret.Controllers
 {
     [Area("Admin")]
     [Authorize(Roles = "Admin_Access")]
-    public class CurrencyTypesController : BaseController
+    public class CurrencyTypesController : Controller
     {
-        private static ILogger _logger;
+        private readonly ILogger _logger;
 
-        public CurrencyTypesController(EgretContext context, ILogger<CurrencyTypesController> logger)
-            : base(context)
+        private readonly EgretDbContext _context;
+
+        public CurrencyTypesController(EgretDbContext context, ILogger<CurrencyTypesController> logger)
         {
+            _context = context;
             _logger = logger;
         }
 
         [HttpGet]
         public IActionResult Index()
         {
-            var currencyTypes = Context.CurrencyTypes.OrderBy(x => x.SortOrder);
+            var currencyTypes = _context.CurrencyTypes;
             return View(currencyTypes.ToList());
         }
 
@@ -36,9 +38,9 @@ namespace Egret.Controllers
             {
                 for (int i = 0; i < types.Count(); i++)
                 {
-                    Context.Update(types[i]);
+                    _context.Update(types[i]);
                 }
-                Context.SaveChanges();
+                _context.SaveChanges();
                 TempData["SuccessMessage"] = "Save Complete";
                 return RedirectToAction(nameof(Index));
             }

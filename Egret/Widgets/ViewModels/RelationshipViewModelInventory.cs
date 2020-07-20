@@ -1,8 +1,7 @@
-﻿using Egret.Interfaces;
-using Egret.Models;
+﻿using Egret.Models;
 using System.Collections;
 
-namespace Egret.ViewModels
+namespace Egret.Widgets.ViewModels
 {
     /// <summary>
     /// The View Model is used for displaying related Inventory Item objects.

@@ -1,8 +1,7 @@
-﻿using Egret.Interfaces;
-
-namespace Egret.ViewModels
+﻿
+namespace Egret.Widgets.ViewModels
 {
-    public class ItemDeleteViewModel : IDeleteModel
+    public class ItemDeleteViewModel : IDeleteViewModel
     {
         public string AccessGroupName { get; } = "Item_Delete";
 

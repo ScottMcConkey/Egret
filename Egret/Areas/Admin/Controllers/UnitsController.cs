@@ -10,20 +10,22 @@ namespace Egret.Controllers
 {
     [Area("Admin")]
     [Authorize(Roles = "Admin_Access")]
-    public class UnitsController : BaseController
+    public class UnitsController : Controller
     {
-        private static ILogger _logger;
+        private readonly ILogger _logger;
 
-        public UnitsController (EgretContext context, ILogger<UnitsController> logger)
-            :base(context)
+        private readonly EgretDbContext _context;
+
+        public UnitsController (EgretDbContext context, ILogger<UnitsController> logger)
         {
+            _context = context;
             _logger = logger;
         }
 
         [HttpGet]
         public IActionResult Index()
         {
-            var units = Context.Units.OrderBy(x => x.SortOrder);
+            var units = _context.Units.OrderBy(x => x.SortOrder);
             return View(units.ToList());
         }
 
@@ -64,9 +66,9 @@ namespace Egret.Controllers
             {
                 for (int i = 0; i < units.Count(); i++)
                 {
-                    Context.Update(units[i]);
+                    _context.Update(units[i]);
                 }
-                Context.SaveChanges();
+                _context.SaveChanges();
                 TempData["SuccessMessage"] = "Save Complete";
                 return RedirectToAction(nameof(Index));
             }
@@ -84,7 +86,7 @@ namespace Egret.Controllers
         [ValidateAntiForgeryToken]
         public ActionResult Create(Unit unit)
         {
-            unit.SortOrder = Context.Units
+            unit.SortOrder = _context.Units
                 .Select(x => x.SortOrder)
                 .DefaultIfEmpty()
                 .ToList()
@@ -92,8 +94,8 @@ namespace Egret.Controllers
 
             if (ModelState.IsValid)
             {
-                Context.Add(unit);
-                Context.SaveChanges();
+                _context.Add(unit);
+                _context.SaveChanges();
                 TempData["SuccessMessage"] = "Unit Created";
                 return RedirectToAction(nameof(Index));
             }
@@ -104,9 +106,9 @@ namespace Egret.Controllers
         [HttpGet]
         public ActionResult Delete(int id)
         {
-            var unit = Context.Units.SingleOrDefault(m => m.UnitId == id);
-            Context.Units.Remove(unit);
-            Context.SaveChanges();
+            var unit = _context.Units.SingleOrDefault(m => m.UnitId == id);
+            _context.Units.Remove(unit);
+            _context.SaveChanges();
             TempData["SuccessMessage"] = $"Unit '{unit.Name}' Deleted";
             return RedirectToAction(nameof(Index));
         }

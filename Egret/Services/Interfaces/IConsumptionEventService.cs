@@ -4,6 +4,7 @@ using System.Linq;
 using System.Security.Claims;
 using System.Threading.Tasks;
 using Egret.Models;
+using Egret.Models.Common;
 using Egret.ViewModels;
 
 namespace Egret.Services
@@ -18,6 +19,6 @@ namespace Egret.Services
 
         void UpdateConsumptionEvent(ConsumptionEvent consumptionEvent, ClaimsPrincipal user);
 
-        List<ConsumptionEvent> FindConsumptionSearchResults(ConsumptionEventSearchModel searchModel);
+        List<ConsumptionEvent> FindConsumptionSearchResults(ConsumptionEventSearchQueryEntity searchModel);
     }
 }

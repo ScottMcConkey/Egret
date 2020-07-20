@@ -1,25 +1,24 @@
-﻿using Egret.Models;
+﻿using Egret.Areas.Inventory.Models;
+using Egret.Controllers;
+using Egret.Models;
+using Egret.Models.Common;
 using Egret.Services;
 using Egret.ViewModels;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Logging;
-using System;
 using System.Linq;
-using System.Collections.Generic;
-using Egret.Models.Common;
 
-namespace Egret.Controllers
+namespace Egret.Areas.Inventory.Controllers
 {
     [Area("Inventory")]
-    public class ItemsController : BaseController
+    public class ItemsController : Controller
     {
         private static ILogger _logger;
         private static IItemService _itemService;
         private static ISelectListFactoryService _selectListService;
 
-        public ItemsController(IItemService itemService, ILogger<ItemsController> logger, 
-            ISelectListFactoryService selectListService)
+        public ItemsController(ILogger<ItemsController> logger, IItemService itemService, ISelectListFactoryService selectListService)
         {
             _logger = logger;
             _itemService = itemService;
@@ -47,6 +46,7 @@ namespace Egret.Controllers
             presentation.Item = item;
             presentation.FabricTests = item.FabricTestsNavigation.OrderBy(x => x.FabricTestId).ToList();
             presentation.ConsumptionEvents = item.ConsumptionEventsNavigation.ToList();
+            SetCurrency();
 
             return View(presentation);
         }
@@ -58,6 +58,7 @@ namespace Egret.Controllers
             ViewBag.Categories = _selectListService.CategoriesActive();
             ViewBag.Units = _selectListService.UnitsActive();
             ViewBag.StorageLocations = _selectListService.StorageLocationsActive();
+            SetCurrency();
 
             return View();
         }
@@ -69,6 +70,7 @@ namespace Egret.Controllers
             ViewData["Categories"] = _selectListService.CategoriesActive();
             ViewData["Units"] = _selectListService.UnitsActive();
             ViewData["StorageLocations"] = _selectListService.StorageLocationsActive();
+            SetCurrency();
 
             return View("Create", copy);
         }
@@ -92,6 +94,7 @@ namespace Egret.Controllers
             ViewData["Categories"] = _selectListService.CategoriesActive(item.InventoryCategoryId);
             ViewData["Unit"] = _selectListService.UnitsActive(item.UnitId);
             ViewData["StorageLocations"] = _selectListService.StorageLocationsActive(item.StorageLocationId);
+            SetCurrency();
 
             return View(item);
         }
@@ -115,6 +118,7 @@ namespace Egret.Controllers
             ViewData["Categories"] = _selectListService.CategoriesActivePlusCurrent(item.CategoryNavigation);
             ViewData["Units"] = _selectListService.UnitsActivePlusCurrent(item.UnitNavigation);
             ViewData["StorageLocations"] = _selectListService.StorageLocationsActive(item.StorageLocationId);
+            SetCurrency();
 
             var viewModel = new ItemModel
             {
@@ -156,6 +160,7 @@ namespace Egret.Controllers
             ViewData["Categories"] = _selectListService.CategoriesActivePlusCurrent(vm.Item.CategoryNavigation);
             ViewData["Units"] = _selectListService.UnitsActivePlusCurrent(vm.Item.UnitNavigation);
             ViewData["StorageLocations"] = _selectListService.StorageLocationsActive(vm.Item.StorageLocationId);
+            SetCurrency();
 
             vm.Item = temp;
             vm.FabricTests = temp.FabricTestsNavigation.ToList();
@@ -206,7 +211,22 @@ namespace Egret.Controllers
         public IActionResult Results(ItemSearchModel searchModel)
         {
             searchModel.ItemsPerPage = searchModel.ResultsPerPage;
-            var results = _itemService.FindItemSearchResults(searchModel);
+
+            var queryObject = new ItemSearchQueryEntity()
+            {
+                ItemId = searchModel.Code,
+                Description = searchModel.Description,
+                DateCreatedStart = searchModel.DateCreatedStart,
+                DateCreatedEnd = searchModel.DateCreatedEnd,
+                Category = searchModel.Category,
+                StorageLocation = searchModel.StorageLocation,
+                CustomerPurchasedFor = searchModel.CustomerPurchasedFor,
+                CustomerReservedFor = searchModel.CustomerReservedFor,
+                StockLevel = searchModel.StockLevel,
+                ResultsPerPage = searchModel.ResultsPerPage
+            };
+
+            var results = _itemService.FindItemSearchResults(queryObject);
 
             var filterResults = results.Skip((searchModel.CurrentPage - 1) * searchModel.ItemsPerPage).Take(searchModel.ItemsPerPage).ToList();
 
@@ -219,6 +239,11 @@ namespace Egret.Controllers
             };
 
             return View(presentation);
+        }
+
+        private void SetCurrency()
+        {
+            ViewBag.Currency = _itemService.GetSystemCurrency();
         }
     }
 }

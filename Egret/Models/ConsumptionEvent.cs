@@ -6,7 +6,7 @@ using System.ComponentModel;
 using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
 using Egret.Attributes;
-using Egret.Interfaces;
+using Egret.Widgets;
 
 namespace Egret.Models
 {

@@ -7,23 +7,23 @@ using Egret.Services;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
+using Microsoft.Extensions.Logging;
 using System.IO;
 
 namespace Egret.Areas.Reports.Controllers
 {
     [Area("Reports")]
     [Authorize(Roles = "Item_Read")]
-    public class HomeController : BaseController
+    public class HomeController : Controller
     {
-        //private static ILogger _logger;
-        private static IReportService _reportService;
+        private readonly ILogger _logger;
+        private readonly IReportService _reportService;
 
-        public HomeController(EgretContext context, IReportService reportService)
-            : base(context)
+        public HomeController(EgretDbContext context, ILogger<HomeController> logger,IReportService reportService)
         {
-            //_logger = logger;
+            _logger = logger;
             _reportService = reportService;
-            Context.ChangeTracker.QueryTrackingBehavior = QueryTrackingBehavior.NoTracking;
+            context.ChangeTracker.QueryTrackingBehavior = QueryTrackingBehavior.NoTracking;
         }
 
         public IActionResult Index()
@@ -38,11 +38,6 @@ namespace Egret.Areas.Reports.Controllers
 
             //return reportFile;
             return File(reportFile, "application/vnd.openxmlformats-officedocument.spreadsheetml.sheet", "Report.xlsx");
-        }
-
-        private void GetFile()
-        {
-
         }
 
     }

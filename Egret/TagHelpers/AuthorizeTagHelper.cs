@@ -15,13 +15,11 @@ namespace Egret.TagHelpers
     [HtmlTargetElement(Attributes = "authorize-for")]
     public class AuthorizeTagHelper : TagHelper
     {
-        private IActionContextAccessor _actionAccessor;
-        private UserManager<User> _userManager;
+        private readonly IActionContextAccessor _actionAccessor;
 
-        public AuthorizeTagHelper(IActionContextAccessor actionAccessor, UserManager<User> usrMgr)
+        public AuthorizeTagHelper(IActionContextAccessor actionAccessor)
         {
             _actionAccessor = actionAccessor;
-            _userManager = usrMgr;
         }
 
         /// <summary>

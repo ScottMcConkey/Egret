@@ -1,17 +1,11 @@
 ﻿using Egret.DataAccess;
 using Egret.Models;
-using Egret.Utilities;
-using Egret.Services;
-using Egret.ViewModels;
-using Microsoft.AspNetCore.Authorization;
-using Microsoft.AspNetCore.Mvc;
+using Egret.Models.Common;
 using Microsoft.EntityFrameworkCore;
-using Microsoft.Extensions.Logging;
 using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Security.Claims;
-using Egret.Models.Common;
 
 namespace Egret.Services
 {
@@ -19,7 +13,7 @@ namespace Egret.Services
     {
         //ILogger _logger;
 
-        public ItemService(EgretContext context/*, ILogger logger*/)
+        public ItemService(EgretDbContext context/*, ILogger logger*/)
             : base(context)
         {
             //_logger = logger;
@@ -121,7 +115,7 @@ namespace Egret.Services
         /// </summary>
         /// <param name="searchModel"></param>
         /// <returns></returns>
-        public List<InventoryItem> FindItemSearchResults(ItemSearchModel searchModel)
+        public List<InventoryItem> FindItemSearchResults(ItemSearchQueryEntity searchModel)
         {
             Context.ChangeTracker.QueryTrackingBehavior = QueryTrackingBehavior.NoTracking;
 
@@ -134,11 +128,11 @@ namespace Egret.Services
                 .AsNoTracking();
 
             // Code
-            if (!String.IsNullOrEmpty(searchModel.Code))
-                results = results.Where(x => x.InventoryItemId.Contains(searchModel.Code));
+            if (!string.IsNullOrEmpty(searchModel.ItemId))
+                results = results.Where(x => x.InventoryItemId.Contains(searchModel.ItemId));
 
             // Description
-            if (!String.IsNullOrEmpty(searchModel.Description))
+            if (!string.IsNullOrEmpty(searchModel.Description))
                 results = results.Where(x => x.Description.Contains(searchModel.Description, StringComparison.InvariantCultureIgnoreCase));
 
             // Date Added
@@ -164,20 +158,20 @@ namespace Egret.Services
                 results = results.Where(x => x.StorageLocationId == searchModel.StorageLocation);
 
             // Customer Purchased For
-            if (!String.IsNullOrEmpty(searchModel.CustomerPurchasedFor))
+            if (!string.IsNullOrWhiteSpace(searchModel.CustomerPurchasedFor))
                 results = results.Where(x => x.CustomerPurchasedFor.Contains(searchModel.CustomerPurchasedFor, StringComparison.InvariantCultureIgnoreCase));
 
             // Customer Reserved For
-            if (!String.IsNullOrEmpty(searchModel.CustomerReservedFor))
+            if (!string.IsNullOrWhiteSpace(searchModel.CustomerReservedFor))
                 results = results.Where(x => x.CustomerReservedFor.Contains(searchModel.CustomerReservedFor, StringComparison.InvariantCultureIgnoreCase));
 
-            // In Stock
-            if (searchModel.InStock == "Yes")
-                results = results.Where(x => x.StockLevel == "In Stock");
-            else if (searchModel.InStock == "No")
-                results = results.Where(x => x.StockLevel != "In Stock");
-
             var realResults = results.OrderBy(x => x.InventoryItemId).ToList();
+
+            // In Stock
+            if (!string.IsNullOrWhiteSpace(searchModel.StockLevel))
+            {
+                realResults = realResults.Where(x => x.StockLevel == searchModel.StockLevel).ToList();
+            }
 
             return realResults;
         }
@@ -214,6 +208,11 @@ namespace Egret.Services
             }
 
             Context.SaveChanges();
+        }
+
+        public string GetSystemCurrency()
+        {
+            return Context.CurrencyTypes.AsNoTracking().FirstOrDefault().Abbreviation;
         }
     }
 }

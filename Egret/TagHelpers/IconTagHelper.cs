@@ -1,11 +1,6 @@
-﻿using Microsoft.AspNetCore.Razor.TagHelpers;
-using Microsoft.AspNetCore.Mvc.TagHelpers;
-using System.Text.Encodings.Web;
+﻿using Egret.Utilities;
+using Microsoft.AspNetCore.Razor.TagHelpers;
 using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Threading.Tasks;
-using Egret.Utilities;
 
 namespace Egret.TagHelpers
 {
@@ -13,7 +8,7 @@ namespace Egret.TagHelpers
     /// Sets the Icon css class using the CssIconClassAttribute on the Model.
     /// </summary>
     [HtmlTargetElement(Attributes = "icon-for")]
-    public class IconForTagHelper : TagHelper
+    public class IconTagHelper : TagHelper
     {
         [HtmlAttributeName("icon-for")]
         public string IconFor { get; set; }

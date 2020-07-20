@@ -8,7 +8,7 @@ namespace Egret.Controllers.ApiControllers
 {
     [Route("api/[controller]")]
     [ApiController]
-    public class InventoryApiController : BaseController
+    public class InventoryApiController : Controller
     {
         private IItemService _itemService { get; set; }
 

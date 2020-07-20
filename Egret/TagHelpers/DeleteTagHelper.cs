@@ -11,7 +11,7 @@ namespace Egret.TagHelpers
     /// a custom confirmation message before an object is deleted.
     /// </summary>
     [HtmlTargetElement(Attributes = "delete-for")]
-    public class DeleteForTagHelper : TagHelper
+    public class DeleteTagHelper : TagHelper
     {
         [HtmlAttributeName("delete-for")]
         public string DeleteFor { get; set; }

@@ -10,13 +10,15 @@ namespace Egret.Controllers
 {
     [Area("Admin")]
     [Authorize(Roles = "Admin_Access")]
-    public class InventoryCategoriesController : BaseController
+    public class InventoryCategoriesController : Controller
     {
-        private static ILogger _logger;
+        private readonly ILogger _logger;
 
-        public InventoryCategoriesController(EgretContext context, ILogger<InventoryCategoriesController> logger)
-            : base(context)
+        private readonly EgretDbContext _context;
+
+        public InventoryCategoriesController(EgretDbContext context, ILogger<InventoryCategoriesController> logger)
         {
+            _context = context;
             _logger = logger;
         }
 
@@ -24,8 +26,8 @@ namespace Egret.Controllers
         [HttpGet]
         public IActionResult Index()
         {
-            var egretContext = Context.InventoryCategories.OrderBy(x => x.SortOrder);
-            return View(egretContext.ToList());
+            var EgretDbContext = _context.InventoryCategories.OrderBy(x => x.SortOrder);
+            return View(EgretDbContext.ToList());
         }
 
         [HttpPost]
@@ -59,9 +61,9 @@ namespace Egret.Controllers
             {
                 for (int i = 0; i < inventoryCategories.Count(); i++)
                 {
-                    Context.Update(inventoryCategories[i]);
+                    _context.Update(inventoryCategories[i]);
                 }
-                Context.SaveChanges();
+                _context.SaveChanges();
                 TempData["SuccessMessage"] = "Save Complete";
                 return RedirectToAction(nameof(Index));
             }
@@ -79,7 +81,7 @@ namespace Egret.Controllers
         [ValidateAntiForgeryToken]
         public ActionResult Create(InventoryCategory category)
         {
-            category.SortOrder = Context.InventoryCategories
+            category.SortOrder = _context.InventoryCategories
                 .Select(x => x.SortOrder)
                 .DefaultIfEmpty()
                 .ToList()
@@ -87,8 +89,8 @@ namespace Egret.Controllers
 
             if (ModelState.IsValid)
             {
-                Context.Add(category);
-                Context.SaveChanges();
+                _context.Add(category);
+                _context.SaveChanges();
                 TempData["SuccessMessage"] = "Inventory Category Created";
                 return RedirectToAction(nameof(Index));
             }
@@ -98,9 +100,9 @@ namespace Egret.Controllers
 
         public ActionResult Delete(int id)
         {
-            var category = Context.InventoryCategories.SingleOrDefault(m => m.InventoryCategoryId == id);
-            Context.InventoryCategories.Remove(category);
-            Context.SaveChanges();
+            var category = _context.InventoryCategories.SingleOrDefault(m => m.InventoryCategoryId == id);
+            _context.InventoryCategories.Remove(category);
+            _context.SaveChanges();
             TempData["SuccessMessage"] = $"Inventory Category '{category.Name}' Deleted";
             return RedirectToAction(nameof(Index));
         }

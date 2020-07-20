@@ -11,5 +11,6 @@ namespace Egret.Utilities
     public static class Constants
     {
         public static string VersionNumber = "0.5.0";
+        public static string DefaultUpdateSuccessMessageText = "Changes Saved";
     }
 }

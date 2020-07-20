@@ -3,9 +3,8 @@ using Egret.DataAccess.QueryModels;
 using Egret.Reports;
 using Microsoft.EntityFrameworkCore;
 using System.Collections.Generic;
-using System.Linq;
-using Microsoft.AspNetCore.Mvc;
 using System.IO;
+using System.Linq;
 
 namespace Egret.Services
 {
@@ -13,7 +12,7 @@ namespace Egret.Services
     {
         //ILogger _logger;
 
-        public ReportService(EgretContext context/*, ILogger logger*/)
+        public ReportService(EgretDbContext context/*, ILogger logger*/)
             : base(context)
         {
             //_logger = logger;

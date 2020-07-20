@@ -19,7 +19,7 @@ namespace Egret
     {
         public IConfigurationRoot Configuration;
 
-        public Startup(IConfiguration configuration)
+        public Startup()
         {
             var builder = new ConfigurationBuilder()
                 //.SetBasePath(env.ContentRootPath)
@@ -32,7 +32,7 @@ namespace Egret
 
         public void ConfigureServices(IServiceCollection services)
         {
-            services.AddDbContext<EgretContext>(options =>
+            services.AddDbContext<EgretDbContext>(options =>
                 options.UseNpgsql(Configuration["ConnectionStrings:DefaultConnection"]));
             services.AddLogging(loggingBuilder =>
             {
@@ -41,6 +41,8 @@ namespace Egret
                 loggingBuilder.AddNLog();
             });
             services.AddSingleton<IActionContextAccessor, ActionContextAccessor>();
+            //services.AddTransient<ServiceFactory>();
+            services.AddSingleton<IConfiguration>(Configuration);
             services.AddTransient<IItemService, ItemService>();
             services.AddTransient<IReportService, ReportService>();
             services.AddTransient<IConsumptionEventService, ConsumptionEventService>();
@@ -61,7 +63,7 @@ namespace Egret
                     opts.Lockout.MaxFailedAccessAttempts = 10;
                 }
             )
-                .AddEntityFrameworkStores<EgretContext>();
+                .AddEntityFrameworkStores<EgretDbContext>();
 
             services.ConfigureApplicationCookie(options =>
             {

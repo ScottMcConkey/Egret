@@ -9,7 +9,7 @@ using Npgsql.EntityFrameworkCore.PostgreSQL.Metadata;
 
 namespace Egret.Migrations
 {
-    [DbContext(typeof(EgretContext))]
+    [DbContext(typeof(EgretDbContext))]
     [Migration("20200521041453_v0.4.0")]
     partial class v040
     {

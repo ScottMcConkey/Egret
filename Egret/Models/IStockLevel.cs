@@ -3,9 +3,9 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 
-namespace Egret.Interfaces
+namespace Egret.Models
 {
-    public interface IHasStockCount
+    public interface IStockLevel
     {
         decimal? StockQuantity { get; }
 

@@ -1,19 +1,17 @@
-﻿using System;
+﻿using Egret.DataAccess;
+using Egret.Models;
+using Egret.Models.Common;
+using Microsoft.EntityFrameworkCore;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Security.Claims;
-using System.Threading.Tasks;
-using Egret.DataAccess;
-using Egret.Models;
-using Egret.Services;
-using Egret.ViewModels;
-using Microsoft.EntityFrameworkCore;
 
 namespace Egret.Services
 {
     public class ConsumptionEventService : BaseService, IConsumptionEventService
     {
-        public ConsumptionEventService(EgretContext context/*, ILogger logger*/)
+        public ConsumptionEventService(EgretDbContext context/*, ILogger logger*/)
             : base(context)
         {
             //_logger = logger;
@@ -98,7 +96,7 @@ namespace Egret.Services
         /// </summary>
         /// <param name="searchModel"></param>
         /// <returns></returns>
-        public List<ConsumptionEvent> FindConsumptionSearchResults(ConsumptionEventSearchModel searchModel)
+        public List<ConsumptionEvent> FindConsumptionSearchResults(ConsumptionEventSearchQueryEntity searchModel)
         {
             var results = Context.ConsumptionEvents
                 .AsQueryable()

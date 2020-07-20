@@ -16,22 +16,23 @@ namespace Egret.DataAccess
 {
     [Area("Admin")]
     [Authorize(Roles = "Admin_Access")]
-    public class UsersController : BaseController
+    public class UsersController : Controller
     {
+        private readonly EgretDbContext _context;
         private readonly UserManager<User> _userManager;
         private readonly IUserValidator<User> _userValidator;
         private readonly IPasswordValidator<User> _passwordValidator;
         private readonly IPasswordHasher<User> _passwordHasher;
         private readonly ILogger _logger;
 
-        public UsersController(EgretContext context,
+        public UsersController(EgretDbContext context,
             UserManager<User> usrMgr,
             IUserValidator<User> userValid,
             IPasswordValidator<User> passValid,
             IPasswordHasher<User> passwordHash,
             ILogger<UsersController> logger)
-                : base(context)
         {
+            _context = context;
             _userManager = usrMgr;
             _userValidator = userValid;
             _passwordValidator = passValid;
@@ -156,9 +157,9 @@ namespace Egret.DataAccess
                 return NotFound();
             }
 
-            var user = await Context.Users.Where(x => x.Id == id).SingleOrDefaultAsync();
-            var accessGroups = Context.AccessGroups.AsNoTracking().ToList();
-            var relatedAccessGroups = Context.UserAccessGroups.AsNoTracking().Where(x => x.UserId == id).Select(x => x.AccessGroupId).ToList();
+            var user = await  _context.Users.Where(x => x.Id == id).SingleOrDefaultAsync();
+            var accessGroups =  _context.AccessGroups.AsNoTracking().ToList();
+            var relatedAccessGroups =  _context.UserAccessGroups.AsNoTracking().Where(x => x.UserId == id).Select(x => x.AccessGroupId).ToList();
 
             accessGroups.Where(x => relatedAccessGroups.Contains(x.Id)).ToList().ForEach(y => y.RelationshipPresent = true);
 
@@ -180,27 +181,27 @@ namespace Egret.DataAccess
                 return NotFound();
             }
 
-            User user = Context.Users.Where(x => x.Id == id).SingleOrDefault();
+            User user =  _context.Users.Where(x => x.Id == id).SingleOrDefault();
 
             presentation.UserName = user.UserName;
 
             if (ModelState.IsValid)
             {
                 // Remove all User Access Group rels
-                foreach (UserAccessGroup userGroup in Context.UserAccessGroups.Where(x => x.UserId == id))
+                foreach (UserAccessGroup userGroup in  _context.UserAccessGroups.Where(x => x.UserId == id))
                 {
-                    Context.UserAccessGroups.Remove(userGroup);
+                     _context.UserAccessGroups.Remove(userGroup);
                 }
 
                 // Set all User Access Group rels
                 foreach (AccessGroup group in presentation.AccessGroups.Where(x => x.RelationshipPresent == true))
                 {
-                    var localAccessGroup = Context.AccessGroups.AsNoTracking().Where(x => x.Id == group.Id).SingleOrDefault();
+                    var localAccessGroup =  _context.AccessGroups.AsNoTracking().Where(x => x.Id == group.Id).SingleOrDefault();
 
                     var newUserGroup = new UserAccessGroup() { AccessGroupId = localAccessGroup.Id, UserId = user.Id };
-                    Context.UserAccessGroups.Add(newUserGroup);
+                     _context.UserAccessGroups.Add(newUserGroup);
                 }
-                Context.SaveChanges();
+                 _context.SaveChanges();
 
                 // Remove all existing rels
                 IdentityResult removeRoles = await RemoveUserRoles(user);
@@ -261,7 +262,7 @@ namespace Egret.DataAccess
         [NonAction]
         private async Task<IdentityResult> AddUserRoles(User user)
         {
-            var roles = Context.Roles.FromSqlRaw(
+            var roles =  _context.Roles.FromSqlRaw(
                           "select r.name" +
                           "  from user_accessgroups uag" +
                           "  join accessgroup_roles agr" +
@@ -286,7 +287,7 @@ namespace Egret.DataAccess
 
             foreach (var name in roleNames)
             {
-                roles.Add(Context.Roles.AsNoTracking().Where(x => x.Name == name).SingleOrDefault());
+                roles.Add( _context.Roles.AsNoTracking().Where(x => x.Name == name).SingleOrDefault());
             }
 
             roles = roles.OrderBy(x => x.Name).ToList();

@@ -1,21 +1,18 @@
-﻿using DocumentFormat.OpenXml.Office2010.PowerPoint;
-using Egret.DataAccess.QueryModels;
+﻿using Egret.DataAccess.QueryModels;
 using Egret.Extensions;
 using Egret.Models;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Identity.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore;
-using System;
-using System.Text.RegularExpressions;
 
 namespace Egret.DataAccess
 {
     /// <summary>
     /// This class is the DbContext used throughout the project for accessing database stores with Entity Framework.
     /// </summary>
-    public partial class EgretContext : IdentityDbContext<User, Role, string>
+    public partial class EgretDbContext : IdentityDbContext<User, Role, string>
     {
-        public EgretContext(DbContextOptions<EgretContext> options) 
+        public EgretDbContext(DbContextOptions<EgretDbContext> options) 
             : base(options) {}
 
         public virtual DbSet<AccessGroup> AccessGroups { get; set; }
@@ -150,8 +147,6 @@ namespace Egret.DataAccess
                 entity.HasIndex(i => i.Name).IsUnique();
 
                 entity.HasIndex(i => i.Abbreviation).IsUnique();
-
-                entity.HasIndex(i => i.SortOrder).IsUnique();
 
                 // Properties
                 entity.Property(e => e.CurrencyTypeId)

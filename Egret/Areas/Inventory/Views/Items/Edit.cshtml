@@ -72,19 +72,19 @@
                             <label asp-for="Item.FobCost" include-languages="Nepali" class="control-label"></label>
                             <div class="form-group form-inline">
                                 <input asp-for="Item.FobCost" class="form-control col-md-6 mr-2" />
-                                
+                                @ViewBag.Currency
                             </div>
 
                             <label asp-for="Item.ShippingCost" include-languages="Nepali" class="control-label"></label>
                             <div class="form-group form-inline">
                                 <input asp-for="Item.ShippingCost" class="form-control col-md-6 mr-2" />
-                                
+                                @ViewBag.Currency
                             </div>
 
                             <label asp-for="Item.ImportCosts" include-languages="Nepali" class="control-label"></label>
                             <div class="form-group form-inline">
                                 <input asp-for="Item.ImportCosts" class="form-control col-md-6 mr-2" />
-                                
+                                @ViewBag.Currency
                             </div>
                         </fieldset>
 
@@ -260,7 +260,7 @@
 
         @await Html.PartialAsync("_ObjectInformationWidget", Model.Item)
 
-        @await Html.PartialAsync("_InStockWidget", Model.Item)
+        @await Html.PartialAsync("_StockLevelWidget", Model.Item)
 
         @await Html.PartialAsync("_CopyToNewItemWidget", Model.Item)
 

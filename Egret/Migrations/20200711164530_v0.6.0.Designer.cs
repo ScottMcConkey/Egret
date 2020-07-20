@@ -10,8 +10,8 @@ using Npgsql.EntityFrameworkCore.PostgreSQL.Metadata;
 namespace Egret.Migrations
 {
     [DbContext(typeof(EgretDbContext))]
-    [Migration("20200514024614_v0.1.0")]
-    partial class v010
+    [Migration("20200711164530_v0.6.0")]
+    partial class v060
     {
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
@@ -30,7 +30,7 @@ namespace Egret.Migrations
                 .HasAnnotation("Relational:Sequence:.storage_location_id_seq", "'storage_location_id_seq', '', '1', '1', '', '', 'Int64', 'False'")
                 .HasAnnotation("Relational:Sequence:.units_id_seq", "'units_id_seq', '', '100', '1', '', '', 'Int64', 'False'");
 
-            modelBuilder.Entity("Egret.DataAccess.QueryModels.Test", b =>
+            modelBuilder.Entity("Egret.DataAccess.QueryModels.StockValueReport", b =>
                 {
                     b.Property<string>("Name")
                         .HasColumnName("name")
@@ -40,7 +40,7 @@ namespace Egret.Migrations
                         .HasColumnName("stock_value")
                         .HasColumnType("text");
 
-                    b.ToTable("test_results");
+                    b.ToTable("stock_value_report_results");
                 });
 
             modelBuilder.Entity("Egret.Models.AccessGroup", b =>
@@ -145,9 +145,9 @@ namespace Egret.Migrations
 
             modelBuilder.Entity("Egret.Models.ConsumptionEvent", b =>
                 {
-                    b.Property<string>("Id")
+                    b.Property<string>("ConsumptionEventId")
                         .ValueGeneratedOnAdd()
-                        .HasColumnName("id")
+                        .HasColumnName("consumption_event_id")
                         .HasColumnType("text")
                         .HasDefaultValueSql("'CE' || nextval('consumption_events_id_seq'::regclass)");
 
@@ -168,18 +168,18 @@ namespace Egret.Migrations
                         .HasColumnName("date_added")
                         .HasColumnType("timestamp without time zone");
 
-                    b.Property<DateTime?>("DateOfConsumption")
+                    b.Property<DateTime?>("DateConsumed")
                         .IsRequired()
-                        .HasColumnName("date_of_consumption")
+                        .HasColumnName("date_consumed")
                         .HasColumnType("timestamp without time zone");
 
                     b.Property<DateTime?>("DateUpdated")
                         .HasColumnName("date_updated")
                         .HasColumnType("timestamp without time zone");
 
-                    b.Property<string>("InventoryItemCode")
+                    b.Property<string>("InventoryItemId")
                         .IsRequired()
-                        .HasColumnName("inventory_item_code")
+                        .HasColumnName("inventory_item_id")
                         .HasColumnType("text");
 
                     b.Property<string>("OrderNumber")
@@ -199,20 +199,29 @@ namespace Egret.Migrations
                         .HasColumnName("updated_by")
                         .HasColumnType("text");
 
-                    b.HasKey("Id")
+                    b.HasKey("ConsumptionEventId")
                         .HasName("pk_consumption_events");
 
-                    b.HasIndex("InventoryItemCode")
-                        .HasName("ix_consumption_events_inventory_item_code");
+                    b.HasIndex("ConsumedBy")
+                        .HasName("ix_consumption_events_consumed_by");
+
+                    b.HasIndex("DateAdded")
+                        .HasName("ix_consumption_events_date_added");
+
+                    b.HasIndex("InventoryItemId")
+                        .HasName("ix_consumption_events_inventory_item_id");
+
+                    b.HasIndex("OrderNumber")
+                        .HasName("ix_consumption_events_order_number");
 
                     b.ToTable("consumption_events");
                 });
 
             modelBuilder.Entity("Egret.Models.CurrencyType", b =>
                 {
-                    b.Property<int>("Id")
+                    b.Property<int>("CurrencyTypeId")
                         .ValueGeneratedOnAdd()
-                        .HasColumnName("id")
+                        .HasColumnName("currency_type_id")
                         .HasColumnType("integer")
                         .HasDefaultValueSql("nextval('currency_types_id_seq'::regclass)");
 
@@ -221,28 +230,16 @@ namespace Egret.Migrations
                         .HasColumnName("abbreviation")
                         .HasColumnType("text");
 
-                    b.Property<bool>("Active")
-                        .HasColumnName("active")
-                        .HasColumnType("boolean");
-
-                    b.Property<bool>("DefaultSelection")
-                        .HasColumnName("default_selection")
-                        .HasColumnType("boolean");
-
                     b.Property<string>("Name")
                         .IsRequired()
                         .HasColumnName("name")
                         .HasColumnType("text");
 
-                    b.Property<int>("SortOrder")
-                        .HasColumnName("sort_order")
-                        .HasColumnType("integer");
-
                     b.Property<string>("Symbol")
                         .HasColumnName("symbol")
                         .HasColumnType("text");
 
-                    b.HasKey("Id")
+                    b.HasKey("CurrencyTypeId")
                         .HasName("pk_currency_types");
 
                     b.HasIndex("Abbreviation")
@@ -253,35 +250,28 @@ namespace Egret.Migrations
                         .IsUnique()
                         .HasName("ix_currency_types_name");
 
-                    b.HasIndex("SortOrder")
-                        .IsUnique()
-                        .HasName("ix_currency_types_sort_order");
-
                     b.ToTable("currency_types");
 
                     b.HasData(
                         new
                         {
-                            Id = 1,
+                            CurrencyTypeId = 1,
                             Abbreviation = "NRP",
-                            Active = true,
-                            DefaultSelection = true,
                             Name = "Nepali Rupees",
-                            SortOrder = 1,
                             Symbol = "रु"
                         });
                 });
 
             modelBuilder.Entity("Egret.Models.FabricTest", b =>
                 {
-                    b.Property<string>("Id")
+                    b.Property<string>("FabricTestId")
                         .ValueGeneratedOnAdd()
-                        .HasColumnName("id")
+                        .HasColumnName("fabric_test_id")
                         .HasColumnType("text")
                         .HasDefaultValueSql("nextval('fabric_tests_id_seq'::regclass)");
 
-                    b.Property<string>("InventoryItemCode")
-                        .HasColumnName("inventory_item_code")
+                    b.Property<string>("InventoryItemId")
+                        .HasColumnName("inventory_item_id")
                         .HasColumnType("text");
 
                     b.Property<string>("Name")
@@ -292,20 +282,20 @@ namespace Egret.Migrations
                         .HasColumnName("result")
                         .HasColumnType("text");
 
-                    b.HasKey("Id")
+                    b.HasKey("FabricTestId")
                         .HasName("pk_fabric_tests");
 
-                    b.HasIndex("InventoryItemCode")
-                        .HasName("ix_fabric_tests_inventory_item_code");
+                    b.HasIndex("InventoryItemId")
+                        .HasName("ix_fabric_tests_inventory_item_id");
 
                     b.ToTable("fabric_tests");
                 });
 
             modelBuilder.Entity("Egret.Models.InventoryCategory", b =>
                 {
-                    b.Property<int>("Id")
+                    b.Property<int>("InventoryCategoryId")
                         .ValueGeneratedOnAdd()
-                        .HasColumnName("id")
+                        .HasColumnName("inventory_category_id")
                         .HasColumnType("integer")
                         .HasDefaultValueSql("nextval('inventory_categories_id_seq'::regclass)");
 
@@ -326,7 +316,7 @@ namespace Egret.Migrations
                         .HasColumnName("sort_order")
                         .HasColumnType("integer");
 
-                    b.HasKey("Id")
+                    b.HasKey("InventoryCategoryId")
                         .HasName("pk_inventory_categories");
 
                     b.HasIndex("Name")
@@ -342,7 +332,7 @@ namespace Egret.Migrations
                     b.HasData(
                         new
                         {
-                            Id = 1,
+                            InventoryCategoryId = 1,
                             Active = true,
                             Description = "",
                             Name = "Elastic",
@@ -350,7 +340,7 @@ namespace Egret.Migrations
                         },
                         new
                         {
-                            Id = 2,
+                            InventoryCategoryId = 2,
                             Active = true,
                             Description = "",
                             Name = "Fastener",
@@ -358,7 +348,7 @@ namespace Egret.Migrations
                         },
                         new
                         {
-                            Id = 3,
+                            InventoryCategoryId = 3,
                             Active = true,
                             Description = "",
                             Name = "Knit",
@@ -366,7 +356,7 @@ namespace Egret.Migrations
                         },
                         new
                         {
-                            Id = 4,
+                            InventoryCategoryId = 4,
                             Active = true,
                             Description = "",
                             Name = "Labels and Tags",
@@ -374,7 +364,7 @@ namespace Egret.Migrations
                         },
                         new
                         {
-                            Id = 5,
+                            InventoryCategoryId = 5,
                             Active = true,
                             Description = "",
                             Name = "Leather",
@@ -382,7 +372,7 @@ namespace Egret.Migrations
                         },
                         new
                         {
-                            Id = 6,
+                            InventoryCategoryId = 6,
                             Active = true,
                             Description = "",
                             Name = "Other",
@@ -390,7 +380,7 @@ namespace Egret.Migrations
                         },
                         new
                         {
-                            Id = 7,
+                            InventoryCategoryId = 7,
                             Active = true,
                             Description = "",
                             Name = "Thread",
@@ -398,7 +388,7 @@ namespace Egret.Migrations
                         },
                         new
                         {
-                            Id = 8,
+                            InventoryCategoryId = 8,
                             Active = true,
                             Description = "",
                             Name = "Woven",
@@ -406,7 +396,7 @@ namespace Egret.Migrations
                         },
                         new
                         {
-                            Id = 9,
+                            InventoryCategoryId = 9,
                             Active = true,
                             Description = "",
                             Name = "Zipper",
@@ -416,9 +406,9 @@ namespace Egret.Migrations
 
             modelBuilder.Entity("Egret.Models.InventoryItem", b =>
                 {
-                    b.Property<string>("Code")
+                    b.Property<string>("InventoryItemId")
                         .ValueGeneratedOnAdd()
-                        .HasColumnName("code")
+                        .HasColumnName("inventory_item_id")
                         .HasColumnType("text")
                         .HasDefaultValueSql("'I' || nextval('items_id_seq'::regclass)");
 
@@ -429,11 +419,6 @@ namespace Egret.Migrations
                     b.Property<bool>("BondedWarehouse")
                         .HasColumnName("bonded_warehouse")
                         .HasColumnType("boolean");
-
-                    b.Property<int?>("CategoryId")
-                        .IsRequired()
-                        .HasColumnName("category_id")
-                        .HasColumnType("integer");
 
                     b.Property<string>("Comments")
                         .HasColumnName("comments")
@@ -478,17 +463,14 @@ namespace Egret.Migrations
                         .HasColumnName("fob_cost")
                         .HasColumnType("numeric");
 
-                    b.Property<int?>("FobCostCurrencyId")
-                        .HasColumnName("fob_cost_currency_id")
-                        .HasColumnType("integer");
-
-                    b.Property<int?>("ImportCostCurrencyId")
-                        .HasColumnName("import_cost_currency_id")
-                        .HasColumnType("integer");
-
                     b.Property<decimal?>("ImportCosts")
                         .HasColumnName("import_costs")
                         .HasColumnType("numeric");
+
+                    b.Property<int?>("InventoryCategoryId")
+                        .IsRequired()
+                        .HasColumnName("inventory_category_id")
+                        .HasColumnType("integer");
 
                     b.Property<decimal?>("QtyPurchased")
                         .IsRequired()
@@ -506,10 +488,6 @@ namespace Egret.Migrations
                     b.Property<decimal?>("ShippingCost")
                         .HasColumnName("shipping_cost")
                         .HasColumnType("numeric");
-
-                    b.Property<int?>("ShippingCostCurrencyId")
-                        .HasColumnName("shipping_cost_currency_id")
-                        .HasColumnType("integer");
 
                     b.Property<int?>("StorageLocationId")
                         .HasColumnName("storage_location_id")
@@ -531,20 +509,11 @@ namespace Egret.Migrations
                         .HasColumnName("updated_by")
                         .HasColumnType("text");
 
-                    b.HasKey("Code")
+                    b.HasKey("InventoryItemId")
                         .HasName("pk_inventory_items");
 
-                    b.HasIndex("CategoryId")
-                        .HasName("ix_inventory_items_category_id");
-
-                    b.HasIndex("FobCostCurrencyId")
-                        .HasName("ix_inventory_items_fob_cost_currency_id");
-
-                    b.HasIndex("ImportCostCurrencyId")
-                        .HasName("ix_inventory_items_import_cost_currency_id");
-
-                    b.HasIndex("ShippingCostCurrencyId")
-                        .HasName("ix_inventory_items_shipping_cost_currency_id");
+                    b.HasIndex("InventoryCategoryId")
+                        .HasName("ix_inventory_items_inventory_category_id");
 
                     b.HasIndex("StorageLocationId")
                         .HasName("ix_inventory_items_storage_location_id");
@@ -674,6 +643,10 @@ namespace Egret.Migrations
                         .HasColumnType("integer")
                         .HasDefaultValueSql("nextval('storage_location_id_seq'::regclass)");
 
+                    b.Property<bool>("Active")
+                        .HasColumnName("active")
+                        .HasColumnType("boolean");
+
                     b.Property<string>("Description")
                         .HasColumnName("description")
                         .HasColumnType("text");
@@ -683,6 +656,10 @@ namespace Egret.Migrations
                         .HasColumnName("name")
                         .HasColumnType("text");
 
+                    b.Property<int>("SortOrder")
+                        .HasColumnName("sort_order")
+                        .HasColumnType("integer");
+
                     b.HasKey("StorageLocationId")
                         .HasName("pk_storage_locations");
 
@@ -691,9 +668,9 @@ namespace Egret.Migrations
 
             modelBuilder.Entity("Egret.Models.Unit", b =>
                 {
-                    b.Property<int>("Id")
+                    b.Property<int>("UnitId")
                         .ValueGeneratedOnAdd()
-                        .HasColumnName("id")
+                        .HasColumnName("unit_id")
                         .HasColumnType("integer")
                         .HasDefaultValueSql("nextval('units_id_seq'::regclass)");
 
@@ -715,7 +692,7 @@ namespace Egret.Migrations
                         .HasColumnName("sort_order")
                         .HasColumnType("integer");
 
-                    b.HasKey("Id")
+                    b.HasKey("UnitId")
                         .HasName("pk_units");
 
                     b.HasIndex("Abbreviation")
@@ -735,7 +712,7 @@ namespace Egret.Migrations
                     b.HasData(
                         new
                         {
-                            Id = 1,
+                            UnitId = 1,
                             Abbreviation = "kg",
                             Active = true,
                             Name = "kilogram",
@@ -743,7 +720,7 @@ namespace Egret.Migrations
                         },
                         new
                         {
-                            Id = 2,
+                            UnitId = 2,
                             Abbreviation = "m",
                             Active = true,
                             Name = "meter",
@@ -751,7 +728,7 @@ namespace Egret.Migrations
                         },
                         new
                         {
-                            Id = 3,
+                            UnitId = 3,
                             Abbreviation = "piece",
                             Active = true,
                             Name = "piece",
@@ -759,7 +736,7 @@ namespace Egret.Migrations
                         },
                         new
                         {
-                            Id = 4,
+                            UnitId = 4,
                             Abbreviation = "set",
                             Active = true,
                             Name = "set",
@@ -1100,18 +1077,18 @@ namespace Egret.Migrations
                 {
                     b.HasOne("Egret.Models.InventoryItem", "InventoryItemNavigation")
                         .WithMany("ConsumptionEventsNavigation")
-                        .HasForeignKey("InventoryItemCode")
-                        .HasConstraintName("fk_consumption_events_inventory_items_inventory_item_code")
+                        .HasForeignKey("InventoryItemId")
+                        .HasConstraintName("fk_consumption_events_inventory_items_inventory_item_id")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
                 });
 
             modelBuilder.Entity("Egret.Models.FabricTest", b =>
                 {
-                    b.HasOne("Egret.Models.InventoryItem", "InventoryItem")
+                    b.HasOne("Egret.Models.InventoryItem", "InventoryItemNavigation")
                         .WithMany("FabricTestsNavigation")
-                        .HasForeignKey("InventoryItemCode")
-                        .HasConstraintName("fk_fabric_tests_inventory_items_inventory_item_code")
+                        .HasForeignKey("InventoryItemId")
+                        .HasConstraintName("fk_fabric_tests_inventory_items_inventory_item_id")
                         .OnDelete(DeleteBehavior.Cascade);
                 });
 
@@ -1119,25 +1096,10 @@ namespace Egret.Migrations
                 {
                     b.HasOne("Egret.Models.InventoryCategory", "CategoryNavigation")
                         .WithMany()
-                        .HasForeignKey("CategoryId")
-                        .HasConstraintName("fk_inventory_items_inventory_categories_category_id")
+                        .HasForeignKey("InventoryCategoryId")
+                        .HasConstraintName("fk_inventory_items_inventory_categories_inventory_category_id")
                         .OnDelete(DeleteBehavior.Restrict)
                         .IsRequired();
-
-                    b.HasOne("Egret.Models.CurrencyType", "FobCostCurrencyNavigation")
-                        .WithMany()
-                        .HasForeignKey("FobCostCurrencyId")
-                        .HasConstraintName("fk_inventory_items_currency_types_fob_cost_currency_id");
-
-                    b.HasOne("Egret.Models.CurrencyType", "ImportCostCurrencyNavigation")
-                        .WithMany()
-                        .HasForeignKey("ImportCostCurrencyId")
-                        .HasConstraintName("fk_inventory_items_currency_types_import_cost_currency_id");
-
-                    b.HasOne("Egret.Models.CurrencyType", "ShippingCostCurrencyNavigation")
-                        .WithMany()
-                        .HasForeignKey("ShippingCostCurrencyId")
-                        .HasConstraintName("fk_inventory_items_currency_types_shipping_cost_currency_id");
 
                     b.HasOne("Egret.Models.StorageLocation", "StorageLocationNavigation")
                         .WithMany()

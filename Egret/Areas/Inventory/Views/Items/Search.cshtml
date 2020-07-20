@@ -51,11 +51,13 @@
     </div>
             
     <div class="form-group">
-        <label asp-for="InStock" class="control-label"></label>
-        <select asp-for="InStock" class="form-control">
+        <label asp-for="StockLevel" class="control-label"></label>
+        <select asp-for="StockLevel" class="form-control">
             <option value=""></option>
-            <option value="Yes">Yes</option>
-            <option value="No">No</option>
+            <option value="In Stock">In Stock</option>
+            <option value="Out of Stock">Out of Stock</option>
+            <option value="Unknown">Unknown</option>
+            <option value="Error">Error</option>
         </select>
     </div>
 

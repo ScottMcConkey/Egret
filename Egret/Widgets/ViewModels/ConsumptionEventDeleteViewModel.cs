@@ -1,8 +1,7 @@
-﻿using Egret.Interfaces;
-
-namespace Egret.ViewModels
+﻿
+namespace Egret.Widgets.ViewModels
 {
-    public class ConsumptionEventDeleteViewModel : IDeleteModel
+    public class ConsumptionEventDeleteViewModel : IDeleteViewModel
     {
         public string AccessGroupName { get; } = "ConsumptionEvent_Delete";
 

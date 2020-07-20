@@ -1,12 +1,8 @@
-﻿using System;
-using System.Collections.Generic;
-using System.ComponentModel;
+﻿using Egret.ViewModels;
+using System;
 using System.ComponentModel.DataAnnotations;
-using System.ComponentModel.DataAnnotations.Schema;
-using Microsoft.AspNetCore.Mvc.ModelBinding;
-using Egret.Interfaces;
 
-namespace Egret.ViewModels
+namespace Egret.Areas.Inventory.Models
 {
     public class ItemSearchModel : PagingInfo
     {
@@ -30,8 +26,8 @@ namespace Egret.ViewModels
         [Display(Name = "Customer Reserved For")]
         public string CustomerReservedFor { get; set; }
 
-        [Display(Name = "In Stock")]
-        public string InStock { get; set; }
+        [Display(Name = "Stock Level")]
+        public string StockLevel { get; set; }
 
         public int ResultsPerPage { get; set; }
     }

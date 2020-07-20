@@ -1,20 +1,16 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Threading.Tasks;
+﻿using Egret.ViewModels;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.Rendering;
 using Microsoft.AspNetCore.Mvc.Routing;
 using Microsoft.AspNetCore.Mvc.ViewFeatures;
 using Microsoft.AspNetCore.Razor.TagHelpers;
-using Egret.ViewModels;
 
 namespace Egret.TagHelpers
 {
     [HtmlTargetElement("div", Attributes ="page-model")]
     public class PageLinkTagHelper : TagHelper
     {
-        private IUrlHelperFactory urlHelperFactory;
+        private readonly IUrlHelperFactory urlHelperFactory;
 
         public PageLinkTagHelper(IUrlHelperFactory helperFactory)
         {
