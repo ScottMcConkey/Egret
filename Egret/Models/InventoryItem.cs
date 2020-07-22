@@ -58,17 +58,17 @@ namespace Egret.Models
 
         [Display(Name = "FOB Cost Or Local Cost no VAT")]
         [Language(Name = "Nepali", Value = "लागत")]
-        [DisplayFormat(DataFormatString = "{0:0.00##}", ApplyFormatInEditMode = true)]
+        [DisplayFormat(DataFormatString = "{0:0.00}", ApplyFormatInEditMode = true)]
         public decimal? FobCost { get; set; }
 
         [Display(Name = "Shipping Cost")]
         [Language(Name = "Nepali", Value = "ढुवानी खर्च")]
-        [DisplayFormat(DataFormatString = "{0:0.00##}", ApplyFormatInEditMode = true)]
+        [DisplayFormat(DataFormatString = "{0:0.00}", ApplyFormatInEditMode = true)]
         public decimal? ShippingCost { get; set; }
 
         [Display(Name = "Import/Custom/Delivery Costs/VAT")]
         [Language(Name = "Nepali", Value = "आयात लागत")]
-        [DisplayFormat(DataFormatString = "{0:0.00##}", ApplyFormatInEditMode = true)]
+        [DisplayFormat(DataFormatString = "{0:0.00}", ApplyFormatInEditMode = true)]
         public decimal? ImportCosts { get; set; }
 
         [Required]
@@ -118,18 +118,16 @@ namespace Egret.Models
 
         [NotMapped]
         public InventoryCategory CategoryNavigation { get; set; }
+
         [NotMapped]
         public Unit UnitNavigation { get; set; }
-        [NotMapped]
-        public CurrencyType FobCostCurrencyNavigation { get; set; }
-        [NotMapped]
-        public CurrencyType ShippingCostCurrencyNavigation { get; set; }
-        [NotMapped]
-        public CurrencyType ImportCostCurrencyNavigation { get; set; }
+
         [NotMapped]
         public StorageLocation StorageLocationNavigation { get; set; }
+
         [NotMapped]
         public ICollection<FabricTest> FabricTestsNavigation { get; set; }
+
         [NotMapped]
         public ICollection<ConsumptionEvent> ConsumptionEventsNavigation { get; set; }
 
@@ -259,7 +257,7 @@ namespace Egret.Models
         [ReadOnly(true)]
         [NotMapped]
         [DatabaseGenerated(DatabaseGeneratedOption.Computed)]
-        [DisplayFormat(DataFormatString = "{0:#,###,##0.00##}", ApplyFormatInEditMode = true)]
+        [DisplayFormat(DataFormatString = "{0:#,###,##0.00}", ApplyFormatInEditMode = true)]
         public decimal? TotalCost
         {
             get
@@ -280,14 +278,14 @@ namespace Egret.Models
         [ReadOnly(true)]
         [NotMapped]
         [DatabaseGenerated(DatabaseGeneratedOption.Computed)]
-        [DisplayFormat(DataFormatString = "{0:#,###,##0.00##}", ApplyFormatInEditMode = true)]
+        [DisplayFormat(DataFormatString = "{0:#,###,##0.00}", ApplyFormatInEditMode = true)]
         public decimal? CostPerUnit
         {
             get
             {
                 if (QtyPurchased > 0 && FobCost > 0)
                 {
-                    return (decimal)(FobCost / QtyPurchased);
+                    return decimal.Round((decimal)(FobCost / QtyPurchased), 2);
                 }
                 else
                 {
@@ -304,14 +302,14 @@ namespace Egret.Models
         [ReadOnly(true)]
         [NotMapped]
         [DatabaseGenerated(DatabaseGeneratedOption.Computed)]
-        [DisplayFormat(DataFormatString = "{0:#,###,##0.00##}", ApplyFormatInEditMode = true)]
+        [DisplayFormat(DataFormatString = "{0:#,###,##0.00}", ApplyFormatInEditMode = true)]
         public decimal? TotalCostPerUnit
         {
             get
             {
                 if (TotalCost > 0 && QtyPurchased > 0)
                 {
-                    return (decimal)(TotalCost / QtyPurchased);
+                    return decimal.Round((decimal)(TotalCost / QtyPurchased), 2);
                 }
                 else
                 {

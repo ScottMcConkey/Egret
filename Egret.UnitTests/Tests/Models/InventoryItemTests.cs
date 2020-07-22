@@ -14,7 +14,7 @@ namespace Egret.Tests.Models
         [Theory]
         [ClassData(typeof(StockQuantityData))]
         [Trait("name", "stock_quantity_evaluates")]
-        public void stock_quantity_evaluates(decimal? qtyPurchased, int consumptionCount, int consumptionValue, 
+        public void Stock_quantity_evaluates(decimal? qtyPurchased, int consumptionCount, int consumptionValue, 
             int? expectedStockQty, string expectedStockLevel)
         {
             //+ Arrange
@@ -47,7 +47,7 @@ namespace Egret.Tests.Models
         [InlineData(null, "9/15/2017 3:30 pm", null)]
         [InlineData(null, null, null)]
         [Trait("name", "days_to_confirm_evaluates")]
-        public void days_to_confirm_evaluates(string added, string confirmed, int? expectedDays)
+        public void Days_to_confirm_evaluates(string added, string confirmed, int? expectedDays)
         {
             //+ Arrange
             var item = new InventoryItem();
@@ -73,7 +73,7 @@ namespace Egret.Tests.Models
         [InlineData("9/15/2017", "9/30/2017", 15)]
         [InlineData("9/30/2017", "9/15/2017", null)]
         [Trait("name", "days_to_ship_evaluates")]
-        public void days_to_ship_evaluates(string dateShipped, string dateArrived, int? expectedValue)
+        public void Days_to_ship_evaluates(string dateShipped, string dateArrived, int? expectedValue)
         {
             var item = new InventoryItem();
 
@@ -98,7 +98,7 @@ namespace Egret.Tests.Models
         [InlineData("9/10/2017", "9/15/2017", 5)]
         [InlineData("9/10/2020", "10/1/2020", 21)]
         [Trait("name", "days_to_complete_evaluates")]
-        public void days_to_complete_evaluates(string dateAdded, string dateArrived, int? expectedValue)
+        public void Days_to_complete_evaluates(string dateAdded, string dateArrived, int? expectedValue)
         {
             var item = new InventoryItem();
 
@@ -123,7 +123,7 @@ namespace Egret.Tests.Models
         [ClassData(typeof(TotalCostData))]
         [Trait("name", "total_cost_evaluates")]
         // Test nulls?
-        public void total_cost_evaluates(decimal? fobcost, decimal? shippingCost, decimal? importCosts, decimal? expectedValue)
+        public void Total_cost_evaluates(decimal? fobcost, decimal? shippingCost, decimal? importCosts, decimal? expectedValue)
         {
             var item = new InventoryItem()
             {
@@ -138,7 +138,7 @@ namespace Egret.Tests.Models
         [Theory]
         [ClassData(typeof(CostPerUnitData))]
         [Trait("name", "cost_per_unit_evaluates")]
-        public void cost_per_unit_evaluates(decimal? fobcost, decimal? qtyPurchased, decimal? expectedValue)
+        public void Cost_per_unit_evaluates(decimal? fobcost, decimal? qtyPurchased, decimal? expectedValue)
         {
             var item = new InventoryItem()
             {
@@ -154,7 +154,7 @@ namespace Egret.Tests.Models
         [Theory]
         [ClassData(typeof(TotalCostPerUnitData))]
         [Trait("name", "total_cost_per_unit_evaluates")]
-        public void total_cost_per_unit_evaluates(decimal? fobcost, decimal? shippingCost, decimal? importCosts,
+        public void Total_cost_per_unit_evaluates(decimal? fobcost, decimal? shippingCost, decimal? importCosts,
             decimal? qtyPurchased, decimal? expectedValue)
         {
             var item = new InventoryItem()
@@ -229,7 +229,7 @@ namespace Egret.Tests.Models
                 this.Add(50, 20, 5, 5, 15);
                 this.Add(50, 20, 5, null, null);
                 this.Add(Convert.ToDecimal(50.25), Convert.ToDecimal(20.7),
-                    Convert.ToDecimal(5.28), 80, Convert.ToDecimal(0.9529));
+                    Convert.ToDecimal(5.28), 80, Convert.ToDecimal(0.95));
             }
         }
 

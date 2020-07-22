@@ -22,11 +22,7 @@ namespace Egret.Tests.Controllers
         {
             _fakeLogger = Substitute.For<ILogger<ItemsController>>();
             _options = new DbContextOptionsBuilder<EgretDbContext>();
-            var config = new ConfigurationBuilder()
-                .AddJsonFile("appsettings.json")
-                .Build();
-            string connection = config["ConnectionString"];
-            _options.UseNpgsql(connection);
+            _options.UseNpgsql("dummy");
             _itemService = Substitute.For<IItemService>();
             _selectListService = Substitute.For<ISelectListFactoryService>();
         }
@@ -35,7 +31,7 @@ namespace Egret.Tests.Controllers
         [InlineData("0")]
         [InlineData(null)]
         [Trait("name", "edit_get_no_id_provided_throws_not_found")]
-        public void edit_get_no_id_provided_throws_not_found(string value)
+        public void Edit_get_no_id_provided_throws_not_found(string value)
         {
             //+ Arrange
             ItemsController controller = new ItemsController(_fakeLogger, _itemService,  _selectListService);

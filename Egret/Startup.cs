@@ -22,9 +22,7 @@ namespace Egret
         public Startup()
         {
             var builder = new ConfigurationBuilder()
-                //.SetBasePath(env.ContentRootPath)
                 .AddJsonFile("appsettings.json", optional: false, reloadOnChange: true)
-                //.AddJsonFile($"appsetings.{env.EnvironmentName}.json", optional: true, reloadOnChange: true)
                 .AddEnvironmentVariables();
 
             Configuration = builder.Build();
@@ -41,7 +39,6 @@ namespace Egret
                 loggingBuilder.AddNLog();
             });
             services.AddSingleton<IActionContextAccessor, ActionContextAccessor>();
-            //services.AddTransient<ServiceFactory>();
             services.AddSingleton<IConfiguration>(Configuration);
             services.AddTransient<IItemService, ItemService>();
             services.AddTransient<IReportService, ReportService>();
@@ -59,7 +56,6 @@ namespace Egret
                     opts.Password.RequireUppercase = false;
                     opts.Password.RequireDigit = false;
                     opts.User.RequireUniqueEmail = true;
-                    opts.Lockout.DefaultLockoutTimeSpan = TimeSpan.FromMinutes(10);
                     opts.Lockout.MaxFailedAccessAttempts = 10;
                 }
             )
