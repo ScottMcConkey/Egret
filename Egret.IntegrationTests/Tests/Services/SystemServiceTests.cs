@@ -16,9 +16,9 @@ namespace Egret.IntegrationTests.Tests.Services
         }
 
         [Fact]
-        public void Get_egret_version_returns_a_value()
+        public void Get_egret_migration_version_returns_a_value()
         {
-            var sut = _systemService.GetEgretVersion();
+            var sut = _systemService.GetEgretMigrationVersion();
 
             Assert.StartsWith("v", sut, StringComparison.OrdinalIgnoreCase);
         }

@@ -1,0 +1,6 @@
+﻿[
+  {
+    "outputFile": "wwwroot/dist/css/egret-styles.css",
+    "inputFile": "wwwroot/src/sass/egret-main.scss"
+  }
+]

@@ -1,9 +1,9 @@
-﻿@import "~reset-css/sass/_reset.scss";
-@import "~bootstrap/dist/css/bootstrap.min.css";
-$fa-font-path: "../../dist/fonts" !default;
-@import "~@fortawesome/fontawesome-free/scss/fontawesome.scss";
-@import "~@fortawesome/fontawesome-free/scss/solid.scss";
-@import "~@fortawesome/fontawesome-free/scss/_variables.scss";
+﻿@import "../../packages/css-reset-2/reset.css";
+@import "../../packages/bootstrap-4.3.1/css/bootstrap.min.css";
+$fa-font-path: "../../packages/fontawesome-5.8.1/webfonts" !default;
+@import "../../packages/fontawesome-5.8.1/scss/fontawesome.scss";
+@import "../../packages/fontawesome-5.8.1/scss/solid.scss";
+@import "../../packages/fontawesome-5.8.1/scss/_variables.scss";
 @import "egret-icons.scss";
 @import "egret-common.scss";
 
@@ -15,6 +15,8 @@ body {
     margin-right: auto;
     background-color: #ccc;
     padding-bottom: 40px;
+    font-family: serif;
+    line-height: 1; /* override bootstrap default */
 }
 
 a {
@@ -54,7 +56,6 @@ label {
 }
 
 #titleband {
-    font: "verdana" bold;
     font-size: 30pt;
     color: #000;
     padding-top: 20px;

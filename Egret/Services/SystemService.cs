@@ -19,7 +19,7 @@ namespace Egret.Services
             _config = config;
         }
 
-        public string GetEgretVersion()
+        public string GetEgretMigrationVersion()
         {
             string version;
 
