@@ -1,5 +1,4 @@
 ﻿using Microsoft.EntityFrameworkCore;
-using Egret.DataAccess.QueryModels;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -13,13 +12,11 @@ using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
 
 
-namespace Egret.DataAccess.QueryModels
-{
-    public class StockValueReport
+namespace Egret.Models.QueryModels
+{ 
+    public class CategoryStockValue
     {
         public string Name { get; set; }
         public string StockValue { get; set; }
     }
-
-    
 }

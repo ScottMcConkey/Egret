@@ -17,9 +17,9 @@ namespace Egret.Areas.Reports.Controllers
     public class HomeController : Controller
     {
         private readonly ILogger _logger;
-        private readonly IReportService _reportService;
+        private readonly ReportService _reportService;
 
-        public HomeController(EgretDbContext context, ILogger<HomeController> logger,IReportService reportService)
+        public HomeController(EgretDbContext context, ILogger<HomeController> logger, ReportService reportService)
         {
             _logger = logger;
             _reportService = reportService;
@@ -34,10 +34,18 @@ namespace Egret.Areas.Reports.Controllers
         [HttpGet]
         public FileStreamResult CurrentInventoryReport()
         {
-            var reportFile = _reportService.GetTotalStockValueByCategoryReport();
+            var report = new Report()
+            {
+                Title = "Total Stock Value by Category Report",
+                ColumnNames = "Category,Stock Value",
+                Details = _reportService.GetTotalStockValueByCategoryReport()
+            };
 
-            //return reportFile;
-            return File(reportFile, "application/vnd.openxmlformats-officedocument.spreadsheetml.sheet", "Report.xlsx");
+            var reportBuilder = new ReportBuilder();
+
+            var stream = reportBuilder.Build(report);
+
+            return File(stream, report.ContentType, report.FileDownloadName);
         }
 
     }

@@ -1,5 +1,4 @@
-﻿using Egret.DataAccess.QueryModels;
-using Egret.Extensions;
+﻿using Egret.Extensions;
 using Egret.Models;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Identity.EntityFrameworkCore;
@@ -26,15 +25,10 @@ namespace Egret.DataAccess
         public virtual DbSet<Unit> Units { get; set; }
         public virtual DbSet<UserAccessGroup> UserAccessGroups { get; set; }
 
-        public DbSet<StockValueReport> StockValueReportResults { get; set; }
-
 
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
             base.OnModelCreating(modelBuilder);
-
-            modelBuilder.Entity<StockValueReport>()
-                .HasNoKey();
 
             #region PostgreSQL-Specific
             modelBuilder.HasPostgresExtension("adminpack");

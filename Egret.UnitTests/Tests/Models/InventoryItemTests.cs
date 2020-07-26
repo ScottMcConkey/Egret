@@ -18,13 +18,11 @@ namespace Egret.Tests.Models
             int? expectedStockQty, string expectedStockLevel)
         {
             //+ Arrange
-            var item = new InventoryItem();
-            item.ConsumptionEventsNavigation = new List<ConsumptionEvent>();
-
-            //if (qtyPurchased != null)
-            //{
-                item.QtyPurchased = qtyPurchased;
-            //}
+            var item = new InventoryItem
+            {
+                ConsumptionEventsNavigation = new List<ConsumptionEvent>(),
+                QtyPurchased = qtyPurchased
+            };
 
             for (var i = 0; i < consumptionCount; i++)
             {

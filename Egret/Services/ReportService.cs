@@ -1,29 +1,25 @@
 ﻿using Egret.DataAccess;
-using Egret.DataAccess.QueryModels;
-using Egret.Reports;
-using Microsoft.EntityFrameworkCore;
+using Egret.Models.QueryModels;
+using Microsoft.Extensions.Configuration;
+using Npgsql;
 using System.Collections.Generic;
-using System.IO;
-using System.Linq;
+using System.Data;
 
 namespace Egret.Services
 {
-    public class ReportService : BaseService, IReportService
+    public class ReportService : BaseService
     {
-        //ILogger _logger;
+        private IConfiguration _config;
 
-        public ReportService(EgretDbContext context/*, ILogger logger*/)
+        public ReportService(EgretDbContext context, IConfiguration config)
             : base(context)
         {
-            //_logger = logger;
+            _config = config;
         }
 
-        private List<StockValueReport> TotalValueByCategory()
+        public List<CategoryStockValue> GetTotalStockValueByCategoryReport()
         {
-            Context.ChangeTracker.QueryTrackingBehavior = QueryTrackingBehavior.NoTracking;
-
-            return 
-                Context.StockValueReportResults.FromSqlRaw(@"
+            var sql = @"
                 SELECT 
                     cat.name as name, 
                     cast(coalesce(sum(t.stock_value), 0) as text) as stock_value
@@ -45,20 +41,32 @@ namespace Egret.Services
 	                GROUP BY i.inventory_item_id, i.qty_purchased
                 ) t on t.inventory_category_id = cat.inventory_category_id
                 GROUP BY cat.name
-                ORDER BY cat.name").ToList();
-        }
+                ORDER BY cat.name";
 
-        public Stream GetTotalStockValueByCategoryReport()
-        {
-            var report = new Report
+            var dbConnectionString = _config.GetConnectionString("DefaultConnection");
+
+            var list = new List<CategoryStockValue>();
+
+            using (var sqlConnection = new NpgsqlConnection(dbConnectionString))
             {
-                Title = "Total Stock Value By Category",
-                Details = TotalValueByCategory()
-            };
+                sqlConnection.Open();
+                var command = new NpgsqlCommand
+                {
+                    CommandType = CommandType.Text,
+                    CommandText = sql,
+                    Connection = sqlConnection
+                };
 
-            var builder = new ReportBuilder();
+                using (NpgsqlDataReader dr = command.ExecuteReader())
+                {
+                    while (dr.Read())
+                    {
+                        list.Add(new CategoryStockValue { Name = dr.GetString(0), StockValue = dr.GetString(1) });
+                    }
+                }
+            }
 
-            return builder.Build(report);
+            return list;
         }
     }
 }

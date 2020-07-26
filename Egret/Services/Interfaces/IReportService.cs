@@ -1,11 +1,4 @@
-﻿using Egret.DataAccess.QueryModels;
-using Egret.Reports;
-using Microsoft.AspNetCore.Mvc;
-using System;
-using System.Collections.Generic;
-using System.IO;
-using System.Linq;
-using System.Threading.Tasks;
+﻿using System.IO;
 
 namespace Egret.Services
 {
