@@ -13,6 +13,7 @@ namespace Egret.Models
     [CssIconClass("fas fa-sign-out-alt")]
     public class ConsumptionEvent : IAuditable
     {
+        [Display(Name = "Consumption Event Id")]
         [Language(Name = "Nepali", Value = "आईडी")]
         public string ConsumptionEventId { get; set; }
 
