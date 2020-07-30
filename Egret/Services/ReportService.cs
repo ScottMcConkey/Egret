@@ -9,7 +9,7 @@ namespace Egret.Services
 {
     public class ReportService : BaseService
     {
-        private IConfiguration _config;
+        private readonly IConfiguration _config;
 
         public ReportService(EgretDbContext context, IConfiguration config)
             : base(context)

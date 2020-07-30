@@ -1,5 +1,6 @@
 ﻿using Egret.Attributes;
 using Egret.Widgets;
+using Egret.Utilities;
 using Microsoft.AspNetCore.Mvc.ModelBinding;
 using System;
 using System.Collections.Generic;
@@ -58,22 +59,22 @@ namespace Egret.Models
 
         [Display(Name = "FOB Cost Or Local Cost no VAT")]
         [Language(Name = "Nepali", Value = "लागत")]
-        [DisplayFormat(DataFormatString = "{0:0.00}", ApplyFormatInEditMode = true)]
+        [DisplayFormat(DataFormatString = Constants.CostFormatString, ApplyFormatInEditMode = true)]
         public decimal? FobCost { get; set; }
 
         [Display(Name = "Shipping Cost")]
         [Language(Name = "Nepali", Value = "ढुवानी खर्च")]
-        [DisplayFormat(DataFormatString = "{0:0.00}", ApplyFormatInEditMode = true)]
+        [DisplayFormat(DataFormatString = Constants.CostFormatString, ApplyFormatInEditMode = true)]
         public decimal? ShippingCost { get; set; }
 
         [Display(Name = "VAT Cost")]
         [Language(Name = "Nepali", Value = "VAT लागत")]
-        [DisplayFormat(DataFormatString = "{0:0.00}", ApplyFormatInEditMode = true)]
+        [DisplayFormat(DataFormatString = Constants.CostFormatString, ApplyFormatInEditMode = true)]
         public decimal? VatCost { get; set; }
 
         [Display(Name = "Import/Custom/Delivery Costs")]
         [Language(Name = "Nepali", Value = "आयात लागत")]
-        [DisplayFormat(DataFormatString = "{0:0.00}", ApplyFormatInEditMode = true)]
+        [DisplayFormat(DataFormatString = Constants.CostFormatString, ApplyFormatInEditMode = true)]
         public decimal? ImportCost { get; set; }        
 
         [Required]
@@ -262,7 +263,7 @@ namespace Egret.Models
         [ReadOnly(true)]
         [NotMapped]
         [DatabaseGenerated(DatabaseGeneratedOption.Computed)]
-        [DisplayFormat(DataFormatString = "{0:#,###,##0.00}", ApplyFormatInEditMode = true)]
+        [DisplayFormat(DataFormatString = Constants.CostFormatString, ApplyFormatInEditMode = true)]
         public decimal? TotalCost
         {
             get
