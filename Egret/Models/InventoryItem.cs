@@ -66,10 +66,15 @@ namespace Egret.Models
         [DisplayFormat(DataFormatString = "{0:0.00}", ApplyFormatInEditMode = true)]
         public decimal? ShippingCost { get; set; }
 
-        [Display(Name = "Import/Custom/Delivery Costs/VAT")]
+        [Display(Name = "VAT Cost")]
+        [Language(Name = "Nepali", Value = "VAT लागत")]
+        [DisplayFormat(DataFormatString = "{0:0.00}", ApplyFormatInEditMode = true)]
+        public decimal? VatCost { get; set; }
+
+        [Display(Name = "Import/Custom/Delivery Costs")]
         [Language(Name = "Nepali", Value = "आयात लागत")]
         [DisplayFormat(DataFormatString = "{0:0.00}", ApplyFormatInEditMode = true)]
-        public decimal? ImportCosts { get; set; }
+        public decimal? ImportCost { get; set; }        
 
         [Required]
         [Display(Name = "Customer Purchased For")]
@@ -262,12 +267,12 @@ namespace Egret.Models
         {
             get
             {
-                if (FobCost == null && ShippingCost == null && ImportCosts == null)
+                if (FobCost == null && ShippingCost == null && ImportCost == null)
                 {
                     return null;
                 }
 
-                return (FobCost ?? 0) + (ShippingCost ?? 0) + (ImportCosts ?? 0);
+                return (FobCost ?? 0) + (ShippingCost ?? 0) + (ImportCost ?? 0);
             }
             private set { }
         }

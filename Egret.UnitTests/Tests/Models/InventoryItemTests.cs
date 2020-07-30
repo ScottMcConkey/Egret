@@ -127,7 +127,7 @@ namespace Egret.Tests.Models
             {
                 FobCost = fobcost,
                 ShippingCost = shippingCost,
-                ImportCosts = importCosts
+                ImportCost = importCosts
             };
 
             Assert.Equal(expectedValue, item.TotalCost);
@@ -159,7 +159,7 @@ namespace Egret.Tests.Models
             {
                 FobCost = fobcost,
                 ShippingCost = shippingCost,
-                ImportCosts = importCosts,
+                ImportCost = importCosts,
                 QtyPurchased = qtyPurchased
             };
 
