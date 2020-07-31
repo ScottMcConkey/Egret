@@ -201,8 +201,8 @@ th {
     font-size: 18pt;
 }
 
-.required::before {
-    content: "* ";
+.required::after {
+    content: " *";
     color: red;
 }
 

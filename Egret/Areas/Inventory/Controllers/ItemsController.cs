@@ -67,9 +67,9 @@ namespace Egret.Areas.Inventory.Controllers
         [Authorize(Roles = "Item_Create")]
         public IActionResult CreateFromCopy(InventoryItem copy)
         {
-            ViewData["Categories"] = _selectListService.CategoriesActive();
-            ViewData["Units"] = _selectListService.UnitsActive();
-            ViewData["StorageLocations"] = _selectListService.StorageLocationsActive();
+            ViewBag.Categories = _selectListService.CategoriesActive();
+            ViewBag.Units = _selectListService.UnitsActive();
+            ViewBag.StorageLocations = _selectListService.StorageLocationsActive();
             SetCurrency();
 
             return View("Create", copy);
@@ -91,9 +91,9 @@ namespace Egret.Areas.Inventory.Controllers
                 return RedirectToAction(nameof(Edit), new { Id = item.InventoryItemId });
             }
 
-            ViewData["Categories"] = _selectListService.CategoriesActive(item.InventoryCategoryId);
-            ViewData["Unit"] = _selectListService.UnitsActive(item.UnitId);
-            ViewData["StorageLocations"] = _selectListService.StorageLocationsActive(item.StorageLocationId);
+            ViewBag.Categories = _selectListService.CategoriesActive(item.InventoryCategoryId);
+            ViewBag.Units = _selectListService.UnitsActive(item.UnitId);
+            ViewBag.StorageLocations = _selectListService.StorageLocationsActive(item.StorageLocationId);
             SetCurrency();
 
             return View(item);

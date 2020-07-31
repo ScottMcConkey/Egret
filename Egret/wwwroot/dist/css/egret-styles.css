@@ -4498,8 +4498,8 @@ th {
   padding-bottom: 2px;
   font-size: 18pt; }
 
-.required::before {
-  content: "* ";
+.required::after {
+  content: " *";
   color: red; }
 
 .delete, .delete-test,

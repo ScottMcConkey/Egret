@@ -1,8 +1,6 @@
 ﻿using Egret.Services;
 using System;
-using System.Linq;
 using Xunit;
-using Xunit.Extensions;
 
 namespace Egret.IntegrationTests.Tests.Services
 {

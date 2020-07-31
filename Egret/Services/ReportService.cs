@@ -32,12 +32,12 @@ namespace Egret.Services
 		                round(
 			                (i.qty_purchased - sum(c.quantity_consumed)) --stock quantity
 			                * 
-			                ((i.fob_cost + i.shipping_cost + i.import_costs) / i.qty_purchased) --total cost per unit
-		                , 4) as stock_value
+			                ((i.fob_cost + i.shipping_cost + i.import_cost + i.vat_cost) / i.qty_purchased) --total cost per unit
+		                , 2) as stock_value
 	                FROM   public.inventory_items i
 	                LEFT OUTER JOIN public.consumption_events c on c.inventory_item_id = i.inventory_item_id
                     -- watch out for performance issues below
-                    WHERE COALESCE(i.fob_cost, i.shipping_cost, i.import_costs) IS NOT NULL
+                    WHERE COALESCE(i.fob_cost, i.shipping_cost, i.import_cost, i.vat_cost) IS NOT NULL
 	                GROUP BY i.inventory_item_id, i.qty_purchased
                 ) t on t.inventory_category_id = cat.inventory_category_id
                 GROUP BY cat.name

@@ -19,19 +19,15 @@ namespace Egret.Models
         public string InventoryItemId { get; set; }
 
         [Display(Name = "Date Added")]
-        [BindNever]
         public DateTime? DateAdded { get; set; }
 
         [Display(Name = "Added By")]
-        [BindNever]
         public string AddedBy { get; set; }
 
         [Display(Name = "Date Updated")]
-        [BindNever]
         public DateTime? DateUpdated { get; set; }
 
         [Display(Name = "Updated By")]
-        [BindNever]
         public string UpdatedBy { get; set; }
 
         [Required]
@@ -50,12 +46,12 @@ namespace Egret.Models
         [Required]
         [Display(Name = "Quantity Purchased")]
         [Language(Name = "Nepali", Value = "मात्रा खरिद गरियो")]
-        [DisplayFormat(DataFormatString = "{0:0.####}", ApplyFormatInEditMode = true)]
+        [DisplayFormat(DataFormatString = "{0:0.##}", ApplyFormatInEditMode = true)]
         public decimal? QtyPurchased { get; set; }
 
         [Required]
-        [Display(Name = "Unit")]
-        public int UnitId { get; set; }
+        [Display(Name = "Quantity Purchased Unit")]
+        public int? UnitId { get; set; }
 
         [Display(Name = "FOB Cost Or Local Cost no VAT")]
         [Language(Name = "Nepali", Value = "लागत")]
@@ -186,10 +182,8 @@ namespace Egret.Models
         }
 
         [Display(Name = "Days to Confirm Order")]
-        [ReadOnly(true)]
         [UIHint("text")]
         [NotMapped]
-        [DatabaseGenerated(DatabaseGeneratedOption.Computed)]
         public int? DaysToConfirm
         {
             get
@@ -207,10 +201,8 @@ namespace Egret.Models
         }
 
         [Display(Name = "Days for Shipping")]
-        [ReadOnly(true)]
         [UIHint("text")]
         [NotMapped]
-        [DatabaseGenerated(DatabaseGeneratedOption.Computed)]
         public int? DaysToShip
         {
             get
@@ -233,10 +225,8 @@ namespace Egret.Models
         }
 
         [Display(Name = "Days for Completion")]
-        [ReadOnly(true)]
         [UIHint("text")]
         [NotMapped]
-        [DatabaseGenerated(DatabaseGeneratedOption.Computed)]
         public int? DaysToComplete
         {
             get
@@ -260,36 +250,31 @@ namespace Egret.Models
 
         [Display(Name = "Total Cost")]
         [Language(Name = "Nepali", Value = "कुल खर्च")]
-        [ReadOnly(true)]
         [NotMapped]
-        [DatabaseGenerated(DatabaseGeneratedOption.Computed)]
         [DisplayFormat(DataFormatString = Constants.CostFormatString, ApplyFormatInEditMode = true)]
         public decimal? TotalCost
         {
             get
             {
-                if (FobCost == null && ShippingCost == null && ImportCost == null)
+                if (FobCost == null && ShippingCost == null && ImportCost == null && VatCost == null)
                 {
                     return null;
                 }
 
-                return (FobCost ?? 0) + (ShippingCost ?? 0) + (ImportCost ?? 0);
+                return (FobCost ?? 0) + (ShippingCost ?? 0) + (ImportCost ?? 0) + (VatCost ?? 0);
             }
-            private set { }
         }
 
         //Cost Per Unit for Accounting
         [Display(Name = "Cost Per Unit")]
         [Language(Name = "Nepali", Value = "लागत प्रति एकाइ")]
-        [ReadOnly(true)]
         [NotMapped]
-        [DatabaseGenerated(DatabaseGeneratedOption.Computed)]
-        [DisplayFormat(DataFormatString = "{0:#,###,##0.00}", ApplyFormatInEditMode = true)]
+        [DisplayFormat(DataFormatString = Constants.CostFormatString, ApplyFormatInEditMode = true)]
         public decimal? CostPerUnit
         {
             get
             {
-                if (QtyPurchased > 0 && FobCost > 0)
+                if (QtyPurchased != null && QtyPurchased > 0 && FobCost != null && FobCost > 0)
                 {
                     return decimal.Round((decimal)(FobCost / QtyPurchased), 2);
                 }
@@ -299,16 +284,13 @@ namespace Egret.Models
                 }
 
             }
-            private set { }
         }
 
         //Total Cost/Unit for Pricing
         [Display(Name = "Total Cost Per Unit")]
         [Language(Name = "Nepali", Value = "कुल लागत प्रति इकाई")]
-        [ReadOnly(true)]
         [NotMapped]
-        [DatabaseGenerated(DatabaseGeneratedOption.Computed)]
-        [DisplayFormat(DataFormatString = "{0:#,###,##0.00}", ApplyFormatInEditMode = true)]
+        [DisplayFormat(DataFormatString = Constants.CostFormatString, ApplyFormatInEditMode = true)]
         public decimal? TotalCostPerUnit
         {
             get
@@ -322,11 +304,9 @@ namespace Egret.Models
                     return null;
                 }
             }
-            private set { }
         }
 
         [NotMapped]
-        [DatabaseGenerated(DatabaseGeneratedOption.Computed)]
         public string RelationshipDisplay
         {
             get
