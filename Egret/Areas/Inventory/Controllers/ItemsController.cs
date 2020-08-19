@@ -1,9 +1,7 @@
 ﻿using Egret.Areas.Inventory.Models;
-using Egret.Controllers;
 using Egret.Models;
 using Egret.Models.Common;
 using Egret.Services;
-using Egret.ViewModels;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Logging;
@@ -80,7 +78,7 @@ namespace Egret.Areas.Inventory.Controllers
         [ValidateAntiForgeryToken]
         public IActionResult Create(InventoryItem item)
         {
-            if (item.QtyPurchased < 0)
+            if (item.QuantityPurchased < 0)
                 ModelState.AddModelError("", "Qty Purchased must be a positive number.");
 
             if (ModelState.IsValid)
@@ -142,7 +140,7 @@ namespace Egret.Areas.Inventory.Controllers
 
             var temp = _itemService.GetItem(id, true);
 
-            if (vm.Item.QtyPurchased < 0)
+            if (vm.Item.QuantityPurchased < 0)
                 ModelState.AddModelError("", "Qty Purchased must be a positive number.");
 
             if (ModelState.IsValid)

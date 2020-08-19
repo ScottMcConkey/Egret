@@ -21,8 +21,8 @@ namespace Egret.Services
         {
             var sql = @"
                 SELECT 
-                    cat.name as name, 
-                    cast(coalesce(sum(t.stock_value), 0) as text) as stock_value
+	                cat.name as name, 
+	                cast(coalesce(sum(t.stock_value), 0) as text) as stock_value
                 FROM   public.inventory_categories cat
                 LEFT OUTER JOIN
                 (
@@ -30,15 +30,15 @@ namespace Egret.Services
 		                i.inventory_item_id,
 		                i.inventory_category_id,
 		                round(
-			                (i.qty_purchased - sum(c.quantity_consumed)) --stock quantity
+			                (i.quantity_purchased - sum(COALESCE(c.quantity_consumed, 0))) --stock quantity
 			                * 
-			                ((i.fob_cost + i.shipping_cost + i.import_cost + i.vat_cost) / i.qty_purchased) --total cost per unit
+			                ((COALESCE(i.fob_cost, 0) + COALESCE(i.shipping_cost, 0) + COALESCE(i.import_cost, 0) + COALESCE(i.vat_cost, 0)) / i.quantity_purchased) --total cost per unit
 		                , 2) as stock_value
 	                FROM   public.inventory_items i
 	                LEFT OUTER JOIN public.consumption_events c on c.inventory_item_id = i.inventory_item_id
-                    -- watch out for performance issues below
-                    WHERE COALESCE(i.fob_cost, i.shipping_cost, i.import_cost, i.vat_cost) IS NOT NULL
-	                GROUP BY i.inventory_item_id, i.qty_purchased
+	                -- watch out for performance issues below
+	                WHERE COALESCE(i.fob_cost, i.shipping_cost, i.import_cost, i.vat_cost) IS NOT NULL
+	                GROUP BY i.inventory_item_id, i.quantity_purchased
                 ) t on t.inventory_category_id = cat.inventory_category_id
                 GROUP BY cat.name
                 ORDER BY cat.name";
@@ -68,5 +68,56 @@ namespace Egret.Services
 
             return list;
         }
+
+        //public List<InventoryFinancialData> GetInventoryFinancialData()
+        //{
+        //    var sql = @"
+        //        SELECT 
+        //            cat.name as ""Category"",
+	       //         i.inventory_item_id as ""Item Id"",
+	       //         i.description as ""Item Description"",
+	       //         i.quantity_purchased as ""Qty Purchased"",
+	       //         u.abbreviation as ""Unit(s)"",
+	       //         i.fob_cost as ""FOB Cost"",
+	       //         i.shipping_cost as ""Shipping Cost"",
+	       //         i.import_cost as ""Import Cost"",
+	       //         i.vat_cost as ""VAT Cost"",
+	       //         c.consumption_event_id as ""Consumption Id"",
+	       //         c.quantity_consumed as ""Qty Consumed"",
+	       //         c.date_consumed as ""Date Consumed""
+        //        FROM
+
+        //            public.inventory_categories cat
+
+        //            LEFT OUTER JOIN public.inventory_items i ON i.inventory_category_id = cat.inventory_category_id
+        //            LEFT OUTER JOIN public.units u ON u.unit_id = i.unit_id
+        //            LEFT OUTER JOIN public.consumption_events c on c.inventory_item_id = i.inventory_item_id
+        //        ORDER BY cat.name";
+
+        //    var dbConnectionString = _config.GetConnectionString("DefaultConnection");
+
+        //    var list = new List<CategoryStockValue>();
+
+        //    using (var sqlConnection = new NpgsqlConnection(dbConnectionString))
+        //    {
+        //        sqlConnection.Open();
+        //        var command = new NpgsqlCommand
+        //        {
+        //            CommandType = CommandType.Text,
+        //            CommandText = sql,
+        //            Connection = sqlConnection
+        //        };
+
+        //        using (NpgsqlDataReader dr = command.ExecuteReader())
+        //        {
+        //            while (dr.Read())
+        //            {
+        //                list.Add(new CategoryStockValue { Name = dr.GetString(0), StockValue = dr.GetString(1) });
+        //            }
+        //        }
+        //    }
+
+        //    return list;
+        //}
     }
 }

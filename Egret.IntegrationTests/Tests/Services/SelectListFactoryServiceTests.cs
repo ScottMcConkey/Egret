@@ -1,12 +1,9 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Text;
-using Xunit;
-using Egret.Services;
-using Egret.DataAccess;
+﻿using Egret.DataAccess;
 using Egret.Models;
-using System.Linq;
+using Egret.Services;
 using FluentAssertions;
+using System.Linq;
+using Xunit;
 
 namespace Egret.IntegrationTests.Tests.Services
 {
@@ -65,6 +62,31 @@ namespace Egret.IntegrationTests.Tests.Services
             foreach (var item in sut.Items)
             {
                 if (!((Unit)item).Active)
+                {
+                    inactiveExists = true;
+                }
+            }
+            inactiveExists.Should().BeFalse();
+        }
+
+        [Fact]
+        public void Storage_locations_all_returns_all()
+        {
+            var sut = _selectListService.StorageLocationsAll();
+            sut.Should().NotBeEmpty();
+            var units = _context.StorageLocations;
+            sut.Count().Should().Be(units.Count());
+        }
+
+        [Fact]
+        public void Storage_locations_active_returns_only_actives()
+        {
+            var sut = _selectListService.StorageLocationsActive();
+            sut.Should().NotBeEmpty();
+            bool inactiveExists = false;
+            foreach (var item in sut.Items)
+            {
+                if (!((StorageLocation)item).Active)
                 {
                     inactiveExists = true;
                 }

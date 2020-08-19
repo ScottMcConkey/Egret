@@ -21,7 +21,7 @@ namespace Egret.Tests.Models
             var item = new InventoryItem
             {
                 ConsumptionEventsNavigation = new List<ConsumptionEvent>(),
-                QtyPurchased = qtyPurchased
+                QuantityPurchased = qtyPurchased
             };
 
             for (var i = 0; i < consumptionCount; i++)
@@ -140,7 +140,7 @@ namespace Egret.Tests.Models
         {
             var item = new InventoryItem()
             {
-                QtyPurchased = qtyPurchased,
+                QuantityPurchased = qtyPurchased,
                 FobCost = fobcost
             };
 
@@ -160,7 +160,7 @@ namespace Egret.Tests.Models
                 FobCost = fobcost,
                 ShippingCost = shippingCost,
                 ImportCost = importCosts,
-                QtyPurchased = qtyPurchased
+                QuantityPurchased = qtyPurchased
             };
 
             Assert.Equal(expectedValue, item.TotalCostPerUnit);

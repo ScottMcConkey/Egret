@@ -1,10 +1,7 @@
 ﻿using Egret.Attributes;
-using Egret.Widgets;
 using Egret.Utilities;
-using Microsoft.AspNetCore.Mvc.ModelBinding;
 using System;
 using System.Collections.Generic;
-using System.ComponentModel;
 using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
 using System.Linq;
@@ -47,7 +44,7 @@ namespace Egret.Models
         [Display(Name = "Quantity Purchased")]
         [Language(Name = "Nepali", Value = "मात्रा खरिद गरियो")]
         [DisplayFormat(DataFormatString = "{0:0.##}", ApplyFormatInEditMode = true)]
-        public decimal? QtyPurchased { get; set; }
+        public decimal? QuantityPurchased { get; set; }
 
         [Required]
         [Display(Name = "Quantity Purchased Unit")]
@@ -88,7 +85,7 @@ namespace Egret.Models
 
         [Display(Name = "Quantity to Purchase Now")]
         [Language(Name = "Nepali", Value = "अब खरिद गर्न मात्रा")]
-        public string QtyToPurchaseNow { get; set; }
+        public string QuantityToPurchaseNow { get; set; }
 
         [Display(Name = "Target Price")]
         [Language(Name = "Nepali", Value = "लक्षित मुल्य")]
@@ -141,13 +138,13 @@ namespace Egret.Models
         {
             get
             {
-                if (QtyPurchased == null)
+                if (QuantityPurchased == null)
                 { return null; }
 
-                if (QtyPurchased < 0)
-                { return QtyPurchased; }
+                if (QuantityPurchased < 0)
+                { return QuantityPurchased; }
 
-                return (QtyPurchased - (ConsumptionEventsNavigation?.Sum(x => x.QuantityConsumed) ?? 0));
+                return (QuantityPurchased - (ConsumptionEventsNavigation?.Sum(x => x.QuantityConsumed) ?? 0));
             }
 
             private set { }
@@ -274,9 +271,9 @@ namespace Egret.Models
         {
             get
             {
-                if (QtyPurchased != null && QtyPurchased > 0 && FobCost != null && FobCost > 0)
+                if (QuantityPurchased != null && QuantityPurchased > 0 && FobCost != null && FobCost > 0)
                 {
-                    return decimal.Round((decimal)(FobCost / QtyPurchased), 2);
+                    return decimal.Round((decimal)(FobCost / QuantityPurchased), 2);
                 }
                 else
                 {
@@ -295,9 +292,9 @@ namespace Egret.Models
         {
             get
             {
-                if (TotalCost > 0 && QtyPurchased > 0)
+                if (TotalCost > 0 && QuantityPurchased > 0)
                 {
-                    return decimal.Round((decimal)(TotalCost / QtyPurchased), 2);
+                    return decimal.Round((decimal)(TotalCost / QuantityPurchased), 2);
                 }
                 else
                 {

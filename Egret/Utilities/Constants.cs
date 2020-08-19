@@ -10,7 +10,7 @@ namespace Egret.Utilities
     /// </summary>
     public static class Constants
     {
-        public const string VersionNumber = "0.7.0";
+        public const string VersionNumber = "0.8.0";
 
         public const string CostFormatString = "{0:#,###,##0.00}";
     }
