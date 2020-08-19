@@ -48,5 +48,22 @@ namespace Egret.Areas.Reports.Controllers
             return File(stream, report.ContentType, report.FileDownloadName);
         }
 
+        [HttpGet]
+        public FileStreamResult InventoryFinancialDataReport()
+        {
+            var report = new Report()
+            {
+                Title = "Total Inventory Financial Data Report",
+                ColumnNames = "Category,Item Id,Item Description,Qty Purchased,Unit(s),FOB Cost,Shipping Cost,Import Cost,VAT Cost,Consumption Id,Qty Consumed,Date Consumed",
+                Details = _reportService.GetInventoryFinancialData()
+            };
+
+            var reportBuilder = new ReportBuilder();
+
+            var stream = reportBuilder.Build(report);
+
+            return File(stream, report.ContentType, report.FileDownloadName);
+        }
+
     }
 }
