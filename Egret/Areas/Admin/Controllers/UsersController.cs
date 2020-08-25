@@ -264,12 +264,12 @@ namespace Egret.DataAccess
         {
             var roles =  _context.Roles.FromSqlRaw(
                           "select r.name" +
-                          "  from user_accessgroups uag" +
-                          "  join accessgroup_roles agr" +
-                          "    on agr.accessgroupid = uag.accessgroupid" +
+                          "  from user_access_groups uag" +
+                          "  join access_group_roles agr" +
+                          "    on agr.access_group_id = uag.access_group_id" +
                           "  join roles r" +
-                          "    on r.id = agr.roleid" +
-                          " where uag.userid = {0}", user.Id)
+                          "    on r.id = agr.role_id" +
+                          " where uag.user_id = {0}", user.Id)
                           .Select(x => x.Name).ToList();
 
             IdentityResult result = await _userManager.AddToRolesAsync(user, roles);
