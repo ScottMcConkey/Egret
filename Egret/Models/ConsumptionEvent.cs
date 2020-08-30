@@ -32,7 +32,7 @@ namespace Egret.Models
         [Required]
         [Display(Name = "Quantity Consumed")]
         [Language(Name = "Nepali", Value = "मात्रा खपत भयो")]
-        [DisplayFormat(DataFormatString = "{0:0.####}", ApplyFormatInEditMode = true)]
+        [DisplayFormat(DataFormatString = "{0:0.##}", ApplyFormatInEditMode = true)]
         public decimal? QuantityConsumed { get; set; }
 
         [Required]

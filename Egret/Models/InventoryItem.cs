@@ -51,7 +51,7 @@ namespace Egret.Models
         public int? UnitId { get; set; }
 
         [Display(Name = "FOB Cost Or Local Cost no VAT")]
-        [Language(Name = "Nepali", Value = "लागत")]
+        [Language(Name = "Nepali", Value = "FOB लागत")]
         [DisplayFormat(DataFormatString = Constants.CostFormatString, ApplyFormatInEditMode = true)]
         public decimal? FobCost { get; set; }
 
@@ -66,7 +66,7 @@ namespace Egret.Models
         public decimal? VatCost { get; set; }
 
         [Display(Name = "Import/Custom/Delivery Costs")]
-        [Language(Name = "Nepali", Value = "आयात लागत")]
+        [Language(Name = "Nepali", Value = "आयात/वितरण लागत")]
         [DisplayFormat(DataFormatString = Constants.CostFormatString, ApplyFormatInEditMode = true)]
         public decimal? ImportCost { get; set; }        
 
@@ -131,7 +131,7 @@ namespace Egret.Models
         public ICollection<ConsumptionEvent> ConsumptionEventsNavigation { get; set; }
 
         [Display(Name = "Quantity in Stock")]
-        [DisplayFormat(DataFormatString = "{0:0.####}", ApplyFormatInEditMode = true)]
+        [DisplayFormat(DataFormatString = "{0:0.##}", ApplyFormatInEditMode = true)]
         [UIHint("text")]
         [NotMapped]
         public decimal? StockQuantity
