@@ -161,7 +161,7 @@ namespace Egret.DataAccess
             var accessGroups =  _context.AccessGroups.AsNoTracking().ToList();
             var relatedAccessGroups =  _context.UserAccessGroups.AsNoTracking().Where(x => x.UserId == id).Select(x => x.AccessGroupId).ToList();
 
-            accessGroups.Where(x => relatedAccessGroups.Contains(x.Id)).ToList().ForEach(y => y.RelationshipPresent = true);
+            accessGroups.Where(x => relatedAccessGroups.Contains(x.AccessGroupId)).ToList().ForEach(y => y.RelationshipPresent = true);
 
             var presentation = new UserAccessGroupsModel
             {
@@ -196,9 +196,9 @@ namespace Egret.DataAccess
                 // Set all User Access Group rels
                 foreach (AccessGroup group in presentation.AccessGroups.Where(x => x.RelationshipPresent == true))
                 {
-                    var localAccessGroup =  _context.AccessGroups.AsNoTracking().Where(x => x.Id == group.Id).SingleOrDefault();
+                    var localAccessGroup =  _context.AccessGroups.AsNoTracking().Where(x => x.AccessGroupId == group.AccessGroupId).SingleOrDefault();
 
-                    var newUserGroup = new UserAccessGroup() { AccessGroupId = localAccessGroup.Id, UserId = user.Id };
+                    var newUserGroup = new UserAccessGroup() { AccessGroupId = localAccessGroup.AccessGroupId, UserId = user.Id };
                      _context.UserAccessGroups.Add(newUserGroup);
                 }
                  _context.SaveChanges();

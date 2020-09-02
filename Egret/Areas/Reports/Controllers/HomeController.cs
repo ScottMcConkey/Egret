@@ -13,7 +13,7 @@ using System.IO;
 namespace Egret.Areas.Reports.Controllers
 {
     [Area("Reports")]
-    [Authorize(Roles = "Item_Read")]
+    [Authorize(Roles = "Report_Read")]
     public class HomeController : Controller
     {
         private readonly ILogger _logger;

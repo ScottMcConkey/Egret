@@ -8,7 +8,7 @@ namespace Egret.Models
 {
     public class AccessGroup
     {
-        public int Id { get; set; }
+        public int AccessGroupId { get; set; }
 
         public string Name { get; set; }
 

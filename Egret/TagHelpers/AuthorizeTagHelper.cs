@@ -26,22 +26,16 @@ namespace Egret.TagHelpers
         /// Use on elements to control which Roles are allowed to see that element.
         /// </summary>
         [HtmlAttributeName("authorize-for")]
-        public string AccessGroups { get; set; }
+        public string Role { get; set; }
 
         public override void Process(TagHelperContext context, TagHelperOutput output)
         {
-            List<string> AuthorizedAccessGroups = AccessGroups.Split(',').ToList();
-
             var user = _actionAccessor.ActionContext.HttpContext.User;
 
-            foreach (var ag in AuthorizedAccessGroups)
+            if (!user.IsInRole(Role))
             {
-                if (!user.IsInRole(ag))
-                {
-                    output.Content.SetHtmlContent("");
-                }
+                output.SuppressOutput();
             }
-
         }
     }
 }

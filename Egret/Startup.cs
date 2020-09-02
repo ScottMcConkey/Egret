@@ -44,6 +44,7 @@ namespace Egret
             services.AddTransient<ReportService, ReportService>();
             services.AddTransient<IConsumptionEventService, ConsumptionEventService>();
             services.AddTransient<ISelectListFactoryService, SelectListFactoryService>();
+            services.AddTransient<SystemService, SystemService>();
             services.AddMvc();
             services.AddMemoryCache();
             services.AddSession();

@@ -79,7 +79,7 @@ namespace Egret.Controllers
                 return NotFound();
             }
 
-            var accessGroup = _context.AccessGroups.Where(x => x.Id == id).SingleOrDefault();
+            var accessGroup = _context.AccessGroups.Where(x => x.AccessGroupId == id).SingleOrDefault();
             var roles = _context.Roles.AsNoTracking().OrderBy(x => x.Name).ToList();
             var relatedRoles = _context.AccessGroupRoles.AsNoTracking().Where(x => x.AccessGroupId == id).Select(x => x.RoleId).ToList();
             roles.Where(x => relatedRoles.Contains(x.Id)).ToList().ForEach(y => y.RelationshipPresent = true);
@@ -100,11 +100,11 @@ namespace Egret.Controllers
             // Make life 100x easier by setting default to notracking
             _context.ChangeTracker.QueryTrackingBehavior = QueryTrackingBehavior.NoTracking;
 
-            var accessGroupQuery = _context.AccessGroups.Where(x => x.Id == id)
+            var accessGroupQuery = _context.AccessGroups.Where(x => x.AccessGroupId == id)
                 .Include(i => i.UserAccessGroups)
                     .ThenInclude(y => y.User);
             var accessGroup = accessGroupQuery.FirstOrDefault();
-            var accessGroupId = accessGroup.Id;
+            var accessGroupId = accessGroup.AccessGroupId;
             var relatedUsers = accessGroupQuery.SelectMany(x => x.UserAccessGroups).Select(y => y.User).ToList();
             model.AccessGroup = accessGroup;
             var allRoleIds = _context.Roles.Select(y => y.Id).ToList();
@@ -140,20 +140,20 @@ namespace Egret.Controllers
                     var currentUserRoles = _context.Roles.FromSqlRaw(
                         "select r.* from roles r " +
                         "join user_roles ur " +
-                        "on ur.roleid = r.id " +
-                        $"where ur.userid = @userid", userIdParam).ToList();
+                        "on ur.role_id = r.id " +
+                        $"where ur.user_id = @userid", userIdParam).ToList();
 
                     var roleIdsOutside = _context.Roles.FromSqlRaw(
                         "select r.* " +
-                        "from user_accessgroups uag " +
-                        "join accessgroups ag " +
-                        "on ag.id = uag.accessgroupid " +
-                        "join accessgroup_roles agr " +
-                        "on agr.accessgroupid = ag.id " +
+                        "from user_access_groups uag " +
+                        "join access_groups ag " +
+                        "on ag.access_group_id = uag.access_group_id " +
+                        "join access_group_roles agr " +
+                        "on agr.access_group_id = ag.access_group_id " +
                         "join roles r " +
-                        "on r.id = agr.roleid " +
-                        "where uag.userid = @userid " +
-                        "and ag.id != @accessGroupId ", new[] { userIdParam, accessGroupIdParam }).Select(x => x.Id).ToList();
+                        "on r.id = agr.role_id " +
+                        "where uag.user_id = @userid " +
+                        "and ag.access_group_id != @accessGroupId ", new[] { userIdParam, accessGroupIdParam }).Select(x => x.Id).ToList();
 
                     var futureUserRoleIds = model.Roles.Where(x => x.RelationshipPresent).Select(x => x.Id).ToList();
                     var currentUserRoleIds = currentUserRoles.Select(x => x.Id).ToList();
@@ -199,7 +199,7 @@ namespace Egret.Controllers
                 return NotFound();
             }
 
-            var group = _context.AccessGroups.Where(x => x.Id == id).SingleOrDefault();
+            var group = _context.AccessGroups.Where(x => x.AccessGroupId == id).SingleOrDefault();
 
             if (ModelState.IsValid)
             {

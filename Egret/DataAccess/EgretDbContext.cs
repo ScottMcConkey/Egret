@@ -95,7 +95,7 @@ namespace Egret.DataAccess
             modelBuilder.Entity<AccessGroup>(entity =>
             {
                 // Properties
-                entity.Property(p => p.Id)
+                entity.Property(p => p.AccessGroupId)
                     .HasDefaultValueSql("nextval('access_groups_id_seq'::regclass)"); ;
             });
 
@@ -346,7 +346,7 @@ namespace Egret.DataAccess
                          new { Id = role_id10, Name = "Report_Read", DisplayName = "Report Read", NormalizedName = "REPORT_READ" });
 
             modelBuilder.Entity<AccessGroup>()
-                .HasData(new { Id = access_group_id1, Name = "Administrator" });
+                .HasData(new { AccessGroupId = access_group_id1, Name = "Administrator" });
 
             modelBuilder.Entity<AccessGroupRole>()
                 .HasData(new { AccessGroupId = access_group_id1, RoleId = role_id1 },

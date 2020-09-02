@@ -10,6 +10,7 @@ using System.Linq;
 namespace Egret.Areas.Inventory.Controllers
 {
     [Area("Inventory")]
+    [Authorize(Roles = "Item_Read")]
     public class ItemsController : Controller
     {
         private static ILogger _logger;
