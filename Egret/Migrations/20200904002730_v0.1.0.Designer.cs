@@ -204,9 +204,9 @@ namespace Egret.Migrations
                     b.ToTable("consumption_events");
                 });
 
-            modelBuilder.Entity("Egret.Models.CurrencyType", b =>
+            modelBuilder.Entity("Egret.Models.Currency", b =>
                 {
-                    b.Property<int>("CurrencyTypeId")
+                    b.Property<int>("CurrencyId")
                         .ValueGeneratedOnAdd()
                         .HasColumnName("currency_type_id")
                         .HasColumnType("integer")
@@ -226,7 +226,7 @@ namespace Egret.Migrations
                         .HasColumnName("symbol")
                         .HasColumnType("text");
 
-                    b.HasKey("CurrencyTypeId")
+                    b.HasKey("CurrencyId")
                         .HasName("pk_currency_types");
 
                     b.HasIndex("Abbreviation")
@@ -242,7 +242,7 @@ namespace Egret.Migrations
                     b.HasData(
                         new
                         {
-                            CurrencyTypeId = 1,
+                            CurrencyId = 1,
                             Abbreviation = "NRP",
                             Name = "Nepali Rupees",
                             Symbol = "रु"
@@ -526,7 +526,7 @@ namespace Egret.Migrations
                         .HasColumnName("id")
                         .HasColumnType("text");
 
-                    b.Property<string>("ConcurrencyStamp")
+                    b.Property<string>("ConCurrenciestamp")
                         .IsConcurrencyToken()
                         .HasColumnName("concurrency_stamp")
                         .HasColumnType("text");
@@ -754,7 +754,7 @@ namespace Egret.Migrations
                         .HasColumnName("active")
                         .HasColumnType("boolean");
 
-                    b.Property<string>("ConcurrencyStamp")
+                    b.Property<string>("ConCurrenciestamp")
                         .IsConcurrencyToken()
                         .HasColumnName("concurrency_stamp")
                         .HasColumnType("text");
@@ -829,7 +829,7 @@ namespace Egret.Migrations
                             Id = "20551684-b958-4581-af23-96c1528b0e29",
                             AccessFailedCount = 0,
                             Active = true,
-                            ConcurrencyStamp = "2cebd9d0-694d-4ed3-8dc2-384f41557310",
+                            ConCurrenciestamp = "2cebd9d0-694d-4ed3-8dc2-384f41557310",
                             Email = "bob@example.com",
                             EmailConfirmed = false,
                             LockoutEnabled = false,
