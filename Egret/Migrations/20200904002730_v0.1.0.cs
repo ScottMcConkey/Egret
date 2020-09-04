@@ -4,7 +4,7 @@ using Npgsql.EntityFrameworkCore.PostgreSQL.Metadata;
 
 namespace Egret.Migrations
 {
-    public partial class v001 : Migration
+    public partial class v010 : Migration
     {
         protected override void Up(MigrationBuilder migrationBuilder)
         {
@@ -36,6 +36,9 @@ namespace Egret.Migrations
                 startValue: 1000L);
 
             migrationBuilder.CreateSequence(
+                name: "storage_location_id_seq");
+
+            migrationBuilder.CreateSequence(
                 name: "units_id_seq",
                 startValue: 100L);
 
@@ -43,37 +46,34 @@ namespace Egret.Migrations
                 name: "access_groups",
                 columns: table => new
                 {
-                    id = table.Column<int>(nullable: false, defaultValueSql: "nextval('access_groups_id_seq'::regclass)"),
+                    access_group_id = table.Column<int>(nullable: false, defaultValueSql: "nextval('access_groups_id_seq'::regclass)"),
                     name = table.Column<string>(nullable: true),
                     description = table.Column<string>(nullable: true)
                 },
                 constraints: table =>
                 {
-                    table.PrimaryKey("pk_access_groups", x => x.id);
+                    table.PrimaryKey("pk_access_groups", x => x.access_group_id);
                 });
 
             migrationBuilder.CreateTable(
                 name: "currency_types",
                 columns: table => new
                 {
-                    id = table.Column<int>(nullable: false, defaultValueSql: "nextval('currency_types_id_seq'::regclass)"),
+                    currency_type_id = table.Column<int>(nullable: false, defaultValueSql: "nextval('currency_types_id_seq'::regclass)"),
                     name = table.Column<string>(nullable: false),
                     abbreviation = table.Column<string>(nullable: false),
-                    symbol = table.Column<string>(nullable: true),
-                    sort_order = table.Column<int>(nullable: false),
-                    active = table.Column<bool>(nullable: false),
-                    default_selection = table.Column<bool>(nullable: false)
+                    symbol = table.Column<string>(nullable: true)
                 },
                 constraints: table =>
                 {
-                    table.PrimaryKey("pk_currency_types", x => x.id);
+                    table.PrimaryKey("pk_currency_types", x => x.currency_type_id);
                 });
 
             migrationBuilder.CreateTable(
                 name: "inventory_categories",
                 columns: table => new
                 {
-                    id = table.Column<int>(nullable: false, defaultValueSql: "nextval('inventory_categories_id_seq'::regclass)"),
+                    inventory_category_id = table.Column<int>(nullable: false, defaultValueSql: "nextval('inventory_categories_id_seq'::regclass)"),
                     name = table.Column<string>(nullable: false),
                     description = table.Column<string>(nullable: true),
                     sort_order = table.Column<int>(nullable: false),
@@ -81,7 +81,7 @@ namespace Egret.Migrations
                 },
                 constraints: table =>
                 {
-                    table.PrimaryKey("pk_inventory_categories", x => x.id);
+                    table.PrimaryKey("pk_inventory_categories", x => x.inventory_category_id);
                 });
 
             migrationBuilder.CreateTable(
@@ -101,10 +101,25 @@ namespace Egret.Migrations
                 });
 
             migrationBuilder.CreateTable(
+                name: "storage_locations",
+                columns: table => new
+                {
+                    storage_location_id = table.Column<int>(nullable: false, defaultValueSql: "nextval('storage_location_id_seq'::regclass)"),
+                    name = table.Column<string>(nullable: false),
+                    description = table.Column<string>(nullable: true),
+                    sort_order = table.Column<int>(nullable: false),
+                    active = table.Column<bool>(nullable: false)
+                },
+                constraints: table =>
+                {
+                    table.PrimaryKey("pk_storage_locations", x => x.storage_location_id);
+                });
+
+            migrationBuilder.CreateTable(
                 name: "units",
                 columns: table => new
                 {
-                    id = table.Column<int>(nullable: false, defaultValueSql: "nextval('units_id_seq'::regclass)"),
+                    unit_id = table.Column<int>(nullable: false, defaultValueSql: "nextval('units_id_seq'::regclass)"),
                     name = table.Column<string>(nullable: false),
                     abbreviation = table.Column<string>(nullable: false),
                     sort_order = table.Column<int>(nullable: false),
@@ -112,7 +127,7 @@ namespace Egret.Migrations
                 },
                 constraints: table =>
                 {
-                    table.PrimaryKey("pk_units", x => x.id);
+                    table.PrimaryKey("pk_units", x => x.unit_id);
                 });
 
             migrationBuilder.CreateTable(
@@ -155,7 +170,7 @@ namespace Egret.Migrations
                         name: "fk_access_group_roles_access_groups_access_group_id",
                         column: x => x.access_group_id,
                         principalTable: "access_groups",
-                        principalColumn: "id",
+                        principalColumn: "access_group_id",
                         onDelete: ReferentialAction.Cascade);
                     table.ForeignKey(
                         name: "fk_access_group_roles_roles_role_id",
@@ -190,25 +205,24 @@ namespace Egret.Migrations
                 name: "inventory_items",
                 columns: table => new
                 {
-                    code = table.Column<string>(nullable: false, defaultValueSql: "'I' || nextval('items_id_seq'::regclass)"),
+                    inventory_item_id = table.Column<string>(nullable: false, defaultValueSql: "'I' || nextval('items_id_seq'::regclass)"),
                     date_added = table.Column<DateTime>(nullable: true),
                     added_by = table.Column<string>(nullable: true),
                     date_updated = table.Column<DateTime>(nullable: true),
                     updated_by = table.Column<string>(nullable: true),
                     description = table.Column<string>(nullable: false),
-                    category_id = table.Column<int>(nullable: false),
-                    qty_purchased = table.Column<decimal>(nullable: false),
+                    inventory_category_id = table.Column<int>(nullable: false),
+                    storage_location_id = table.Column<int>(nullable: true),
+                    quantity_purchased = table.Column<decimal>(nullable: false),
                     unit_id = table.Column<int>(nullable: false),
-                    fob_cost = table.Column<decimal>(nullable: true),
-                    fob_cost_currency_id = table.Column<int>(nullable: true),
-                    shipping_cost = table.Column<decimal>(nullable: true),
-                    shipping_cost_currency_id = table.Column<int>(nullable: true),
-                    import_costs = table.Column<decimal>(nullable: true),
-                    import_cost_currency_id = table.Column<int>(nullable: true),
+                    fob_cost = table.Column<decimal>(nullable: false),
+                    shipping_cost = table.Column<decimal>(nullable: false),
+                    import_cost = table.Column<decimal>(nullable: false),
+                    vat_cost = table.Column<decimal>(nullable: false),
                     customer_purchased_for = table.Column<string>(nullable: false),
                     customer_reserved_for = table.Column<string>(nullable: false),
                     supplier = table.Column<string>(nullable: true),
-                    qty_to_purchase_now = table.Column<string>(nullable: true),
+                    quantity_to_purchase_now = table.Column<string>(nullable: true),
                     target_price = table.Column<string>(nullable: true),
                     shipping_company = table.Column<string>(nullable: true),
                     bonded_warehouse = table.Column<bool>(nullable: false),
@@ -219,36 +233,24 @@ namespace Egret.Migrations
                 },
                 constraints: table =>
                 {
-                    table.PrimaryKey("pk_inventory_items", x => x.code);
+                    table.PrimaryKey("pk_inventory_items", x => x.inventory_item_id);
                     table.ForeignKey(
-                        name: "fk_inventory_items_inventory_categories_category_id",
-                        column: x => x.category_id,
+                        name: "fk_inventory_items_inventory_categories_inventory_category_id",
+                        column: x => x.inventory_category_id,
                         principalTable: "inventory_categories",
-                        principalColumn: "id",
+                        principalColumn: "inventory_category_id",
                         onDelete: ReferentialAction.Restrict);
                     table.ForeignKey(
-                        name: "fk_inventory_items_currency_types_fob_cost_currency_id",
-                        column: x => x.fob_cost_currency_id,
-                        principalTable: "currency_types",
-                        principalColumn: "id",
-                        onDelete: ReferentialAction.Restrict);
-                    table.ForeignKey(
-                        name: "fk_inventory_items_currency_types_import_cost_currency_id",
-                        column: x => x.import_cost_currency_id,
-                        principalTable: "currency_types",
-                        principalColumn: "id",
-                        onDelete: ReferentialAction.Restrict);
-                    table.ForeignKey(
-                        name: "fk_inventory_items_currency_types_shipping_cost_currency_id",
-                        column: x => x.shipping_cost_currency_id,
-                        principalTable: "currency_types",
-                        principalColumn: "id",
+                        name: "fk_inventory_items_storage_locations_storage_location_id",
+                        column: x => x.storage_location_id,
+                        principalTable: "storage_locations",
+                        principalColumn: "storage_location_id",
                         onDelete: ReferentialAction.Restrict);
                     table.ForeignKey(
                         name: "fk_inventory_items_units_unit_id",
                         column: x => x.unit_id,
                         principalTable: "units",
-                        principalColumn: "id",
+                        principalColumn: "unit_id",
                         onDelete: ReferentialAction.Cascade);
                 });
 
@@ -266,7 +268,7 @@ namespace Egret.Migrations
                         name: "fk_user_access_groups_access_groups_access_group_id",
                         column: x => x.access_group_id,
                         principalTable: "access_groups",
-                        principalColumn: "id",
+                        principalColumn: "access_group_id",
                         onDelete: ReferentialAction.Cascade);
                     table.ForeignKey(
                         name: "fk_user_access_groups_users_user_id",
@@ -365,27 +367,27 @@ namespace Egret.Migrations
                 name: "consumption_events",
                 columns: table => new
                 {
-                    id = table.Column<string>(nullable: false, defaultValueSql: "'CE' || nextval('consumption_events_id_seq'::regclass)"),
+                    consumption_event_id = table.Column<string>(nullable: false, defaultValueSql: "'CE' || nextval('consumption_events_id_seq'::regclass)"),
                     date_added = table.Column<DateTime>(nullable: true),
                     added_by = table.Column<string>(nullable: true),
                     date_updated = table.Column<DateTime>(nullable: true),
                     updated_by = table.Column<string>(nullable: true),
                     quantity_consumed = table.Column<decimal>(nullable: false),
                     consumed_by = table.Column<string>(nullable: false),
-                    date_of_consumption = table.Column<DateTime>(nullable: false),
+                    date_consumed = table.Column<DateTime>(nullable: false),
                     order_number = table.Column<string>(nullable: true),
                     pattern_number = table.Column<string>(nullable: true),
                     comments = table.Column<string>(nullable: true),
-                    inventory_item_code = table.Column<string>(nullable: false)
+                    inventory_item_id = table.Column<string>(nullable: false)
                 },
                 constraints: table =>
                 {
-                    table.PrimaryKey("pk_consumption_events", x => x.id);
+                    table.PrimaryKey("pk_consumption_events", x => x.consumption_event_id);
                     table.ForeignKey(
-                        name: "fk_consumption_events_inventory_items_inventory_item_code",
-                        column: x => x.inventory_item_code,
+                        name: "fk_consumption_events_inventory_items_inventory_item_id",
+                        column: x => x.inventory_item_id,
                         principalTable: "inventory_items",
-                        principalColumn: "code",
+                        principalColumn: "inventory_item_id",
                         onDelete: ReferentialAction.Cascade);
                 });
 
@@ -393,35 +395,35 @@ namespace Egret.Migrations
                 name: "fabric_tests",
                 columns: table => new
                 {
-                    id = table.Column<string>(nullable: false, defaultValueSql: "nextval('fabric_tests_id_seq'::regclass)"),
+                    fabric_test_id = table.Column<string>(nullable: false, defaultValueSql: "nextval('fabric_tests_id_seq'::regclass)"),
                     name = table.Column<string>(nullable: true),
                     result = table.Column<string>(nullable: true),
-                    inventory_item_code = table.Column<string>(nullable: true)
+                    inventory_item_id = table.Column<string>(nullable: true)
                 },
                 constraints: table =>
                 {
-                    table.PrimaryKey("pk_fabric_tests", x => x.id);
+                    table.PrimaryKey("pk_fabric_tests", x => x.fabric_test_id);
                     table.ForeignKey(
-                        name: "fk_fabric_tests_inventory_items_inventory_item_code",
-                        column: x => x.inventory_item_code,
+                        name: "fk_fabric_tests_inventory_items_inventory_item_id",
+                        column: x => x.inventory_item_id,
                         principalTable: "inventory_items",
-                        principalColumn: "code",
+                        principalColumn: "inventory_item_id",
                         onDelete: ReferentialAction.Cascade);
                 });
 
             migrationBuilder.InsertData(
                 table: "access_groups",
-                columns: new[] { "id", "description", "name" },
+                columns: new[] { "access_group_id", "description", "name" },
                 values: new object[] { 1, null, "Administrator" });
 
             migrationBuilder.InsertData(
                 table: "currency_types",
-                columns: new[] { "id", "abbreviation", "active", "default_selection", "name", "sort_order", "symbol" },
-                values: new object[] { 1, "NRP", true, true, "Nepali Rupees", 1, "रु" });
+                columns: new[] { "currency_type_id", "abbreviation", "name", "symbol" },
+                values: new object[] { 1, "NRP", "Nepali Rupees", "रु" });
 
             migrationBuilder.InsertData(
                 table: "inventory_categories",
-                columns: new[] { "id", "active", "description", "name", "sort_order" },
+                columns: new[] { "inventory_category_id", "active", "description", "name", "sort_order" },
                 values: new object[,]
                 {
                     { 1, true, "", "Elastic", 1 },
@@ -454,7 +456,7 @@ namespace Egret.Migrations
 
             migrationBuilder.InsertData(
                 table: "units",
-                columns: new[] { "id", "abbreviation", "active", "name", "sort_order" },
+                columns: new[] { "unit_id", "abbreviation", "active", "name", "sort_order" },
                 values: new object[,]
                 {
                     { 4, "set", true, "set", 4 },
@@ -513,9 +515,24 @@ namespace Egret.Migrations
                 column: "role_id");
 
             migrationBuilder.CreateIndex(
-                name: "ix_consumption_events_inventory_item_code",
+                name: "ix_consumption_events_consumed_by",
                 table: "consumption_events",
-                column: "inventory_item_code");
+                column: "consumed_by");
+
+            migrationBuilder.CreateIndex(
+                name: "ix_consumption_events_date_added",
+                table: "consumption_events",
+                column: "date_added");
+
+            migrationBuilder.CreateIndex(
+                name: "ix_consumption_events_inventory_item_id",
+                table: "consumption_events",
+                column: "inventory_item_id");
+
+            migrationBuilder.CreateIndex(
+                name: "ix_consumption_events_order_number",
+                table: "consumption_events",
+                column: "order_number");
 
             migrationBuilder.CreateIndex(
                 name: "ix_currency_types_abbreviation",
@@ -530,15 +547,9 @@ namespace Egret.Migrations
                 unique: true);
 
             migrationBuilder.CreateIndex(
-                name: "ix_currency_types_sort_order",
-                table: "currency_types",
-                column: "sort_order",
-                unique: true);
-
-            migrationBuilder.CreateIndex(
-                name: "ix_fabric_tests_inventory_item_code",
+                name: "ix_fabric_tests_inventory_item_id",
                 table: "fabric_tests",
-                column: "inventory_item_code");
+                column: "inventory_item_id");
 
             migrationBuilder.CreateIndex(
                 name: "ix_inventory_categories_name",
@@ -553,24 +564,14 @@ namespace Egret.Migrations
                 unique: true);
 
             migrationBuilder.CreateIndex(
-                name: "ix_inventory_items_category_id",
+                name: "ix_inventory_items_inventory_category_id",
                 table: "inventory_items",
-                column: "category_id");
+                column: "inventory_category_id");
 
             migrationBuilder.CreateIndex(
-                name: "ix_inventory_items_fob_cost_currency_id",
+                name: "ix_inventory_items_storage_location_id",
                 table: "inventory_items",
-                column: "fob_cost_currency_id");
-
-            migrationBuilder.CreateIndex(
-                name: "ix_inventory_items_import_cost_currency_id",
-                table: "inventory_items",
-                column: "import_cost_currency_id");
-
-            migrationBuilder.CreateIndex(
-                name: "ix_inventory_items_shipping_cost_currency_id",
-                table: "inventory_items",
-                column: "shipping_cost_currency_id");
+                column: "storage_location_id");
 
             migrationBuilder.CreateIndex(
                 name: "ix_inventory_items_unit_id",
@@ -647,6 +648,9 @@ namespace Egret.Migrations
                 name: "consumption_events");
 
             migrationBuilder.DropTable(
+                name: "currency_types");
+
+            migrationBuilder.DropTable(
                 name: "fabric_tests");
 
             migrationBuilder.DropTable(
@@ -683,7 +687,7 @@ namespace Egret.Migrations
                 name: "inventory_categories");
 
             migrationBuilder.DropTable(
-                name: "currency_types");
+                name: "storage_locations");
 
             migrationBuilder.DropTable(
                 name: "units");
@@ -705,6 +709,9 @@ namespace Egret.Migrations
 
             migrationBuilder.DropSequence(
                 name: "items_id_seq");
+
+            migrationBuilder.DropSequence(
+                name: "storage_location_id_seq");
 
             migrationBuilder.DropSequence(
                 name: "units_id_seq");

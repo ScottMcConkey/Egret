@@ -2,5 +2,9 @@
   {
     "outputFile": "wwwroot/dist/css/egret-styles.css",
     "inputFile": "wwwroot/src/sass/egret-main.scss"
+  },
+  {
+    "outputFile": "wwwroot/src/sass/egret-icons.css",
+    "inputFile": "wwwroot/src/sass/egret-icons.scss"
   }
 ]

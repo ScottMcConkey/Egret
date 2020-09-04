@@ -50,25 +50,29 @@ namespace Egret.Models
         [Display(Name = "Quantity Purchased Unit")]
         public int? UnitId { get; set; }
 
+        [Required]
         [Display(Name = "FOB Cost Or Local Cost no VAT")]
         [Language(Name = "Nepali", Value = "FOB लागत")]
         [DisplayFormat(DataFormatString = Constants.CostFormatString, ApplyFormatInEditMode = true)]
-        public decimal? FobCost { get; set; }
+        public decimal? FobCost { get; set; } = 0;
 
+        [Required]
         [Display(Name = "Shipping Cost")]
         [Language(Name = "Nepali", Value = "ढुवानी खर्च")]
         [DisplayFormat(DataFormatString = Constants.CostFormatString, ApplyFormatInEditMode = true)]
-        public decimal? ShippingCost { get; set; }
+        public decimal? ShippingCost { get; set; } = 0;
 
-        [Display(Name = "VAT Cost")]
-        [Language(Name = "Nepali", Value = "VAT लागत")]
-        [DisplayFormat(DataFormatString = Constants.CostFormatString, ApplyFormatInEditMode = true)]
-        public decimal? VatCost { get; set; }
-
+        [Required]
         [Display(Name = "Import/Custom/Delivery Costs")]
         [Language(Name = "Nepali", Value = "आयात/वितरण लागत")]
         [DisplayFormat(DataFormatString = Constants.CostFormatString, ApplyFormatInEditMode = true)]
-        public decimal? ImportCost { get; set; }        
+        public decimal? ImportCost { get; set; } = 0;
+
+        [Required]
+        [Display(Name = "VAT Cost")]
+        [Language(Name = "Nepali", Value = "VAT लागत")]
+        [DisplayFormat(DataFormatString = Constants.CostFormatString, ApplyFormatInEditMode = true)]
+        public decimal? VatCost { get; set; } = 0;
 
         [Required]
         [Display(Name = "Customer Purchased For")]
@@ -159,19 +163,19 @@ namespace Egret.Models
             {
                 if (StockQuantity == null)
                 {
-                    return Utilities.ItemStockLevel.Unknown.Value;
+                    return ItemStockLevel.Unknown.Value;
                 }
                 else if (StockQuantity == 0)
                 {
-                    return Utilities.ItemStockLevel.OutOfStock.Value;
+                    return ItemStockLevel.OutOfStock.Value;
                 }
                 else if (StockQuantity > 0)
                 {
-                    return Utilities.ItemStockLevel.InStock.Value;
+                    return ItemStockLevel.InStock.Value;
                 }
                 else
                 {
-                    return Utilities.ItemStockLevel.Error.Value;
+                    return ItemStockLevel.Error.Value;
                 }
             }
 
@@ -253,11 +257,6 @@ namespace Egret.Models
         {
             get
             {
-                if (FobCost == null && ShippingCost == null && ImportCost == null && VatCost == null)
-                {
-                    return null;
-                }
-
                 return (FobCost ?? 0) + (ShippingCost ?? 0) + (ImportCost ?? 0) + (VatCost ?? 0);
             }
         }
@@ -271,9 +270,9 @@ namespace Egret.Models
         {
             get
             {
-                if (QuantityPurchased != null && QuantityPurchased > 0 && FobCost != null && FobCost > 0)
+                if (QuantityPurchased > 0)
                 {
-                    return decimal.Round((decimal)(FobCost / QuantityPurchased), 2);
+                    return decimal.Round((decimal)((FobCost ?? 0) / QuantityPurchased), 2);
                 }
                 else
                 {

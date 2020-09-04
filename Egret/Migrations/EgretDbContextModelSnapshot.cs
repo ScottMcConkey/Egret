@@ -445,10 +445,12 @@ namespace Egret.Migrations
                         .HasColumnType("text");
 
                     b.Property<decimal?>("FobCost")
+                        .IsRequired()
                         .HasColumnName("fob_cost")
                         .HasColumnType("numeric");
 
                     b.Property<decimal?>("ImportCost")
+                        .IsRequired()
                         .HasColumnName("import_cost")
                         .HasColumnType("numeric");
 
@@ -471,6 +473,7 @@ namespace Egret.Migrations
                         .HasColumnType("text");
 
                     b.Property<decimal?>("ShippingCost")
+                        .IsRequired()
                         .HasColumnName("shipping_cost")
                         .HasColumnType("numeric");
 
@@ -496,6 +499,7 @@ namespace Egret.Migrations
                         .HasColumnType("text");
 
                     b.Property<decimal?>("VatCost")
+                        .IsRequired()
                         .HasColumnName("vat_cost")
                         .HasColumnType("numeric");
 

@@ -59,7 +59,9 @@ namespace Egret.Areas.Inventory.Controllers
             ViewBag.StorageLocations = _selectListService.StorageLocationsActive();
             SetCurrency();
 
-            return View();
+            var item = new InventoryItem();
+
+            return View(item);
         }
 
         [HttpGet]
